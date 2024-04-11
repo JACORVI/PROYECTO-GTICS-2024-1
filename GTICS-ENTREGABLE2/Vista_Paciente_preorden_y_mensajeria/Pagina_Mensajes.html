@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Mensajes</title>
+    
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="img/logo3_title.png" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <title>Pildo Pharm</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="img/logo.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/stylesSide.css" rel="stylesheet" />
+    <link href="css/misestilos.css" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCSkZALDDeauhgE9WHeS52ssPOo5xRLZoY&libraries=places"></script>
+</head>
+<body class="sb-nav-fixed">
+    <nav class="navbar navbar-expand-lg fondo" style=" background-color: rgb(58, 65, 73);">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="#" style="color: white;"><img src="img/logo.png" alt="Logo" width="50vw" height="50vh"> PildoPharm</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!--Buscado-->
+                <ul class="navbar-nav m-auto">
+                    <div class="input-group ml-40">
+                      <input class="form-control" type="text" placeholder="Buscar medicamento..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
+                      <button class="btn btn-outline-light" type="submit"><i class="bi-search me-1"></i></button>
+                    </div>
+                </ul>
+                <form class="d-flex">
+                    <!--boton registrar-->
+                    <div class="dropdown">  
+                        <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px " >
+                          <a class="text-decoration-none" style="color: white" href="#"><img src="img/usuario.png" width="50vw" height="50vh" alt="Avatar" class="avatar"> Nombre Apellido</a>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#">Perfil</a></li>
+                          <li><a class="dropdown-item" href="#">Mis pedidos</a></li>
+                          <li style="color: darkred!important;"><a class="dropdown-item" href="#" style="color: red!important;"><b>Cerrar Sesión</b></a></li>
+                        </ul>
+                    </div>
+                    <!--carrito-->
+                    <div style="margin-right: 5px!important;"></div>
+                    <div class="m-auto">
+                        <a class="btn btn-outline-light" href="#" >
+                            <i class="bi-cart-fill me-1"></i>
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        </a>
+                    </div>
+                    
+                </form>
+            </div>
+
+        </div>
+    </nav>
+    <div style="display: flex;">
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav" style="position: relative;">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading" style="font-size: 16px; color: white;">PACIENTE</div>
+                        <a class="nav-link" href="Pagina_principal.html">
+                            Inicio
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Interface</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-capsule" viewBox="0 0 16 16">
+                                <path d="M1.828 8.9 8.9 1.827a4 4 0 1 1 5.657 5.657l-7.07 7.071A4 4 0 1 1 1.827 8.9Zm9.128.771 2.893-2.893a3 3 0 1 0-4.243-4.242L6.713 5.429z"/>
+                              </svg></div>
+                            Medicamentos
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="layout-static.html">Ver medicamentos</a>
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#pagesCollapseAuth" aria-expanded="false"
+                                    aria-controls="pagesCollapseAuth">
+                                    Categorias
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="#">Categoria 1</a>
+                                        <a class="nav-link" href="#">Categoria 2</a>
+                                        <a class="nav-link" href="#">Categoria 3</a>
+                                    </nav>
+                                </div>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="Pagina_Mensajes.html">
+                            <div class="sb-nav-link-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+                                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                              </svg></div>
+                            Mensajes
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- TRABAJAR AQUI-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="container">
+        <div class="panel messages-panel">
+            <div class="contacts-list">
+            <div class="inbox-categories">
+                <div data-toggle="tab" data-target="#inbox" class="active"> Inbox </div>
+            </div>
+            <div class="tab-content">
+                <div id="inbox" class="contacts-outter-wrapper tab-pane active">
+                <form class="panel-search-form info form-group has-feedback no-margin-bottom">
+                    <input type="text" class="form-control" name="search" placeholder="Search">
+                    <span class="fa fa-search form-control-feedback"></span>
+                </form>
+                <div class="contacts-outter">
+                    <ul class="list-unstyled contacts">
+                    <li data-toggle="tab" data-target="#inbox-message-1" class="active">
+                        <div class="message-count"> 1 </div>
+                        <img alt class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                        <div class="vcentered info-combo">
+                        <h3 class="no-margin-bottom name"> Farmacista 1 </h3>
+                        <h5>Buenos días Farmacista 1</h5>
+                        </div>
+                        <div class="contacts-add">
+                        <span class="message-time"> 2:32 <sup>AM</sup></span>
+                        <i class="fa fa-trash-o"></i>
+                        </div>
+                    </li>
+                    <li data-toggle="tab" data-target="#inbox-message-2">
+                        <img alt class="img-circle medium-image" src="img/logo.png">
+                        <div class="vcentered info-combo">
+                            <h3 class="no-margin-bottom name"> Pildorita </h3>
+                            <h5>  Hola Sr. Javier Perez, faltan 10 días para el ... </h5>
+                        </div>
+                        <div class="contacts-add">
+                        <span class="message-time"> 3:56 <sup>AM</sup></span>
+                        <i class="fa fa-trash-o"></i>
+                        </div>
+                    </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="tab-content">
+            <div class="tab-pane message-body active" id="inbox-message-1">
+                <div class="message-top">
+                <div class="font-weight-bold" style="font-weight: 900; text-align: center; margin-top: 10px;">Farmacista 1</div>
+                </div>
+                <div class="message-chat">
+                <div class="chat-body">
+                    <div class="message info">
+                    <img alt class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar3.png">
+                    <div class="message-body">
+                        <div class="message-info">
+                        <h4> Farmacista 1 </h4>
+                        <h5> <i class="fa fa-clock-o"></i> 2:25 PM </h5>
+                        </div>
+                        <hr>
+                        <div class="message-text">
+                        Buenas tardes Sr. Javier Perez, lo saluda la Farmacista 1. Me pongo en contacto con usted para informale que el producto Panadol Antigripal que solicitó con el orden de compra: 1024533 se encuentra sin stock.
+                        </div>
+                    </div>
+                    <br>
+                    </div>
+                    <div class="message my-message">
+                    <img alt class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                        <div class="message-body">
+                        <div class="message-body-inner">
+                            <div class="message-info">
+                            <h4> Yo </h4>
+                            <h5> <i class="fa fa-clock-o"></i> 2:28 PM </h5>
+                            </div>
+                            <hr>
+                            <div class="message-text">
+                            Buenos días Farmacista 1
+                            </div>
+                        </div>
+                        </div>
+                    <br>
+                    </div>
+                </div>
+                <div class="chat-footer">
+                    <textarea class="send-message-text" placeholder="Escribe tu mensaje"></textarea>
+                    <label class="upload-file">
+                    <input type="file" required>
+                    <i class="fa fa-paperclip"></i>
+                    </label>
+                    <button type="button" class="send-message-button btn-info"> <i class="fa fa-send"></i> </button>
+                </div>
+                </div>
+            </div>
+            <div class="tab-pane message-body" id="inbox-message-2">
+                <div class="message-top">
+                <div class="font-weight-bold" style="font-weight: 900; text-align: center; margin-top: 10px;">Pildorita</div>
+                </div>
+                <div class="message-chat">
+                <div class="chat-body">
+                    <div class="message info">
+                    <img alt class="img-circle medium-image" src="img/logo.png">
+                    <div class="message-body">
+                        <div class="message-info">
+                        <h4> Pildorita </h4>
+                        <h5> <i class="fa fa-clock-o"></i> 3:45 PM </h5>
+                        </div>
+                        <hr>
+                        <div class="message-text">
+                        Hola Sr. Javier Perez, faltan 10 días para el vencimiento de sus pastillas. Le recomendamos generar una nueva orden de compra de los mismos medicamento. Si no es el caso, omitir el mensaje
+                        </div>
+                    </div>
+                    <br>
+                    </div>
+                    <div class="message info">
+                        <img alt class="img-circle medium-image" src="img/logo.png">
+                        <div class="message-body">
+                            <div class="message-info">
+                            <h4> Pildorita </h4>
+                            <h5> <i class="fa fa-clock-o"></i> 3:45 PM </h5>
+                            </div>
+                            <hr>
+                            <div class="message-text">
+                                <button type="button" class="btn btn-secondary">Generar nueva orden de compra</button>
+                            </div>
+                        </div>
+                        <br>
+                        </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            
+    
+        </script>
+    <!-- ************ -->
+    </div>
+    <footer style="background-color: rgb(58, 65, 73); width: 100%;">
+        <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
+            <div style="font-family: Arial, 5px; margin-left: 10px; color: white;">
+                <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
+</body>
+</html>
