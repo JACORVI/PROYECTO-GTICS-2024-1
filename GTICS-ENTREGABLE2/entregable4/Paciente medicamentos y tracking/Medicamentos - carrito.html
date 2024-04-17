@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Shop Homepage - Start Bootstrap Template</title>
+    
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="img/logo3_title.png" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <title>Pildo Pharm</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="img/logo.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/stylesSide.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCSkZALDDeauhgE9WHeS52ssPOo5xRLZoY&libraries=places"></script>
+</head>
+<body class="sb-nav-fixed">
+    <nav class="navbar navbar-expand-lg fondo" style=" background-color: #0b636fc9;">
+        <div class="container px-4 px-lg-5">
+          <a class="navbar-brand" href="#" style="color: white; font-size: x-large; margin-bottom: 3px;"><img src="img/logo.png" alt="Logo" width="50vw" height="50vh"> PildoPharm</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <!--Buscado-->
+              <ul class="navbar-nav m-auto">
+                  <div class="input-group ml-40">
+                    <input class="form-control" type="text" style="font-size: large;" placeholder="Buscar medicamento..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
+                    <button class="btn btn-outline-light" type="submit"><i class="bi-search me-1"></i></button>
+                  </div>
+              </ul>
+              <form class="d-flex">
+                  <!--boton registrar-->
+                  <div class="dropdown" style="margin-top: 5px;">  
+                      <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px; display: flex;" >
+                        <a class="text-decoration-none" style="margin-right: 10px;" href="#"><img src="img/usuario.png" width="50vw" height="50vh" alt="Avatar" class="avatar"></a><div style="display: flex; flex-direction: column; color: white;"><h5 style="margin: 0%;">Nombre Apellido</h5> <h7>Paciente</h7></div>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Perfil</a></li>
+                        <li><a class="dropdown-item" href="Tracking - mis pedidos.html">Mis pedidos</a></li>
+                        <li style="color: darkred!important;"><a class="dropdown-item" href="#" style="color: red!important;"><b>Cerrar Sesión</b></a></li>
+                      </ul>
+                  </div>              
+              </form>
+          </div>
+      </div>
+      </nav>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #72b2bbc9!important;">
+        <div class="container px-4 px-lg-5">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: large;">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Inicio</a></li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Medicamentos</a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <li><a class="dropdown-item" href="Medicamentos -  todos.html">Ver todos los medicamentos</a></li>
+                          <li><a class="dropdown-item" href="Medicamentos -  categoria.html">Categoria 1</a></li>
+                          <li><a class="dropdown-item" href="#!">Categoria 2</a></li>
+                          <li><a class="dropdown-item" href="#!">Categoria 3</a></li>
+                      </ul>
+                  </li>
+                  <li class="nav-item"><a class="nav-link" href="#!" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                  </svg></div> Mensajes</a></li>
+                </ul>
+            </div>
+            <!--carrito-->
+            <div class="m-auto">
+                <a class="btn btn-outline-light" href="Medicamentos - carrito.html" >
+                    <i class="bi-cart-fill me-1"></i>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <!-- TRABAJAR AQUI-->
+    <div style="width: 100%;">
+        <br>
+        <div class="container">
+            <div class="column" >
+                <div class="col-sm-8">
+                    <h1>Mi carrito de compras</h1>
+                    <br>
+                    <table class="table table-hover" style="background-color: #D9D9D9; border-radius: 10px;">
+                    <tr>
+                        <th colspan="2" style="text-align: center;">Productos</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><a class="navbar-brand" href="Medicamentos -  todos.html"><img src="img/medicina.avif" style="width: 60px; height: 60px; border-radius: 5px;"></a></td>
+                        <td class="align-middle" style="font-size: large;">Medicamento</td>
+                        <td class="align-middle" style="font-size: large;">S/  16.00</td>
+                        <td class="align-middle" style="font-size: large;">
+                            <a href="#" style="margin-right: 5px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                                </svg>
+                            </a>
+                            3
+                            <a href="#" style="margin-left: 5px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1z"/>
+                                </svg>
+                            </a>
+                        </td>
+                        <td class="align-middle" style="font-size: large;">S/  48.00</td>
+                        <td class="align-middle"> <button type="button" class="btn btn-danger">Eliminar</button> </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><a class="navbar-brand" href="Medicamentos -  todos.html"><img src="img/medicina.avif" style="width: 60px; height: 60px; border-radius: 5px;"></a></td>
+                        <td class="align-middle" style="font-size: large;">Medicamento</td>
+                        <td class="align-middle" style="font-size: large;">S/  12.00</td>
+                        <td class="align-middle" style="font-size: large;">
+                            <a href="#" style="margin-right: 5px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                                </svg>
+                            </a>
+                            1
+                            <a href="#" style="margin-left: 5px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1z"/>
+                                </svg>
+                            </a>
+                        </td>
+                        <td class="align-middle" style="font-size: large;">S/  12.00</td>
+                        <td class="align-middle"> <button type="button" class="btn btn-danger">Eliminar</button> </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><a class="navbar-brand" href="Medicamentos -  todos.html"><img src="img/medicina.avif" style="width: 60px; height: 60px; border-radius: 5px;"></a></td>
+                        <td class="align-middle" style="font-size: large;">Medicamento</td>
+                        <td class="align-middle" style="font-size: large;">S/  25.00</td>
+                        <td class="align-middle" style="font-size: large;">
+                            <a href="#" style="margin-right: 5px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                                </svg>
+                            </a>
+                            2
+                            <a href="#" style="margin-left: 5px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1z"/>
+                                </svg>
+                            </a>
+                        </td>
+                        <td class="align-middle" style="font-size: large;">S/  50.00</td>
+                        <td class="align-middle"> <button type="button" class="btn btn-danger">Eliminar</button> </td>
+                    </tr>    
+                    </table>
+                    <table class="table table-hover" style="background-color: #D9D9D9; border-radius: 10px;">
+                        <tr>
+                            <th colspan="2" style="text-align: center;">Tipo de compra</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check" style="font-size: large;">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Envio por delivery
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check" style="font-size: large;">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Recojo en tienda
+                                    </label>
+                                </div>
+                            </td> 
+                        </tr>
+                    </table>
+                    <div class="form-check" style="font-size: large;">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            ¿Desea que nuestro sistema le notifique entre 5 y 10 dias antes del vencimiento de sus medicamentos?
+                        </label>
+                    </div>
+                    <br>
+                    </div>
+                    <div class="col-sm-4" style="background-color: #D9D9D9; border-radius: 10px;">
+                        <h4 class="text-center text-lg-left">Resumen de su compra</h4>
+                        <table class="table table-hover">
+                        <tr>
+                            <th>Productos</th>
+                            <th>Precio</th>
+                        </tr>
+                
+                        <tr>
+                            <td>Subtotal</td>
+                            <td>S/ 110</td>
+                        </tr>
+                        <tr>
+                            <td>Delivery</td>
+                            <td>S/. 10</td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td>S/. 120</td>
+                        </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-4">
+                    <a href="Medicamentos - formulario compra.html" class="btn btn-outline-dark " style="display: block;margin: 0 auto; margin-bottom: 20px;">Finalizar mi pedido</a>
+                    </div>   
+                </div>
+            </div>
+        </div>    
+    </div>
+    <footer style="background-color: rgb(58, 65, 73); width: 100%;">
+        <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
+            <div style="font-family: Arial, 5px; margin-left: 10px; color: white;">
+                <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
+</body>
+</html>
