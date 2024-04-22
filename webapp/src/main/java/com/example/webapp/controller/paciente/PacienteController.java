@@ -1,15 +1,19 @@
 package com.example.webapp.controller.paciente;
 
 import com.example.webapp.entity.Medicamentos;
+import com.example.webapp.entity.Medico;
 import com.example.webapp.entity.Paciente;
 import com.example.webapp.repository.MedicamentosRepository;
 import com.example.webapp.repository.MedicoRepository;
 import com.example.webapp.repository.PacienteRepository;
+import com.example.webapp.repository.SedeRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,10 +25,16 @@ public class PacienteController {
     PacienteRepository pacienteRepository;
     MedicamentosRepository medicamentosRepository;
     MedicoRepository medicoRepository;
-    public PacienteController(PacienteRepository pacienteRepository, MedicamentosRepository medicamentosRepository, MedicoRepository medicoRepository) {
+    SedeRepository sedeRepository;
+    public PacienteController(PacienteRepository pacienteRepository,
+                              MedicamentosRepository medicamentosRepository,
+                              MedicoRepository medicoRepository,
+                              SedeRepository sedeRepository) {
+
         this.pacienteRepository = pacienteRepository;
         this.medicamentosRepository = medicamentosRepository;
         this.medicoRepository = medicoRepository;
+        this.sedeRepository = sedeRepository;
     }
     /*---------------------------------------*/
 
@@ -42,6 +52,7 @@ public class PacienteController {
     /*QRUD y vista del CARRITO*/
     @GetMapping("/paciente/carrito")
     public String listarProductosCarrito(Model model){
+
         return "paciente/carrito";
     }
 
@@ -54,9 +65,10 @@ public class PacienteController {
 
 
     /*QRUD y vista del FORM*/
-    @GetMapping("/paciente/carrito/form")
-    public String formParaFinalizarCompra(){
-
+    @GetMapping("/form")
+    public String listarMedicos(Model model){
+        model.addAttribute("listaMedicos", medicoRepository.findAll());
+        model.addAttribute("listaSedes", sedeRepository.findAll());
         return "paciente/formcompra";
     }
     @PostMapping("/guardar")

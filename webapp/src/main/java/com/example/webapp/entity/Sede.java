@@ -7,16 +7,13 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="medicamentos")
-public class Medicamentos {
+@Table(name="sede")
+public class Sede {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_medicamentos")
-    private int idmedicamentos;
+    @Column(name="id_sede")
+    private int idsede;
     @Column(nullable = false)
-    private String descripcion;
     private String nombre;
-    private String inventario;
-    private String precio_unidad;
-    private String fecha_ingreso;
+    private String estado;
 }
