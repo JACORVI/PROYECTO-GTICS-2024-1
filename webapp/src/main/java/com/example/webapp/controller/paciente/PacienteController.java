@@ -1,18 +1,28 @@
 package com.example.webapp.controller.paciente;
 
-
+import com.example.webapp.repository.MedicamentosRepository;
+import com.example.webapp.repository.MedicoRepository;
+import com.example.webapp.repository.PacienteRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Optional;
 
 
 @Controller
 public class PacienteController {
+
+    /*Variables Final de los repository*/
+    final
+    PacienteRepository pacienteRepository;
+    MedicamentosRepository medicamentosRepository;
+    MedicoRepository medicoRepository;
+    public PacienteController(PacienteRepository pacienteRepository, MedicamentosRepository medicamentosRepository, MedicoRepository medicoRepository) {
+        this.pacienteRepository = pacienteRepository;
+        this.medicamentosRepository = medicamentosRepository;
+        this.medicoRepository = medicoRepository;
+    }
+    /*---------------------------------------*/
+
 
     /*QRUD y vista de MEDICAMENTOS*/
     @GetMapping("/paciente/medicamentos")
