@@ -1,11 +1,16 @@
 package com.example.webapp.controller.paciente;
 
+import com.example.webapp.entity.Medicamentos;
+import com.example.webapp.entity.Paciente;
 import com.example.webapp.repository.MedicamentosRepository;
 import com.example.webapp.repository.MedicoRepository;
 import com.example.webapp.repository.PacienteRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 
 @Controller
@@ -26,18 +31,17 @@ public class PacienteController {
 
     /*QRUD y vista de MEDICAMENTOS*/
     @GetMapping("/paciente/medicamentos")
-    public String listarMedicamentos(){
-
+    public String listarMedicamentos(Model model){
+        List<Medicamentos> listamedicamentos = medicamentosRepository.findAll();
+        model.addAttribute("listaMedicamentos",listamedicamentos);
         return "paciente/medicamentos";
-
     }
     /*---------------------------------------*/
 
 
     /*QRUD y vista del CARRITO*/
     @GetMapping("/paciente/carrito")
-    public String listarProductosCarrito(){
-
+    public String listarProductosCarrito(Model model){
         return "paciente/carrito";
     }
 

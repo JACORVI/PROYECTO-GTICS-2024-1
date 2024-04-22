@@ -12,10 +12,11 @@ public class Medicamentos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_paciente")
-    private int idpaciente;
+    private int id_medicamentos;
     @Column(nullable = false)
-    private String seguro;
-    private String edad;
-    private int usuario_id_usuario;
-    private String telefono;
+    private String descripcion;
+    private String nombre;
+    private String inventario;
+    private String precio_unidad;
+    private String fecha_ingreso;
 }
