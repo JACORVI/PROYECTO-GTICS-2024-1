@@ -1,23 +1,21 @@
 package com.example.webapp.entity;
 
-import javax.persistence.*;
-import java.time.format.DateTimeFormatter;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@Table(name="paciente")
 public class Medicamentos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_medicamentos")
-    private int idmedicamentos;
+    @Column(name="id_paciente")
+    private int idpaciente;
     @Column(nullable = false)
-    private String descripcion;
-    private String nombre;
-    private int foto;
-    private String inventario;
-    private int precio_unidad;
-    private String fecha_ingreso;
+    private String seguro;
+    private String edad;
+    private int usuario_id_usuario;
+    private String telefono;
 }

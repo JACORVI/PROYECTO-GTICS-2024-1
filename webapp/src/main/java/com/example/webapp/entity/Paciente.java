@@ -1,6 +1,8 @@
 package com.example.webapp.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import java
+
 import lombok.Getter;
 import lombok.Setter;
 
