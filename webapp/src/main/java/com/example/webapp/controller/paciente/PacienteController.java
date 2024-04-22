@@ -2,34 +2,72 @@ package com.example.webapp.controller.paciente;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 
 @Controller
-@RequestMapping("/paciente")
 public class PacienteController {
 
-    @GetMapping("/medicamentos")
+    /*QRUD y vista de MEDICAMENTOS*/
+    @GetMapping("/paciente/medicamentos")
     public String listarMedicamentos(){
+
         return "paciente/medicamentos";
-    }
 
-    @GetMapping("/carrito")
+    }
+    /*---------------------------------------*/
+
+
+    /*QRUD y vista del CARRITO*/
+    @GetMapping("/paciente/carrito")
     public String listarProductosCarrito(){
+
         return "paciente/carrito";
     }
 
-    @GetMapping("/carrito/form")
+    @GetMapping("/borrar")
+    public String borrarElementoCarrito() {
+
+        return "redirect:paciente/carrito";
+    }
+    /*---------------------------------------*/
+
+
+    /*QRUD y vista del FORM*/
+    @GetMapping("/paciente/carrito/form")
     public String formParaFinalizarCompra(){
-        return "paciente/carrito";
+
+        return "paciente/formcompra";
     }
+    @PostMapping("/guardar")
+    public String guardarPedido() {
 
-    @GetMapping("/carrito/msg")
-    public String finalmsg(){
-        return "paciente/finalmsgcompra";
+        return "redirect:/paciente/finalmsgcompra";
     }
+    /*---------------------------------------*/
 
 
+    /*QRUD y vista de MIS PEDIDOS*/
+    @GetMapping("/paciente/mispedidos")
+    public String listaPedidos(){
+
+        return "paciente/mispedidos";
+    }
+    /*---------------------------------------*/
+
+
+    /*QRUD y vista de ESTADO DEL PEDIDO*/
+    @GetMapping("/paciente/mispedidos/estadopedido")
+    public String estadoTrack(){
+
+        return "paciente/estadotrck";
+    }
+    /*---------------------------------------*/
 
 }
