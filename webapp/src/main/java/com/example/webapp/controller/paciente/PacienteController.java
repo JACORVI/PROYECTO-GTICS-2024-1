@@ -3,6 +3,7 @@ package com.example.webapp.controller.paciente;
 import com.example.webapp.entity.Medicamentos;
 import com.example.webapp.entity.Medico;
 import com.example.webapp.entity.Paciente;
+import com.example.webapp.entity.Sede;
 import com.example.webapp.repository.MedicamentosRepository;
 import com.example.webapp.repository.MedicoRepository;
 import com.example.webapp.repository.PacienteRepository;
@@ -65,10 +66,12 @@ public class PacienteController {
 
 
     /*QRUD y vista del FORM*/
-    @GetMapping("/form")
+    @GetMapping("/paciente/form")
     public String listarMedicos(Model model){
-        model.addAttribute("listaMedicos", medicoRepository.findAll());
-        model.addAttribute("listaSedes", sedeRepository.findAll());
+        List<Medico> listamedicos = medicoRepository.findAll();
+        model.addAttribute("listaMedicos",listamedicos);
+        List<Sede> listasedes = sedeRepository.findAll();
+        model.addAttribute("listaSedes",listasedes);
         return "paciente/formcompra";
     }
     @PostMapping("/guardar")
