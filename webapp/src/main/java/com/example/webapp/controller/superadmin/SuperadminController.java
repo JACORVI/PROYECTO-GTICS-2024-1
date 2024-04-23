@@ -1,4 +1,4 @@
-package com.example.webapp.entity.superadmin;
+package com.example.webapp.controller.superadmin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
