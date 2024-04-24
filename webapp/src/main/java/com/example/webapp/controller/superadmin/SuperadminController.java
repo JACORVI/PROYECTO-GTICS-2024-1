@@ -5,6 +5,7 @@ import com.example.webapp.repository.MedicamentosRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -123,6 +124,15 @@ public class SuperadminController {
     @GetMapping("/Cerrar_Cuenta")
     public String Cerrar_Cuenta() {
         return "superadmin/Index";
+    }
+
+    @PostMapping("/buscarPorNombre")
+    public String buscarPorNombre(@RequestParam("searchField") String searchField, Model model) {
+
+        List<Medicamentos> lista = medicamentosRepository.findByNombre(searchField);
+        model.addAttribute("listTransportation", lista);
+        model.addAttribute("textoBuscado", searchField);
+        return "superadmin/Plantilla_Vista_Medicamentos";
     }
 }
 

@@ -63,13 +63,15 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!--Buscado-->
-            <ul class="navbar-nav m-auto">
-                <div class="input-group ml-40">
-                    <!--ocultar buscador
-                    <input class="form-control" type="text" style="font-size: large;" placeholder="Buscar por Nombre..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
-                    <button class="btn btn-outline-light" type="submit"><i class="bi-search me-1"></i></button>
-                --></div>
-            </ul>
+
+                <ul class="navbar-nav m-auto">
+                    <form method="post" th:action="@{/superadmin/buscarPorNombre}">
+                    <div class="input-group ml-40">
+                        <input name="searchField" class="form-control" type="text" style="font-size: large;" placeholder="Buscar por Nombre..." aria-label="Search for..." aria-describedby="btnNavbarSearch" th:value="${textoBuscado}">
+                        <button class="btn btn-outline-light" type="submit"><i class="bi-search me-1"></i></button>
+                    </div>
+                    </form>
+                </ul>
             <form class="d-flex">
                 <!--boton registrar-->
                 <div class="dropdown" style="margin-top: 5px;">
