@@ -1,8 +1,10 @@
 package com.example.webapp.controller.paciente;
 
 import com.example.webapp.entity.Medicamentos;
+import com.example.webapp.entity.Pedidos;
 import com.example.webapp.entity.Usuario;
 import com.example.webapp.repository.MedicamentosRepository;
+import com.example.webapp.repository.PedidosRepository;
 import com.example.webapp.repository.UsuarioRepository;
 import com.example.webapp.entity.Sede;
 import com.example.webapp.repository.SedeRepository;
@@ -22,13 +24,16 @@ public class PacienteController {
     MedicamentosRepository medicamentosRepository;
     UsuarioRepository usuarioRepository;
     SedeRepository sedeRepository;
+    PedidosRepository pedidosRepository;
     public PacienteController(MedicamentosRepository medicamentosRepository,
                               UsuarioRepository usuarioRepository,
-                              SedeRepository sedeRepository) {
+                              SedeRepository sedeRepository,
+                              PedidosRepository pedidosRepository) {
 
         this.medicamentosRepository = medicamentosRepository;
         this.sedeRepository = sedeRepository;
         this.usuarioRepository = usuarioRepository;
+        this.pedidosRepository = pedidosRepository;
     }
     /*---------------------------------------*/
 
@@ -68,9 +73,9 @@ public class PacienteController {
         model.addAttribute("listaSedes",listasedes);
         return "paciente/formcompra";
     }
-    @PostMapping("/guardar")
-    public String guardarPedido() {
-
+    @PostMapping("/paciente/guardar")
+    public String guardarPedido(Pedidos pedidos) {
+        pedidosRepository.save(pedidos);
         return "redirect:/paciente/finalmsgcompra";
     }
     /*---------------------------------------*/
