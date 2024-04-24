@@ -1,2 +1,4 @@
-package com.example.webapp.controller.farmacista;public class FarmacistaController {
+package com.example.webapp.controller.farmacista;
+
+public class FarmacistaController {
 }
