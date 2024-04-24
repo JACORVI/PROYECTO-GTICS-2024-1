@@ -117,6 +117,9 @@ public class SuperadminController {
     public String Ver_Paciente() {
         return "superadmin/Plantilla_Vista_Ver_Paciente";
     }
-
+    @GetMapping("/Ver_Perfil")
+    public String Ver_Perfil() {
+        return "superadmin/Perfil";
+    }
 }
 
