@@ -133,12 +133,11 @@
                       <form>
                           <div class="mb-3">
                               <label class="form-label">Nombre</label>
-                              <input class="form-control" >
+                              <span class="form-control" type="text" contenteditable="false" th:text="${medicamento.getNombre()}">hola</span>
                           </div>
-                          <div class="form-floating  mb-3">
-                              <textarea class="form-control" placeholder="Leave a comment here"
-                                        id="floatingTextarea" style="height: 150px;"></textarea>
-                              <label for="floatingTextarea">Añade una descripción al medicamento</label>
+                          <div class="mb-3">
+                              <label class="form-label">Descripción</label>
+                              <span class="form-control" type="text" contenteditable="false" th:text="${medicamento.getDescripcion()}">hola</span>
                           </div>
                       </form>
                   </div>

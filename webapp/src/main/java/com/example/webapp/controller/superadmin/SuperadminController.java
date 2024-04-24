@@ -1,13 +1,16 @@
 package com.example.webapp.controller.superadmin;
 
+import com.example.webapp.entity.Medicamentos;
 import com.example.webapp.entity.MedicamentosSuperadmin;
 import com.example.webapp.repository.MedicamentosSuperadminRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/superadmin")
@@ -62,8 +65,6 @@ public class SuperadminController {
     }
 
 
-
-
     @GetMapping("/Vista_Principal")
     public String Vista_Principal() {
         return "superadmin/Plantilla_Vista_Principal";
@@ -92,10 +93,26 @@ public class SuperadminController {
     public String Ver_Farmacista() {
         return "superadmin/Plantilla_Vista_Ver_Farmacista";
     }
+
+
+
     @GetMapping("/Ver_Medicamento")
-    public String Ver_Medicamento() {
-        return "superadmin/Plantilla_Vista_Ver_Medicamento";
+    public String Ver_Medicamento(Model model,
+                                  @RequestParam("id") int id) {
+        Optional<MedicamentosSuperadmin> optMedicamento = medicamentosSuperadminRepository.findById(id);
+
+        if (optMedicamento.isPresent()) {
+            MedicamentosSuperadmin medicamento = optMedicamento.get();
+            model.addAttribute("medicamento", medicamento);
+            return "superadmin/Plantilla_Vista_Ver_Medicamento";
+        } else {
+            return "redirect:/superadmin/Plantilla_Vista_Medicamentos";
+        }
     }
+
+
+
+
     @GetMapping("/Ver_Paciente")
     public String Ver_Paciente() {
         return "superadmin/Plantilla_Vista_Ver_Paciente";
