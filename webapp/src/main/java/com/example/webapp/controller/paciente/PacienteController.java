@@ -1,7 +1,9 @@
 package com.example.webapp.controller.paciente;
 
 import com.example.webapp.entity.Medicamentos;
+import com.example.webapp.entity.Usuario;
 import com.example.webapp.repository.MedicamentosRepository;
+import com.example.webapp.repository.UsuarioRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +17,11 @@ public class PacienteController {
 
     /*Variables Final de los repository*/
     final
-    PacienteRepository pacienteRepository;
     MedicamentosRepository medicamentosRepository;
-    MedicoRepository medicoRepository;
-    public PacienteController(PacienteRepository pacienteRepository, MedicamentosRepository medicamentosRepository, MedicoRepository medicoRepository) {
-        this.pacienteRepository = pacienteRepository;
+    UsuarioRepository usuarioRepository;
+    public PacienteController(MedicamentosRepository medicamentosRepository,UsuarioRepository usuarioRepository) {
         this.medicamentosRepository = medicamentosRepository;
-        this.medicoRepository = medicoRepository;
+        this.usuarioRepository = usuarioRepository;
     }
     /*---------------------------------------*/
 
@@ -38,8 +38,10 @@ public class PacienteController {
 
     /*QRUD y vista del CARRITO*/
     @GetMapping("/paciente/carrito")
-    public String listarProductosCarrito(Model model){
+    public String listarProductosCarrito(){
+
         return "paciente/carrito";
+
     }
 
     @GetMapping("/borrar")
@@ -52,8 +54,9 @@ public class PacienteController {
 
     /*QRUD y vista del FORM*/
     @GetMapping("/paciente/carrito/form")
-    public String formParaFinalizarCompra(){
-
+    public String formParaFinalizarCompra( Model model){
+        List<Usuario> listausuarios = usuarioRepository.findAll();
+        model.addAttribute("listausuarios", listausuarios);
         return "paciente/formcompra";
     }
     @PostMapping("/guardar")

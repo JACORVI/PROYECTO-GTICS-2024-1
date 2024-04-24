@@ -85,10 +85,7 @@
                 <div class="mb-3">
                     <label class="form-label">Doctor que lo/la atendió</label>
                     <select class="form-select" aria-label="Default select example">
-                        <option selected>---</option>
-                        <option value="1">Doctor 1</option>
-                        <option value="2">Doctor 2</option>
-                        <option value="3">Doctor 3</option>
+                        <option th:each="usuario : ${listausuarios}" th:value="${usuario.id}" th:text="${usuario.nombres} + ''"></option>
                     </select>
                 </div>
                 <div class="mb-3">
