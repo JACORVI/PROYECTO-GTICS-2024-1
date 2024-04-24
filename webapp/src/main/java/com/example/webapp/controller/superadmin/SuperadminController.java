@@ -1,20 +1,23 @@
 package com.example.webapp.controller.superadmin;
 
+import com.example.webapp.entity.Medicamentos;
+import com.example.webapp.repository.MedicamentosRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/superadmin")
 public class SuperadminController {
 
-    final MedicamentosSuperadminRepository medicamentosSuperadminRepository;
+    final MedicamentosRepository medicamentosRepository;
 
-    public SuperadminController(MedicamentosSuperadminRepository medicamentosSuperadminRepository){this.medicamentosSuperadminRepository = medicamentosSuperadminRepository;}
+    public SuperadminController(MedicamentosRepository medicamentosRepository){this.medicamentosRepository = medicamentosRepository;}
 
     @GetMapping("")
     public String Plantilla() {
@@ -55,8 +58,8 @@ public class SuperadminController {
 
     @GetMapping("/Medicamentos")
     public String Medicamentos(Model model){
-        //List<MedicamentosSuperadmin> lista = medicamentosSuperadminRepository.findAll();
-        //model.addAttribute("listTransportation",lista);
+        List<Medicamentos> lista = medicamentosRepository.findAll();
+        model.addAttribute("listTransportation",lista);
         return "superadmin/Plantilla_Vista_Medicamentos";
     }
 
@@ -95,10 +98,10 @@ public class SuperadminController {
     @GetMapping("/Ver_Medicamento")
     public String Ver_Medicamento(Model model,
                                   @RequestParam("id") int id) {
-        Optional<MedicamentosSuperadmin> optMedicamento = medicamentosSuperadminRepository.findById(id);
+        Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
 
         if (optMedicamento.isPresent()) {
-            MedicamentosSuperadmin medicamento = optMedicamento.get();
+            Medicamentos medicamento = optMedicamento.get();
             model.addAttribute("medicamento", medicamento);
             return "superadmin/Plantilla_Vista_Ver_Medicamento";
         } else {

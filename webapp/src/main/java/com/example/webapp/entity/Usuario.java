@@ -24,7 +24,7 @@ public class Usuario {
     private String estado;
     private String rol;
     private String contrasena;
-    private String nombres;
+    //private String nombres;
     private String fecha_creacion;
 
 }
