@@ -145,15 +145,18 @@
               <div class="col-sm-12 col-xl-6">
                   <div class="bg-light rounded h-100 p-4">
                       <h4><p style="text-align:center">Detalles del Medicamentso</p></h4>
-                      <form>
+                      <form method="post" th:action="@{'/superadmin/Guardar_Medicamento'}">
+                          <input th:value="${medicamento.getId()}" name="id" type="hidden" />
                           <div class="mb-3">
                               <label class="form-label">Nombre</label>
-                              <input class="form-control" >
+                              <input class="form-control " th:value="${medicamento.getNombre()}" name="nombre">
                           </div>
-                          <div class="form-floating  mb-3">
-                              <textarea class="form-control" placeholder="Leave a comment here"
-                                        id="floatingTextarea" style="height: 150px;"></textarea>
-                              <label for="floatingTextarea">Añade una descripción al medicamento</label>
+                          <div class="mb-3">
+                              <label class="form-label">Descripción</label>
+                              <input class="form-control " th:value="${medicamento.getDescripcion()}" name="descripcion">
+                          </div>
+                          <div class="text-center">
+                              <button type="submit" class="btn btn-primary boton-primario">ACTUALIZAR</button>
                           </div>
                       </form>
                   </div>

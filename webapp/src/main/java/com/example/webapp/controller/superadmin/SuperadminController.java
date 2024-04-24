@@ -137,5 +137,39 @@ public class SuperadminController {
         model.addAttribute("textoBuscado", searchField);
         return "superadmin/Plantilla_Vista_Medicamentos";
     }
+
+    @GetMapping("/Editar_Medicamento")
+    public String editarMedicamento(Model model,
+                                      @RequestParam("id") int id) {
+
+        Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
+        if (optMedicamento.isPresent()) {
+            Medicamentos medicamento = optMedicamento.get();
+            model.addAttribute("medicamento", medicamento);
+            return "superadmin/Plantilla_Vista_Actualizar_Medicamento";
+        } else {
+            return "redirect:/superadmin/Plantilla_Vista_Medicamentos";
+        }
+    }
+
+    @PostMapping("/Guardar_Medicamento")
+    public String guardarNuevoMedicamento(Medicamentos medicamento) {
+        medicamentosRepository.save(medicamento);
+        return "redirect:/superadmin/Medicamentos";
+    }
+
+    @GetMapping("/Eliminar_Medicamento")
+    public String borrarTransportista(@RequestParam("id") int id) {
+
+        Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
+
+        if (optMedicamento.isPresent()) {
+            medicamentosRepository.deleteById(id);
+        }
+        return "redirect:/superadmin/Medicamentos";
+
+    }
+
+
 }
 
