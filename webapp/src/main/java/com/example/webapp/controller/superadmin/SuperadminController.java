@@ -17,13 +17,10 @@ public class SuperadminController {
 
     final MedicamentosRepository medicamentosRepository;
 
-<<<<<<< HEAD
     public SuperadminController(MedicamentosRepository medicamentosRepository){
         this.medicamentosRepository = medicamentosRepository;
     }
-=======
-    public SuperadminController(MedicamentosRepository medicamentosRepository){this.medicamentosRepository = medicamentosRepository;}
->>>>>>> 73cdc1e6474d5c5ba076f407d2a6dbb2cffa7379
+
 
     @GetMapping("")
     public String Plantilla() {
