@@ -4,6 +4,8 @@ import com.example.webapp.entity.Medicamentos;
 import com.example.webapp.entity.Usuario;
 import com.example.webapp.repository.MedicamentosRepository;
 import com.example.webapp.repository.UsuarioRepository;
+import com.example.webapp.entity.Sede;
+import com.example.webapp.repository.SedeRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +21,13 @@ public class PacienteController {
     final
     MedicamentosRepository medicamentosRepository;
     UsuarioRepository usuarioRepository;
-    public PacienteController(MedicamentosRepository medicamentosRepository,UsuarioRepository usuarioRepository) {
+    SedeRepository sedeRepository;
+    public PacienteController(MedicamentosRepository medicamentosRepository,
+                              UsuarioRepository usuarioRepository,
+                              SedeRepository sedeRepository) {
+
         this.medicamentosRepository = medicamentosRepository;
+        this.sedeRepository = sedeRepository;
         this.usuarioRepository = usuarioRepository;
     }
     /*---------------------------------------*/
@@ -57,6 +64,8 @@ public class PacienteController {
     public String formParaFinalizarCompra( Model model){
         List<Usuario> listausuarios = usuarioRepository.findAll();
         model.addAttribute("listausuarios", listausuarios);
+        List<Sede> listasedes = sedeRepository.findAll();
+        model.addAttribute("listaSedes",listasedes);
         return "paciente/formcompra";
     }
     @PostMapping("/guardar")
