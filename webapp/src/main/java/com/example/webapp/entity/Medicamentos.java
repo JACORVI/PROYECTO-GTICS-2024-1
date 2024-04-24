@@ -7,12 +7,12 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="paciente")
+@Table(name="medicamentos")
 public class Medicamentos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_paciente")
-    private int id_medicamentos;
+    @Column(name="id_medicamentos")
+    private int id;
     @Column(nullable = false)
     private String descripcion;
     private String nombre;
