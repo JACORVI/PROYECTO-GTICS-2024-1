@@ -18,7 +18,10 @@ public class SuperadminController {
 
     final MedicamentosRepository medicamentosRepository;
 
-    public SuperadminController(MedicamentosRepository medicamentosRepository){this.medicamentosRepository = medicamentosRepository;}
+    public SuperadminController(MedicamentosRepository medicamentosRepository){
+        this.medicamentosRepository = medicamentosRepository;
+    }
+
 
     @GetMapping("")
     public String Plantilla() {
