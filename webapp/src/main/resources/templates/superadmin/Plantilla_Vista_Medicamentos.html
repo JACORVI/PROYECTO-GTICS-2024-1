@@ -130,12 +130,12 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr th:each="MedicamentosSuperadmin, info : ${listTransportation}">
-                      <td class=<%=color%><p style="font-size: 18px;" th:text="${MedicamentosSuperadmin.getNombre()}">Panadol</p></td>
+                  <tr th:each="Medicamentos, info : ${listTransportation}">
+                      <td class=<%=color%><p style="font-size: 18px;" th:text="${Medicamentos.getNombre()}">Panadol</p></td>
                       <td>
                           <div class="card-footer pt-1 br-3 border-top-0">
                                 <div class="text-center">
-                                    <a th:href="@{'/superadmin/Ver_Medicamento'+ '?id=' + ${MedicamentosSuperadmin.getId_medicamentos()}}" class="btn btn-success">
+                                    <a th:href="@{'/superadmin/Ver_Medicamento'+ '?id=' + ${Medicamentos.getId()}}" class="btn btn-success">
                                         <i class=""></i> Ver
                                     </a>
                                 </div>

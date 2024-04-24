@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -16,9 +17,13 @@ public class SuperadminController {
 
     final MedicamentosRepository medicamentosRepository;
 
+<<<<<<< HEAD
     public SuperadminController(MedicamentosRepository medicamentosRepository){
         this.medicamentosRepository = medicamentosRepository;
     }
+=======
+    public SuperadminController(MedicamentosRepository medicamentosRepository){this.medicamentosRepository = medicamentosRepository;}
+>>>>>>> 73cdc1e6474d5c5ba076f407d2a6dbb2cffa7379
 
     @GetMapping("")
     public String Plantilla() {
@@ -59,8 +64,8 @@ public class SuperadminController {
 
     @GetMapping("/Medicamentos")
     public String Medicamentos(Model model){
-        //List<MedicamentosSuperadmin> lista = medicamentosSuperadminRepository.findAll();
-        //model.addAttribute("listTransportation",lista);
+        List<Medicamentos> lista = medicamentosRepository.findAll();
+        model.addAttribute("listTransportation",lista);
         return "superadmin/Plantilla_Vista_Medicamentos";
     }
 
