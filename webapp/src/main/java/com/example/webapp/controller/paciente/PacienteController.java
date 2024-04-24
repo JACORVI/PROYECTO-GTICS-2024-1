@@ -37,6 +37,13 @@ public class PacienteController {
     }
     /*---------------------------------------*/
 
+    /*Vista de inicio (lista de pre-ordenes)*/
+    @GetMapping("/paciente/inicio")
+    public String listarPreordenes(Model model){
+        List<Pedidos> listapreordenes = pedidosRepository.findByTipo("preorden");
+        model.addAttribute("listaPreordenes",listapreordenes);
+        return "paciente/inicio";
+    }
 
     /*QRUD y vista de MEDICAMENTOS*/
     @GetMapping("/paciente/medicamentos")
