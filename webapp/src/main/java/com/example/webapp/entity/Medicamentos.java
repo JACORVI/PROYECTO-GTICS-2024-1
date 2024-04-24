@@ -17,6 +17,6 @@ public class Medicamentos {
     private String descripcion;
     private String nombre;
     private String inventario;
-    private String precio_unidad;
+    private double precio_unidad;
     private String fecha_ingreso;
 }

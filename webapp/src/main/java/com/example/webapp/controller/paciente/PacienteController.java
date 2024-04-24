@@ -1,10 +1,7 @@
 package com.example.webapp.controller.paciente;
 
 import com.example.webapp.entity.Medicamentos;
-import com.example.webapp.entity.Paciente;
 import com.example.webapp.repository.MedicamentosRepository;
-import com.example.webapp.repository.MedicoRepository;
-import com.example.webapp.repository.PacienteRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

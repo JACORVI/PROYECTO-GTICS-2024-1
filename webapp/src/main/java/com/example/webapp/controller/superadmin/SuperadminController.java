@@ -1,15 +1,11 @@
 package com.example.webapp.controller.superadmin;
 
-import com.example.webapp.entity.Medicamentos;
-import com.example.webapp.entity.MedicamentosSuperadmin;
-import com.example.webapp.repository.MedicamentosSuperadminRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
