@@ -56,8 +56,8 @@ public class SuperadminController {
 
     @GetMapping("/Medicamentos")
     public String Medicamentos(Model model){
-        List<MedicamentosSuperadmin> lista = medicamentosSuperadminRepository.findAll();
-        model.addAttribute("listTransportation",lista);
+        //List<MedicamentosSuperadmin> lista = medicamentosSuperadminRepository.findAll();
+        //model.addAttribute("listTransportation",lista);
         return "superadmin/Plantilla_Vista_Medicamentos";
     }
 
@@ -103,6 +103,10 @@ public class SuperadminController {
     @GetMapping("/Ver_Perfil")
     public String Ver_Perfil() {
         return "superadmin/Perfil";
+    }
+    @GetMapping("/Cerrar_Cuenta")
+    public String Cerrar_Cuenta() {
+        return "superadmin/Index";
     }
 }
 
