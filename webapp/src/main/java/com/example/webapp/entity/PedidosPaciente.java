@@ -32,4 +32,5 @@ public class PedidosPaciente {
     private String comentario;
     private Date fecha_validacion;
     private String estado_del_pedido;
+    private int borrado_logico;
 }
