@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Date;
+
 @Entity
 @Getter
 @Setter
@@ -25,6 +27,6 @@ public class Usuario {
     private String estado;
     private String rol;
     private String contrasena;
-    private String fecha_creacion;
-
+    private Date fecha_creacion;
+    private String estado_solicitud;
 }

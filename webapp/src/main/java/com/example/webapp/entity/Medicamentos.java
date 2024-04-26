@@ -19,4 +19,5 @@ public class Medicamentos {
     private int inventario;
     private double precio_unidad;
     private String fecha_ingreso;
+    private String categoria;
 }

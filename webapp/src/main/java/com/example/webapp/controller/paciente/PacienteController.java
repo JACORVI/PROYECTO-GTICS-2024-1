@@ -1,10 +1,10 @@
 package com.example.webapp.controller.paciente;
 
 import com.example.webapp.entity.Medicamentos;
-import com.example.webapp.entity.Pedidos;
+import com.example.webapp.entity.PedidosPaciente;
 import com.example.webapp.entity.Usuario;
 import com.example.webapp.repository.MedicamentosRepository;
-import com.example.webapp.repository.PedidosRepository;
+import com.example.webapp.repository.PedidosPacienteRepository;
 import com.example.webapp.repository.UsuarioRepository;
 import com.example.webapp.entity.Sede;
 import com.example.webapp.repository.SedeRepository;
@@ -24,24 +24,23 @@ public class PacienteController {
     MedicamentosRepository medicamentosRepository;
     UsuarioRepository usuarioRepository;
     SedeRepository sedeRepository;
-    PedidosRepository pedidosRepository;
+    PedidosPacienteRepository pedidosPacienteRepository;
     public PacienteController(MedicamentosRepository medicamentosRepository,
                               UsuarioRepository usuarioRepository,
                               SedeRepository sedeRepository,
-                              PedidosRepository pedidosRepository) {
+                              PedidosPacienteRepository pedidosPacienteRepository) {
 
         this.medicamentosRepository = medicamentosRepository;
         this.sedeRepository = sedeRepository;
         this.usuarioRepository = usuarioRepository;
-        this.pedidosRepository = pedidosRepository;
+        this.pedidosPacienteRepository = pedidosPacienteRepository;
     }
     /*---------------------------------------*/
 
     /*Vista de inicio (lista de pre-ordenes)*/
     @GetMapping("/paciente/inicio")
     public String listarPreordenes(Model model){
-        List<Pedidos> listapreordenes = pedidosRepository.findByTipo("preorden");
-        model.addAttribute("listaPreordenes",listapreordenes);
+
         return "paciente/inicio";
     }
 
@@ -81,8 +80,8 @@ public class PacienteController {
         return "paciente/formcompra";
     }
     @PostMapping("/paciente/guardar")
-    public String guardarPedido(Pedidos pedidos) {
-        pedidosRepository.save(pedidos);
+    public String guardarPedido(PedidosPaciente pedidosPaciente) {
+        pedidosPacienteRepository.save(pedidosPaciente);
         return "redirect:/paciente/finalmsgcompra";
     }
     /*---------------------------------------*/
