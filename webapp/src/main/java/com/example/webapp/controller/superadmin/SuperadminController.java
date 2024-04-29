@@ -1,7 +1,9 @@
 package com.example.webapp.controller.superadmin;
 
 import com.example.webapp.entity.Medicamentos;
+import com.example.webapp.entity.Usuario;
 import com.example.webapp.repository.MedicamentosRepository;
+import com.example.webapp.repository.UsuarioRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +18,16 @@ import java.util.Optional;
 @RequestMapping("/superadmin")
 public class SuperadminController {
 
-    final MedicamentosRepository medicamentosRepository;
+    final
+    MedicamentosRepository medicamentosRepository;
+    UsuarioRepository usuarioRepository;
 
-    public SuperadminController(MedicamentosRepository medicamentosRepository){
+    public SuperadminController(MedicamentosRepository medicamentosRepository,
+                                UsuarioRepository usuarioRepository){
+
         this.medicamentosRepository = medicamentosRepository;
+
+        this.usuarioRepository = usuarioRepository;
     }
 
 
@@ -55,23 +63,6 @@ public class SuperadminController {
     public String Estado_Solicitudes_Farmacistas() {
         return "superadmin/Plantilla_Vista_Estado_Solicitudes_Farmacistas";
     }
-
-
-
-
-
-    @GetMapping("/Medicamentos")
-    public String Medicamentos(Model model){
-        List<Medicamentos> lista = medicamentosRepository.findAll();
-        model.addAttribute("listTransportation",lista);
-        return "superadmin/Plantilla_Vista_Medicamentos";
-    }
-
-
-    @GetMapping("/Vista_Principal")
-    public String Vista_Principal() {
-        return "superadmin/Plantilla_Vista_Principal";
-    }
     @GetMapping("/Registrar_Medicamento")
     public String Registrar_Medicamento() {
         return "superadmin/Plantilla_Vista_Registrar_Medicamento";
@@ -96,9 +87,30 @@ public class SuperadminController {
     public String Ver_Farmacista() {
         return "superadmin/Plantilla_Vista_Ver_Farmacista";
     }
+    @GetMapping("/Ver_Paciente")
+    public String Ver_Paciente() {
+        return "superadmin/Plantilla_Vista_Ver_Paciente";
+    }
+    @GetMapping("/Ver_Perfil")
+    public String Ver_Perfil() {
+        return "superadmin/Perfil";
+    }
+    @GetMapping("/Cerrar_Cuenta")
+    public String Cerrar_Cuenta() {
+        return "superadmin/Index";
+    }
 
 
+    //------------------------------------------------------------------------------------------------------------------
+    //Listar Medicamentos
+    @GetMapping("/Medicamentos")
+    public String Medicamentos(Model model){
+        List<Medicamentos> lista = medicamentosRepository.findAll();
+        model.addAttribute("listTransportation",lista);
+        return "superadmin/Plantilla_Vista_Medicamentos";
+    }
 
+    //Ver Medicamento
     @GetMapping("/Ver_Medicamento")
     public String Ver_Medicamento(Model model,
                                   @RequestParam("id") int id) {
@@ -113,22 +125,7 @@ public class SuperadminController {
         }
     }
 
-
-
-
-    @GetMapping("/Ver_Paciente")
-    public String Ver_Paciente() {
-        return "superadmin/Plantilla_Vista_Ver_Paciente";
-    }
-    @GetMapping("/Ver_Perfil")
-    public String Ver_Perfil() {
-        return "superadmin/Perfil";
-    }
-    @GetMapping("/Cerrar_Cuenta")
-    public String Cerrar_Cuenta() {
-        return "superadmin/Index";
-    }
-
+    //Buscar Medicamento por Nombre
     @PostMapping("/buscarPorNombre")
     public String buscarPorNombre(@RequestParam("searchField") String searchField, Model model) {
 
@@ -138,6 +135,7 @@ public class SuperadminController {
         return "superadmin/Plantilla_Vista_Medicamentos";
     }
 
+    //Editar Medicamento
     @GetMapping("/Editar_Medicamento")
     public String editarMedicamento(Model model,
                                       @RequestParam("id") int id) {
@@ -152,12 +150,14 @@ public class SuperadminController {
         }
     }
 
+    //Guardar Medicamento
     @PostMapping("/Guardar_Medicamento")
     public String guardarNuevoMedicamento(Medicamentos medicamento) {
         medicamentosRepository.save(medicamento);
         return "redirect:/superadmin/Medicamentos";
     }
 
+    //Eliminar Medicamento
     @GetMapping("/Eliminar_Medicamento")
     public String borrarTransportista(@RequestParam("id") int id) {
 
@@ -169,7 +169,15 @@ public class SuperadminController {
         return "redirect:/superadmin/Medicamentos";
 
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+    //Listar Usuarios
+    @GetMapping("/Vista_Principal")
+    public String Usuarios(Model model){
+        List<Usuario> lista = usuarioRepository.findAll();
+        model.addAttribute("listTransportation",lista);
+        return "superadmin/Plantilla_Vista_Principal";
+    }
 
 }
 
