@@ -130,7 +130,7 @@
                   </thead>
                   <tbody>
                   <tr class=contenido th:each="Usuarios, info : ${listTransportation}">
-                      <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres()}">Panadol</p></td>
+                      <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}">Panadol</p></td>
                       <td class=><p style="font-size: 18px;" th:text="${Usuarios.getCorreo()}">Panadol</p></td>
                       <td>
                           <div class="card-footer pt-1 br-3 border-top-0">
@@ -260,13 +260,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class=nueva-contenido th:each="Usuarios, info : ${listTransportation}">
-                    <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres()}">Panadol</p></td>
+                <tr class=nueva-contenido th:each="Usuarios, info : ${listTransportation1}">
+                    <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}">Panadol</p></td>
                     <td class=><p style="font-size: 18px;" th:text="${Usuarios.getCorreo()}">Panadol</p></td>
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <a th:href="@{/superadmin/Ver_Doctor}" class="btn btn-success">
+                                <a th:href="@{/superadmin/Ver_Administrador}" class="btn btn-success">
                                     <i class=""></i> Ver
                                 </a>
                             </div>
@@ -290,7 +290,7 @@
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <a th:href="@{/superadmin/Actualizar_Doctor}" class="btn btn-warning">
+                                <a th:href="@{/superadmin/Actualizar_Administrador}" class="btn btn-warning">
                                     <i class=""></i> Editar
                                 </a>
                             </div>
@@ -393,13 +393,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class=nueva_contenido1 th:each="Usuarios, info : ${listTransportation}">
-                    <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres()}">Panadol</p></td>
+                <tr class=nueva_contenido1 th:each="Usuarios, info : ${listTransportation2}">
+                    <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}">Panadol</p></td>
                     <td class=><p style="font-size: 18px;" th:text="${Usuarios.getCorreo()}">Panadol</p></td>
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <a th:href="@{/superadmin/Ver_Doctor}" class="btn btn-success">
+                                <a th:href="@{/superadmin/Ver_Farmacista}" class="btn btn-success">
                                     <i class=""></i> Ver
                                 </a>
                             </div>
@@ -423,7 +423,7 @@
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <a th:href="@{/superadmin/Actualizar_Doctor}" class="btn btn-warning">
+                                <a th:href="@{/superadmin/Actualizar_Farmacista}" class="btn btn-warning">
                                     <i class=""></i> Editar
                                 </a>
                             </div>
@@ -526,13 +526,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class=nueva_contenido2 th:each="Usuarios, info : ${listTransportation}">
-                    <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres()}">Panadol</p></td>
+                <tr class=nueva_contenido2 th:each="Usuarios, info : ${listTransportation3}">
+                    <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}">Panadol</p></td>
                     <td class=><p style="font-size: 18px;" th:text="${Usuarios.getCorreo()}">Panadol</p></td>
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <a th:href="@{/superadmin/Ver_Doctor}" class="btn btn-success">
+                                <a th:href="@{/superadmin/Ver_Paciente}" class="btn btn-success">
                                     <i class=""></i> Ver
                                 </a>
                             </div>
@@ -556,7 +556,7 @@
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <a th:href="@{/superadmin/Actualizar_Doctor}" class="btn btn-warning">
+                                <a th:href="@{/superadmin/Actualizar_Paciente}" class="btn btn-warning">
                                     <i class=""></i> Editar
                                 </a>
                             </div>
@@ -941,10 +941,6 @@
         });
     });
 </script>
-
-
-
-
 
           <!-- ************ -->
   </div>

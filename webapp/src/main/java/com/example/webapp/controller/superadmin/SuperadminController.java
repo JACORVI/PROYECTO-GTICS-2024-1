@@ -174,10 +174,15 @@ public class SuperadminController {
     //Listar Usuarios
     @GetMapping("/Vista_Principal")
     public String Usuarios(Model model){
-        List<Usuario> lista = usuarioRepository.findAll();
+        List<Usuario> lista = usuarioRepository.findByRol("Doctor");
         model.addAttribute("listTransportation",lista);
+        List<Usuario> lista1 = usuarioRepository.findByRol("Administrador");
+        model.addAttribute("listTransportation1",lista1);
+        List<Usuario> lista2 = usuarioRepository.findByRol("Farmacista");
+        model.addAttribute("listTransportation2",lista2);
+        List<Usuario> lista3 = usuarioRepository.findByRol("Paciente");
+        model.addAttribute("listTransportation3",lista3);
         return "superadmin/Plantilla_Vista_Principal";
     }
-
 }
 
