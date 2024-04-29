@@ -79,10 +79,6 @@ public class SuperadminController {
     public String Ver_Administrador() {
         return "superadmin/Plantilla_Vista_Ver_Administrador";
     }
-    @GetMapping("/Ver_Doctor")
-    public String Ver_Doctor() {
-        return "superadmin/Plantilla_Vista_Ver_Doctor";
-    }
     @GetMapping("/Ver_Farmacista")
     public String Ver_Farmacista() {
         return "superadmin/Plantilla_Vista_Ver_Farmacista";
@@ -183,6 +179,41 @@ public class SuperadminController {
         List<Usuario> lista3 = usuarioRepository.findByRol("Paciente");
         model.addAttribute("listTransportation3",lista3);
         return "superadmin/Plantilla_Vista_Principal";
+    }
+
+    //Ver Doctor
+    @GetMapping("/Ver_Doctor")
+    public String Ver_Doctor(Model model,
+                                  @RequestParam("id") int id) {
+        Optional<Usuario> optUsuario = usuarioRepository.findById(id);
+
+        if (optUsuario.isPresent()) {
+            Usuario usuario = optUsuario.get();
+            model.addAttribute("usuario", usuario);
+            return "superadmin/Plantilla_Vista_Ver_Doctor";
+        } else {
+            return "redirect:/superadmin/Plantilla_Vista_Principal";
+        }
+    }
+
+    @GetMapping("/Editar_Doctor")
+    public String editar_Doctor(Model model,
+                                    @RequestParam("id") int id) {
+
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+        if (optionalUsuario.isPresent()) {
+            Usuario usuario = optionalUsuario.get();
+            model.addAttribute("usuario", usuario);
+            return "superadmin/Plantilla_Vista_Actualizar_Doctor";
+        } else {
+            return "redirect:/superadmin/Plantilla_Vista_Principal";
+        }
+    }
+
+    @PostMapping("/Guardar_Doctor")
+    public String guardar_Doctor(Usuario usuario) {
+        usuarioRepository.save(usuario);
+        return "redirect:/superadmin/Vista_Principal";
     }
 }
 

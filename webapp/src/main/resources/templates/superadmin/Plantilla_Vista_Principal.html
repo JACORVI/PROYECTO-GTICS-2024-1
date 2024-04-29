@@ -135,7 +135,7 @@
                       <td>
                           <div class="card-footer pt-1 br-3 border-top-0">
                               <div class="text-center">
-                                  <a th:href="@{/superadmin/Ver_Doctor}" class="btn btn-success">
+                                  <a th:href="@{'/superadmin/Ver_Doctor'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-success">
                                       <i class=""></i> Ver
                                   </a>
                               </div>
@@ -159,7 +159,7 @@
                       <td>
                           <div class="card-footer pt-1 br-3 border-top-0">
                               <div class="text-center">
-                                  <a th:href="@{/superadmin/Actualizar_Doctor}" class="btn btn-warning">
+                                  <a th:href="@{'/superadmin/Editar_Doctor'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-warning">
                                       <i class=""></i> Editar
                                   </a>
                               </div>
@@ -183,9 +183,9 @@
                       <td>
                           <div class="card-footer pt-1 br-3 border-top-0">
                               <div class="text-center">
-                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
-                                      <i class=""></i>Eliminar
-                                  </button>
+                                  <a th:href="@{'/superadmin/Eliminar_Doctor'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-danger">
+                                      <i class=""></i> Eliminar
+                                  </a>
                               </div>
                               <!-- Modal -->
                           </div>
