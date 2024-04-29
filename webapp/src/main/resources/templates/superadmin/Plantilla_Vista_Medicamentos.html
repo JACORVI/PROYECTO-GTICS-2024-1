@@ -132,8 +132,8 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr th:each="Medicamentos, info : ${listTransportation}">
-                      <td class=<%=color%><p style="font-size: 18px;" th:text="${Medicamentos.getNombre()}">Panadol</p></td>
+                  <tr class=contenido th:each="Medicamentos, info : ${listTransportation}">
+                      <td class=><p style="font-size: 18px;" th:text="${Medicamentos.getNombre()}">Panadol</p></td>
                       <td>
                           <div class="card-footer pt-1 br-3 border-top-0">
                                 <div class="text-center">
@@ -219,56 +219,88 @@
                   </tr>
                   </tbody>
               </table>
+              <div class="pagination  d-flex justify-content-center" style="padding: 50px">
+              </div>
           </div>
       </div>
-        <style>
-            .pagination-container {
-                display: flex;
-                justify-content: center;
-                margin: 30px;
-            }
-
-            .pagination-container .pagination {
-                margin-left: auto;
-            }
-
-            .pagination-container .page-link {
-                font-size: 18px;
-                padding: 10px 15px;
-            }
-        </style>
-
-        <div class="pagination-container">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                    <li class="page-item disabled">
-
-                    <li class="page-item">
-
-                        <a class="page-link"  href="<%=request.getContextPath()%>/ServletGeneral?action=jr&page=<%=Integer.parseInt(str)-1%>">Anterior</a>
-                    </li>
-
-
-                    <li class="page-item"
-
-                    ><a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&page=<%=i%>">1</a></li>
-
-
-
-                    <li class="page-item disabled">
-
-                    <li class="page-item ">
-
-                        <a class="page-link"  href="<%=request.getContextPath()%>/ServletGeneral?action=jr&page=<%=Integer.parseInt(str)+1%>">Siguiente</a>
-                    </li>
-
-                </ul>
-            </nav>
-        </div>
         <div class="col-12 text-center">
             <button onclick="window.location.href='/superadmin/Registrar_Medicamento'" type="button" class="btn btn-primary boton-primario">Registrar Nuevo Medicamento</button>
         </div>
   </div>
+
+<!-- Script de paginacion-->
+<script type="text/javascript">
+    function getPageList(totalPages, page, maxLength) {
+        function range(start, end) {
+            return Array.from(Array(end - start + 1), (_, i) => i + start);
+        }
+
+        var sideWidth = maxLength < 9 ? 1 : 2;
+        var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+        var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+
+        if (totalPages <= maxLength) {
+            return range(1, totalPages);
+        }
+
+        if (page <= maxLength - sideWidth - 1 - rightWidth) {
+            return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+        }
+
+        if (page >= totalPages - sideWidth - 1 - rightWidth) {
+            return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+        }
+        return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+    }
+
+    $(function () {
+        var numberOfItems = $(".contenido").length;
+        var limitPerPage = 5; //How many card items visible per a page
+        var totalPages = Math.ceil(numberOfItems / limitPerPage);
+        var paginationSize = 5; //How many page elements visible in the pagination
+        var currentPage;
+
+        function showPage(whichPage) {
+            if (whichPage < 1 || whichPage > totalPages) return false;
+
+            currentPage = whichPage;
+
+            $(".contenido").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+
+            $(".pagination li").slice(1, -1).remove();
+
+            getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+                    .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                    .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
+            });
+
+            $(".previous-page").toggleClass("disable", currentPage === 1);
+            $(".next-page").toggleClass("disable", currentPage === totalPages);
+            return true;
+        }
+
+        $(".pagination").append(
+            $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+            $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+        );
+
+        $(".contenido").show();
+        showPage(1);
+
+        $(document).on("click", ".pagination li.current-page:not(.active)", function () {
+            return showPage(+$(this).text());
+        });
+
+        $(".next-page").on("click", function () {
+            return showPage(currentPage + 1);
+        });
+
+        $(".previous-page").on("click", function () {
+            return showPage(currentPage - 1);
+        });
+    });
+</script>
  
   <!-- ************ -->
   </div>

@@ -29,4 +29,6 @@ public class Usuario {
     private String contrasena;
     private Date fecha_creacion;
     private String estado_solicitud;
+    private String motivo_rechazo;
+    private int borrado_logico;
 }
