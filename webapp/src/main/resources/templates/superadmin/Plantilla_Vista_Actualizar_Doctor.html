@@ -123,9 +123,16 @@
             <h2 class="mb-4">.</h2>
             <h2 class="mb-4">ACTUALIZAR DATOS DEL DOCTOR</h2>
               <form class="row g-3" method="post" th:action="@{'/superadmin/Guardar_Doctor'}">
-                <input th:value="${usuario.getId()}" name="id" type="hidden" />
-                  <input th:value="${usuario.getContrasena()}" name="contrasena" type="hidden" />
+                  <input th:value="${usuario.getId()}" name="id" type="hidden" />
+                  <input th:value="${usuario.getDistrito()}" name="distrito" type="hidden" />
+                  <input th:value="${usuario.getSeguro()}" name="seguro" type="hidden" />
+                  <input th:value="${usuario.getEstado()}" name="estado" type="hidden" />
                   <input th:value="${usuario.getRol()}" name="rol" type="hidden" />
+                  <input th:value="${usuario.getFecha_creacion()}" name="fecha_creacion" type="hidden" />
+                  <input th:value="${usuario.getContrasena()}" name="contrasena" type="hidden" />
+                  <input th:value="${usuario.getEstado_solicitud()}" name="estado_solicitud" type="hidden" />
+                  <input th:value="${usuario.getMotivo_rechazo()}" name="motivo_rechazo" type="hidden" />
+                  <input th:value="${usuario.getBorrado_logico()}" name="borrado_logico" type="hidden" />
               <div class="col-md-6">
                   <label class="form-label">Nombres</label>
                   <input class="form-control " th:value="${usuario.getNombres()}" name="nombres">
@@ -648,87 +655,43 @@
                           <tbody>
                           <tr>
                               <td>
-                                  <div class="card-footer pt-1 br-3 border-top-0">
+                                  <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Inactivo'}">
                                       <div class="text-center">
-                                          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearListaModal">
-                                              <i class=""></i>Activo
-                                          </button>
+                                          <a th:href="@{'/superadmin/Ver_Doctor'+ '?id=' + ${usuario.getId()}}" class="btn btn-success">
+                                              <i class=""></i> Pasar a Activo
+                                          </a>
                                       </div>
-                                      <!-- Modal -->
-                                      <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                          <div class="modal-dialog">
-                                              <div class="modal-content">
-                                                  <div class="modal-header">
-                                                      <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
-                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                  </div>
-                                                  <div class="modal-footer">
-                                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                      <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
-                                                  </div>
-                                              </div>
-                                          </div>
+                                  </div>
+                                  <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Activo'}">
+                                      <div class="text-center">
+                                          <a class="btn btn-secondary">
+                                              <i class=""></i> Pasar a Activo
+                                          </a>
                                       </div>
                                   </div>
                               </td>
                               <td>
-                                  <div class="card-footer pt-1 br-3 border-top-0">
+                                  <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Inactivo'}">
                                       <div class="text-center">
-                                          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
-                                              <i class=""></i>Inactivo
-                                          </button>
+                                          <a class="btn btn-secondary">
+                                              <i class=""></i> Pasar a Inactivo
+                                          </a>
                                       </div>
-                                      <!-- Modal -->
                                   </div>
-                                  <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog modal-dialog-centered" role="document">
-                                          <div class="modal-content">
-                                              <div class="modal-header">
-                                                  <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
-                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                      <span aria-hidden="true">&times;</span>
-                                                  </button>
-                                              </div>
-                                              <div class="modal-body">
-                                                  <!-- Aquí puedes agregar el contenido del formulario -->
-                                                  <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&id=<%=administrador.getIdUsuario()%>">
-                                                      <div class="mb-3">
-                                                          <label for="motivoDespido">Ingrese motivo de despido</label>
-                                                          <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
-                                                      </div>
-                                                      <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
-                                                      <button type="submit" class="btn btn-primary">Continuar</button>
-                                                  </form>
-                                              </div>
-                                          </div>
+                                  <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Activo'}">
+                                      <div class="text-center">
+                                          <a th:href="@{'/superadmin/Ver_Doctor'+ '?id=' + ${usuario.getId()}}" class="btn btn-danger">
+                                              <i class=""></i> Pasar a Inactivo
+                                          </a>
                                       </div>
                                   </div>
                               </td>
-                              <td>
-                                  <div class="card-footer pt-1 br-3 border-top-0">
-                                      <div class="text-center boton-despedir "><a class="btn mt-auto" data-bs-toggle="modal" data-bs-target="#exampleModal<%=juegoReservado.getIdVideojuego()%>">Activo</a></div>
-                                      <!-- Modal -->
-                                      <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                          <div class="modal-dialog">
-                                              <div class="modal-content">
-                                                  <div class="modal-header">
-                                                      <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
-                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                  </div>
-                                                  <div class="modal-footer">
-                                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                      <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </td>
+                              <td class="text-center"><p style="font-size: 18px;" th:text="'Estado Actual: '+ ${usuario.getEstado()}">Panadol</p></td>
                           </tr>
                           </tbody>
                       </table>
                       <div class="col-12 text-center">
-                          <button onclick="window.location.href='/superadmin/Vista_Principal'" type="button" class="btn btn-primary boton-primario">ACTUALIZAR</button>
+                          <button onclick="window.location.href='/superadmin/Vista_Principal'" type="button" class="btn btn-primary boton-primario">Retornar a la Página Principal</button>
                       </div>
                   </div>
               </div>

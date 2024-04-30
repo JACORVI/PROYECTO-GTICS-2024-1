@@ -181,7 +181,6 @@ public class SuperadminController {
         return "superadmin/Plantilla_Vista_Principal";
     }
 
-    //Ver Doctor
     @GetMapping("/Ver_Doctor")
     public String Ver_Doctor(Model model,
                                   @RequestParam("id") int id) {

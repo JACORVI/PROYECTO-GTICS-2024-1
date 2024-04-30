@@ -639,32 +639,18 @@
                           <tbody>
                           <tr>
                               <td>
-                                  <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Inactivo'}">
+                                  <div class="card-footer pt-1 br-3 border-top-0">
                                       <div class="text-center">
-                                          <a th:href="@{'/superadmin/Ver_Doctor'+ '?id=' + ${usuario.getId()}}" class="btn btn-success">
-                                              <i class=""></i> Pasar a Activo
-                                          </a>
-                                      </div>
-                                  </div>
-                                  <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Activo'}">
-                                      <div class="text-center">
-                                          <a th:href="@{'/superadmin/Ver_Doctor'+ '?id=' + ${usuario.getId()}}" class="btn btn-secondary">
+                                          <a class="btn btn-secondary">
                                               <i class=""></i> Pasar a Activo
                                           </a>
                                       </div>
                                   </div>
                               </td>
                               <td>
-                                  <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Inactivo'}">
+                                  <div class="card-footer pt-1 br-3 border-top-0">
                                       <div class="text-center">
-                                          <a th:href="@{'/superadmin/Ver_Doctor'+ '?id=' + ${usuario.getId()}}" class="btn btn-success">
-                                              <i class=""></i> Pasar a Inactivo
-                                          </a>
-                                      </div>
-                                  </div>
-                                  <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Activo'}">
-                                      <div class="text-center">
-                                          <a th:href="@{'/superadmin/Ver_Doctor'+ '?id=' + ${usuario.getId()}}" class="btn btn-danger">
+                                          <a class="btn btn-secondary">
                                               <i class=""></i> Pasar a Inactivo
                                           </a>
                                       </div>
@@ -679,6 +665,9 @@
             </form>
           </div>
         </div>
+          <div class="col-12 text-center">
+              <button onclick="window.location.href='/superadmin/Vista_Principal'" type="button" class="btn btn-primary boton-primario">Retornar a la Página Principal</button>
+          </div>
         <br><br><br><br>
       </div>
 
