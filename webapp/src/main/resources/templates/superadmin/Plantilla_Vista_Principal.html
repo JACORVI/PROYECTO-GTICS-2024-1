@@ -183,7 +183,7 @@
                       <td>
                           <div class="card-footer pt-1 br-3 border-top-0">
                               <div class="text-center">
-                                  <a th:href="@{'/superadmin/Eliminar_Doctor'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-danger">
+                                  <a th:href="@{'/superadmin/Eliminar_Usuario'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-danger">
                                       <i class=""></i> Eliminar
                                   </a>
                               </div>
@@ -266,7 +266,7 @@
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <a th:href="@{/superadmin/Ver_Administrador}" class="btn btn-success">
+                                <a th:href="@{'/superadmin/Ver_Administrador'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-success">
                                     <i class=""></i> Ver
                                 </a>
                             </div>
@@ -290,7 +290,7 @@
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <a th:href="@{/superadmin/Actualizar_Administrador}" class="btn btn-warning">
+                                <a th:href="@{'/superadmin/Editar_Administrador'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-warning">
                                     <i class=""></i> Editar
                                 </a>
                             </div>
@@ -314,9 +314,9 @@
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
-                                    <i class=""></i>Eliminar
-                                </button>
+                                <a th:href="@{'/superadmin/Eliminar_Usuario'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-danger">
+                                    <i class=""></i> Eliminar
+                                </a>
                             </div>
                             <!-- Modal -->
                         </div>
@@ -399,7 +399,7 @@
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <a th:href="@{/superadmin/Ver_Farmacista}" class="btn btn-success">
+                                <a th:href="'/superadmin/Ver_Farmacista'+ '?id=' + ${Usuarios.getId()}" class="btn btn-success">
                                     <i class=""></i> Ver
                                 </a>
                             </div>
@@ -423,7 +423,7 @@
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <a th:href="@{/superadmin/Actualizar_Farmacista}" class="btn btn-warning">
+                                <a th:href="@{'/superadmin/Editar_Farmacista'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-warning">
                                     <i class=""></i> Editar
                                 </a>
                             </div>
@@ -447,9 +447,9 @@
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
-                                    <i class=""></i>Eliminar
-                                </button>
+                                <a th:href="@{'/superadmin/Eliminar_Usuario'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-danger">
+                                    <i class=""></i> Eliminar
+                                </a>
                             </div>
                             <!-- Modal -->
                         </div>
@@ -532,7 +532,7 @@
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <a th:href="@{/superadmin/Ver_Paciente}" class="btn btn-success">
+                                <a th:href="'/superadmin/Ver_Paciente'+ '?id=' + ${Usuarios.getId()}" class="btn btn-success">
                                     <i class=""></i> Ver
                                 </a>
                             </div>
@@ -556,7 +556,7 @@
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <a th:href="@{/superadmin/Actualizar_Paciente}" class="btn btn-warning">
+                                <a th:href="'/superadmin/Editar_Paciente'+ '?id=' + ${Usuarios.getId()}" class="btn btn-warning">
                                     <i class=""></i> Editar
                                 </a>
                             </div>
@@ -580,9 +580,9 @@
                     <td>
                         <div class="card-footer pt-1 br-3 border-top-0">
                             <div class="text-center">
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
-                                    <i class=""></i>Eliminar
-                                </button>
+                                <a th:href="'/superadmin/Eliminar_Usuario'+ '?id=' + ${Usuarios.getId()}" class="btn btn-danger">
+                                    <i class=""></i> Eliminar
+                                </a>
                             </div>
                             <!-- Modal -->
                         </div>

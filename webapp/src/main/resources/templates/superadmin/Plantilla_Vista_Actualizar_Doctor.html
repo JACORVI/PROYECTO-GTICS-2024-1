@@ -122,7 +122,7 @@
           <div class="col-lg-12">
             <h2 class="mb-4">.</h2>
             <h2 class="mb-4">ACTUALIZAR DATOS DEL DOCTOR</h2>
-              <form class="row g-3" method="post" th:action="@{'/superadmin/Guardar_Doctor'}">
+              <form class="row g-3" method="post" th:action="@{'/superadmin/Guardar_Usuario'}">
                   <input th:value="${usuario.getId()}" name="id" type="hidden" />
                   <input th:value="${usuario.getDistrito()}" name="distrito" type="hidden" />
                   <input th:value="${usuario.getSeguro()}" name="seguro" type="hidden" />

@@ -124,32 +124,28 @@
             <h2 class="mb-4">VIZUALIZAR DATOS DEL PACIENTE</h2>
             <form class="row g-3">
               <div class="col-md-6">
-                <label for="inputEmail4" class="form-label">Nombres</label>
-                <input type="text" class="form-control" id="inputEmail4">
+                  <label class="form-label">Nombres</label>
+                  <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getNombres()}">hola</span>
               </div>
               <div class="col-md-6">
-                <label for="inputPassword4" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" id="inputPassword4">
+                  <label class="form-label">Apellidos</label>
+                  <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getApellidos()}">hola</span>
               </div>
               <div class="col-md-6">
-                <label for="inputEmail4" class="form-label">Correo Eléctronico</label>
-                <input type="number" class="form-control" id="inputEmail4">
+                  <label class="form-label">Correo Electrónico</label>
+                  <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getCorreo()}">hola</span>
               </div>
               <div class="col-md-6">
-                <label for="inputPassword4" class="form-label">DNI</label>
-                <input type="number" class="form-control" id="inputPassword4">
+                  <label class="form-label">DNI</label>
+                  <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getDni}">hola</span>
               </div>
               <div class="col-md-6">
-                <label for="inputPassword4" class="form-label">Distrito</label>
-                <input type="number" class="form-control" id="inputPassword4">
+                  <label class="form-label">Distrito</label>
+                  <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getDistrito()}">hola</span>
               </div>
               <div class="col-md-6">
-                <label for="inputPassword4" class="form-label">Dirección</label>
-                <input type="number" class="form-control" id="inputPassword4">
-              </div>
-              <div class="col-12">
-                <label for="inputPassword4" class="form-label">Seguro</label>
-                <input type="email" class="form-control" id="inputAddress" placeholder="">
+                  <label class="form-label">Seguro</label>
+                  <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getSeguro()}">hola</span>
               </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -162,81 +158,23 @@
                               <td>
                                   <div class="card-footer pt-1 br-3 border-top-0">
                                       <div class="text-center">
-                                          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearListaModal">
-                                              <i class=""></i>Activo
-                                          </button>
-                                      </div>
-                                      <!-- Modal -->
-                                      <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                          <div class="modal-dialog">
-                                              <div class="modal-content">
-                                                  <div class="modal-header">
-                                                      <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
-                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                  </div>
-                                                  <div class="modal-footer">
-                                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                      <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
-                                                  </div>
-                                              </div>
-                                          </div>
+                                          <a class="btn btn-secondary">
+                                              <i class=""></i> Pasar a Activo
+                                          </a>
                                       </div>
                                   </div>
                               </td>
                               <td>
                                   <div class="card-footer pt-1 br-3 border-top-0">
                                       <div class="text-center">
-                                          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
-                                              <i class=""></i>Inactivo
-                                          </button>
-                                      </div>
-                                      <!-- Modal -->
-                                  </div>
-                                  <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog modal-dialog-centered" role="document">
-                                          <div class="modal-content">
-                                              <div class="modal-header">
-                                                  <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
-                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                      <span aria-hidden="true">&times;</span>
-                                                  </button>
-                                              </div>
-                                              <div class="modal-body">
-                                                  <!-- Aquí puedes agregar el contenido del formulario -->
-                                                  <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&id=<%=administrador.getIdUsuario()%>">
-                                                      <div class="mb-3">
-                                                          <label for="motivoDespido">Ingrese motivo de despido</label>
-                                                          <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
-                                                      </div>
-                                                      <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
-                                                      <button type="submit" class="btn btn-primary">Continuar</button>
-                                                  </form>
-                                              </div>
-                                          </div>
+                                          <a class="btn btn-secondary">
+                                              <i class=""></i> Pasar a Inactivo
+                                          </a>
                                       </div>
                                   </div>
                               </td>
-                              <td>
-                                  <div class="card-footer pt-1 br-3 border-top-0">
-                                      <div class="text-center boton-despedir "><a class="btn mt-auto" data-bs-toggle="modal" data-bs-target="#exampleModal<%=juegoReservado.getIdVideojuego()%>">Activo</a></div>
-                                      <!-- Modal -->
-                                      <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                          <div class="modal-dialog">
-                                              <div class="modal-content">
-                                                  <div class="modal-header">
-                                                      <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
-                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                  </div>
-                                                  <div class="modal-footer">
-                                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                      <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </td>
-                            </tr>  
+                              <td class="text-center"><p style="font-size: 18px;" th:text="'Estado Actual: '+ ${usuario.getEstado()}">Panadol</p></td>
+                          </tr>
                           </tbody>
                       </table>
                   </div>
@@ -245,6 +183,9 @@
             </form>
           </div>
         </div>
+          <div class="col-12 text-center">
+              <button onclick="window.location.href='/superadmin/Vista_Principal'" type="button" class="btn btn-primary boton-primario">Retornar a la Página Principal</button>
+          </div>
         <br><br><br><br>
       </div>
 
