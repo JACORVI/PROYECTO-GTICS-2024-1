@@ -71,7 +71,7 @@ public class SuperadminController {
     //Listar Medicamentos
     @GetMapping("/Medicamentos")
     public String Medicamentos(Model model) {
-        List<Medicamentos> lista = medicamentosRepository.findAll();
+        List<Medicamentos> lista = medicamentosRepository.buscarMedicamentoGeneral(0);
         model.addAttribute("listTransportation", lista);
         return "superadmin/Plantilla_Vista_Medicamentos";
     }
@@ -140,7 +140,7 @@ public class SuperadminController {
         Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
 
         if (optMedicamento.isPresent()) {
-            medicamentosRepository.deleteById(id);
+            medicamentosRepository.borradoLogico(1,id);
         }
         return "redirect:/superadmin/Medicamentos";
 
@@ -197,10 +197,60 @@ public class SuperadminController {
         Optional<Usuario> optUsuario = usuarioRepository.findById(id);
 
         if (optUsuario.isPresent()) {
-            usuarioRepository.deleteById(id);
+            usuarioRepository.borradoLogico(1,id);
         }
         return "redirect:/superadmin/Vista_Principal";
 
+    }
+
+    @GetMapping("/Pasar_Activo")
+    public String Pasar_Activo(Model model,
+                             @RequestParam("id") int id) {
+            usuarioRepository.pasarActivo("Activo",id);
+            Optional<Usuario> usuario = usuarioRepository.findById(id);
+            Usuario usuario1 = usuario.get();
+            if(usuario1.getRol().equals("Doctor")) {
+                model.addAttribute("usuario", usuario1);
+                return "superadmin/Plantilla_Vista_Actualizar_Doctor";
+            }
+            if(usuario1.getRol().equals("Administrador")) {
+                model.addAttribute("usuario", usuario1);
+                return "superadmin/Plantilla_Vista_Actualizar_Administrador";
+            }
+            if(usuario1.getRol().equals("Farmacista")) {
+                model.addAttribute("usuario", usuario1);
+                return "superadmin/Plantilla_Vista_Actualizar_Farmacista";
+            }
+            if(usuario1.getRol().equals("Paciente")) {
+                model.addAttribute("usuario", usuario1);
+                return "superadmin/Plantilla_Vista_Actualizar_Paciente";
+            }
+            return  "superadmin/Vista_Principal";
+    }
+
+    @GetMapping("/Pasar_Inactivo")
+    public String Pasar_Inactivo(Model model,
+                               @RequestParam("id") int id) {
+        usuarioRepository.pasarInactivo("Inactivo",id);
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        Usuario usuario1 = usuario.get();
+        if(usuario1.getRol().equals("Doctor")) {
+            model.addAttribute("usuario", usuario1);
+            return "superadmin/Plantilla_Vista_Actualizar_Doctor";
+        }
+        if(usuario1.getRol().equals("Administrador")) {
+            model.addAttribute("usuario", usuario1);
+            return "superadmin/Plantilla_Vista_Actualizar_Administrador";
+        }
+        if(usuario1.getRol().equals("Farmacista")) {
+            model.addAttribute("usuario", usuario1);
+            return "superadmin/Plantilla_Vista_Actualizar_Farmacista";
+        }
+        if(usuario1.getRol().equals("Paciente")) {
+            model.addAttribute("usuario", usuario1);
+            return "superadmin/Plantilla_Vista_Actualizar_Paciente";
+        }
+        return  "superadmin/Vista_Principal";
     }
 
     //CRUD DOCTOR

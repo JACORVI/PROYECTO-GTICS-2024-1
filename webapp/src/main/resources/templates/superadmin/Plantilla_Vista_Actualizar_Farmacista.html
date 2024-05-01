@@ -660,7 +660,7 @@
                         <td>
                             <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Inactivo'}">
                                 <div class="text-center">
-                                    <a th:href="@{'/superadmin/Ver_Doctor'+ '?id=' + ${usuario.getId()}}" class="btn btn-success">
+                                    <a th:href="@{'/superadmin/Pasar_Activo'+ '?id=' + ${usuario.getId()}}" class="btn btn-success">
                                         <i class=""></i> Pasar a Activo
                                     </a>
                                 </div>
@@ -683,7 +683,7 @@
                             </div>
                             <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Activo'}">
                                 <div class="text-center">
-                                    <a th:href="@{'/superadmin/Ver_Doctor'+ '?id=' + ${usuario.getId()}}" class="btn btn-danger">
+                                    <a th:href="@{'/superadmin/Pasar_Inactivo'+ '?id=' + ${usuario.getId()}}" class="btn btn-danger">
                                         <i class=""></i> Pasar a Inactivo
                                     </a>
                                 </div>

@@ -2,7 +2,9 @@ package com.example.webapp.repository;
 
 import com.example.webapp.entity.Medicamentos;
 import com.example.webapp.entity.Usuario;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -24,4 +26,19 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query(value = "select * from usuario where rol = ?1 and borrado_logico = ?2 ", nativeQuery = true)
     List<Usuario> buscarPaciente(String rol,int borrado_logico);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value = "update usuario set borrado_logico = ?1 where id_usuario = ?2")
+    void borradoLogico(int valor, int id);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value = "update usuario set estado = ?1 where id_usuario = ?2")
+    void pasarActivo(String valor, int id);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value = "update usuario set estado = ?1 where id_usuario = ?2")
+    void pasarInactivo(String valor, int id);
 }
