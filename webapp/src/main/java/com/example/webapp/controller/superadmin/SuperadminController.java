@@ -40,10 +40,6 @@ public class SuperadminController {
         return "superadmin/Plantilla_Vista_Estado_Envios";
     }
 
-    @GetMapping("/Estado_Solicitudes_Farmacistas")
-    public String Estado_Solicitudes_Farmacistas() {
-        return "superadmin/Plantilla_Vista_Estado_Solicitudes_Farmacistas";
-    }
 
     @GetMapping("/Registrar_Medicamento")
     public String Registrar_Medicamento() {
@@ -99,7 +95,7 @@ public class SuperadminController {
     @PostMapping("/buscarPorNombre")
     public String buscarPorNombre(@RequestParam("searchField") String searchField, Model model) {
 
-        List<Medicamentos> lista = medicamentosRepository.findByNombre(searchField);
+        List<Medicamentos> lista = medicamentosRepository.buscarMedicamento(searchField);
         model.addAttribute("listTransportation", lista);
         model.addAttribute("textoBuscado", searchField);
         return "superadmin/Plantilla_Vista_Medicamentos";
@@ -144,13 +140,13 @@ public class SuperadminController {
     //Listar Usuarios
     @GetMapping("/Vista_Principal")
     public String Usuarios(Model model) {
-        List<Usuario> lista = usuarioRepository.findByRol("Doctor");
+        List<Usuario> lista = usuarioRepository.buscarDoctor("Doctor",0);
         model.addAttribute("listTransportation", lista);
-        List<Usuario> lista1 = usuarioRepository.findByRol("Administrador");
+        List<Usuario> lista1 = usuarioRepository.buscarAdministrador("Administrador",0);
         model.addAttribute("listTransportation1", lista1);
-        List<Usuario> lista2 = usuarioRepository.findByRol("Farmacista");
+        List<Usuario> lista2 = usuarioRepository.buscarFarmacista("Farmacista",0);
         model.addAttribute("listTransportation2", lista2);
-        List<Usuario> lista3 = usuarioRepository.findByRol("Paciente");
+        List<Usuario> lista3 = usuarioRepository.buscarPaciente("Paciente",0);
         model.addAttribute("listTransportation3", lista3);
         return "superadmin/Plantilla_Vista_Principal";
     }
@@ -287,6 +283,13 @@ public class SuperadminController {
         }
     }
 
+    //CRUD ESTADO SOLICITUDES FARMACISTAS
+    @GetMapping("/Estado_Solicitudes_Farmacistas")
+    public String Estado_Solicitudes_Farmacistas(Model model) {
+        List<Usuario> lista = usuarioRepository.buscarFarmacista("Farmacista",0);
+        model.addAttribute("listTransportation", lista);
+        return "superadmin/Plantilla_Vista_Estado_Solicitudes_Farmacistas";
+    }
 
 }
 
