@@ -311,6 +311,19 @@ public class SuperadminController {
         }
     }
 
+    @GetMapping("/Aceptar_Administrador")
+    public String Aceptar_Administrador(@RequestParam("id") int id) {
+        usuarioRepository.aceptarAdministrador("Aceptado",id);
+
+        return "redirect:/superadmin/Estado_Solicitudes_Farmacistas";
+    }
+    @GetMapping("/Rechazar_Administrador")
+    public String Rechazar_Administrador(@RequestParam("id") int id) {
+        usuarioRepository.rechazarAdministrador("Rechazado",id);
+
+        return "redirect:/superadmin/Estado_Solicitudes_Farmacistas";
+    }
+
     //CRUD FARMACISTA
     @GetMapping("/Ver_Farmacista")
     public String Ver_Farmacista(Model model,

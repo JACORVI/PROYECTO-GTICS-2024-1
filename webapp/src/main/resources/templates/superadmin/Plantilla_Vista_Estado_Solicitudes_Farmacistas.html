@@ -169,7 +169,7 @@
                       <td>
                           <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado_solicitud() == 'Pendiente'}">
                               <div class="text-center">
-                                  <a th:href="@{'/superadmin/Aceptar_Administrador'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-danger">
+                                  <a th:href="@{'/superadmin/Rechazar_Administrador'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-danger">
                                       <i class=""></i> Rechazar
                                   </a>
                               </div>
