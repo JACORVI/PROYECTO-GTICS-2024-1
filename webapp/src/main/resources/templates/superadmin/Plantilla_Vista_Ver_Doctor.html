@@ -156,7 +156,7 @@
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearListaModal">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                             <i class=""></i>Asignar
                                         </button>
                                     </div>
@@ -180,7 +180,7 @@
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                             <i class=""></i>No asignar
                                         </button>
                                     </div>
@@ -239,7 +239,7 @@
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearListaModal">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                             <i class=""></i>Asignar
                                         </button>
                                     </div>
@@ -263,7 +263,7 @@
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                             <i class=""></i>No Asignar
                                         </button>
                                     </div>
@@ -321,7 +321,7 @@
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearListaModal">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                             <i class=""></i>Asignar
                                         </button>
                                     </div>
@@ -345,7 +345,7 @@
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                             <i class=""></i>No Asignar
                                         </button>
                                     </div>
@@ -403,7 +403,7 @@
                           <td>
                               <div class="card-footer pt-1 br-3 border-top-0">
                                   <div class="text-center">
-                                      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearListaModal">
+                                      <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                           <i class=""></i>Asignar
                                       </button>
                                   </div>
@@ -427,7 +427,7 @@
                           <td>
                               <div class="card-footer pt-1 br-3 border-top-0">
                                   <div class="text-center">
-                                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
+                                      <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                           <i class=""></i>No Asignar
                                       </button>
                                   </div>
@@ -485,7 +485,7 @@
                           <td>
                               <div class="card-footer pt-1 br-3 border-top-0">
                                   <div class="text-center">
-                                      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearListaModal">
+                                      <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                           <i class=""></i>Asignar
                                       </button>
                                   </div>
@@ -509,7 +509,7 @@
                           <td>
                               <div class="card-footer pt-1 br-3 border-top-0">
                                   <div class="text-center">
-                                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
+                                      <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                           <i class=""></i>No Asignar
                                       </button>
                                   </div>
@@ -665,11 +665,19 @@
             </form>
           </div>
         </div>
-          <div class="col-12 text-center">
-              <button onclick="window.location.href='/superadmin/Vista_Principal'" type="button" class="btn btn-primary boton-primario">Retornar a la Página Principal</button>
+          <div class="row justify-content-between">
+              <div class="col-auto">
+                  <button onclick="window.location.href='/superadmin/Vista_Principal'" type="button" class="btn btn-warning">Retornar a la Página Principal</button>
+              </div>
+              <div class="col-auto">
+                  <a th:href="@{'/superadmin/Editar_Doctor'+ '?id=' + ${usuario.getId()}}" class="btn btn-primary">
+                      <i class=""></i> Click Para Editar Información
+                  </a>
+              </div>
           </div>
         <br><br><br><br>
       </div>
+
 
     <!-- ************* -->
     <footer style="background-color: rgba(11, 99, 111, 0.79); width: 100%;">

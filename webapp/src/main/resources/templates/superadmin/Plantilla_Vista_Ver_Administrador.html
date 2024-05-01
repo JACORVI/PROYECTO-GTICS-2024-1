@@ -152,11 +152,11 @@
                         <tbody>
                         <tr>
                             <td class=<%=color%><p style="font-size: 18px;">SEDE N°1</p></td>
-                         
+
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearListaModal">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                             <i class=""></i>Asignar
                                         </button>
                                     </div>
@@ -180,7 +180,7 @@
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                             <i class=""></i>No asignar
                                         </button>
                                     </div>
@@ -230,16 +230,16 @@
                                     </div>
                                 </div>
                             </td>
-                        </td>
+                            </td>
                         </tr>
-      
+
                         <tr>
                             <td class=<%=color%><p style="font-size: 18px;">SEDE N°2</p></td>
-                         
+
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearListaModal">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                             <i class=""></i>Asignar
                                         </button>
                                     </div>
@@ -263,7 +263,7 @@
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                             <i class=""></i>No Asignar
                                         </button>
                                     </div>
@@ -313,15 +313,15 @@
                                     </div>
                                 </div>
                             </td>
-                        </td>
+                            </td>
                         </tr>
                         <tr>
                             <td class=<%=color%><p style="font-size: 18px;">SEDE N°3</p></td>
-                         
+
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearListaModal">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                             <i class=""></i>Asignar
                                         </button>
                                     </div>
@@ -345,7 +345,7 @@
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
                                             <i class=""></i>No Asignar
                                         </button>
                                     </div>
@@ -395,172 +395,172 @@
                                     </div>
                                 </div>
                             </td>
-                        </td>
+                            </td>
                         </tr>
                         <tr>
-                          <td class=<%=color%><p style="font-size: 18px;">SEDE N° 4</p></td>
-                       
-                          <td>
-                              <div class="card-footer pt-1 br-3 border-top-0">
-                                  <div class="text-center">
-                                      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearListaModal">
-                                          <i class=""></i>Asignar
-                                      </button>
-                                  </div>
-                                  <!-- Modal -->
-                                  <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog">
-                                          <div class="modal-content">
-                                              <div class="modal-header">
-                                                  <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
-                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                              </div>
-                                              <div class="modal-footer">
-                                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                  <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </td>
-                          <td>
-                              <div class="card-footer pt-1 br-3 border-top-0">
-                                  <div class="text-center">
-                                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
-                                          <i class=""></i>No Asignar
-                                      </button>
-                                  </div>
-                                  <!-- Modal -->
-                              </div>
-                              <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
-                                  <div class="modal-dialog modal-dialog-centered" role="document">
-                                      <div class="modal-content">
-                                          <div class="modal-header">
-                                              <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
-                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span>
-                                              </button>
-                                          </div>
-                                          <div class="modal-body">
-                                              <!-- Aquí puedes agregar el contenido del formulario -->
-                                              <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&id=<%=administrador.getIdUsuario()%>">
-                                                  <div class="mb-3">
-                                                      <label for="motivoDespido">Ingrese motivo de despido</label>
-                                                      <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
-                                                  </div>
-                                                  <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
-                                                  <button type="submit" class="btn btn-primary">Continuar</button>
-                                              </form>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </td>
-                          <td>
-                              <div class="card-footer pt-1 br-3 border-top-0">
-                                  <div class="text-center boton-despedir "><a class="btn mt-auto" data-bs-toggle="modal" data-bs-target="#exampleModal<%=juegoReservado.getIdVideojuego()%>">Asignado</a></div>
-                                  <!-- Modal -->
-                                  <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog">
-                                          <div class="modal-content">
-                                              <div class="modal-header">
-                                                  <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
-                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                              </div>
-                                              <div class="modal-footer">
-                                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                  <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </td>
-                      </td>
-                      </tr>
-                      <tr>
-                          <td class=<%=color%><p style="font-size: 18px;">SEDE N°5</p></td>
-                       
-                          <td>
-                              <div class="card-footer pt-1 br-3 border-top-0">
-                                  <div class="text-center">
-                                      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearListaModal">
-                                          <i class=""></i>Asignar
-                                      </button>
-                                  </div>
-                                  <!-- Modal -->
-                                  <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog">
-                                          <div class="modal-content">
-                                              <div class="modal-header">
-                                                  <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
-                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                              </div>
-                                              <div class="modal-footer">
-                                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                  <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </td>
-                          <td>
-                              <div class="card-footer pt-1 br-3 border-top-0">
-                                  <div class="text-center">
-                                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
-                                          <i class=""></i>No Asignar
-                                      </button>
-                                  </div>
-                                  <!-- Modal -->
-                              </div>
-                              <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
-                                  <div class="modal-dialog modal-dialog-centered" role="document">
-                                      <div class="modal-content">
-                                          <div class="modal-header">
-                                              <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
-                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span>
-                                              </button>
-                                          </div>
-                                          <div class="modal-body">
-                                              <!-- Aquí puedes agregar el contenido del formulario -->
-                                              <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&id=<%=administrador.getIdUsuario()%>">
-                                                  <div class="mb-3">
-                                                      <label for="motivoDespido">Ingrese motivo de despido</label>
-                                                      <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
-                                                  </div>
-                                                  <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
-                                                  <button type="submit" class="btn btn-primary">Continuar</button>
-                                              </form>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </td>
-                          <td>
-                              <div class="card-footer pt-1 br-3 border-top-0">
-                                  <div class="text-center boton-despedir "><a class="btn mt-auto" data-bs-toggle="modal" data-bs-target="#exampleModal<%=juegoReservado.getIdVideojuego()%>">Asignado</a></div>
-                                  <!-- Modal -->
-                                  <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog">
-                                          <div class="modal-content">
-                                              <div class="modal-header">
-                                                  <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
-                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                              </div>
-                                              <div class="modal-footer">
-                                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                  <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </td>
-                      </td>
-                      </tr>
+                            <td class=<%=color%><p style="font-size: 18px;">SEDE N° 4</p></td>
+
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
+                                            <i class=""></i>Asignar
+                                        </button>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
+                                            <i class=""></i>No Asignar
+                                        </button>
+                                    </div>
+                                    <!-- Modal -->
+                                </div>
+                                <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Aquí puedes agregar el contenido del formulario -->
+                                                <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&id=<%=administrador.getIdUsuario()%>">
+                                                    <div class="mb-3">
+                                                        <label for="motivoDespido">Ingrese motivo de despido</label>
+                                                        <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
+                                                    </div>
+                                                    <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
+                                                    <button type="submit" class="btn btn-primary">Continuar</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center boton-despedir "><a class="btn mt-auto" data-bs-toggle="modal" data-bs-target="#exampleModal<%=juegoReservado.getIdVideojuego()%>">Asignado</a></div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class=<%=color%><p style="font-size: 18px;">SEDE N°5</p></td>
+
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
+                                            <i class=""></i>Asignar
+                                        </button>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
+                                            <i class=""></i>No Asignar
+                                        </button>
+                                    </div>
+                                    <!-- Modal -->
+                                </div>
+                                <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Aquí puedes agregar el contenido del formulario -->
+                                                <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&id=<%=administrador.getIdUsuario()%>">
+                                                    <div class="mb-3">
+                                                        <label for="motivoDespido">Ingrese motivo de despido</label>
+                                                        <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
+                                                    </div>
+                                                    <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
+                                                    <button type="submit" class="btn btn-primary">Continuar</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center boton-despedir "><a class="btn mt-auto" data-bs-toggle="modal" data-bs-target="#exampleModal<%=juegoReservado.getIdVideojuego()%>">Asignado</a></div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                     <style>
@@ -666,8 +666,15 @@
             </form>
           </div>
         </div>
-          <div class="col-12 text-center">
-              <button onclick="window.location.href='/superadmin/Vista_Principal'" type="button" class="btn btn-primary boton-primario">Retornar a la Página Principal</button>
+          <div class="row justify-content-between">
+              <div class="col-auto">
+                  <button onclick="window.location.href='/superadmin/Vista_Principal'" type="button" class="btn btn-warning">Retornar a la Página Principal</button>
+              </div>
+              <div class="col-auto">
+                  <a th:href="@{'/superadmin/Editar_Administrador'+ '?id=' + ${usuario.getId()}}" class="btn btn-primary">
+                      <i class=""></i> Click Para Editar Información
+                  </a>
+              </div>
           </div>
         <br><br><br><br>
       </div>

@@ -145,7 +145,7 @@
               <div class="col-sm-12 col-xl-6">
                   <div class="bg-light rounded h-100 p-4">
                       <h4><p style="text-align:center">Detalles del Medicamentso</p></h4>
-                      <form method="post" th:action="@{'/superadmin/Guardar_Doctor'}">
+                      <form method="post" th:action="@{'/superadmin/Guardar_Medicamento'+ '?id=' + ${medicamento.getId()}}">
                           <input th:value="${medicamento.getId()}" name="id" type="hidden" />
                           <div class="mb-3">
                               <label class="form-label">Nombre</label>
@@ -627,9 +627,9 @@
                   </ul>
               </nav>
           </div>
-        <div class="col-12 text-center">
-          <button onclick="window.location.href='/superadmin/Vista_Principal'" type="button" class="btn btn-primary boton-primario">ACTUALIZAR</button>
-        </div> 
+          <div class="col-12 text-center">
+              <button onclick="window.location.href='/superadmin/Medicamentos'" type="button" class="btn btn-warning">Retornar a la Página Principal</button>
+          </div>
       </div>
       <!-- Content End -->
   </div>

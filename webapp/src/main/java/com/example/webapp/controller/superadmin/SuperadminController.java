@@ -118,9 +118,19 @@ public class SuperadminController {
 
     //Guardar Medicamento
     @PostMapping("/Guardar_Medicamento")
-    public String guardarNuevoMedicamento(Medicamentos medicamento) {
+    public String guardarNuevoMedicamento(Medicamentos medicamento, Model model,@RequestParam("id") int id) {
+
         medicamentosRepository.save(medicamento);
-        return "redirect:/superadmin/Medicamentos";
+
+        Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
+
+        if (optMedicamento.isPresent()) {
+            Medicamentos medicamento1 = optMedicamento.get();
+            model.addAttribute("medicamento", medicamento1);
+            return "superadmin/Plantilla_Vista_Ver_Medicamento";
+        } else {
+            return "redirect:/superadmin/Plantilla_Vista_Medicamentos";
+        }
     }
 
     //Eliminar Medicamento
@@ -152,8 +162,32 @@ public class SuperadminController {
     }
 
     @PostMapping("/Guardar_Usuario")
-    public String guardar_Doctor(Usuario usuario) {
+    public String guardar_Doctor(Usuario usuario,@RequestParam("id") int id, Model model) {
+
         usuarioRepository.save(usuario);
+
+        Optional<Usuario> optUsuario = usuarioRepository.findById(id);
+        if (optUsuario.isPresent()) {
+            Usuario usuario1 = optUsuario.get();
+            if(usuario1.getRol().equals("Doctor")) {
+                model.addAttribute("usuario", usuario1);
+                return "superadmin/Plantilla_Vista_Ver_Doctor";
+            }
+            if(usuario1.getRol().equals("Administrador")) {
+                model.addAttribute("usuario", usuario1);
+                return "superadmin/Plantilla_Vista_Ver_Administrador";
+            }
+            if(usuario1.getRol().equals("Farmacista")) {
+                model.addAttribute("usuario", usuario1);
+                return "superadmin/Plantilla_Vista_Ver_Farmacista";
+            }
+            if(usuario1.getRol().equals("Paciente")) {
+                model.addAttribute("usuario", usuario1);
+                return "superadmin/Plantilla_Vista_Ver_Paciente";
+            }
+        } else {
+            return "redirect:/superadmin/Plantilla_Vista_Principal";
+        }
         return "redirect:/superadmin/Vista_Principal";
     }
 

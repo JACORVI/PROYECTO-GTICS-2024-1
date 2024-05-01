@@ -183,8 +183,15 @@
             </form>
           </div>
         </div>
-          <div class="col-12 text-center">
-              <button onclick="window.location.href='/superadmin/Vista_Principal'" type="button" class="btn btn-primary boton-primario">Retornar a la Página Principal</button>
+          <div class="row justify-content-between">
+              <div class="col-auto">
+                  <button onclick="window.location.href='/superadmin/Vista_Principal'" type="button" class="btn btn-warning">Retornar a la Página Principal</button>
+              </div>
+              <div class="col-auto">
+                  <a th:href="@{'/superadmin/Editar_Paciente'+ '?id=' + ${usuario.getId()}}" class="btn btn-primary">
+                      <i class=""></i> Click Para Editar Información
+                  </a>
+              </div>
           </div>
         <br><br><br><br>
       </div>
