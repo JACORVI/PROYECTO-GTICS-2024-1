@@ -1,11 +1,7 @@
 package com.example.webapp.controller.superadmin;
 
-import com.example.webapp.entity.Medicamentos;
-import com.example.webapp.entity.PedidosReposicion;
-import com.example.webapp.entity.Usuario;
-import com.example.webapp.repository.MedicamentosRepository;
-import com.example.webapp.repository.PedidosReposicionRepository;
-import com.example.webapp.repository.UsuarioRepository;
+import com.example.webapp.entity.*;
+import com.example.webapp.repository.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,17 +20,26 @@ public class SuperadminController {
     MedicamentosRepository medicamentosRepository;
     UsuarioRepository usuarioRepository;
     PedidosReposicionRepository pedidosReposicionRepository;
+    UsuarioHasSedeRepository usuarioHasSedeRepository;
+    SedeRepository sedeRepository;
 
     public SuperadminController(MedicamentosRepository medicamentosRepository,
                                 UsuarioRepository usuarioRepository,
-                                PedidosReposicionRepository pedidosReposicionRepository) {
+                                PedidosReposicionRepository pedidosReposicionRepository,
+                                UsuarioHasSedeRepository usuarioHasSedeRepository,
+                                SedeRepository sedeRepository) {
 
         this.medicamentosRepository = medicamentosRepository;
 
         this.usuarioRepository = usuarioRepository;
 
         this.pedidosReposicionRepository = pedidosReposicionRepository;
+
+        this.usuarioHasSedeRepository = usuarioHasSedeRepository;
+
+        this.sedeRepository = sedeRepository;
     }
+
 
     @GetMapping("")
     public String Plantilla() {
@@ -268,12 +273,26 @@ public class SuperadminController {
 
         if (optUsuario.isPresent()) {
             Usuario usuario = optUsuario.get();
+            List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
+            List<Sede> list1 = sedeRepository.findAll();
             model.addAttribute("usuario", usuario);
+            model.addAttribute("listTransportation", list);
+            model.addAttribute("ListaSedes",list1);
             return "superadmin/Plantilla_Vista_Ver_Doctor";
         } else {
             return "redirect:/superadmin/Plantilla_Vista_Principal";
         }
     }
+
+    /*@GetMapping("/muchos")
+    public String listar(Model model) {
+
+        List<UsuarioHasSede> list = usuarioHasSedeRepository.buscarSede(2);
+        for(UsuarioHasSede od: list){
+            System.out.println(od.getUsuario_id_usario().getId()+ " | " + od.getSede_id_sede().getId());
+        }
+        return "";
+    }*/
 
     @GetMapping("/Editar_Doctor")
     public String editar_Doctor(Model model,
