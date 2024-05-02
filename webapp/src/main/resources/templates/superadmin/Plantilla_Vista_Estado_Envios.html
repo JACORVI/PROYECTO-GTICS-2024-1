@@ -116,19 +116,19 @@
 </nav>
 
     <!-- TRABAJAR AQUI -->
+    <div>
+    <h3 class="mt-4">   Lista de Envíos</h3>
+    <div class=contenido th:each="PedidosReposicion, info : ${listTransportation}">
     <div class="card-body">
-      <div class="table-responsive">
+      <div class="table-responsive" >
           <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
               <thead>
-                  <h3 class="mt-4">   Lista de Pedidos</h3>
               <tr>
-                  <td class=<%=color%><p style="font-size: 18px;">Pedido N°1</p></td>
-                  <td class=<%=color%><p style="font-size: 18px;">15/04/2024</p></td>
-                  <td class=<%=color%><p style="font-size: 18px;">San Miguel</p></td>
-                  <td class=<%=color%><p style="font-size: 18px;">Julio César Aliga Machuca</p></td>
-                  <td class=<%=color%><p style="font-size: 18px;">a20203521@pucp.edu.pe</p></td>
-                  <td class=<%=color%><p style="font-size: 18px;">2000.25</p></td>
-                    <div class="container">
+                  <td class=text-sm-center><p style="font-size: 18px;" th:text="${'Fecha de Solicitud: ' + PedidosReposicion.getFecha_solicitud()}">15/04/2024</p></td>
+                  <td class=text-sm-center><p style="font-size: 18px;" th:text="${'Administrador: ' + PedidosReposicion.usuario.getNombres()+ ' ' + PedidosReposicion.usuario.getApellidos()}">Julio César Aliga Machuca</p></td>
+                  <td class=text-sm-center><p style="font-size: 18px;" th:text="${PedidosReposicion.usuario.getCorreo()}">a20203521@pucp.edu.pe</p></td>
+                  <td class=text-sm-center><p style="font-size: 18px;" th:text="${'Costo Total: ' + PedidosReposicion.getCosto_total()}">2000.25</p></td>
+                    <div class="container" th:if="${PedidosReposicion.getEstado_de_reposicion() == 'Solicitado'}">
                       <article class="card">
                           <div class="card-body">
                               <div class="track">
@@ -141,105 +141,140 @@
                           </div>
                       </article>
                     </div>
+                  <div class="container" th:if="${PedidosReposicion.getEstado_de_reposicion() == 'En Proceso'}">
+                      <article class="card">
+                          <div class="card-body">
+                              <div class="track">
+                                  <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Solicitado</span> </div>
+                                  <div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text"> En Proceso </span> </div>
+                                  <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Empaquetado</span> </div>
+                                  <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En Ruta</span> </div>
+                                  <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Entregado</span> </div>
+                              </div>
+                          </div>
+                      </article>
+                  </div>
+                  <div class="container" th:if="${PedidosReposicion.getEstado_de_reposicion() == 'Empaquetado'}">
+                      <article class="card">
+                          <div class="card-body">
+                              <div class="track">
+                                  <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Solicitado</span> </div>
+                                  <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text"> En Proceso </span> </div>
+                                  <div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Empaquetado</span> </div>
+                                  <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En Ruta</span> </div>
+                                  <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Entregado</span> </div>
+                              </div>
+                          </div>
+                      </article>
+                  </div>
+                  <div class="container" th:if="${PedidosReposicion.getEstado_de_reposicion() == 'En ruta'}">
+                      <article class="card">
+                          <div class="card-body">
+                              <div class="track">
+                                  <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Solicitado</span> </div>
+                                  <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text"> En Proceso </span> </div>
+                                  <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Empaquetado</span> </div>
+                                  <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En Ruta</span> </div>
+                                  <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Entregado</span> </div>
+                              </div>
+                          </div>
+                      </article>
+                  </div>
+                  <div class="container" th:if="${PedidosReposicion.getEstado_de_reposicion() == 'Entregado'}">
+                      <article class="card">
+                          <div class="card-body">
+                              <div class="track">
+                                  <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Solicitado</span> </div>
+                                  <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text"> En Proceso </span> </div>
+                                  <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Empaquetado</span> </div>
+                                  <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En Ruta</span> </div>
+                                  <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Entregado</span> </div>
+                              </div>
+                          </div>
+                      </article>
+                  </div>
               </tr>
           </table>
-
-          <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
-            <thead>
-            <tr>
-                <td class=<%=color%><p style="font-size: 18px;">Pedido N°2</p></td>
-                <td class=<%=color%><p style="font-size: 18px;">15/04/2024</p></td>
-                <td class=<%=color%><p style="font-size: 18px;">San Miguel</p></td>
-                <td class=<%=color%><p style="font-size: 18px;">Julio César Aliga Machuca</p></td>
-                <td class=<%=color%><p style="font-size: 18px;">a20203521@pucp.edu.pe</p></td>
-                <td class=<%=color%><p style="font-size: 18px;">2000.25</p></td>
-                  <div class="container">
-                    <article class="card">
-                        <div class="card-body">
-                            <div class="track">
-                                <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Solicitado</span> </div>
-                                <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text"> En Proceso </span> </div>
-                                <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Empaquetado</span> </div>
-                                <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En Ruta</span> </div>
-                                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Entregado</span> </div>
-                            </div>
-                        </div>
-                    </article>
-                  </div>
-            </tr>
-        </table>
-
-        <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
-          <thead>
-          <tr>
-              <td class=<%=color%><p style="font-size: 18px;">Pedido N°3</p></td>
-              <td class=<%=color%><p style="font-size: 18px;">15/03/2024</p></td>
-              <td class=<%=color%><p style="font-size: 18px;">San Miguel</p></td>
-              <td class=<%=color%><p style="font-size: 18px;">Julio César Aliga Machuca</p></td>
-              <td class=<%=color%><p style="font-size: 18px;">a20203521@pucp.edu.pe</p></td>
-              <td class=<%=color%><p style="font-size: 18px;">20005.25</p></td>
-                <div class="container">
-                  <article class="card">
-                      <div class="card-body">
-                          <div class="track">
-                              <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Solicitado</span> </div>
-                              <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text"> En Proceso </span> </div>
-                              <div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Empaquetado</span> </div>
-                              <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En Ruta</span> </div>
-                              <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Entregado</span> </div>
-                          </div>
-                      </div>
-                  </article>
-                </div>
-          </tr>
-      </table>
       </div>
-  </div>
-  <style>
-    .pagination-container {
-        display: flex;
-        justify-content: center;
-        margin: 30px;
-    }
-
-    .pagination-container .pagination {
-        margin-left: auto;
-    }
-
-    .pagination-container .page-link {
-        font-size: 18px;
-        padding: 10px 15px;
-    }
-  </style>
-  <div class="pagination-container">
-      <nav aria-label="Page navigation example">
-          <ul class="pagination justify-content-end">
-              <li class="page-item disabled">
-                      
-              <li class="page-item">
-                  
-                  <a class="page-link"  href="<%=request.getContextPath()%>/ServletGeneral?action=jr&page=<%=Integer.parseInt(str)-1%>">Anterior</a>
-              </li>
-
-              
-              <li class="page-item"
-                     
-              ><a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&page=<%=i%>">1</a></li>
-            
-  
-              
-              <li class="page-item disabled">
-                     
-              <li class="page-item ">
-                 
-                  <a class="page-link"  href="<%=request.getContextPath()%>/ServletGeneral?action=jr&page=<%=Integer.parseInt(str)+1%>">Siguiente</a>
-              </li>
-  
-          </ul>
-      </nav>
-  </div>
-      
     </div>
+    </div>
+        <div class="pagination  d-flex justify-content-center" style="padding: 50px">
+    </div>
+
+
+
+        <script type="text/javascript">
+            function getPageList(totalPages, page, maxLength) {
+                function range(start, end) {
+                    return Array.from(Array(end - start + 1), (_, i) => i + start);
+                }
+
+                var sideWidth = maxLength < 9 ? 1 : 2;
+                var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+                var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+
+                if (totalPages <= maxLength) {
+                    return range(1, totalPages);
+                }
+
+                if (page <= maxLength - sideWidth - 1 - rightWidth) {
+                    return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+                }
+
+                if (page >= totalPages - sideWidth - 1 - rightWidth) {
+                    return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+                }
+                return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+            }
+
+            $(function () {
+                var numberOfItems = $(".contenido").length;
+                var limitPerPage = 3; //How many card items visible per a page
+                var totalPages = Math.ceil(numberOfItems / limitPerPage);
+                var paginationSize = 3; //How many page elements visible in the pagination
+                var currentPage;
+
+                function showPage(whichPage) {
+                    if (whichPage < 1 || whichPage > totalPages) return false;
+
+                    currentPage = whichPage;
+
+                    $(".contenido").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+
+                    $(".pagination li").slice(1, -1).remove();
+
+                    getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                        $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+                            .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                            .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
+                    });
+
+                    $(".previous-page").toggleClass("disable", currentPage === 1);
+                    $(".next-page").toggleClass("disable", currentPage === totalPages);
+                    return true;
+                }
+
+                $(".pagination").append(
+                    $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+                    $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+                );
+
+                $(".contenido").show();
+                showPage(1);
+
+                $(document).on("click", ".pagination li.current-page:not(.active)", function () {
+                    return showPage(+$(this).text());
+                });
+
+                $(".next-page").on("click", function () {
+                    return showPage(currentPage + 1);
+                });
+
+                $(".previous-page").on("click", function () {
+                    return showPage(currentPage - 1);
+                });
+            });
+        </script>
 
     <!-- ************* -->
     <footer style="background-color: rgba(11, 99, 111, 0.79); width: 100%;">

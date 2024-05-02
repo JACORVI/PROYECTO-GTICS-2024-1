@@ -1,8 +1,10 @@
 package com.example.webapp.controller.superadmin;
 
 import com.example.webapp.entity.Medicamentos;
+import com.example.webapp.entity.PedidosReposicion;
 import com.example.webapp.entity.Usuario;
 import com.example.webapp.repository.MedicamentosRepository;
+import com.example.webapp.repository.PedidosReposicionRepository;
 import com.example.webapp.repository.UsuarioRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,13 +23,17 @@ public class SuperadminController {
     final
     MedicamentosRepository medicamentosRepository;
     UsuarioRepository usuarioRepository;
+    PedidosReposicionRepository pedidosReposicionRepository;
 
     public SuperadminController(MedicamentosRepository medicamentosRepository,
-                                UsuarioRepository usuarioRepository) {
+                                UsuarioRepository usuarioRepository,
+                                PedidosReposicionRepository pedidosReposicionRepository) {
 
         this.medicamentosRepository = medicamentosRepository;
 
         this.usuarioRepository = usuarioRepository;
+
+        this.pedidosReposicionRepository = pedidosReposicionRepository;
     }
 
     @GetMapping("")
@@ -36,10 +42,11 @@ public class SuperadminController {
     }
 
     @GetMapping("/Estado_Envios")
-    public String Estado_Envios() {
+    public String Estado_Envios(Model model) {
+        List<PedidosReposicion> lista = pedidosReposicionRepository.findAll();
+        model.addAttribute("listTransportation",lista);
         return "superadmin/Plantilla_Vista_Estado_Envios";
     }
-
 
     @GetMapping("/Registrar_Medicamento")
     public String Registrar_Medicamento() {
