@@ -152,11 +152,13 @@
                         <tbody>
                         <tr class=contenido th:each="Sede, info : ${ListaSedes}">
                             <td class=<%=color%><p style="font-size: 18px;" th:text="${Sede.getNombre()}">SEDE N°1</p></td>
+
                             <div th:with="miVariable='NoEncontrado'">
+
                             <div th:each="usuarioHasSede : ${listTransportation}">
                                 <div th:if="${Sede.getId() == usuarioHasSede.getSede_id_sede().getId()}">
                                     <div th:if="${usuarioHasSede.getUsuario_id_usario().getId() == usuario.getId()}">
-                                        <div th:with="miVariable=''"></div>
+                                        <div th:with="miVariable ='X'"></div>
                                         <td>
                                             <div class="card-footer pt-1 br-3 border-top-0">
                                                 <div class="text-center">
@@ -181,7 +183,7 @@
                                 </div>
                             </div>
 
-                            <div th:if="${miVariable eq 'NoEncontrado'}">
+                            <div th:if="${miVariable eq 'c'}">
                                 <td>
                                     <div class="card-footer pt-1 br-3 border-top-0">
                                         <div class="text-center">

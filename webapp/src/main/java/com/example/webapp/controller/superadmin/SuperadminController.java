@@ -22,12 +22,14 @@ public class SuperadminController {
     PedidosReposicionRepository pedidosReposicionRepository;
     UsuarioHasSedeRepository usuarioHasSedeRepository;
     SedeRepository sedeRepository;
+    SedeHasMedicamentosRepository sedeHasMedicamentosRepository;
 
     public SuperadminController(MedicamentosRepository medicamentosRepository,
                                 UsuarioRepository usuarioRepository,
                                 PedidosReposicionRepository pedidosReposicionRepository,
                                 UsuarioHasSedeRepository usuarioHasSedeRepository,
-                                SedeRepository sedeRepository) {
+                                SedeRepository sedeRepository,
+                                SedeHasMedicamentosRepository sedeHasMedicamentosRepository) {
 
         this.medicamentosRepository = medicamentosRepository;
 
@@ -38,19 +40,14 @@ public class SuperadminController {
         this.usuarioHasSedeRepository = usuarioHasSedeRepository;
 
         this.sedeRepository = sedeRepository;
+
+        this.sedeHasMedicamentosRepository = sedeHasMedicamentosRepository;
     }
 
 
     @GetMapping("")
     public String Plantilla() {
         return "superadmin/Plantilla";
-    }
-
-    @GetMapping("/Estado_Envios")
-    public String Estado_Envios(Model model) {
-        List<PedidosReposicion> lista = pedidosReposicionRepository.findAll();
-        model.addAttribute("listTransportation",lista);
-        return "superadmin/Plantilla_Vista_Estado_Envios";
     }
 
     @GetMapping("/Registrar_Medicamento")
@@ -102,6 +99,18 @@ public class SuperadminController {
             return "redirect:/superadmin/Plantilla_Vista_Medicamentos";
         }
     }
+
+
+    /*@GetMapping("/muchos")
+    public String listar(Model model) {
+
+        List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
+        for(SedeHasMedicamentos od: list){
+            System.out.println(od.getId_sede().getNombre()+ " | " + od.getId_medicamentos().getNombre());
+        }
+        return "";
+    }*/
+
 
     //Buscar Medicamento por Nombre
     @PostMapping("/buscarPorNombre")
@@ -289,7 +298,7 @@ public class SuperadminController {
 
         List<UsuarioHasSede> list = usuarioHasSedeRepository.buscarSede(2);
         for(UsuarioHasSede od: list){
-            System.out.println(od.getUsuario_id_usario().getId()+ " | " + od.getSede_id_sede().getId());
+            System.out.println(od.getUsuario_id_usario().getNombres()+ " | " + od.getSede_id_sede().getId());
         }
         return "";
     }*/
@@ -414,5 +423,12 @@ public class SuperadminController {
         return "superadmin/Plantilla_Vista_Estado_Solicitudes_Farmacistas";
     }
 
+    //CRUD ESTADO ENVÍOS
+    @GetMapping("/Estado_Envios")
+    public String Estado_Envios(Model model) {
+        List<PedidosReposicion> lista = pedidosReposicionRepository.findAll();
+        model.addAttribute("listTransportation",lista);
+        return "superadmin/Plantilla_Vista_Estado_Envios";
+    }
 }
 
