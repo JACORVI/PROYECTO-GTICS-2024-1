@@ -150,40 +150,39 @@
                             <h3 class="mt-4">Asignar Sede (Inhabilitado)</h3>
                         </thead>
                         <tbody>
-                        <tr class=contenido th:each="Sede, info : ${ListaSedes}">
-                            <td class=<%=color%><p style="font-size: 18px;" th:text="${Sede.getNombre()}">SEDE N°1</p></td>
+                        <tr class="contenido" th:each="Sede, info: ${ListaSedes}">
+                            <td class="<%=color%>">
+                                <p style="font-size: 18px;" th:text="${Sede.getNombre()}">SEDE N°1</p>
+                            </td>
 
-                            <div th:with="miVariable='NoEncontrado'">
-
-                            <div th:each="usuarioHasSede : ${listTransportation}">
-                                <div th:if="${Sede.getId() == usuarioHasSede.getSede_id_sede().getId()}">
-                                    <div th:if="${usuarioHasSede.getUsuario_id_usario().getId() == usuario.getId()}">
-                                        <div th:with="miVariable ='X'"></div>
-                                        <td>
-                                            <div class="card-footer pt-1 br-3 border-top-0">
-                                                <div class="text-center">
-                                                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
-                                                        <i class=""></i>Asignar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="card-footer pt-1 br-3 border-top-0">
-                                                <div class="text-center">
-                                                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
-                                                        <i class=""></i>No asignar
-                                                    </button>
-                                                </div>
-                                                <!-- Modal -->
-                                            </div>
-                                        </td>
-                                        <td class="text-center"><p style="font-size: 18px;">Asignado</p></td>
+                            <div th:if="${ListaIndicador.get(Sede.getId()-1) == 'Asignado'}">
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
+                                            <i class=""></i>Asignar
+                                        </button>
                                     </div>
                                 </div>
+                            </td>
+
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
+                                            <i class=""></i>No asignar
+                                        </button>
+                                    </div>
+                                    <!-- Modal -->
+                                </div>
+                            </td>
+
+                            <td>
+                                <p style="font-size: 18px;" class="text-center">Asignado</p>
+                            </td>
                             </div>
 
-                            <div th:if="${miVariable eq 'c'}">
+                            <div th:if="${ListaIndicador.get(Sede.getId()-1) == 'NoAsignado'}">
                                 <td>
                                     <div class="card-footer pt-1 br-3 border-top-0">
                                         <div class="text-center">
@@ -193,6 +192,7 @@
                                         </div>
                                     </div>
                                 </td>
+
                                 <td>
                                     <div class="card-footer pt-1 br-3 border-top-0">
                                         <div class="text-center">
@@ -203,10 +203,13 @@
                                         <!-- Modal -->
                                     </div>
                                 </td>
-                                <td class="text-center"><p style="font-size: 18px;">No Asignado</p></td>
-                            </div>
+
+                                <td>
+                                    <p style="font-size: 18px;" class="text-center">No Asignado</p>
+                                </td>
                             </div>
                         </tr>
+
                         </tbody>
                     </table>
                     <div class="pagination  d-flex justify-content-center" style="padding: 50px">

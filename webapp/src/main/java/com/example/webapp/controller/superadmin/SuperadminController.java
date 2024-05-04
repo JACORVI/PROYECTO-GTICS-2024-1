@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -110,7 +111,6 @@ public class SuperadminController {
         }
         return "";
     }*/
-
 
     //Buscar Medicamento por Nombre
     @PostMapping("/buscarPorNombre")
@@ -284,14 +284,49 @@ public class SuperadminController {
             Usuario usuario = optUsuario.get();
             List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
             List<Sede> list1 = sedeRepository.findAll();
+
+            List<String> listaIndicador = new ArrayList<>();
+
+            for (Sede sede : list1) {
+                int i = 0;
+                for (UsuarioHasSede usuarioHasSede : list) {
+                    if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
+                        if (usuarioHasSede.getUsuario_id_usario().getId() == id) {
+                        i=1;
+                        }
+                    }
+                }
+                if (i==0){
+                    listaIndicador.add("NoAsignado");
+                }else{
+                    listaIndicador.add("Asignado");
+                }
+            }
+            System.out.println(listaIndicador);
             model.addAttribute("usuario", usuario);
-            model.addAttribute("listTransportation", list);
+            model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
             return "superadmin/Plantilla_Vista_Ver_Doctor";
+
         } else {
             return "redirect:/superadmin/Plantilla_Vista_Principal";
         }
     }
+
+     /*for (Sede sede : ListaSedes) {
+        int i=0;
+        for (UsuarioHasSede usuarioHasSede : listTransportation) {
+            if(sede.getId() == usuarioHasSede.getSede_id_sede().getId()){
+                if(usuarioHasSede.getUsuario_id_usario().getId() == id){
+                    print("Hola");
+                    i=1;
+                }
+            }
+        }
+        if(i == 1){
+            print("No Hola");
+        }
+    }*/
 
     /*@GetMapping("/muchos")
     public String listar(Model model) {
