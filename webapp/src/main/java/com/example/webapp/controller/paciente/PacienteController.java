@@ -11,7 +11,9 @@ import com.example.webapp.repository.SedeRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -51,6 +53,15 @@ public class PacienteController {
         model.addAttribute("listaMedicamentos",listamedicamentos);
         return "paciente/medicamentos";
     }
+
+    @PostMapping("/paciente/medicamentos/buscarMedicamentos")
+    public String buscarMedicamentos(@RequestParam("searchField") String searchField,
+                                     Model model){
+        List<Medicamentos> buscaMedicamentos = medicamentosRepository.findByNombre(searchField);
+        model.addAttribute("buscaMedicamentos", buscaMedicamentos);
+        model.addAttribute("textoBuscado", searchField);
+        return "paciente/medicamentos";
+    }
     /*---------------------------------------*/
 
 
@@ -71,16 +82,15 @@ public class PacienteController {
 
 
     /*QRUD y vista del FORM*/
-    @GetMapping("/paciente/carrito/form")
-    public String formParaFinalizarCompra( Model model){
-        List<Usuario> listausuarios = usuarioRepository.findAll();
-        model.addAttribute("listausuarios", listausuarios);
-        List<Sede> listasedes = sedeRepository.findAll();
-        model.addAttribute("listaSedes",listasedes);
+    @GetMapping("/paciente/carrito/nuevoPedido")
+    public String formParaFinalizarCompra(  @ModelAttribute("pedidosPaciente") PedidosPaciente pedidosPaciente,
+                                            Model model){
+        model.addAttribute("listausuarios", usuarioRepository.findAll());
+        model.addAttribute("listaSedes",sedeRepository.findAll());
         return "paciente/formcompra";
     }
     @PostMapping("/paciente/guardar")
-    public String guardarPedido(PedidosPaciente pedidosPaciente) {
+    public String guardarPedido(@ModelAttribute("pedidosPaciente") PedidosPaciente pedidosPaciente) {
         pedidosPacienteRepository.save(pedidosPaciente);
         return "redirect:/paciente/finalmsgcompra";
     }

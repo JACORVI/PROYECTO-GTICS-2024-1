@@ -64,27 +64,35 @@
         <div class="container px-4 px-lg-5 mt-5">
             <h1>Formulario de la Compra</h1>
             <br>
-            <form style="font-size: large; font-weight: bold;" th:action="@{'/paciente/guardar'}">
+            <form style="font-size: large; font-weight: bold;" th:action="@{'/paciente/guardar'}" th:object="${pedidosPaciente}">
                 <div class="mb-3">
                     <label class="form-label">Nombres del paciente</label>
-                    <input class="form-control">
+                    <input class="form-control" th:field="*{nombre_paciente}">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Apellidos del paciente</label>
-                    <input class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Numero de celular</label>
-                    <input class="form-control">
+                    <input class="form-control" th:field="*{apellido_paciente}">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Numero de DNI</label>
-                    <input class="form-control">
+                    <input class="form-control" th:field="*{dni}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Numero de celular</label>
+                    <input class="form-control" th:field="*{telefono}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Numero de celular</label>
+                    <input class="form-control" th:field="*{telefono}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Seguro</label>
+                    <input class="form-control" th:field="*{seguro}">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Doctor que lo/la atendió</label>
-                    <select class="form-select" aria-label="Default select example">
-                        <option th:each="usuario : ${listausuarios}" th:if="${usuario.rol} == 'Doctor'" th:value="${usuario.id}" th:text="${usuario.nombres} + ${usuario.apellidos}"></option>
+                    <select class="form-select" aria-label="Default select example" th:field="*{medico_que_atiende}">
+                        <option th:each="usuario : ${listausuarios}" th:if="${usuario.rol} == 'Doctor'" th:value="${usuario.id}"  th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></option>
                     </select>
                 </div>
                 <div class="mb-3">
@@ -92,18 +100,18 @@
                     <input class="form-control form-control-lg" id="formFileLg" type="file">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Distrito de la entrega</label>
-                    <select class="form-select" aria-label="Default select example">
+                    <label class="form-label">Seleccione la sede mas cercana</label>
+                    <select class="form-select" aria-label="Default select example" th:field="*{distrito}">
                         <option th:each="sede : ${listaSedes}" th:value="${sede.id}" th:text="${sede.nombre}"></option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Dirección de Entrega</label>
-                    <input class="form-control">
+                    <input class="form-control" th:field="*{direccion}">
                 </div>
                 <div class="mb-3" style="display: flex; flex-direction: column;">
                     <label class="form-label" for="hora">Selecciona una hora:</label>
-                    <input type="time" id="hora" name="hora" style="width: 200px;">
+                    <input type="time" id="hora" name="hora" style="width: 200px;" th:field="*{direccion}" th:field="*{hora_de_entrega}">
                 </div>
                 <br>
                 <a href="finalmsgcompra.html" type="submit" class="btn btn-secondary" style="font-size: large;">Enviar solicitud de compra</a>

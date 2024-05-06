@@ -17,6 +17,8 @@ public class PedidosPaciente {
     @Column(name="idpedidos_paciente")
     private int id;
     @Column(nullable = false)
+    private String nombre_paciente;
+    private String apellido_paciente;
     private String medico_que_atiende;
     private String seguro;
     private String direccion;
