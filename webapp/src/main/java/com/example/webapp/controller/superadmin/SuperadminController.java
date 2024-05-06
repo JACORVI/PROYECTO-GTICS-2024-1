@@ -94,23 +94,39 @@ public class SuperadminController {
 
         if (optMedicamento.isPresent()) {
             Medicamentos medicamento = optMedicamento.get();
+            List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
+            List<Sede> list1 = sedeRepository.findAll();
+
+            List<String> listaIndicador = new ArrayList<>();
+
+            for (Sede sede : list1) {
+                int i = 0;
+                for (SedeHasMedicamentos sedeHasMedicamentos : list) {
+                    if (sede.getId() == sedeHasMedicamentos.getId_sede().getId()) {
+                        if (sedeHasMedicamentos.getId_medicamentos().getId() == id) {
+                            i=1;
+                        }
+                    }
+                }
+                if (i==0){
+                    listaIndicador.add("NoAsignado");
+                }else{
+                    listaIndicador.add("Asignado");
+                }
+            }
+
+            System.out.println(listaIndicador);
             model.addAttribute("medicamento", medicamento);
+            model.addAttribute("ListaIndicador", listaIndicador);
+            model.addAttribute("ListaSedes",list1);
+
+
             return "superadmin/Plantilla_Vista_Ver_Medicamento";
         } else {
             return "redirect:/superadmin/Plantilla_Vista_Medicamentos";
         }
     }
 
-
-    /*@GetMapping("/muchos")
-    public String listar(Model model) {
-
-        List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
-        for(SedeHasMedicamentos od: list){
-            System.out.println(od.getId_sede().getNombre()+ " | " + od.getId_medicamentos().getNombre());
-        }
-        return "";
-    }*/
 
     //Buscar Medicamento por Nombre
     @PostMapping("/buscarPorNombre")
@@ -130,7 +146,33 @@ public class SuperadminController {
         Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
         if (optMedicamento.isPresent()) {
             Medicamentos medicamento = optMedicamento.get();
+            List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
+            List<Sede> list1 = sedeRepository.findAll();
+
+            List<String> listaIndicador = new ArrayList<>();
+
+            for (Sede sede : list1) {
+                int i = 0;
+                for (SedeHasMedicamentos sedeHasMedicamentos : list) {
+                    if (sede.getId() == sedeHasMedicamentos.getId_sede().getId()) {
+                        if (sedeHasMedicamentos.getId_medicamentos().getId() == id) {
+                            i=1;
+                        }
+                    }
+                }
+                if (i==0){
+                    listaIndicador.add("NoAsignado");
+                }else{
+                    listaIndicador.add("Asignado");
+                }
+            }
+
+            System.out.println(listaIndicador);
             model.addAttribute("medicamento", medicamento);
+            model.addAttribute("ListaIndicador", listaIndicador);
+            model.addAttribute("ListaSedes",list1);
+
+
             return "superadmin/Plantilla_Vista_Actualizar_Medicamento";
         } else {
             return "redirect:/superadmin/Plantilla_Vista_Medicamentos";
@@ -147,11 +189,123 @@ public class SuperadminController {
 
         if (optMedicamento.isPresent()) {
             Medicamentos medicamento1 = optMedicamento.get();
+            List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
+            List<Sede> list1 = sedeRepository.findAll();
+
+            List<String> listaIndicador = new ArrayList<>();
+
+            for (Sede sede : list1) {
+                int i = 0;
+                for (SedeHasMedicamentos sedeHasMedicamentos : list) {
+                    if (sede.getId() == sedeHasMedicamentos.getId_sede().getId()) {
+                        if (sedeHasMedicamentos.getId_medicamentos().getId() == id) {
+                            i=1;
+                        }
+                    }
+                }
+                if (i==0){
+                    listaIndicador.add("NoAsignado");
+                }else{
+                    listaIndicador.add("Asignado");
+                }
+            }
+
+            System.out.println(listaIndicador);
             model.addAttribute("medicamento", medicamento1);
+            model.addAttribute("ListaIndicador", listaIndicador);
+            model.addAttribute("ListaSedes",list1);
+
+
             return "superadmin/Plantilla_Vista_Ver_Medicamento";
         } else {
             return "redirect:/superadmin/Plantilla_Vista_Medicamentos";
         }
+    }
+
+    @GetMapping("/Asignar_Sede_Medicamento")
+    public String AsignarMedicamento(Model model,
+                          @RequestParam("id") int id,
+                          @RequestParam("idsede") int idSede) {
+
+        sedeHasMedicamentosRepository.AsignarSedeMedicamento(idSede,id);
+        Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
+        if (optMedicamento.isPresent()) {
+            Medicamentos medicamento = optMedicamento.get();
+            List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
+            List<Sede> list1 = sedeRepository.findAll();
+
+            List<String> listaIndicador = new ArrayList<>();
+
+            for (Sede sede : list1) {
+                int i = 0;
+                for (SedeHasMedicamentos sedeHasMedicamentos : list) {
+                    if (sede.getId() == sedeHasMedicamentos.getId_sede().getId()) {
+                        if (sedeHasMedicamentos.getId_medicamentos().getId() == id) {
+                            i=1;
+                        }
+                    }
+                }
+                if (i==0){
+                    listaIndicador.add("NoAsignado");
+                }else{
+                    listaIndicador.add("Asignado");
+                }
+            }
+
+            System.out.println(listaIndicador);
+            model.addAttribute("medicamento", medicamento);
+            model.addAttribute("ListaIndicador", listaIndicador);
+            model.addAttribute("ListaSedes",list1);
+
+
+            return "superadmin/Plantilla_Vista_Actualizar_Medicamento";
+        } else {
+            return "redirect:/superadmin/Plantilla_Vista_Medicamentos";
+        }
+
+    }
+
+    @GetMapping("/No_Asignar_Sede_Medicamento")
+    public String NoAsignarMedicamento(Model model,
+                                     @RequestParam("id") int id,
+                                     @RequestParam("idsede") int idSede) {
+
+        sedeHasMedicamentosRepository.NoAsignarSedeMedicamento(idSede,id);
+        Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
+        if (optMedicamento.isPresent()) {
+            Medicamentos medicamento = optMedicamento.get();
+            List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
+            List<Sede> list1 = sedeRepository.findAll();
+
+            List<String> listaIndicador = new ArrayList<>();
+
+            for (Sede sede : list1) {
+                int i = 0;
+                for (SedeHasMedicamentos sedeHasMedicamentos : list) {
+                    if (sede.getId() == sedeHasMedicamentos.getId_sede().getId()) {
+                        if (sedeHasMedicamentos.getId_medicamentos().getId() == id) {
+                            i=1;
+                        }
+                    }
+                }
+                if (i==0){
+                    listaIndicador.add("NoAsignado");
+                }else{
+                    listaIndicador.add("Asignado");
+                }
+            }
+
+            System.out.println(listaIndicador);
+            model.addAttribute("medicamento", medicamento);
+            model.addAttribute("ListaIndicador", listaIndicador);
+            model.addAttribute("ListaSedes",list1);
+
+
+            return "superadmin/Plantilla_Vista_Actualizar_Medicamento";
+        } else {
+            return "redirect:/superadmin/Plantilla_Vista_Medicamentos";
+        }
+
     }
 
     //Eliminar Medicamento
@@ -166,6 +320,8 @@ public class SuperadminController {
         return "redirect:/superadmin/Medicamentos";
 
     }
+
+
     //------------------------------------------------------------------------------------------------------------------
 
     //Listar Usuarios
@@ -191,7 +347,30 @@ public class SuperadminController {
         if (optUsuario.isPresent()) {
             Usuario usuario1 = optUsuario.get();
             if(usuario1.getRol().equals("Doctor")) {
+                List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
+                List<Sede> list1 = sedeRepository.findAll();
+
+                List<String> listaIndicador = new ArrayList<>();
+
+                for (Sede sede : list1) {
+                    int i = 0;
+                    for (UsuarioHasSede usuarioHasSede : list) {
+                        if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
+                            if (usuarioHasSede.getUsuario_id_usario().getId() == id) {
+                                i=1;
+                            }
+                        }
+                    }
+                    if (i==0){
+                        listaIndicador.add("NoAsignado");
+                    }else{
+                        listaIndicador.add("Asignado");
+                    }
+                }
+                System.out.println(listaIndicador);
                 model.addAttribute("usuario", usuario1);
+                model.addAttribute("ListaIndicador", listaIndicador);
+                model.addAttribute("ListaSedes",list1);
                 return "superadmin/Plantilla_Vista_Ver_Doctor";
             }
             if(usuario1.getRol().equals("Administrador")) {
@@ -224,6 +403,108 @@ public class SuperadminController {
 
     }
 
+    @GetMapping("/Asignar_Sede")
+    public String Asignar(Model model,
+                            @RequestParam("id") int id,
+                            @RequestParam("idsede") int idSede) {
+
+        usuarioHasSedeRepository.AsignarSede(id,idSede);
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        Usuario usuario1 = usuario.get();
+        if(usuario1.getRol().equals("Doctor")) {
+            List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
+            List<Sede> list1 = sedeRepository.findAll();
+
+            List<String> listaIndicador = new ArrayList<>();
+
+            for (Sede sede : list1) {
+                int i = 0;
+                for (UsuarioHasSede usuarioHasSede : list) {
+                    if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
+                        if (usuarioHasSede.getUsuario_id_usario().getId() == id) {
+                            i=1;
+                        }
+                    }
+                }
+                if (i==0){
+                    listaIndicador.add("NoAsignado");
+                }else{
+                    listaIndicador.add("Asignado");
+                }
+            }
+            System.out.println(listaIndicador);
+            model.addAttribute("usuario", usuario1);
+            model.addAttribute("ListaIndicador", listaIndicador);
+            model.addAttribute("ListaSedes",list1);
+            return "superadmin/Plantilla_Vista_Actualizar_Doctor";
+        }
+        if(usuario1.getRol().equals("Administrador")) {
+            model.addAttribute("usuario", usuario1);
+            return "superadmin/Plantilla_Vista_Actualizar_Administrador";
+        }
+        if(usuario1.getRol().equals("Farmacista")) {
+            model.addAttribute("usuario", usuario1);
+            return "superadmin/Plantilla_Vista_Actualizar_Farmacista";
+        }
+        if(usuario1.getRol().equals("Paciente")) {
+            model.addAttribute("usuario", usuario1);
+            return "superadmin/Plantilla_Vista_Actualizar_Paciente";
+        }
+        return  "superadmin/Vista_Principal";
+
+    }
+
+    @GetMapping("/No_Asignar_Sede")
+    public String NoAsignar(Model model,
+                               @RequestParam("id") int id,
+                               @RequestParam("idsede") int idSede) {
+
+        usuarioHasSedeRepository.NoAsignarSede(id,idSede);
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        Usuario usuario1 = usuario.get();
+        if(usuario1.getRol().equals("Doctor")) {
+            List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
+            List<Sede> list1 = sedeRepository.findAll();
+
+            List<String> listaIndicador = new ArrayList<>();
+
+            for (Sede sede : list1) {
+                int i = 0;
+                for (UsuarioHasSede usuarioHasSede : list) {
+                    if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
+                        if (usuarioHasSede.getUsuario_id_usario().getId() == id) {
+                            i=1;
+                        }
+                    }
+                }
+                if (i==0){
+                    listaIndicador.add("NoAsignado");
+                }else{
+                    listaIndicador.add("Asignado");
+                }
+            }
+            System.out.println(listaIndicador);
+            model.addAttribute("usuario", usuario1);
+            model.addAttribute("ListaIndicador", listaIndicador);
+            model.addAttribute("ListaSedes",list1);
+            return "superadmin/Plantilla_Vista_Actualizar_Doctor";
+        }
+        if(usuario1.getRol().equals("Administrador")) {
+            model.addAttribute("usuario", usuario1);
+            return "superadmin/Plantilla_Vista_Actualizar_Administrador";
+        }
+        if(usuario1.getRol().equals("Farmacista")) {
+            model.addAttribute("usuario", usuario1);
+            return "superadmin/Plantilla_Vista_Actualizar_Farmacista";
+        }
+        if(usuario1.getRol().equals("Paciente")) {
+            model.addAttribute("usuario", usuario1);
+            return "superadmin/Plantilla_Vista_Actualizar_Paciente";
+        }
+        return  "superadmin/Vista_Principal";
+
+    }
+
     @GetMapping("/Pasar_Activo")
     public String Pasar_Activo(Model model,
                              @RequestParam("id") int id) {
@@ -231,7 +512,30 @@ public class SuperadminController {
             Optional<Usuario> usuario = usuarioRepository.findById(id);
             Usuario usuario1 = usuario.get();
             if(usuario1.getRol().equals("Doctor")) {
+                List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
+                List<Sede> list1 = sedeRepository.findAll();
+
+                List<String> listaIndicador = new ArrayList<>();
+
+                for (Sede sede : list1) {
+                    int i = 0;
+                    for (UsuarioHasSede usuarioHasSede : list) {
+                        if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
+                            if (usuarioHasSede.getUsuario_id_usario().getId() == id) {
+                                i=1;
+                            }
+                        }
+                    }
+                    if (i==0){
+                        listaIndicador.add("NoAsignado");
+                    }else{
+                        listaIndicador.add("Asignado");
+                    }
+                }
+                System.out.println(listaIndicador);
                 model.addAttribute("usuario", usuario1);
+                model.addAttribute("ListaIndicador", listaIndicador);
+                model.addAttribute("ListaSedes",list1);
                 return "superadmin/Plantilla_Vista_Actualizar_Doctor";
             }
             if(usuario1.getRol().equals("Administrador")) {
@@ -256,7 +560,30 @@ public class SuperadminController {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         Usuario usuario1 = usuario.get();
         if(usuario1.getRol().equals("Doctor")) {
+            List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
+            List<Sede> list1 = sedeRepository.findAll();
+
+            List<String> listaIndicador = new ArrayList<>();
+
+            for (Sede sede : list1) {
+                int i = 0;
+                for (UsuarioHasSede usuarioHasSede : list) {
+                    if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
+                        if (usuarioHasSede.getUsuario_id_usario().getId() == id) {
+                            i=1;
+                        }
+                    }
+                }
+                if (i==0){
+                    listaIndicador.add("NoAsignado");
+                }else{
+                    listaIndicador.add("Asignado");
+                }
+            }
+            System.out.println(listaIndicador);
             model.addAttribute("usuario", usuario1);
+            model.addAttribute("ListaIndicador", listaIndicador);
+            model.addAttribute("ListaSedes",list1);
             return "superadmin/Plantilla_Vista_Actualizar_Doctor";
         }
         if(usuario1.getRol().equals("Administrador")) {
@@ -313,31 +640,6 @@ public class SuperadminController {
         }
     }
 
-     /*for (Sede sede : ListaSedes) {
-        int i=0;
-        for (UsuarioHasSede usuarioHasSede : listTransportation) {
-            if(sede.getId() == usuarioHasSede.getSede_id_sede().getId()){
-                if(usuarioHasSede.getUsuario_id_usario().getId() == id){
-                    print("Hola");
-                    i=1;
-                }
-            }
-        }
-        if(i == 1){
-            print("No Hola");
-        }
-    }*/
-
-    /*@GetMapping("/muchos")
-    public String listar(Model model) {
-
-        List<UsuarioHasSede> list = usuarioHasSedeRepository.buscarSede(2);
-        for(UsuarioHasSede od: list){
-            System.out.println(od.getUsuario_id_usario().getNombres()+ " | " + od.getSede_id_sede().getId());
-        }
-        return "";
-    }*/
-
     @GetMapping("/Editar_Doctor")
     public String editar_Doctor(Model model,
                                 @RequestParam("id") int id) {
@@ -345,7 +647,30 @@ public class SuperadminController {
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         if (optionalUsuario.isPresent()) {
             Usuario usuario = optionalUsuario.get();
+            List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
+            List<Sede> list1 = sedeRepository.findAll();
+
+            List<String> listaIndicador = new ArrayList<>();
+
+            for (Sede sede : list1) {
+                int i = 0;
+                for (UsuarioHasSede usuarioHasSede : list) {
+                    if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
+                        if (usuarioHasSede.getUsuario_id_usario().getId() == id) {
+                            i=1;
+                        }
+                    }
+                }
+                if (i==0){
+                    listaIndicador.add("NoAsignado");
+                }else{
+                    listaIndicador.add("Asignado");
+                }
+            }
+            System.out.println(listaIndicador);
             model.addAttribute("usuario", usuario);
+            model.addAttribute("ListaIndicador", listaIndicador);
+            model.addAttribute("ListaSedes",list1);
             return "superadmin/Plantilla_Vista_Actualizar_Doctor";
         } else {
             return "redirect:/superadmin/Plantilla_Vista_Principal";
