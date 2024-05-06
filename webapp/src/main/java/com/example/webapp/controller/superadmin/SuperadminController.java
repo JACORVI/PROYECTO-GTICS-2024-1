@@ -452,6 +452,86 @@ public class SuperadminController {
         return "redirect:/superadmin/Vista_Principal";
     }
 
+    @PostMapping("/Guardar_Usuario_Registro")
+    public String guardar_Doctor_Registro(Usuario usuario, Model model) {
+
+        usuarioRepository.save(usuario);
+
+        int id = usuarioRepository.buscarUltimo();
+
+        Optional<Usuario> optUsuario = usuarioRepository.findById(id);
+
+        if (optUsuario.isPresent()) {
+            Usuario usuario1 = optUsuario.get();
+            if(usuario1.getRol().equals("Doctor")) {
+                List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
+                List<Sede> list1 = sedeRepository.findAll();
+
+                List<String> listaIndicador = new ArrayList<>();
+
+                for (Sede sede : list1) {
+                    int i = 0;
+                    for (UsuarioHasSede usuarioHasSede : list) {
+                        if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
+                            if (usuarioHasSede.getUsuario_id_usario().getId() == id) {
+                                i=1;
+                            }
+                        }
+                    }
+                    if (i==0){
+                        listaIndicador.add("NoAsignado");
+                    }else{
+                        listaIndicador.add("Asignado");
+                    }
+                }
+                System.out.println(listaIndicador);
+                model.addAttribute("usuario", usuario1);
+                model.addAttribute("ListaIndicador", listaIndicador);
+                model.addAttribute("ListaSedes",list1);
+                return "superadmin/Plantilla_Vista_Actualizar_Doctor";
+            }
+            if(usuario1.getRol().equals("Administrador")) {
+                List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
+                List<Sede> list1 = sedeRepository.findAll();
+                List<String> listaIndicador = new ArrayList<>();
+
+                for (Sede sede : list1) {
+                    int i = 0;
+                    for (UsuarioHasSede usuarioHasSede : list) {
+                        if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
+                            if(usuarioHasSede.getUsuario_id_usario().getRol().equals("Administrador")){
+                                if (usuarioHasSede.getUsuario_id_usario().getId() == id) {
+                                    i=1;
+                                }else{
+                                    i=2;
+                                }
+                            }
+                        }
+                    }
+                    if (i==0){
+                        listaIndicador.add("NoAsignado");
+                    }
+                    if (i==1){
+                        listaIndicador.add("Asignado");
+                    }
+                    if (i==2){
+                        listaIndicador.add("NoDisponible");
+                    }
+                }
+                System.out.println(listaIndicador);
+                model.addAttribute("usuario", usuario1);
+                model.addAttribute("ListaIndicador", listaIndicador);
+                model.addAttribute("ListaSedes",list1);
+                return "superadmin/Plantilla_Vista_Actualizar_Administrador";
+            }
+        } else {
+            return "redirect:/superadmin/Plantilla_Vista_Principal";
+        }
+
+
+        return "redirect:/superadmin/Vista_Principal";
+    }
+
     @GetMapping("/Eliminar_Usuario")
     public String borrarDoctor(@RequestParam("id") int id) {
 
@@ -806,6 +886,7 @@ public class SuperadminController {
                 return "superadmin/Plantilla_Vista_Actualizar_Farmacista";
             }
             if(usuario1.getRol().equals("Paciente")) {
+                model.addAttribute("usuario", usuario1);
                 return "superadmin/Plantilla_Vista_Actualizar_Paciente";
             }
             return  "superadmin/Vista_Principal";
@@ -916,6 +997,7 @@ public class SuperadminController {
             return "superadmin/Plantilla_Vista_Actualizar_Farmacista";
         }
         if(usuario1.getRol().equals("Paciente")) {
+            model.addAttribute("usuario", usuario1);
             return "superadmin/Plantilla_Vista_Actualizar_Paciente";
         }
         return  "superadmin/Vista_Principal";

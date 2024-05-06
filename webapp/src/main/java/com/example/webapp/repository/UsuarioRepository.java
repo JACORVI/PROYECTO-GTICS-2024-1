@@ -18,6 +18,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value = "select * from usuario where rol = ?1 and borrado_logico = ?2 order by fecha_creacion", nativeQuery = true)
     List<Usuario> buscarFarmacista(String rol,int borrado_logico);
 
+    @Query(value = "SELECT id_usuario FROM usuario ORDER BY id_usuario DESC LIMIT 1;\n", nativeQuery = true)
+    int buscarUltimo();
+
     @Query(value = "select * from usuario where rol = ?1 and borrado_logico = ?2 ", nativeQuery = true)
     List<Usuario> buscarDoctor(String rol,int borrado_logico);
 
@@ -51,4 +54,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Modifying
     @Query(nativeQuery = true,value = "update usuario set estado_solicitud = ?1 where id_usuario = ?2")
     void rechazarAdministrador(String valor, int id);
+
+
 }
