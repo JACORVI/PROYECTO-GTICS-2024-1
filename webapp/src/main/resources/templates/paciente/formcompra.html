@@ -9,6 +9,26 @@
           integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
           crossorigin="anonymous">
     <link th:href="@{/paciente/css/stylesSide.css}" rel="stylesheet">
+
+    <script>
+        function generateTrackingNumber() {
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            var trackingNumber = '';
+
+            // Generar 12 caracteres aleatorios
+            for (var i = 0; i < 12; i++) {
+                trackingNumber += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+
+            // Formatear el número de seguimiento con guiones cada 4 caracteres
+            trackingNumber = trackingNumber.replace(/(.{4})/g, '$1-');
+
+            // Eliminar el último guión
+            trackingNumber = trackingNumber.slice(0, -1);
+
+            return trackingNumber;
+        }
+    </script>
 </head>
 <body class="sb-nav-fixed">
     <nav class="navbar navbar-expand-lg fondo" style=" background-color: #0b636fc9;">
@@ -44,7 +64,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: large;">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" aria-current="page" href="#">Medicamentos</a></li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{/paciente/medicamentos}">Medicamentos</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
                         <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
                     </svg></div> Mensajes</a></li>
@@ -64,7 +84,7 @@
         <div class="container px-4 px-lg-5 mt-5">
             <h1>Formulario de la Compra</h1>
             <br>
-            <form style="font-size: large; font-weight: bold;" th:action="@{'/paciente/guardar'}" th:object="${pedidosPaciente}">
+            <form method="post" style="font-size: large; font-weight: bold;" th:action="@{'/paciente/guardar'}" th:object="${pedidosPaciente}">
                 <div class="mb-3">
                     <label class="form-label">Nombres del paciente</label>
                     <input class="form-control" th:field="*{nombre_paciente}">
@@ -76,10 +96,6 @@
                 <div class="mb-3">
                     <label class="form-label">Numero de DNI</label>
                     <input class="form-control" th:field="*{dni}">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Numero de celular</label>
-                    <input class="form-control" th:field="*{telefono}">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Numero de celular</label>
@@ -100,21 +116,18 @@
                     <input class="form-control form-control-lg" id="formFileLg" type="file">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Seleccione la sede mas cercana</label>
+                    <label class="form-label">Dirección de Entrega</label>
+                    <input class="form-control" th:field="*{direccion}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Seleccione la sede mas cercana a la direccion de entrega</label>
                     <select class="form-select" aria-label="Default select example" th:field="*{distrito}">
                         <option th:each="sede : ${listaSedes}" th:value="${sede.id}" th:text="${sede.nombre}"></option>
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Dirección de Entrega</label>
-                    <input class="form-control" th:field="*{direccion}">
-                </div>
-                <div class="mb-3" style="display: flex; flex-direction: column;">
-                    <label class="form-label" for="hora">Selecciona una hora:</label>
-                    <input type="time" id="hora" name="hora" style="width: 200px;" th:field="*{direccion}" th:field="*{hora_de_entrega}">
-                </div>
                 <br>
-                <a href="finalmsgcompra.html" type="submit" class="btn btn-secondary" style="font-size: large;">Enviar solicitud de compra</a>
+                <button type="submit" class="btn btn-secondary" style="font-size: large;">Enviar solicitud de compra</button>
+                <a th:href="@{'/paciente/medicamentos'}" type="submit" class="btn btn-danger" style="font-size: large;">Cancelar solicitud de compra</a>
                 <br>
                 <br>
                 <br>
