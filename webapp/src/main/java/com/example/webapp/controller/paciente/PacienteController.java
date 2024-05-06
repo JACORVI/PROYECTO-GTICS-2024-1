@@ -3,11 +3,8 @@ package com.example.webapp.controller.paciente;
 import com.example.webapp.entity.Medicamentos;
 import com.example.webapp.entity.PedidosPaciente;
 import com.example.webapp.entity.Usuario;
-import com.example.webapp.repository.MedicamentosRepository;
-import com.example.webapp.repository.PedidosPacienteRepository;
-import com.example.webapp.repository.UsuarioRepository;
+import com.example.webapp.repository.*;
 import com.example.webapp.entity.Sede;
-import com.example.webapp.repository.SedeRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,15 +24,18 @@ public class PacienteController {
     UsuarioRepository usuarioRepository;
     SedeRepository sedeRepository;
     PedidosPacienteRepository pedidosPacienteRepository;
+    CarritoRepository carritoRepository;
     public PacienteController(MedicamentosRepository medicamentosRepository,
                               UsuarioRepository usuarioRepository,
                               SedeRepository sedeRepository,
-                              PedidosPacienteRepository pedidosPacienteRepository) {
+                              PedidosPacienteRepository pedidosPacienteRepository,
+                              CarritoRepository carritoRepository) {
 
         this.medicamentosRepository = medicamentosRepository;
         this.sedeRepository = sedeRepository;
         this.usuarioRepository = usuarioRepository;
         this.pedidosPacienteRepository = pedidosPacienteRepository;
+        this.carritoRepository = carritoRepository;
     }
     /*---------------------------------------*/
 
