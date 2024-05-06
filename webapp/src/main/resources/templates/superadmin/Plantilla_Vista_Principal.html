@@ -243,6 +243,7 @@
                   </tbody>
               </table>
               <div class="pagination  d-flex justify-content-center" style="padding: 50px">
+
           </div>
       </div>
       </div>
@@ -260,7 +261,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class=nueva-contenido th:each="Usuarios, info : ${listTransportation1}">
+                <tr class=contenido11 th:each="Usuarios, info : ${listTransportation1}">
                     <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}">Panadol</p></td>
                     <td class=><p style="font-size: 18px;" th:text="${Usuarios.getCorreo()}">Panadol</p></td>
                     <td>
@@ -373,7 +374,7 @@
                 </tr>
                 </tbody>
             </table>
-            <div class="nueva-pagination  d-flex justify-content-center" style="padding: 50px">
+            <div class="pagination11  d-flex justify-content-center" style="padding: 50px">
             </div>
         </div>
     </div>
@@ -393,7 +394,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class=nueva_contenido1 th:each="Usuarios, info : ${listTransportation2}">
+                <tr class=contenido1 th:each="Usuarios, info : ${listTransportation2}">
                     <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}">Panadol</p></td>
                     <td class=><p style="font-size: 18px;" th:text="${Usuarios.getCorreo()}">Panadol</p></td>
                     <td>
@@ -506,7 +507,7 @@
                 </tr>
                 </tbody>
             </table>
-            <div class="nueva_pagination1  d-flex justify-content-center" style="padding: 50px">
+            <div class="pagination1  d-flex justify-content-center" style="padding: 50px">
             </div>
         </div>
     </div>
@@ -526,7 +527,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class=nueva_contenido2 th:each="Usuarios, info : ${listTransportation3}">
+                <tr class=contenido11 th:each="Usuarios, info : ${listTransportation3}">
                     <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}">Panadol</p></td>
                     <td class=><p style="font-size: 18px;" th:text="${Usuarios.getCorreo()}">Panadol</p></td>
                     <td>
@@ -560,7 +561,7 @@
                                     <i class=""></i> Editar
                                 </a>
                             </div>
-                            <!-- Modal -->
+                            git
                             <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -718,80 +719,79 @@
         });
     });
 </script>
+<!-- Script de paginacion-->
+<script type="text/javascript">
+    function getPageList1(totalPages1, page1, maxLength1) {
+        function range(start1, end1) {
+            return Array.from(Array(end1 - start1 + 1), (_, i) => i + start1);
+        }
 
+        var sideWidth1= maxLength1 < 9 ? 1 : 2;
+        var leftWidth1 = (maxLength1 - sideWidth1* 2 - 3) >> 1;
+        var rightWidth1 = (maxLength1 - sideWidth1* 2 - 3) >> 1;
 
-          <script type="text/javascript">
-              function getPageList(totalPages, page, maxLength) {
-                  function range(start, end) {
-                      return Array.from(Array(end - start + 1), (_, i) => i + start);
-                  }
+        if (totalPages1 <= maxLength1) {
+            return range(1, totalPages1);
+        }
 
-                  var sideWidth = maxLength < 9 ? 1 : 2;
-                  var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
-                  var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+        if (page1 <= maxLength1 - sideWidth1- 1 - rightWidth1) {
+            return range(1, maxLength1 - sideWidth1- 1).concat(0, range(totalPages1 - sideWidth1+ 1, totalPages1));
+        }
 
-                  if (totalPages <= maxLength) {
-                      return range(1, totalPages);
-                  }
+        if (page1 >= totalPages1 - sideWidth1- 1 - rightWidth1) {
+            return range(1, sideWidth1).concat(0, range(totalPages1 - sideWidth1- 1 - rightWidth1 - leftWidth1, totalPages1));
+        }
+        return range(1, sideWidth1).concat(0, range(page1 - leftWidth1, page1 + rightWidth1), 0, range(totalPages1 - sideWidth1+ 1, totalPages1));
+    }
 
-                  if (page <= maxLength - sideWidth - 1 - rightWidth) {
-                      return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
-                  }
+    $(function () {
+        var numberOfItems1 = $(".contenido1").length;
+        var limitPerPage1 = 5; //How many card item1s visible per a page1
+        var totalPages1 = Math.ceil(numberOfItems1 / limitPerPage1);
+        var paginationSize1 = 5; //How many page1 elements visible in the pagination
+        var currentPage1;
 
-                  if (page >= totalPages - sideWidth - 1 - rightWidth) {
-                      return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
-                  }
-                  return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
-              }
+        function showPage1(whichPage1) {
+            if (whichPage1 < 1 || whichPage1 > totalPages1) return false;
 
-              $(function () {
-                  var numberOfItems = $(".nueva-contenido").length;
-                  var limitPerPage = 5; //How many card items visible per a page
-                  var totalPages = Math.ceil(numberOfItems / limitPerPage);
-                  var paginationSize = 5; //How many page elements visible in the pagination
-                  var currentPage;
+            currentPage1 = whichPage1;
 
-                  function showPage(whichPage) {
-                      if (whichPage < 1 || whichPage > totalPages) return false;
+            $(".contenido1").hide().slice((currentPage1 - 1) * limitPerPage1, currentPage1 * limitPerPage1).show();
 
-                      currentPage = whichPage;
+            $(".pagination1 li").slice(1, -1).remove();
 
-                      $(".nueva-contenido").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+            getPageList1(totalPages1, currentPage1, paginationSize1).forEach(item1 => {
+                $("<li>").addClass("page1-item1").addClass(item1 ? "current1-page1" : "dots")
+                    .toggleClass("active", item1 === currentPage1).append($("<a>").addClass("page1-link1")
+                    .attr({href: "javascript:void(0)"}).text(item1 || "...")).insertBefore(".next1-page1");
+            });
 
-                      $(".nueva-pagination li").slice(1, -1).remove();
+            $(".previous1-page1").toggleClass("disable", currentPage1 === 1);
+            $(".next1-page1").toggleClass("disable", currentPage1 === totalPages1);
+            return true;
+        }
 
-                      getPageList(totalPages, currentPage, paginationSize).forEach(item => {
-                          $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
-                              .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
-                              .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".nueva-next-page");
-                      });
+        $(".pagination1").append(
+            $("<li>").addClass("page1-item1").addClass("previous1-page1").append($("<a>").addClass("page1-link1").attr({href: "javascript:void(0)"}).text("Prev")),
+            $("<li>").addClass("page1-item1").addClass("next1-page1").append($("<a>").addClass("page1-link1").attr({href: "javascript:void(0)"}).text("Next"))
+        );
 
-                      $(".nueva-previous-page").toggleClass("disable", currentPage === 1);
-                      $(".nueva-next-page").toggleClass("disable", currentPage === totalPages);
-                      return true;
-                  }
+        $(".contenido1").show();
+        showPage1(1);
 
-                  $(".nueva-pagination").append(
-                      $("<li>").addClass("page-item").addClass("nueva-previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
-                      $("<li>").addClass("page-item").addClass("nueva-next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
-                  );
+        $(document).on("click", ".pagination1 li.current-page1:not(.active)", function () {
+            return showPage1(+$(this).text());
+        });
 
-                  $(".nueva-contenido").show();
-                  showPage(1);
+        $(".next1-page1").on("click", function () {
+            return showPage1(currentPage1 + 1);
+        });
 
-                  $(document).on("click", ".nueva-pagination li.current-page:not(.active)", function () {
-                      return showPage(+$(this).text());
-                  });
-
-                  $(".nueva-next-page").on("click", function () {
-                      return showPage(currentPage + 1);
-                  });
-
-                  $(".nueva-previous-page").on("click", function () {
-                      return showPage(currentPage - 1);
-                  });
-              });
-          </script>
+        $(".previous1-page1").on("click", function () {
+            return showPage1(currentPage1 - 1);
+        });
+    });
+</script>
 
 <script type="text/javascript">
     function getPageList(totalPages, page, maxLength) {

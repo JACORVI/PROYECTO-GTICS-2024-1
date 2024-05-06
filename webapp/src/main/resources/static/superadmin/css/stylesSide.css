@@ -4540,7 +4540,7 @@ textarea.form-control-lg {
   list-style: none;
 }
 
-.page-link, .datatable-pagination a {
+.page-link, .page1-link1, .datatable-pagination a {
   position: relative;
   display: block;
   padding: var(--bs-pagination-padding-y) var(--bs-pagination-padding-x);
@@ -4552,30 +4552,30 @@ textarea.form-control-lg {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
-  .page-link, .datatable-pagination a {
+  .page-link, .page1-link1, .datatable-pagination a {
     transition: none;
   }
 }
-.page-link:hover, .datatable-pagination a:hover {
+.page-link:hover, .page1-link1:hover, .datatable-pagination a:hover {
   z-index: 2;
   color: var(--bs-pagination-hover-color);
   background-color: var(--bs-pagination-hover-bg);
   border-color: var(--bs-pagination-hover-border-color);
 }
-.page-link:focus, .datatable-pagination a:focus {
+.page-link:focus,.page1-link1:focus, .datatable-pagination a:focus {
   z-index: 3;
   color: var(--bs-pagination-focus-color);
   background-color: var(--bs-pagination-focus-bg);
   outline: 0;
   box-shadow: var(--bs-pagination-focus-box-shadow);
 }
-.page-link.active, .datatable-pagination a.active, .active > .page-link, .datatable-pagination .active > a {
+.page-link.active, .page1-link1.active, .datatable-pagination a.active, .active > .page-link, .datatable-pagination .active > a {
   z-index: 3;
   color: var(--bs-pagination-active-color);
   background-color: var(--bs-pagination-active-bg);
   border-color: var(--bs-pagination-active-border-color);
 }
-.page-link.disabled, .datatable-pagination a.disabled, .disabled > .page-link, .datatable-pagination .disabled > a {
+.page-link.disabled, .page1-link1.disabled, .datatable-pagination a.disabled, .disabled > .page-link, .datatable-pagination .disabled > a {
   color: var(--bs-pagination-disabled-color);
   pointer-events: none;
   background-color: var(--bs-pagination-disabled-bg);
@@ -4593,7 +4593,10 @@ textarea.form-control-lg {
   border-top-right-radius: var(--bs-pagination-border-radius);
   border-bottom-right-radius: var(--bs-pagination-border-radius);
 }
-
+.page1-item1:last-child .page1-link1, .page1-item1:last-child .datatable-pagination a, .datatable-pagination .page1-item1:last-child a, .datatable-pagination li:last-child .page1-link1, .datatable-pagination li:last-child a {
+  border-top-right-radius: var(--bs-pagination-border-radius);
+  border-bottom-right-radius: var(--bs-pagination-border-radius);
+}
 .pagination-lg {
   --bs-pagination-padding-x: 1.5rem;
   --bs-pagination-padding-y: 0.75rem;

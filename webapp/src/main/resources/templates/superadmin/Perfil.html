@@ -198,27 +198,27 @@ footer {
                             <h2 class="mb-4">Editar Perfil</h2>
                             <form class="row g-3">
                               <div class="col-md-6">
-                                <label for="inputEmail4" class="form-label">Nombres</label>
+                                <label for="inputNombre" class="form-label">Nombres</label>
                                 <input type="text" class="form-control" id="inputNombre">
                               </div>
                               <div class="col-md-6">
-                                <label for="inputPassword4" class="form-label">Apellidos</label>
+                                <label for="inputApellido" class="form-label">Apellidos</label>
                                 <input type="text" class="form-control" id="inputApellido">
                               </div>
                               <div class="col-md-6">
-                                <label for="inputEmail4" class="form-label">Teléfono</label>
+                                <label for="inputTelefono" class="form-label">Teléfono</label>
                                 <input type="text" class="form-control" id="inputTelefono">
                               </div>
                               <div class="col-md-6">
-                                <label for="inputPassword4" class="form-label">DNI</label>
+                                <label for="inputDni" class="form-label">DNI</label>
                                 <input type="text" class="form-control" id="inputDni">
                               </div>
                               <div class="col-12">
-                                <label for="inputAddress" class="form-label">Correo electrónico</label>
+                                <label for="inputCorreo" class="form-label">Correo electrónico</label>
                                 <input type="email" class="form-control" id="inputCorreo" placeholder="">
                               </div>
                               <div class="col-md-6">
-                                <label for="inputCity" class="form-label">Contraseña</label>
+                                <label for="inputContrasena" class="form-label">Camvbiar contraseña</label>
                                 <input type="password" class="form-control" id="inputContrasena">
                               </div>
                      
@@ -233,7 +233,7 @@ footer {
                             <h2 class="mb-4">Editar Avatar</h2>
                             <form class="row g-3">
                                 <div class="col-12">
-                                    <label for="avatar" class="form-label">Seleccione el avatar de su preferencia</label>
+                                    <label for="avatar" id="avatar" class="form-label">Seleccione el avatar de su preferencia</label>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-check">
@@ -296,71 +296,32 @@ footer {
                                         <input type="hidden" name="idUsuario" value="${idUsuario}" />
                     
                                         <div class="col-md-6">
-                                            <label for="direccion_avenida" class="form-label">Avenida</label>
+                                            <label for="direccion_avenida" class="form-label">Dirección</label>
                                             <input type="text" class="form-control" id="direccion_avenida" name="avenida" value="">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="direccion_numero" class="form-label">Número</label>
-                                            <input type="text" class="form-control" id="direccion_numero" name="numero" value="">
+                                            <label for="direccion_distrito" class="form-label">Distrito</label>
+                                            <input type="text" class="form-control" id="direccion_distrito" name="distrito" value="">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="lote" class="form-label">Lote(opcional)</label>
-                                            <input type="text" class="form-control" id="lote" name="lote" value="">
+                                            <label for="direccion_referencia" class="form-label">Referencia(opcional)</label>
+                                            <input type="text" class="form-control" id="direccion_referencia" name="referencia" value="">
+
                                         </div>
-                                        <div class="col-md-6">
-                                            <label for="numDepa" class="form-label">Dpto./Int(opcional)</label>
-                                            <input type="text" class="form-control" id="numDepa" name="numDepa" value="">
-                                        </div>
-                    
-                                        <input type="hidden" id="idProvincia" value="${direccion.distrito.provincia.idProvincia}"/>
-                                        <input type="hidden" id="idDistrito" value="${direccion.distrito.idDistrito}" />
-                    
-                                        <div class="col-md-4">
-                                            <label for="departamentos" class="form-label">Departamentos</label>
-                                            <select name="departamentos" id="departamentos" class="form-select">
-                                                <option>-------</option>
-                                               
-                                            </select>
-                                        </div>
-                    
-                                        <div class="col-md-4">
-                                            <label for="provincias" class="form-label">Provincias</label>
-                                            <select name="provincias" id="provincias" class="form-select">
-                                                <option>-------</option>
-                                                
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="distritos" class="form-label">Distritos</label>
-                                            <select name="distritos" id="distritos" class="form-select">
-                                                <option>-------</option>
-                                                
-                                            </select>
-                                        </div>
-                    
                                         <div class="col-12">
-                                            <label for="referencia" class="form-label">Referencia (opcional)</label>
-                                            <input type="text" class="form-control" id="referencia" name="referencia" placeholder="1234 Main St" value="">
-                                        </div>
-                    
-                                        <div class="col-12">
+
                                             <button type="submit" class="btn btn-success">Guardar cambios</button>
                                         </div>
-                                        
-                                    </div>
-                                    
-                                    
-                                 
-                                </form>
-                        </div>
-                    </div>
-                </div>            
-                </div>
-            </div>
-                  
-            </div>
-        </div>
-    <!-- ************* -->
+                                 </form>
+                         </div>
+                     </div>
+                 </div>
+                 </div>
+             </div>
+
+             </div>
+         </div>
+     <!-- ************* -->
     <footer>
         <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
             <div style="font-family: Arial, 5px; margin-left: 10px; color: white;">
