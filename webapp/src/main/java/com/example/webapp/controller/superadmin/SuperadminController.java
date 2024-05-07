@@ -199,7 +199,6 @@ public class SuperadminController {
     //Guardar Medicamento
     @PostMapping("/Guardar_Medicamento")
     public String guardarNuevoMedicamento(@RequestParam("foto") Part foto,
-                                          @RequestParam("foto1") byte[] foto1,
                                           @RequestParam("nombre") String nombre,
                                           @RequestParam("descripcion") String descripcion,
                                           @RequestParam("inventario") int inventario,
@@ -211,44 +210,26 @@ public class SuperadminController {
                                           Model model,
                                           @RequestParam("id") int id) {
 
+
         Medicamentos medicamento = new Medicamentos();
 
-        /*if(foto == null){
-            medicamento.setId(id);
-            medicamento.setNombre(nombre);
-            medicamento.setDescripcion(descripcion);
-            medicamento.setInventario(inventario);
-            medicamento.setPrecio_unidad(precio_unidad);
-            medicamento.setFecha_ingreso(fecha_ingreso);
-            medicamento.setCategoria(categoria);
-            medicamento.setDosis(dosis);
-            medicamento.setFoto(foto1);
-            medicamento.setBorrado_logico(borrado_logico);
-
-            medicamentosRepository.save(medicamento);
-
-        }else{*/
             try {
                 InputStream fotoStream=foto.getInputStream();
                 byte[] fotoBytes=fotoStream.readAllBytes();
-                medicamento.setFoto(fotoBytes);
+                        medicamento.setId(id);
+                        medicamento.setNombre(nombre);
+                        medicamento.setDescripcion(descripcion);
+                        medicamento.setFoto(fotoBytes);
+                        medicamento.setInventario(inventario);
+                        medicamento.setPrecio_unidad(precio_unidad);
+                        medicamento.setFecha_ingreso(fecha_ingreso);
+                        medicamento.setCategoria(categoria);
+                        medicamento.setDosis(dosis);
+                        medicamento.setBorrado_logico(borrado_logico);
+                        medicamentosRepository.save(medicamento);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-            medicamento.setId(id);
-            medicamento.setNombre(nombre);
-            medicamento.setDescripcion(descripcion);
-            medicamento.setInventario(inventario);
-            medicamento.setPrecio_unidad(precio_unidad);
-            medicamento.setFecha_ingreso(fecha_ingreso);
-            medicamento.setCategoria(categoria);
-            medicamento.setDosis(dosis);
-            medicamento.setBorrado_logico(borrado_logico);
-
-            medicamentosRepository.save(medicamento);
-
-
 
         Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
 
