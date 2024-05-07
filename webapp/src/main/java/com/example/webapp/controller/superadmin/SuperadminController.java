@@ -2,14 +2,20 @@ package com.example.webapp.controller.superadmin;
 
 import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
+import jakarta.servlet.http.Part;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,12 +98,15 @@ public class SuperadminController {
                                   @RequestParam("id") int id) {
         Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
 
+
         if (optMedicamento.isPresent()) {
+
             Medicamentos medicamento = optMedicamento.get();
             List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
             List<Sede> list1 = sedeRepository.findAll();
 
             List<String> listaIndicador = new ArrayList<>();
+
 
             for (Sede sede : list1) {
                 int i = 0;
@@ -116,6 +125,10 @@ public class SuperadminController {
             }
 
             System.out.println(listaIndicador);
+
+            byte[] fotoBytes = medicamento.getFoto();
+            String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+            model.addAttribute("fotoBase64", fotoBase64);
             model.addAttribute("medicamento", medicamento);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -168,6 +181,10 @@ public class SuperadminController {
             }
 
             System.out.println(listaIndicador);
+            byte[] fotoBytes = medicamento.getFoto();
+            String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+
+            model.addAttribute("fotoBase64", fotoBase64);
             model.addAttribute("medicamento", medicamento);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -181,9 +198,57 @@ public class SuperadminController {
 
     //Guardar Medicamento
     @PostMapping("/Guardar_Medicamento")
-    public String guardarNuevoMedicamento(Medicamentos medicamento, Model model,@RequestParam("id") int id) {
+    public String guardarNuevoMedicamento(@RequestParam("foto") Part foto,
+                                          @RequestParam("foto1") byte[] foto1,
+                                          @RequestParam("nombre") String nombre,
+                                          @RequestParam("descripcion") String descripcion,
+                                          @RequestParam("inventario") int inventario,
+                                          @RequestParam("precio_unidad") double precio_unidad,
+                                          @RequestParam("fecha_ingreso") String fecha_ingreso,
+                                          @RequestParam("categoria") String categoria,
+                                          @RequestParam("dosis") String dosis,
+                                          @RequestParam("borrado_logico") int borrado_logico,
+                                          Model model,
+                                          @RequestParam("id") int id) {
 
-        medicamentosRepository.save(medicamento);
+        Medicamentos medicamento = new Medicamentos();
+
+        /*if(foto == null){
+            medicamento.setId(id);
+            medicamento.setNombre(nombre);
+            medicamento.setDescripcion(descripcion);
+            medicamento.setInventario(inventario);
+            medicamento.setPrecio_unidad(precio_unidad);
+            medicamento.setFecha_ingreso(fecha_ingreso);
+            medicamento.setCategoria(categoria);
+            medicamento.setDosis(dosis);
+            medicamento.setFoto(foto1);
+            medicamento.setBorrado_logico(borrado_logico);
+
+            medicamentosRepository.save(medicamento);
+
+        }else{*/
+            try {
+                InputStream fotoStream=foto.getInputStream();
+                byte[] fotoBytes=fotoStream.readAllBytes();
+                medicamento.setFoto(fotoBytes);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            medicamento.setId(id);
+            medicamento.setNombre(nombre);
+            medicamento.setDescripcion(descripcion);
+            medicamento.setInventario(inventario);
+            medicamento.setPrecio_unidad(precio_unidad);
+            medicamento.setFecha_ingreso(fecha_ingreso);
+            medicamento.setCategoria(categoria);
+            medicamento.setDosis(dosis);
+            medicamento.setBorrado_logico(borrado_logico);
+
+            medicamentosRepository.save(medicamento);
+
+
 
         Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
 
@@ -211,6 +276,10 @@ public class SuperadminController {
             }
 
             System.out.println(listaIndicador);
+            byte[] fotoBytes1 = medicamento1.getFoto();
+            String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
+
+            model.addAttribute("fotoBase64", fotoBase64);
             model.addAttribute("medicamento", medicamento1);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -220,6 +289,84 @@ public class SuperadminController {
         } else {
             return "redirect:/superadmin/Plantilla_Vista_Medicamentos";
         }
+    }
+
+
+    @PostMapping("/Registrar_Medicamento")
+    public String RegistrarNuevoMedicamento(@RequestParam("foto") Part foto,
+                                            @RequestParam("nombre") String nombre,
+                                            @RequestParam("descripcion") String descripcion,
+                                            @RequestParam("inventario") int inventario,
+                                            @RequestParam("precio_unidad") double precio_unidad,
+                                            @RequestParam("fecha_ingreso") String fecha_ingreso,
+                                            @RequestParam("categoria") String categoria,
+                                            @RequestParam("dosis") String dosis,
+                                            @RequestParam("borrado_logico") int borrado_logico,
+                                            Model model) {
+
+        Medicamentos medicamento = new Medicamentos();
+
+        try {
+            InputStream fotoStream=foto.getInputStream();
+            byte[] fotoBytes=fotoStream.readAllBytes();
+            medicamento.setFoto(fotoBytes);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        medicamento.setNombre(nombre);
+        medicamento.setDescripcion(descripcion);
+        medicamento.setInventario(inventario);
+        medicamento.setPrecio_unidad(precio_unidad);
+        medicamento.setFecha_ingreso(fecha_ingreso);
+        medicamento.setCategoria(categoria);
+        medicamento.setDosis(dosis);
+        medicamento.setBorrado_logico(borrado_logico);
+
+        medicamentosRepository.save(medicamento);
+
+        int id = medicamentosRepository.buscarUltimo();
+
+        Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
+
+        if (optMedicamento.isPresent()) {
+            Medicamentos medicamento1 = optMedicamento.get();
+            List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
+            List<Sede> list1 = sedeRepository.findAll();
+
+            List<String> listaIndicador = new ArrayList<>();
+
+            for (Sede sede : list1) {
+                int i = 0;
+                for (SedeHasMedicamentos sedeHasMedicamentos : list) {
+                    if (sede.getId() == sedeHasMedicamentos.getId_sede().getId()) {
+                        if (sedeHasMedicamentos.getId_medicamentos().getId() == id) {
+                            i=1;
+                        }
+                    }
+                }
+                if (i==0){
+                    listaIndicador.add("NoAsignado");
+                }else{
+                    listaIndicador.add("Asignado");
+                }
+            }
+
+            System.out.println(listaIndicador);
+            byte[] fotoBytes1 = medicamento1.getFoto();
+            String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
+
+            model.addAttribute("fotoBase64", fotoBase64);
+            model.addAttribute("medicamento", medicamento1);
+            model.addAttribute("ListaIndicador", listaIndicador);
+            model.addAttribute("ListaSedes",list1);
+
+
+            return "superadmin/Plantilla_Vista_Actualizar_Medicamento";
+        } else {
+            return "redirect:/superadmin/Plantilla_Vista_Medicamentos";
+        }
+
     }
 
     @GetMapping("/Asignar_Sede_Medicamento")
@@ -251,7 +398,10 @@ public class SuperadminController {
                     listaIndicador.add("Asignado");
                 }
             }
+            byte[] fotoBytes1 = medicamento.getFoto();
+            String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
 
+            model.addAttribute("fotoBase64", fotoBase64);
             System.out.println(listaIndicador);
             model.addAttribute("medicamento", medicamento);
             model.addAttribute("ListaIndicador", listaIndicador);
@@ -294,7 +444,10 @@ public class SuperadminController {
                     listaIndicador.add("Asignado");
                 }
             }
+            byte[] fotoBytes1 = medicamento.getFoto();
+            String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
 
+            model.addAttribute("fotoBase64", fotoBase64);
             System.out.println(listaIndicador);
             model.addAttribute("medicamento", medicamento);
             model.addAttribute("ListaIndicador", listaIndicador);

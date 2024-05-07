@@ -16,8 +16,11 @@ public class Medicamentos {
     @Column(nullable = false)
     private String descripcion;
     private String nombre;
+    private byte[] foto;
     private int inventario;
     private double precio_unidad;
     private String fecha_ingreso;
     private String categoria;
+    private String dosis;
+    private int borrado_logico;
 }

@@ -127,41 +127,51 @@
                       <h4><p style="text-align:center">Imagen del Medicamento</p></h4>
                       <div class="container">
                           <!-- Formulario de carga de imagen -->
-                          <form>
+                          <form  method="POST" enctype="multipart/form-data" th:action="@{'/superadmin/Guardar_Medicamento'+ '?id=' + ${medicamento.getId()}}">
                               <div class="mb-3">
                                   <label for="formFile" class="form-label">Selecciona una imagen para cargar:</label>
-                                  <input class="form-control" type="file" id="formFile">
+                                  <input class="form-control" type="file" id="formFile" name="foto">
+                                  <div class="bg-light rounded h-100 p-4">
+                                      <h4><p style="text-align:center"><img th:src="'data:image/png;base64,' + ${fotoBase64}" alt="..." style="width: 300px; height: 300px;"/></p></h4>
+                                  </div>
                               </div>
-                          </form>
-                          <!-- Div para mostrar la imagen subida -->
-                          <div id="image-preview"></div>
-                          <!-- Botón para eliminar la imagen -->
-                          <div class="d-flex justify-content-center">
-                              <button type="button" class="btn btn-danger" id="delete-image">Eliminar imagen</button>
-                          </div>
                       </div>
                   </div>
               </div>
               <div class="col-sm-12 col-xl-6">
                   <div class="bg-light rounded h-100 p-4">
                       <h4><p style="text-align:center">Detalles del Medicamentso</p></h4>
-                      <form method="post" th:action="@{'/superadmin/Guardar_Medicamento'+ '?id=' + ${medicamento.getId()}}">
-                          <input th:value="${medicamento.getId()}" name="id" type="hidden" />
-                          <div class="mb-3">
-                              <label class="form-label">Nombre</label>
-                              <input class="form-control " th:value="${medicamento.getNombre()}" name="nombre">
-                          </div>
-                          <div class="mb-3">
-                              <label class="form-label">Descripción</label>
-                              <input class="form-control " th:value="${medicamento.getDescripcion()}" name="descripcion">
-                          </div>
-                          <div class="text-center">
-                              <button type="submit" class="btn btn-primary boton-primario">ACTUALIZAR</button>
-                          </div>
-                      </form>
+                      <input th:value="${medicamento.getFoto()}" name="foto1" type="hidden" />
+                      <input th:value="${medicamento.getId()}" name="id" type="hidden" />
+                      <input th:value="${medicamento.getFecha_ingreso()}" name="fecha_ingreso" type="hidden" />
+                      <input th:value="${medicamento.getCategoria()}" name="categoria" type="hidden" />
+                      <input th:value="${medicamento.getDosis()}" name="dosis" type="hidden" />
+                      <input th:value="${medicamento.getBorrado_logico()}" name="borrado_logico" type="hidden" />
+                      <div class="mb-3">
+                          <label class="form-label">Nombre</label>
+                          <input class="form-control " th:value="${medicamento.getNombre()}" name="nombre">
+                      </div>
+                      <div class="mb-3">
+                          <label class="form-label">Descripcion</label>
+                          <input class="form-control " th:value="${medicamento.getDescripcion()}" name="descripcion">
+                      </div>
+                      <div class="mb-3">
+                          <label class="form-label">Inventario</label>
+                          <input class="form-control " th:value="${medicamento.getInventario()}" name="inventario">
+                      </div>
+                      <div class="mb-3">
+                          <label class="form-label">Precio Por Unidad</label>
+                          <input class="form-control " th:value="${medicamento.getPrecio_unidad()}" name="precio_unidad">
+                      </div>
                   </div>
               </div>
           </div>
+          <td class=<%=color%><p style="font-size: 18px;"></p></td>
+          <div class="text-center">
+              <button type="submit" class="btn btn-primary boton-primario">ACTUALIZAR</button>
+          </div>
+          </form>
+
           <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">

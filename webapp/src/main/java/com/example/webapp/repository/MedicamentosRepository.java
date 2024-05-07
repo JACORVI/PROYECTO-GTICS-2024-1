@@ -23,4 +23,7 @@ public interface MedicamentosRepository extends JpaRepository<Medicamentos, Inte
     @Modifying
     @Query(nativeQuery = true,value = "update medicamentos set borrado_logico = ?1 where id_medicamentos = ?2")
     void borradoLogico(int valor, int id);
+
+    @Query(value = "SELECT id_medicamentos FROM medicamentos ORDER BY id_medicamentos DESC LIMIT 1;\n", nativeQuery = true)
+    int buscarUltimo();
 }
