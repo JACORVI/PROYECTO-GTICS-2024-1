@@ -16,4 +16,5 @@ public class CarritoId implements Serializable {
 
     @Column(name = "medicamentos_id_medicamentos", nullable = false)
     private Integer medicamentos_id_medicamentos;
+
 }

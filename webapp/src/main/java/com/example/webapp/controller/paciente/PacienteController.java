@@ -1,19 +1,23 @@
 package com.example.webapp.controller.paciente;
 
-import com.example.webapp.entity.Medicamentos;
-import com.example.webapp.entity.PedidosPaciente;
-import com.example.webapp.entity.Usuario;
+import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
-import com.example.webapp.entity.Sede;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-
+import java.util.Optional;
 
 @Controller
 public class PacienteController {
@@ -25,6 +29,7 @@ public class PacienteController {
     SedeRepository sedeRepository;
     PedidosPacienteRepository pedidosPacienteRepository;
     CarritoRepository carritoRepository;
+
     public PacienteController(MedicamentosRepository medicamentosRepository,
                               UsuarioRepository usuarioRepository,
                               SedeRepository sedeRepository,
@@ -51,6 +56,8 @@ public class PacienteController {
     public String listarMedicamentos(Model model){
         List<Medicamentos> listamedicamentos = medicamentosRepository.findAll();
         model.addAttribute("listaMedicamentos",listamedicamentos);
+        List<Carrito> tamañocarrito = carritoRepository.findAll();
+        model.addAttribute("tamañoCarrito",tamañocarrito.size());
         return "paciente/medicamentos";
     }
 
@@ -61,6 +68,31 @@ public class PacienteController {
         model.addAttribute("buscaMedicamentos", buscaMedicamentos);
         model.addAttribute("textoBuscado", searchField);
         return "paciente/medicamentos";
+    }
+
+    @GetMapping("/paciente/añadirCarrito")
+    public String añadirMedicamentoAlCarrito(Model model,
+                                             @RequestParam("id") int id, RedirectAttributes attr){
+        int usuid = 29;
+
+        List<Carrito> carrito = carritoRepository.buscarDuplicados(id);
+
+        if (carrito.isEmpty()){
+            int cantidad = 1;
+            carritoRepository.AñadirAlCarrito(id, usuid, cantidad);
+            attr.addFlashAttribute("msg","Se agrego un nuevo producto al carrito!");
+        }
+        else{
+            int cantidadDelDuplicado = carritoRepository.cantidadDelDuplicado(id);
+            int cantidad = cantidadDelDuplicado+1;
+            int id1 = id;
+            int usuid2 = usuid;
+            carritoRepository.borrarDuplicado(id, usuid);
+            carritoRepository.AñadirAlCarrito(id1, usuid2, cantidad);
+            attr.addFlashAttribute("msg","Se agrego un producto existente al carrito!");
+        }
+        return "redirect:/paciente/medicamentos";
+
     }
     /*---------------------------------------*/
 

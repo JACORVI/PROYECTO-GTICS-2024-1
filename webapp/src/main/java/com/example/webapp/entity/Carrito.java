@@ -7,14 +7,14 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="carrito")
+@Table(name="`carrito`")
 public class Carrito {
 
     @EmbeddedId
     private CarritoId id;
 
     @MapsId("usuario_id_usuario")
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="usuario_id_usuario")
     private Usuario usuario_id_usario;
 

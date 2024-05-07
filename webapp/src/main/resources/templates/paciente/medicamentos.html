@@ -60,7 +60,7 @@
             <div class="m-auto">
                 <a class="btn btn-outline-light" th:href="@{/paciente/carrito}" >
                     <i class="bi-cart-fill me-1"></i>
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${tamañoCarrito}"></span>
                 </a>
             </div>
         </div>
@@ -74,6 +74,9 @@
             <option value="2">Categoria 2</option>
             <option value="3">Categoria 3</option>
         </select>
+    </div>
+    <div class="container px-4 px-lg-5">
+        <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
     </div>
     <section class="py-8">
         <div class="container px-4 px-lg-5 mt-5">
@@ -97,7 +100,9 @@
                             </div>
                             <!-- medicine actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Añadir al carrito</a></div>
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto" th:href="@{'/paciente/añadirCarrito?id=' + ${medicamentos.id}}">Añadir al carrito</a>
+                                </div>
                             </div>
                         </div>
                     </div>
