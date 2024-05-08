@@ -119,10 +119,7 @@ public class PacienteController {
         return "paciente/carrito";
     }
 
-    @GetMapping("/paciente/carrito/delivery")
-    public String agregaDelivery(Model model,
-                                 @RequestParam("deli") int deli, @RequestParam("suma") int suma){
-    }
+
 
     @GetMapping("/paciente/carrito/borrar")
     public String borrarElementoCarrito(Model model,
