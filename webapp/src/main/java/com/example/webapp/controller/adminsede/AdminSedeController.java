@@ -3,12 +3,19 @@ package com.example.webapp.controller.adminsede;
 import com.example.webapp.entity.Medicamentos;
 import com.example.webapp.entity.Usuario;
 import com.example.webapp.repository.*;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class AdminSedeController {
@@ -62,22 +69,76 @@ public class AdminSedeController {
         return "admin/nuevo_pedido";
     }
 
+    /*Vista de lista de farmacistas*/
     @GetMapping(value="/admin/farmacistas")
     public String adminsedeFarmacistas(Model model){
-        List<Usuario> farmacistas = usuarioRepository.findAllFarmacistas();
-
-        // Agregar la lista al modelo
-        model.addAttribute("farmacistas", farmacistas);
+        List<Usuario> farmacistaxsedeList = usuarioRepository.buscarFarmacistaporSede(1);
+        model.addAttribute("listaFarmacista",farmacistaxsedeList);
         return "admin/farmacistas";
     }
-    /*@GetMapping(value="/admin/doctores")
-    public String adminsedeDocotores(Model model){
-        List<Usuario> docotores = usuarioRepository.findAllDoctores();
+    /*---------------------------------------*/
 
-        // Agregar la lista al modelo
-        model.addAttribute("docotores", docotores);
-        return "admin/doctores";
-    }*/
+    /*Vista para crear nuevo farmacista*/
+    @GetMapping(value="/admin/registrar_farmacista")
+    public String adminsedeFarmacistas(@ModelAttribute("usuario") Usuario usuario){
+
+        return "admin/nuevo_farmacista";
+    }
+    /*---------------------------------------*/
+
+    @PostMapping("/admin/guardar_farmacista")
+    public String guardarFarmacista(RedirectAttributes attr,
+                                    @ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) { //si no hay errores, se realiza el flujo normal
+            return "admin/nuevo_farmacista";
+        }
+        else{
+            if (usuario.getId() == 0) {
+                attr.addFlashAttribute("msg", "Farmacista creado exitosamente");
+                usuarioRepository.save(usuario);
+                usuarioHasSedeRepository.AsignarSede(usuario.getId(), 1);
+            } else {
+                usuarioRepository.save(usuario);
+                attr.addFlashAttribute("msg", "Farmacista actualizado exitosamente");
+            }
+
+
+            return "redirect:/admin/farmacistas";
+        }
+
+    }
+
+    @GetMapping("/admin/editar_farmacista")
+    public String editarFarmacista(@ModelAttribute("usuario") Usuario usuario,
+                                   Model model, @RequestParam("id") int id) {
+
+        Optional<Usuario> optUsuario = usuarioRepository.findById(id);
+
+        if (optUsuario.isPresent()) {
+            usuario = optUsuario.get();
+            model.addAttribute("usuario", usuario);
+            return "admin/nuevo_farmacista";
+        } else {
+            return "redirect:/admin/farmacistas";
+        }
+    }
+
+    @GetMapping("/admin/eliminar_farmacista")
+    public String borrarFarmacista(@RequestParam("id") int id,
+                                   RedirectAttributes attr) {
+
+        Optional<Usuario> optProduct = usuarioRepository.findById(id);
+
+
+        if (optProduct.isPresent()) {
+            usuarioHasSedeRepository.AsignarSedeBorrando(id);
+            usuarioRepository.deleteById(id);
+            attr.addFlashAttribute("msg", "Farmacista borrado exitosamente");
+        }
+        return "redirect:/admin/farmacistas";
+
+    }
 
     @GetMapping(value="/admin/estado_soliciutd_farmacistas")
     public String adminsedeSolFarmacistas(){
