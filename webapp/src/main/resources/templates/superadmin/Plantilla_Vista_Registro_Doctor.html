@@ -122,9 +122,9 @@
               <div class="col-lg-12">
                   <h2 class="mb-4">.</h2>
                   <h2 class="mb-4">NUEVO DOCTOR</h2>
-                  <form class="row g-3" method="post" th:action="@{'/superadmin/Guardar_Usuario_Registro'}">
-                      <input  name="distrito" type="hidden" />
-                      <input  name="seguro" type="hidden" />
+                  <form class="row g-3" method="post" th:action="@{'/superadmin/Guardar_Usuario_Registro'}" th:object="${usuario}">
+                      <input th:value="${'Sin-Distrito'}"name="distrito" type="hidden" />
+                      <input name="seguro" type="hidden" />
                       <input name="estado_solicitud" type="hidden" />
                       <input name="motivo_rechazo" type="hidden" />
                       <input th:value="${'Activo'}" name="estado" type="hidden" />
@@ -134,26 +134,44 @@
                       <input th:value="${0}" name="borrado_logico" type="hidden" />
                       <div class="col-md-6">
                           <label class="form-label">Nombres</label>
-                          <input name="nombres" type="text" class="form-control" id="nombres">
+                          <input type="text" class="form-control" th:field="*{nombres}"
+                                 th:classappend="${#fields.hasErrors('nombres')?'is-invalid':''}"/>
+                          <div class="invalid-feedback"
+                               th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}">
+                          </div>
                       </div>
                       <div class="col-md-6">
                           <label class="form-label">Apellidos</label>
-                          <input name="apellidos" type="text" class="form-control" id="apellidos">
+                          <input type="text" class="form-control" th:field="*{apellidos}"
+                                 th:classappend="${#fields.hasErrors('apellidos')?'is-invalid':''}"/>
+                          <div class="invalid-feedback"
+                               th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}">
+                          </div>
                       </div>
                       <div class="col-md-6">
                           <label class="form-label">Correo Electrónico</label>
-                          <input name="correo" type="text" class="form-control" id="correo">
+                          <input type="text" class="form-control" th:field="*{correo}"
+                                 th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}"/>
+                          <div class="invalid-feedback"
+                               th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}">
+                          </div>
                       </div>
                       <div class="col-md-6">
                           <label class="form-label">DNI</label>
-                          <input name="dni" type="text" class="form-control" id="dni">
+                          <label class="form-label" for="dni">DNI</label>
+                          <input type="text" class="form-control" th:field="*{dni}"/>
+                          <div class="text-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">Error</div>
                       </div>
                       <div class="col-12">
                           <label class="form-label">Código de Colegiatura</label>
-                          <input name="codigo_colegiatura" type="text" class="form-control" id="codigo_colegiatura">
+                          <input type="text" class="form-control" th:field="*{codigo_colegiatura}"
+                                 th:classappend="${#fields.hasErrors('codigo_colegiatura')?'is-invalid':''}"/>
+                          <div class="invalid-feedback"
+                               th:if="${#fields.hasErrors('codigo_colegiatura')}" th:errors="*{codigo_colegiatura}">
+                          </div>
                       </div>
                       <div class="text-center">
-                          <button type="submit" class="btn btn-primary boton-primario">Registrar</button>
+                          <button type="submit" class="btn btn-primary boton-primario">REGISTRAR</button>
                       </div>
                   </form>
               </div>
