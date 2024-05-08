@@ -30,7 +30,7 @@ public interface CarritoRepository extends JpaRepository<Carrito, Integer> {
     @Query(nativeQuery = true,value = "INSERT INTO carrito (medicamentos_id_medicamentos, usuario_id_usuario, cantidad)\n" +
             "VALUES \n" +
             "(?1, ?2, ?3)")
-    void AñadirAlCarrito(int idMedicamentos, int idUsuario, int cantidad);
+    void AnadirAlCarrito(int idMedicamentos, int idUsuario, int cantidad);
 
     @Transactional
     @Modifying

@@ -47,10 +47,11 @@
                     <div class="col text-right" th:text="'S/ ' + ${productos.medicamentos_id_medicamentos.precio_unidad}"></div>
                 </div>
                 <form>
-                    <p>SHIPPING</p>
-                    <button class="btn" th:if="${delivery}">Agregar Delivery</button>
-                    <button class="btn">Recojo en tienda</button>
-                    <label class="form-check-label">
+                    <p th:if="${delivery == 0}">TIPO DE ENTREGA: RECOJO EN TIENDA</p>
+                    <p th:if="${delivery == 1}">TIPO DE ENTREGA: DELIVERY</p>
+                    <a class="btn" th:if="${delivery == 0}" th:href="@{'/paciente/carrito/delivery'}" style="margin-top: 0px; margin-bottom: 20px">Cambiar a Delivery</a>
+                    <a class="btn" th:if="${delivery == 1}" th:href="@{'/paciente/carrito'}" style="margin-top: 0px; margin-bottom: 20px">Cambiar a Recojo en tienda</a>
+                    <label class="form-check-label" style="padding: 1vh 0;">
                         ¿Desea que nuestro sistema le notifique entre 5 y 10 dias antes del vencimiento de sus medicamentos?
                     </label>
                     <select>
@@ -58,9 +59,21 @@
                         <option class="text-muted" id="recojo-precio">No</option>
                     </select>
                 </form>
-                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                    <div class="col" >TOTAL PRICE</div>
+                <div class="row" th:if="${delivery == 0}" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
+                    <div class="col">PRECIO TOTAL A PAGAR</div>
                     <div class="col text-right" th:text="'S/ ' + ${precioTotal}"></div>
+                </div>
+                <div class="row" th:if="${delivery == 1}" style="padding: 0.5vh 0;">
+                    <div class="col">Precio total</div>
+                    <div class="col text-right" th:text="'S/ ' + ${precioTotal}"></div>
+                </div>
+                <div class="row" th:if="${delivery == 1}" style="padding: 0.5vh 0;">
+                    <div class="col">Delivery</div>
+                    <div class="col text-right" th:text="'S/ 5'"></div>
+                </div>
+                <div class="row" th:if="${delivery == 1}" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
+                    <div class="col">PRECIO TOTAL A PAGAR</div>
+                    <div class="col text-right" th:text="'S/ ' + ${precioTotalDely}"></div>
                 </div>
                 <button class="btn">FINALIZAR PEDIDO</button>
             </div>

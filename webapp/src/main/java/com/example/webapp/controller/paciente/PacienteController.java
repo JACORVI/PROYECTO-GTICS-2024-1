@@ -69,14 +69,14 @@ public class PacienteController {
     @PostMapping("/paciente/medicamentos/buscarMedicamentos")
     public String buscarMedicamentos(@RequestParam("searchField") String searchField,
                                      Model model){
-        List<Medicamentos> buscaMedicamentos = medicamentosRepository.findByNombre(searchField);
-        model.addAttribute("buscaMedicamentos", buscaMedicamentos);
         model.addAttribute("textoBuscado", searchField);
+        List<Medicamentos> buscaMedicamentos = medicamentosRepository.buscarMedicamento(searchField);
+        model.addAttribute("buscaMedicamentos", buscaMedicamentos);
         return "paciente/medicamentos";
     }
 
     @GetMapping("/paciente/añadirCarrito")
-    public String añadirMedicamentoAlCarrito(Model model,
+    public String anadirMedicamentoAlCarrito(Model model,
                                              @RequestParam("id") int id, RedirectAttributes attr){
         int usuid = 29;
 
@@ -84,7 +84,7 @@ public class PacienteController {
 
         if (carrito.isEmpty()){
             int cantidad = 1;
-            carritoRepository.AñadirAlCarrito(id, usuid, cantidad);
+            carritoRepository.AnadirAlCarrito(id, usuid, cantidad);
             attr.addFlashAttribute("msg","Se agrego un nuevo producto al carrito!");
         }
         else{
@@ -93,7 +93,7 @@ public class PacienteController {
             int id1 = id;
             int usuid2 = usuid;
             carritoRepository.borrarElementoCarrito(id, usuid);
-            carritoRepository.AñadirAlCarrito(id1, usuid2, cantidad);
+            carritoRepository.AnadirAlCarrito(id1, usuid2, cantidad);
             attr.addFlashAttribute("msg","Se agrego un producto existente al carrito!");
         }
         return "redirect:/paciente/medicamentos";
@@ -104,22 +104,39 @@ public class PacienteController {
 
     /*QRUD y vista del CARRITO*/
     @GetMapping("/paciente/carrito")
-    public String listarProductosCarrito(Model model){
-        List<Carrito> listadodelcarrito = carritoRepository.findAll();
-        model.addAttribute("listadoDelCarrito",listadodelcarrito);
+    public String listarProductosCarritoRT(Model model){
+        List<Carrito> listadodelcarritort = carritoRepository.findAll();
+        model.addAttribute("listadoDelCarrito",listadodelcarritort);
         List<Double> listaPrecioxCantidad = carritoRepository.CantidadxPrecioUnitario();
         double sumaTotal = 0.0;
         for (Double valor : listaPrecioxCantidad) {
             sumaTotal += valor;
         }
         String sumaTotal2D = String.format("%.2f", sumaTotal);
-        model.addAttribute("sumaPrecios",sumaTotal2D);
-        int delivery = 1;
+        model.addAttribute("precioTotal",sumaTotal2D);
+        int delivery = 0;
         model.addAttribute("delivery",delivery);
         return "paciente/carrito";
     }
 
-
+    @GetMapping("/paciente/carrito/delivery")
+    public String listarProductosCarritoDL(Model model){
+        List<Carrito> listadodelcarritodl = carritoRepository.findAll();
+        model.addAttribute("listadoDelCarrito",listadodelcarritodl);
+        List<Double> listaPrecioxCantidad = carritoRepository.CantidadxPrecioUnitario();
+        double sumaTotal = 0.0;
+        for (Double valor : listaPrecioxCantidad) {
+            sumaTotal += valor;
+        }
+        double sumaTotal1 = sumaTotal + 5.00;
+        String sumaTotal2D = String.format("%.2f", sumaTotal);
+        String sumaTotal2D1 = String.format("%.2f", sumaTotal1);
+        model.addAttribute("precioTotal",sumaTotal2D);
+        model.addAttribute("precioTotalDely",sumaTotal2D1);
+        int delivery = 1;
+        model.addAttribute("delivery",delivery);
+        return "paciente/carrito";
+    }
 
     @GetMapping("/paciente/carrito/borrar")
     public String borrarElementoCarrito(Model model,
