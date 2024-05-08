@@ -71,7 +71,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{'/paciente/inicio'}">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{'/paciente/medicamentos'}">Medicamentos</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+                <li class="nav-item"><a class="nav-link" th:href="@{'/paciente/mensajes'}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
                     <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
                 </svg></div> Mensajes</a></li>
             </ul>
@@ -94,31 +94,45 @@
         <br>
         <h1 style="padding: 30px">Pre-orden de medicamentos solicitados</h1>
         <h5 style="padding: 30px; text-align: justify;">Para realizar una pre-orden de un medicamento acercate a cualquiera de nuestras sedes o puedes realizarla por esta página web en la sección de medicamentos</h5>
-        <h4 style="padding: 30px; font-weight: 100;">Tus pre-ordenes</h4>
-        <article class="card" th:each="pedidos : ${listaPreordenes}" style="margin-bottom: 30px">
+
+        <div th:if="${listaPreorden.isEmpty()}">
+            <br>
+            <p class="text-center" style="color: #a3b18a; font-weight: 1000; font-size: 40px;">Aún no tienes pedidos de pre-orden</p>
+            <br>
+            <br>
+        </div>
+
+        <div th:unless="${listaPreorden.isEmpty()}">
+            <h4 style="padding: 30px; font-weight: 100;">Tus pre-ordenes</h4>
+        </div>
+
+        <article class="card" th:each="preorden: ${listaPreorden}" style="margin-bottom: 30px">
+
             <div class="card-body" style="padding: 30px;">
                 <article class="card">
                     <div class="card-body row">
-                        <div class="col"> <strong style="display: inline-block;">Fecha estimada de la entrega:&nbsp;</strong><p th:text="${pedidos.fecha_entrega}" style="display: inline-block;"></p></div>
+                        <div class="col"> <strong style="display: inline-block;">Fecha estimada de la entrega:&nbsp;</strong><p th:text="${preorden.fecha_entrega}" style="display: inline-block;"></p></div>
                         <hr>
-                        <div class="col"> <strong style="display: inline-block;">Medicamento solicitado:&nbsp;</strong><p  style="display: inline-block;">Naproxeno</p></div>
+                        <div class="col"> <strong style="display: inline-block;">Hora de la entrega:&nbsp;</strong><p th:text="${preorden.hora_de_entrega}" style="display: inline-block;"></p></div>
                         <hr>
-                        <div class="col"> <strong style="display: inline-block;">Numero de tracking:&nbsp;</strong><p th:text="${pedidos.id}" style="display: inline-block;"></p></div>
+                        <div class="col"> <strong style="display: inline-block;">Medicamento solicitado:&nbsp;</strong><p th:text="${preorden.medicamentos.nombre}" style="display: inline-block;"></p></div>
+                        <hr>
+                        <div class="col"> <strong style="display: inline-block;">Numero de tracking:&nbsp;</strong><p th:text="${preorden.numero_tracking}" style="display: inline-block;"></p></div>
                     </div>
                 </article>
                 <br>
                 <p><strong>Estado de la orden: </strong></p>
                 <div class="track">
-                    <div class="step active" th:if="${pedidos.estado_del_pedido == 'Recibido' or pedidos.estado_del_pedido == 'En proceso' or pedidos.estado_del_pedido == 'Empaquetando' or pedidos.estado_del_pedido == 'En Ruta' or pedidos.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Recibido</span> </div>
-                    <div class="step" th:unless="${pedidos.estado_del_pedido == 'Recibido' or pedidos.estado_del_pedido == 'En proceso' or pedidos.estado_del_pedido == 'Empaquetando' or pedidos.estado_del_pedido == 'En Ruta' or pedidos.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Recibido</span> </div>
-                    <div class="step active" th:if="${pedidos.estado_del_pedido == 'En proceso' or pedidos.estado_del_pedido == 'Empaquetando' or pedidos.estado_del_pedido == 'En Ruta' or pedidos.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-hourglass-half"></i> </span> <span class="text"> En proceso</span> </div>
-                    <div class="step" th:unless="${pedidos.estado_del_pedido == 'En proceso' or pedidos.estado_del_pedido == 'Empaquetando' or pedidos.estado_del_pedido == 'En Ruta' or pedidos.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-hourglass-half"></i> </span> <span class="text"> En proceso</span> </div>
-                    <div class="step active" th:if="${pedidos.estado_del_pedido == 'Empaquetando' or pedidos.estado_del_pedido == 'En Ruta' or pedidos.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text" style="text-align:unset;"> Empaquetando </span> </div>
-                    <div class="step" th:unless="${pedidos.estado_del_pedido == 'Empaquetando' or pedidos.estado_del_pedido == 'En Ruta' or pedidos.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text" style="text-align:unset;"> Empaquetando </span> </div>
-                    <div class="step active" th:if="${pedidos.estado_del_pedido == 'En Ruta' or pedidos.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En ruta</span> </div>
-                    <div class="step" th:unless="${pedidos.estado_del_pedido == 'En Ruta' or pedidos.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En ruta</span> </div>
-                    <div class="step active" th:if="${pedidos.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-home"></i> </span> <span class="text">Entregado</span> </div>
-                    <div class="step" th:unless="${pedidos.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-home"></i> </span> <span class="text">Entregado</span> </div>
+                    <div class="step active" th:if="${preorden.estado_del_pedido == 'Recibido' or preorden.estado_del_pedido == 'En proceso' or preorden.estado_del_pedido == 'Empaquetando' or preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Recibido</span> </div>
+                    <div class="step" th:unless="${preorden.estado_del_pedido == 'Recibido' or preorden.estado_del_pedido == 'En proceso' or preorden.estado_del_pedido == 'Empaquetando' or preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Recibido</span> </div>
+                    <div class="step active" th:if="${preorden.estado_del_pedido == 'En proceso' or preorden.estado_del_pedido == 'Empaquetando' or preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-hourglass-half"></i> </span> <span class="text"> En proceso</span> </div>
+                    <div class="step" th:unless="${preorden.estado_del_pedido == 'En proceso' or preorden.estado_del_pedido == 'Empaquetando' or preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-hourglass-half"></i> </span> <span class="text"> En proceso</span> </div>
+                    <div class="step active" th:if="${preorden.estado_del_pedido == 'Empaquetando' or preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text" style="text-align:unset;"> Empaquetando </span> </div>
+                    <div class="step" th:unless="${preorden.estado_del_pedido == 'Empaquetando' or preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text" style="text-align:unset;"> Empaquetando </span> </div>
+                    <div class="step active" th:if="${preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En ruta</span> </div>
+                    <div class="step" th:unless="${preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En ruta</span> </div>
+                    <div class="step active" th:if="${preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-home"></i> </span> <span class="text">Entregado</span> </div>
+                    <div class="step" th:unless="${preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-home"></i> </span> <span class="text">Entregado</span> </div>
                 </div>
 
             </div>

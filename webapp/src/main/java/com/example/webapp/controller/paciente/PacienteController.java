@@ -47,9 +47,11 @@ public class PacienteController {
     /*Vista de inicio (lista de pre-ordenes)*/
     @GetMapping("/paciente/inicio")
     public String listarPreordenes(Model model){
-
+        List<PedidosPaciente> preordenList = pedidosPacienteRepository.buscarPedidosPorTipo("preorden");
+        model.addAttribute("listaPreorden",preordenList);
         return "paciente/inicio";
     }
+    /*---------------------------------------*/
 
     /*QRUD y vista de MEDICAMENTOS*/
     @GetMapping("/paciente/medicamentos")
@@ -145,5 +147,11 @@ public class PacienteController {
         return "paciente/estadotrck";
     }
     /*---------------------------------------*/
+
+    /*Vista de mensajes*/
+    @GetMapping("/paciente/mensajes")
+    public String listarMensajes(){
+        return "paciente/mensajes";
+    }
 
 }
