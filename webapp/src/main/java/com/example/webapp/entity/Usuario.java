@@ -47,6 +47,9 @@ public class Usuario {
     private String seguro;
     private String estado;
     private String rol;
+
+    @NotBlank
+    @Size( max = 45, message = "El código de colegiatura no puede tener más de 45 caracteres")
     private String contrasena;
     private Date fecha_creacion;
     private String estado_solicitud;
