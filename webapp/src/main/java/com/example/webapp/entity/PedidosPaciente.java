@@ -35,4 +35,7 @@ public class PedidosPaciente {
     private Date fecha_validacion;
     private String estado_del_pedido;
     private String numero_tracking;
+    @ManyToOne
+    @JoinColumn(name = "carrito_medicamentos_id_medicamentos")
+    private Medicamentos medicamentos;
 }
