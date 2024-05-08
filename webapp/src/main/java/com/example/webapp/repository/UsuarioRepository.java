@@ -58,5 +58,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value = "select * from usuario where rol = ?1 and borrado_logico = ?2 order by fecha_creacion", nativeQuery = true)
     Usuario buscarSuperadmin(String rol,int borrado_logico);
 
+    @Query("SELECT u FROM Usuario u WHERE u.rol = 'Farmacista'")
+    List<Usuario> findAllFarmacistas();
+
 
 }

@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RequestMapping("/farmacista")
 public class FarmacistaController {
-    @GetMapping("/farmacista/nuevopedido")
+    @GetMapping("/farmacista/nuevo_pedido")
     public String Pedidos(Model model){
 
         return "farmacista/nuevo_pedido";

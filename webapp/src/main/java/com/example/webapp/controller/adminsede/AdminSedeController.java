@@ -1,9 +1,14 @@
 package com.example.webapp.controller.adminsede;
 
+import com.example.webapp.entity.Medicamentos;
+import com.example.webapp.entity.Usuario;
 import com.example.webapp.repository.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import java.util.List;
 
 @Controller
 public class AdminSedeController {
@@ -46,8 +51,8 @@ public class AdminSedeController {
     }
     @GetMapping(value="/admin/medicamentosSupAdmin")
     public String adminsedemedciamentos(Model model){
-        /*List<Medicamentos> listMed = medicamentosRepository.findAll();
-        model.addAttribute("listMed",listMed );*/
+        List<Medicamentos> listMed = medicamentosRepository.findAll();
+        model.addAttribute("listMed",listMed );
         return "admin/medicamentosSupAdmin";
     }
 
@@ -58,10 +63,21 @@ public class AdminSedeController {
     }
 
     @GetMapping(value="/admin/farmacistas")
-    public String adminsedeFarmacistas(){
+    public String adminsedeFarmacistas(Model model){
+        List<Usuario> farmacistas = usuarioRepository.findAllFarmacistas();
 
+        // Agregar la lista al modelo
+        model.addAttribute("farmacistas", farmacistas);
         return "admin/farmacistas";
     }
+    /*@GetMapping(value="/admin/doctores")
+    public String adminsedeDocotores(Model model){
+        List<Usuario> docotores = usuarioRepository.findAllDoctores();
+
+        // Agregar la lista al modelo
+        model.addAttribute("docotores", docotores);
+        return "admin/doctores";
+    }*/
 
     @GetMapping(value="/admin/estado_soliciutd_farmacistas")
     public String adminsedeSolFarmacistas(){

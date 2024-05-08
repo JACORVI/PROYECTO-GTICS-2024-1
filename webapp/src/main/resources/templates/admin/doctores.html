@@ -10,7 +10,7 @@
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" th:href="@{/admin/img/logo.png}" />
     <!-- Bootstrap icons-->
-    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}" rel="stylesheet" />
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons1.5.0/font/bootstrap-icons.css}" rel="stylesheet" />
     <title>Pildo Pharm</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" th:href="@{img/logo.png}" />
@@ -20,7 +20,6 @@
     <script th:src="@{https://use.fontawesome.com/releases/v6.3.0/js/all.js}" crossorigin="anonymous"></script>
     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js}"></script>
     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js}"></script>
-    <script th:src="@{https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCSkZALDDeauhgE9WHeS52ssPOo5xRLZoY&libraries=places}"></script>
     <style>
         /* Estilos personalizados para los botones */
         .boton_barbaro {
@@ -99,22 +98,39 @@
                 <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/admin/pedidos_reposicion}">Pedidos de Reposición</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/admin/nuevo_pedido}">Nuevo Pedido</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/admin/farmacistas}">Farmacistas</a></li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/admin/doctores}">Docotores</a></li
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/admin/doctores}">Docotores</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/admin/estado_solicitud_farmacistas}">Estado de solicitudes de Farmacistas</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
-            </ul>
+                <li class="nav-item"><a class="nav-link" href="#!" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16"></svg>
+                </ul>
         </div>
         <!--carrito-->
     </div>
 </nav>
 
-<footer style="background-color: rgba(11, 99, 111, 0.79); width: 100%;">
-    <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
-        <div style="font-family: Arial, 5px,serif; margin-left: 10px; color: white;">
-            <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
-        </div>
-    </div>
-</footer>
+<div class="container">
+    <h1>Listado de Farmacistas</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Codigo  de Colegiatura</th>
+            <th>Correo Electrónico</th>
+            <!-- Agrega más columnas según sea necesario -->
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterar sobre la lista de farmacistas y mostrar cada uno en una fila de la tabla -->
+        <tr th:each="farmacista : ${docotores}">
+            <td th:text="${farmacista.nombres + ' ' + farmacista.apellidos}"></td>
+            <td th:text="${farmacista.codigo_colegiatura}"></td>
+            <td th:text="${farmacista.correo}"></td>
+            <!-- Agrega más celdas según sea necesario -->
+        </tr>
+        </tbody>
+    </table>
+</div>
+
 
 
 </body>
