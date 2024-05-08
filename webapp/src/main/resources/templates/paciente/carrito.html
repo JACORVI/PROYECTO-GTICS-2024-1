@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -22,76 +22,34 @@
                     </div>
                 </div>    
                 <div class="row border-top border-bottom">
-                    <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="img/medicina.avif"></div>
+                    <div class="row main align-items-center" th:each="productos : ${listadoDelCarrito}">
+                        <div class="col-2"><img class="img-fluid" th:src="@{/paciente/img/medicamento.avif}"></div>
                         <div class="col">
-                            <div class="row text-muted">Categoria 2</div>
-                            <div class="row">Medicina 1</div>
+                            <div class="row text-muted" th:text="${productos.medicamentos_id_medicamentos.categoria}"></div>
+                            <div class="row" th:text="${productos.medicamentos_id_medicamentos.nombre}"></div>
                         </div>
                         <div class="col">
-                            <a href="#">-</a><a href="#" class="border">2</a><a href="#">+</a>
+                            <button style="border: none">-</button><a class="border" th:text="${productos.cantidad}"></a><button style="border: none">+</button>
                         </div>
-                        <div class="col">S&sol; 16.00</div>
+                        <div class="col" th:text="'S/ ' + ${productos.medicamentos_id_medicamentos.precio_unidad}"></div>
                         <div class="col">
-                            <a type="button" class="btn btn-danger" href="#">Eliminar</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="img/medicina.avif"></div>
-                        <div class="col">
-                            <div class="row text-muted">Categoria 1</div>
-                            <div class="row">Medicina 2</div>
-                        </div>
-                        <div class="col">
-                            <a href="#">-</a><a href="#" class="border">4</a><a href="#">+</a>
-                        </div>
-                        <div class="col">S&sol; 12.00</div>
-                        <div class="col">
-                            <a type="button" class="btn btn-danger" href="#">Eliminar</a>
+                            <a type="button" class="btn btn-danger" th:href="@{'/paciente/carrito/borrar?id=' + ${productos.medicamentos_id_medicamentos.id}}">Eliminar</a>
                         </div>
                     </div>
                 </div>
-                <div class="row border-top border-bottom">
-                    <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="img/medicina.avif"></div>
-                        <div class="col">
-                            <div class="row text-muted">Categoria 3</div>
-                            <div class="row">Medicina 3</div>
-                        </div>
-                        <div class="col">
-                            <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                        </div>
-                        <div class="col">S&sol; 27.00</div>
-                        <div class="col">
-                            <a type="button" class="btn btn-danger" href="#">Eliminar</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="back-to-shop"><a th:href="@{/paciente/medicamentos}">&leftarrow;</a><span class="text-muted">Volver a la pagina principal</span></div>
+                <div class="back-to-shop"><a style="font-size: large" th:href="@{/paciente/medicamentos}">&leftarrow;<span class="text-muted"> Volver a la pagina principal</span></a></div>
             </div>
             <div class="col-md-4 summary">
                 <div><h5><b>Resumen</b></h5></div>
                 <hr>
-                <div class="row">
-                    <div class="col" style="padding-left:0;">Medicina 1</div>
-                    <div class="col text-right">S&sol; 32.00</div>
-                </div>
-                <div class="row">
-                    <div class="col" style="padding-left:0;">Medicina 2</div>
-                    <div class="col text-right">S&sol; 48.00</div>
-                </div>
-                <div class="row">
-                    <div class="col" style="padding-left:0;">Medicina 3</div>
-                    <div class="col text-right">S&sol; 27.00</div>
+                <div class="row" th:each="productos : ${listadoDelCarrito}">
+                    <div class="col" style="padding-left:0;" th:text="${productos.medicamentos_id_medicamentos.nombre}"></div>
+                    <div class="col text-right" th:text="'S/ ' + ${productos.medicamentos_id_medicamentos.precio_unidad}"></div>
                 </div>
                 <form>
                     <p>SHIPPING</p>
-                    <select>
-                        <option class="text-muted" >Delivery- &euro;5.00</option>
-                        <option class="text-muted">Recojo en tienda- &euro;0.00</option>
-                    </select>
+                    <button class="btn" th:if="${delivery}">Agregar Delivery</button>
+                    <button class="btn">Recojo en tienda</button>
                     <label class="form-check-label">
                         ¿Desea que nuestro sistema le notifique entre 5 y 10 dias antes del vencimiento de sus medicamentos?
                     </label>
@@ -101,8 +59,8 @@
                     </select>
                 </form>
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                    <div class="col">TOTAL PRICE</div>
-                    <div class="col text-right">S&sol; 112.00</div>
+                    <div class="col" >TOTAL PRICE</div>
+                    <div class="col text-right" th:text="'S/ ' + ${precioTotal}"></div>
                 </div>
                 <button class="btn">FINALIZAR PEDIDO</button>
             </div>
@@ -114,8 +72,7 @@
                 </div>
             </div>
         </footer>
-    </div>    
-
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>

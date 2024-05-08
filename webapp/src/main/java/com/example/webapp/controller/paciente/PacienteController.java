@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,12 +45,17 @@ public class PacienteController {
     }
     /*---------------------------------------*/
 
+
+
     /*Vista de inicio (lista de pre-ordenes)*/
     @GetMapping("/paciente/inicio")
     public String listarPreordenes(Model model){
 
         return "paciente/inicio";
     }
+    /*---------------------------------------*/
+
+
 
     /*QRUD y vista de MEDICAMENTOS*/
     @GetMapping("/paciente/medicamentos")
@@ -87,30 +93,54 @@ public class PacienteController {
             int cantidad = cantidadDelDuplicado+1;
             int id1 = id;
             int usuid2 = usuid;
-            carritoRepository.borrarDuplicado(id, usuid);
+            carritoRepository.borrarElementoCarrito(id, usuid);
             carritoRepository.AñadirAlCarrito(id1, usuid2, cantidad);
             attr.addFlashAttribute("msg","Se agrego un producto existente al carrito!");
         }
         return "redirect:/paciente/medicamentos";
-
     }
     /*---------------------------------------*/
+
 
 
     /*QRUD y vista del CARRITO*/
     @GetMapping("/paciente/carrito")
-    public String listarProductosCarrito(){
-
+    public String listarProductosCarrito(Model model){
+        List<Carrito> listadodelcarrito = carritoRepository.findAll();
+        model.addAttribute("listadoDelCarrito",listadodelcarrito);
+        List<Double> listaPrecioxCantidad = carritoRepository.CantidadxPrecioUnitario();
+        double sumaTotal = 0.0;
+        for (Double valor : listaPrecioxCantidad) {
+            sumaTotal += valor;
+        }
+        String sumaTotal2D = String.format("%.2f", sumaTotal);
+        model.addAttribute("sumaPrecios",sumaTotal2D);
+        int delivery = 1;
+        model.addAttribute("delivery",delivery);
         return "paciente/carrito";
-
     }
 
-    @GetMapping("/borrar")
-    public String borrarElementoCarrito() {
+    @GetMapping("/paciente/carrito/delivery")
+    public String agregaDelivery(Model model,
+                                 @RequestParam("deli") int deli, @RequestParam("suma") int suma){
+        if (deli==1){
 
-        return "redirect:paciente/carrito";
+        }
+        else{
+
+        }
+        return "hola";
+    }
+
+    @GetMapping("/paciente/carrito/borrar")
+    public String borrarElementoCarrito(Model model,
+                                        @RequestParam("id") int id) {
+        int usuid = 29;
+        carritoRepository.borrarElementoCarrito(id, usuid);
+        return "redirect:/paciente/carrito";
     }
     /*---------------------------------------*/
+
 
 
     /*QRUD y vista del FORM*/
@@ -129,6 +159,7 @@ public class PacienteController {
     /*---------------------------------------*/
 
 
+
     /*QRUD y vista de MIS PEDIDOS*/
     @GetMapping("/paciente/mispedidos")
     public String listaPedidos(){
@@ -136,6 +167,7 @@ public class PacienteController {
         return "paciente/mispedidos";
     }
     /*---------------------------------------*/
+
 
 
     /*QRUD y vista de ESTADO DEL PEDIDO*/

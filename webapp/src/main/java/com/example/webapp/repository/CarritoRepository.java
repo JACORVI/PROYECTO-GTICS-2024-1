@@ -23,7 +23,7 @@ public interface CarritoRepository extends JpaRepository<Carrito, Integer> {
     @Transactional
     @Modifying
     @Query(value = "delete from carrito where (medicamentos_id_medicamentos = ?1) and (`usuario_id_usuario` = ?2);", nativeQuery = true)
-    void borrarDuplicado(int id, int usuid);
+    void borrarElementoCarrito(int id, int usuid);
 
     @Transactional
     @Modifying
@@ -34,6 +34,9 @@ public interface CarritoRepository extends JpaRepository<Carrito, Integer> {
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true,value = "delete from carrito where medicamentos_id_medicamentos= ?1")
-    void EvitaDuplicados(int idMedicamentos);
+    @Query(value = "SELECT gticsbd.carrito.cantidad * gticsbd.medicamentos.precio_unidad AS total\n" +
+            "FROM gticsbd.carrito\n" +
+            "JOIN \n" +
+            "    gticsbd.medicamentos ON gticsbd.carrito.medicamentos_id_medicamentos = gticsbd.medicamentos.id_medicamentos;", nativeQuery = true)
+    List<Double> CantidadxPrecioUnitario();
 }
