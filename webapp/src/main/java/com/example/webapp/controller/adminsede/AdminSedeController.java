@@ -1,7 +1,9 @@
 package com.example.webapp.controller.adminsede;
 
 import com.example.webapp.entity.Medicamentos;
+import com.example.webapp.entity.PedidosReposicion;
 import com.example.webapp.entity.Usuario;
+import com.example.webapp.entity.UsuarioHasSede;
 import com.example.webapp.repository.*;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -48,14 +50,13 @@ public class AdminSedeController {
     }
 
 
+    /*Vista de inicio (dashboard)*/
     @GetMapping(value = "/admin/paginainicio")
-    public String adminsedeinicio(){
-        return "admin/inicioSupAdmin";
+    public String adminsedeinicio(Model model){
+        model.addAttribute("listaMedConPocoInvent",medicamentosRepository.medicamentosConPocoInventario(1));
+        return "admin/paginainicio";
     }
-    @GetMapping(value ="/admin/pedidos_reposicion" )
-    public String adminsedereposicion(){
-        return "admin/pedidos_reposicion";
-    }
+    /*---------------------------------------*/
 
     /*Vista de lista de medicamentos*/
     @GetMapping(value="/admin/medicamentos")
@@ -162,6 +163,15 @@ public class AdminSedeController {
         }
         return "redirect:/admin/farmacistas";
 
+    }
+    /*---------------------------------------*/
+
+    /*Vista de lista de pedidos de reposición*/
+    @GetMapping(value ="/admin/pedidos_reposicion" )
+    public String listaPedidosReposicion(Model model){
+        List<PedidosReposicion> pedRepoxSedeList = pedidosReposicionRepository.listarPedRepPorIdUsuario(40);
+        model.addAttribute("listaPedRep",pedRepoxSedeList);
+        return "admin/pedidos_reposicion";
     }
     /*---------------------------------------*/
 

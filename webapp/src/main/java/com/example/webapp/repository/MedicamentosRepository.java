@@ -1,5 +1,6 @@
 package com.example.webapp.repository;
 
+import com.example.webapp.dto.MedicamentosPocoInventarioDto;
 import com.example.webapp.entity.Medicamentos;
 import com.example.webapp.entity.Usuario;
 import jakarta.transaction.Transactional;
@@ -29,4 +30,7 @@ public interface MedicamentosRepository extends JpaRepository<Medicamentos, Inte
 
     @Query(value = "select * from sede_has_medicamentos shm inner join medicamentos m on (shm.medicamentos_id_medicamentos = m.id_medicamentos) where sede_id_sede = ?1", nativeQuery = true)
     List<Medicamentos> listarMedicamentosporSede(int sede_id_sede);
+
+    @Query(value = "select nombre as Medicamento, inventario as Inventario from medicamentos m inner join sede_has_medicamentos shm  on (m.id_medicamentos = shm.medicamentos_id_medicamentos) where sede_id_sede = ?1 and (inventario < 25)", nativeQuery = true)
+    List<MedicamentosPocoInventarioDto> medicamentosConPocoInventario(int sede_id_sede);
 }
