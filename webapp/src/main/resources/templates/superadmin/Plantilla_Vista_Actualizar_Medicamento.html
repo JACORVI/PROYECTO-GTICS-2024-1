@@ -116,61 +116,69 @@
 </nav>
 
     <!-- TRABAJAR AQUI -->
-      <h2 class="mb-4">.</h2>
-      <h2 class="mb-4">ACTUALIZAR MEDICAMENTO</h2>
   <div class="container-xxl position-relative bg-white d-flex p-0" style="width: 80%;">
       <!-- Form Start -->
       <div class="container-fluid pt-4 px-4">
-          <div class="row g-4">
-              <div class="col-sm-12 col-xl-6">
-                  <div class="bg-light rounded h-100 p-4">
-                      <h4><p style="text-align:center">Imagen del Medicamento</p></h4>
-                      <div class="container">
-                          <!-- Formulario de carga de imagen -->
-                          <form  method="POST" enctype="multipart/form-data" th:action="@{'/superadmin/Guardar_Medicamento'+ '?id=' + ${medicamento.getId()}}">
+          <form  method="POST" enctype="multipart/form-data" th:action="@{'/superadmin/Guardar_Medicamento'}" th:object="${medicamento}">
+              <h2 class="mb-4">EDITAR MEDICAMENTO</h2>
+              <div class="row g-4">
+                  <div class="col-sm-12 col-xl-6">
+                      <div class="bg-light rounded h-100 p-4">
+                          <h4><p style="text-align:center">Imagen del Medicamento</p></h4>
+                          <div class="container">
+                              <!-- Formulario de carga de imagen -->
                               <div class="mb-3">
                                   <label for="formFile" class="form-label">Selecciona una imagen para cargar:</label>
-                                  <input class="form-control" type="file" id="formFile" name="foto">
+                                  <input class="form-control" type="file" id="formFile" name="foto1">
                                   <div class="bg-light rounded h-100 p-4">
                                       <h4><p style="text-align:center"><img th:src="'data:image/png;base64,' + ${fotoBase64}" alt="..." style="width: 300px; height: 300px;"/></p></h4>
                                   </div>
                               </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-sm-12 col-xl-6">
+                      <div class="bg-light rounded h-100 p-4">
+                          <h4><p style="text-align:center">Detalles del Medicamentso</p></h4>
+                          <input th:value="${medicamento.getId()}" name="id" type="hidden" />
+                          <input th:value="${medicamento.getFecha_ingreso()}" name="fecha_ingreso" type="hidden" />
+                          <input th:value="${medicamento.getCategoria()}" name="categoria" type="hidden" />
+                          <input th:value="${medicamento.getDosis()}" name="dosis" type="hidden" />
+                          <input th:value="${medicamento.getBorrado_logico()}" name="borrado_logico" type="hidden" />
+                          <input th:value="${medicamento.getFoto()}" name="foto" type="hidden" />
+                          <div class="mb-3">
+                              <label class="form-label">Nombre</label>
+                              <input type="text" class="form-control" th:field="*{nombre}"
+                                     th:classappend="${#fields.hasErrors('nombre')?'is-invalid':''}"/>
+                              <div class="invalid-feedback"
+                                   th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
+                              </div>
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label">Descripcion</label>
+                              <input type="text" class="form-control" th:field="*{descripcion}"
+                                     th:classappend="${#fields.hasErrors('descripcion')?'is-invalid':''}"/>
+                              <div class="invalid-feedback"
+                                   th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">
+                              </div>
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label" for="inventario">Inventario</label>
+                              <input type="text" class="form-control" th:field="*{inventario}"/>
+                              <div class="text-danger" th:if="${#fields.hasErrors('inventario')}" th:errors="*{inventario}">Error</div>
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label" for="precio_unidad">Precio por Unidad</label>
+                              <input type="text" class="form-control" th:field="*{precio_unidad}"/>
+                              <div class="text-danger" th:if="${#fields.hasErrors('precio_unidad')}" th:errors="*{precio_unidad}">Error</div>
+                          </div>
                       </div>
                   </div>
               </div>
-              <div class="col-sm-12 col-xl-6">
-                  <div class="bg-light rounded h-100 p-4">
-                      <h4><p style="text-align:center">Detalles del Medicamentso</p></h4>
-                      <input th:value="${medicamento.getId()}" name="id" type="hidden" />
-                      <input th:value="${medicamento.getFecha_ingreso()}" name="fecha_ingreso" type="hidden" />
-                      <input th:value="${medicamento.getCategoria()}" name="categoria" type="hidden" />
-                      <input th:value="${medicamento.getDosis()}" name="dosis" type="hidden" />
-                      <input th:value="${medicamento.getBorrado_logico()}" name="borrado_logico" type="hidden" />
-                      <div class="mb-3">
-                          <label class="form-label">Nombre</label>
-                          <input class="form-control " th:value="${medicamento.getNombre()}" name="nombre">
-                      </div>
-                      <div class="mb-3">
-                          <label class="form-label">Descripcion</label>
-                          <input class="form-control " th:value="${medicamento.getDescripcion()}" name="descripcion">
-                      </div>
-                      <div class="mb-3">
-                          <label class="form-label">Inventario</label>
-                          <input class="form-control " th:value="${medicamento.getInventario()}" name="inventario">
-                      </div>
-                      <div class="mb-3">
-                          <label class="form-label">Precio Por Unidad</label>
-                          <input class="form-control " th:value="${medicamento.getPrecio_unidad()}" name="precio_unidad">
-                      </div>
-                  </div>
+              <div class="text-center">
+                  <button type="submit" class="btn btn-primary boton-primario">EDITAR</button>
               </div>
-          </div>
-          <td class=<%=color%><p style="font-size: 18px;"></p></td>
-          <div class="text-center">
-              <button type="submit" class="btn btn-primary boton-primario">ACTUALIZAR</button>
-          </div>
           </form>
-
           <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">

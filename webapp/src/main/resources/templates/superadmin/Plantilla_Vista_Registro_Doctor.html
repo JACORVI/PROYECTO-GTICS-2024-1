@@ -120,7 +120,7 @@
       <div class="container" >
           <div class="row">
               <div class="col-lg-12">
-                  <h2 class="mb-4">.</h2>
+                  <div style="height: 40px;"></div> <!-- Espacio de separación -->
                   <h2 class="mb-4">NUEVO DOCTOR</h2>
                   <form class="row g-3" method="post" th:action="@{'/superadmin/Guardar_Usuario'}" th:object="${usuario}">
                       <input th:value="${'Sin-Distrito'}"name="distrito" type="hidden" />
@@ -157,7 +157,6 @@
                           </div>
                       </div>
                       <div class="col-md-6">
-                          <label class="form-label">DNI</label>
                           <label class="form-label" for="dni">DNI</label>
                           <input type="text" class="form-control" th:field="*{dni}"/>
                           <div class="text-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">Error</div>

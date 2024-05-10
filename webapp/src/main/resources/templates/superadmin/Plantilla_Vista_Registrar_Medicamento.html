@@ -116,21 +116,20 @@
 </nav>
 
     <!-- TRABAJAR AQUI -->
-      <h2 class="mb-4">.</h2>
-      <h2 class="mb-4">NUEVO MEDICAMENTO</h2>
   <div class="container-xxl position-relative bg-white d-flex p-0" style="width: 80%;">
       <!-- Form Start -->
       <div class="container-fluid pt-4 px-4">
-          <div class="row g-4">
+          <form  method="POST" enctype="multipart/form-data" th:action="@{'/superadmin/Guardar_Medicamento'}" th:object="${medicamento}">
+              <h2 class="mb-4">NUEVO MEDICAMENTO</h2>
+              <div class="row g-4">
               <div class="col-sm-12 col-xl-6">
                   <div class="bg-light rounded h-100 p-4">
                       <h4><p style="text-align:center">Imagen del Medicamento</p></h4>
                       <div class="container">
                           <!-- Formulario de carga de imagen -->
-                          <form  method="POST" enctype="multipart/form-data" th:action="@{'/superadmin/Registrar_Medicamento'}">
                               <div class="mb-3">
                                   <label for="formFile" class="form-label">Selecciona una imagen para cargar:</label>
-                                  <input class="form-control" type="file" id="formFile" name="foto">
+                                  <input class="form-control" type="file" id="formFile" name="foto1">
                               </div>
                       </div>
                   </div>
@@ -144,19 +143,29 @@
                           <input th:value="${0}" name="borrado_logico" type="hidden" />
                           <div class="mb-3">
                               <label class="form-label">Nombre</label>
-                              <input name="nombre" type="text" class="form-control" id="nombre">
+                              <input type="text" class="form-control" th:field="*{nombre}"
+                                     th:classappend="${#fields.hasErrors('nombre')?'is-invalid':''}"/>
+                              <div class="invalid-feedback"
+                                   th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
+                              </div>
                           </div>
                           <div class="mb-3">
                               <label class="form-label">Descripcion</label>
-                              <input name="descripcion" type="text" class="form-control" id="descripcion">
+                              <input type="text" class="form-control" th:field="*{descripcion}"
+                                     th:classappend="${#fields.hasErrors('descripcion')?'is-invalid':''}"/>
+                              <div class="invalid-feedback"
+                                   th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">
+                              </div>
                           </div>
                           <div class="mb-3">
-                              <label class="form-label">Inventario</label>
-                              <input name="inventario" type="text" class="form-control" id="inventario">
+                              <label class="form-label" for="inventario">Inventario</label>
+                              <input type="text" class="form-control" th:field="*{inventario}"/>
+                              <div class="text-danger" th:if="${#fields.hasErrors('inventario')}" th:errors="*{inventario}">Error</div>
                           </div>
                           <div class="mb-3">
-                              <label class="form-label">Precio Por Unidad</label>
-                              <input name="precio_unidad" type="text" class="form-control" id="precio_unidad">
+                              <label class="form-label" for="precio_unidad">Precio por Unidad</label>
+                              <input type="text" class="form-control" th:field="*{precio_unidad}"/>
+                              <div class="text-danger" th:if="${#fields.hasErrors('precio_unidad')}" th:errors="*{precio_unidad}">Error</div>
                           </div>
                   </div>
               </div>

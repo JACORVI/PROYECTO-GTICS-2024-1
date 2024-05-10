@@ -57,7 +57,7 @@ public class SuperadminController {
     }
 
     @GetMapping("/Registrar_Medicamento")
-    public String Registrar_Medicamento() {
+    public String Registrar_Medicamento(@ModelAttribute ("medicamento") Medicamentos medicamentos) {
         return "superadmin/Plantilla_Vista_Registrar_Medicamento";
     }
 
@@ -138,7 +138,7 @@ public class SuperadminController {
     //Editar Medicamento
     @GetMapping("/Editar_Medicamento")
     public String editarMedicamento(Model model,
-                                    @RequestParam("id") int id) {
+                                    @RequestParam("id") int id,@ModelAttribute ("medicamento") Medicamentos medicamentos) {
 
         Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
         if (optMedicamento.isPresent()) {
@@ -180,8 +180,184 @@ public class SuperadminController {
         }
     }
 
-    //Guardar Medicamento
     @PostMapping("/Guardar_Medicamento")
+    public String guardarNuevoMedicamento(@RequestParam("foto1") Part foto1,
+                                          @ModelAttribute ("medicamento") @Valid Medicamentos medicamentos, BindingResult bindingResult,
+                                          Model model) {
+
+        if(medicamentos.getId() == 0){
+            if (bindingResult.hasErrors()) {
+                System.out.println(medicamentos.getNombre());
+                return "superadmin/Plantilla_Vista_Registrar_Medicamento";
+
+            } else {
+
+                try {
+                    InputStream fotoStream=foto1.getInputStream();
+                    byte[] fotoBytes=fotoStream.readAllBytes();
+                    medicamentos.setFoto(fotoBytes);
+                    medicamentosRepository.save(medicamentos);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
+                List<Sede> list1 = sedeRepository.findAll();
+
+                List<String> listaIndicador = new ArrayList<>();
+
+                for (Sede sede : list1) {
+                    int i = 0;
+                    for (SedeHasMedicamentos sedeHasMedicamentos : list) {
+                        if (sede.getId() == sedeHasMedicamentos.getId_sede().getId()) {
+                            if (sedeHasMedicamentos.getId_medicamentos().getId() == medicamentos.getId()) {
+                                i=1;
+                            }
+                        }
+                    }
+                    if (i==0){
+                        listaIndicador.add("NoAsignado");
+                    }else{
+                        listaIndicador.add("Asignado");
+                    }
+                }
+
+                System.out.println(listaIndicador);
+                byte[] fotoBytes1 = medicamentos.getFoto();
+                String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
+
+                model.addAttribute("fotoBase64", fotoBase64);
+                model.addAttribute("medicamento", medicamentos);
+                model.addAttribute("ListaIndicador", listaIndicador);
+                model.addAttribute("ListaSedes",list1);
+
+
+                return "superadmin/Plantilla_Vista_Ver_Medicamento";
+
+            }
+        }else{
+            if (bindingResult.hasErrors()) {
+                List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
+                List<Sede> list1 = sedeRepository.findAll();
+
+                List<String> listaIndicador = new ArrayList<>();
+
+                for (Sede sede : list1) {
+                    int i = 0;
+                    for (SedeHasMedicamentos sedeHasMedicamentos : list) {
+                        if (sede.getId() == sedeHasMedicamentos.getId_sede().getId()) {
+                            if (sedeHasMedicamentos.getId_medicamentos().getId() == medicamentos.getId()) {
+                                i=1;
+                            }
+                        }
+                    }
+                    if (i==0){
+                        listaIndicador.add("NoAsignado");
+                    }else{
+                        listaIndicador.add("Asignado");
+                    }
+                }
+
+                System.out.println(listaIndicador);
+                byte[] fotito = medicamentos.getFoto();
+                String fotoBase = Base64.getEncoder().encodeToString(fotito);
+
+                model.addAttribute("fotoBase64", fotoBase);
+                model.addAttribute("medicamento", medicamentos);
+                model.addAttribute("ListaIndicador", listaIndicador);
+                model.addAttribute("ListaSedes",list1);
+
+
+                return "superadmin/Plantilla_Vista_Actualizar_Medicamento";
+
+            } else {
+
+                if (foto1.getHeaderNames().isEmpty()) {
+                    medicamentosRepository.save(medicamentos);
+                    List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
+                    List<Sede> list1 = sedeRepository.findAll();
+
+                    List<String> listaIndicador = new ArrayList<>();
+
+                    for (Sede sede : list1) {
+                        int i = 0;
+                        for (SedeHasMedicamentos sedeHasMedicamentos : list) {
+                            if (sede.getId() == sedeHasMedicamentos.getId_sede().getId()) {
+                                if (sedeHasMedicamentos.getId_medicamentos().getId() == medicamentos.getId()) {
+                                    i=1;
+                                }
+                            }
+                        }
+                        if (i==0){
+                            listaIndicador.add("NoAsignado");
+                        }else{
+                            listaIndicador.add("Asignado");
+                        }
+                    }
+
+                    System.out.println(listaIndicador);
+                    byte[] fotoBytes1 = medicamentos.getFoto();
+                    String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
+
+                    model.addAttribute("fotoBase64", fotoBase64);
+                    model.addAttribute("medicamento", medicamentos);
+                    model.addAttribute("ListaIndicador", listaIndicador);
+                    model.addAttribute("ListaSedes",list1);
+
+
+                    return "superadmin/Plantilla_Vista_Ver_Medicamento";
+                } else {
+                    try {
+                        InputStream fotoStream=foto1.getInputStream();
+                        byte[] fotoBytes=fotoStream.readAllBytes();
+                        medicamentos.setFoto(fotoBytes);
+                        medicamentosRepository.save(medicamentos);
+                        List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
+                        List<Sede> list1 = sedeRepository.findAll();
+
+                        List<String> listaIndicador = new ArrayList<>();
+
+                        for (Sede sede : list1) {
+                            int i = 0;
+                            for (SedeHasMedicamentos sedeHasMedicamentos : list) {
+                                if (sede.getId() == sedeHasMedicamentos.getId_sede().getId()) {
+                                    if (sedeHasMedicamentos.getId_medicamentos().getId() == medicamentos.getId()) {
+                                        i=1;
+                                    }
+                                }
+                            }
+                            if (i==0){
+                                listaIndicador.add("NoAsignado");
+                            }else{
+                                listaIndicador.add("Asignado");
+                            }
+                        }
+
+                        System.out.println(listaIndicador);
+                        byte[] fotoBytes1 = medicamentos.getFoto();
+                        String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
+
+                        model.addAttribute("fotoBase64", fotoBase64);
+                        model.addAttribute("medicamento", medicamentos);
+                        model.addAttribute("ListaIndicador", listaIndicador);
+                        model.addAttribute("ListaSedes",list1);
+
+
+                        return "superadmin/Plantilla_Vista_Ver_Medicamento";
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+
+            }
+        }
+    }
+
+
+
+    //Guardar Medicamento
+    /*@PostMapping("/Guardar_Medicamento")
     public String guardarNuevoMedicamento(@RequestParam("foto") Part foto,
                                           @RequestParam("nombre") String nombre,
                                           @RequestParam("descripcion") String descripcion,
@@ -255,85 +431,7 @@ public class SuperadminController {
             return "redirect:/superadmin/Plantilla_Vista_Medicamentos";
         }
     }
-
-
-    @PostMapping("/Registrar_Medicamento")
-    public String RegistrarNuevoMedicamento(@RequestParam("foto") Part foto,
-                                            @RequestParam("nombre") String nombre,
-                                            @RequestParam("descripcion") String descripcion,
-                                            @RequestParam("inventario") int inventario,
-                                            @RequestParam("precio_unidad") double precio_unidad,
-                                            @RequestParam("fecha_ingreso") String fecha_ingreso,
-                                            @RequestParam("categoria") String categoria,
-                                            @RequestParam("dosis") String dosis,
-                                            @RequestParam("borrado_logico") int borrado_logico,
-                                            Model model) {
-
-        Medicamentos medicamento = new Medicamentos();
-
-        try {
-            InputStream fotoStream=foto.getInputStream();
-            byte[] fotoBytes=fotoStream.readAllBytes();
-            medicamento.setFoto(fotoBytes);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        medicamento.setNombre(nombre);
-        medicamento.setDescripcion(descripcion);
-        medicamento.setInventario(inventario);
-        medicamento.setPrecio_unidad(precio_unidad);
-        medicamento.setFecha_ingreso(fecha_ingreso);
-        medicamento.setCategoria(categoria);
-        medicamento.setDosis(dosis);
-        medicamento.setBorrado_logico(borrado_logico);
-
-        medicamentosRepository.save(medicamento);
-
-        int id = medicamentosRepository.buscarUltimo();
-
-        Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
-
-        if (optMedicamento.isPresent()) {
-            Medicamentos medicamento1 = optMedicamento.get();
-            List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
-            List<Sede> list1 = sedeRepository.findAll();
-
-            List<String> listaIndicador = new ArrayList<>();
-
-            for (Sede sede : list1) {
-                int i = 0;
-                for (SedeHasMedicamentos sedeHasMedicamentos : list) {
-                    if (sede.getId() == sedeHasMedicamentos.getId_sede().getId()) {
-                        if (sedeHasMedicamentos.getId_medicamentos().getId() == id) {
-                            i=1;
-                        }
-                    }
-                }
-                if (i==0){
-                    listaIndicador.add("NoAsignado");
-                }else{
-                    listaIndicador.add("Asignado");
-                }
-            }
-
-            System.out.println(listaIndicador);
-            byte[] fotoBytes1 = medicamento1.getFoto();
-            String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
-
-            model.addAttribute("fotoBase64", fotoBase64);
-            model.addAttribute("medicamento", medicamento1);
-            model.addAttribute("ListaIndicador", listaIndicador);
-            model.addAttribute("ListaSedes",list1);
-
-
-            return "superadmin/Plantilla_Vista_Actualizar_Medicamento";
-        } else {
-            return "redirect:/superadmin/Plantilla_Vista_Medicamentos";
-        }
-
-    }
-
+    */
     @GetMapping("/Asignar_Sede_Medicamento")
     public String AsignarMedicamento(Model model,
                           @RequestParam("id") int id,
@@ -740,8 +838,13 @@ public class SuperadminController {
                         return "superadmin/Plantilla_Vista_Ver_Farmacista";
                     }
                     if (usuario.getRol().equals("Paciente")) {
-                        return "redirect:/superadmin/Ver_Perfil";
+                        model.addAttribute("usuario", usuario);
+                        return "superadmin/Plantilla_Vista_Ver_Paciente";
                     }
+                if (usuario.getRol().equals("Superadmin")) {
+                    model.addAttribute("usuario", usuario);
+                    return "redirect:/superadmin/Ver_Perfil";
+                }
             }
 
         }
