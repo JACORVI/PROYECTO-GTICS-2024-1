@@ -101,7 +101,8 @@
                             <!-- medicine actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" th:href="@{'/paciente/añadirCarrito?id=' + ${medicamentos.id}}">Añadir al carrito</a>
+                                    <a class="btn btn-outline-dark mt-auto" th:if="${numPedido != ''}" th:href="@{'/paciente/añadirCarrito1?id=' + ${medicamentos.id}  + '&numpedido=' + ${numPedido}}">Añadir al carrito</a>
+                                    <a class="btn btn-outline-dark mt-auto" th:if="${numPedido == ''}" th:href="@{'/paciente/añadirCarrito2?id=' + ${medicamentos.id}}">Añadir al carrito</a>
                                 </div>
                             </div>
                         </div>

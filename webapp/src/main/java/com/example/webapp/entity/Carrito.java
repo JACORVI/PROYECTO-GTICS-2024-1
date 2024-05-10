@@ -25,4 +25,6 @@ public class Carrito {
 
     @Column(nullable = false)
     private int cantidad;
+    private String numero_pedido;
+    private String estado_de_compra;
 }

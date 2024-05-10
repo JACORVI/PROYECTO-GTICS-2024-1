@@ -17,8 +17,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Controller
 public class PacienteController {
@@ -59,10 +61,34 @@ public class PacienteController {
     /*QRUD y vista de MEDICAMENTOS*/
     @GetMapping("/paciente/medicamentos")
     public String listarMedicamentos(Model model){
+        int usuid = 29;
+
         List<Medicamentos> listamedicamentos = medicamentosRepository.findAll();
         model.addAttribute("listaMedicamentos",listamedicamentos);
-        List<Carrito> tamañocarrito = carritoRepository.findAll();
-        model.addAttribute("tamañoCarrito",tamañocarrito.size());
+        List<Carrito> tamanocarrito = carritoRepository.findAll();
+        model.addAttribute("tamañoCarrito",tamanocarrito.size());
+
+        //generador de numero de pedidos
+        List<String> estadosdecompraporId = carritoRepository.estadosDeCompraPorUsuarioId(usuid);
+        boolean soloEstadosRegistrados = true;
+
+        String banco = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        String numpedido = "";
+        for (String palabra : estadosdecompraporId) {
+            if (palabra!=null && palabra.equals("Comprando")) {
+                soloEstadosRegistrados = false;
+                break;
+            }
+        }
+        if(estadosdecompraporId.isEmpty() || soloEstadosRegistrados){
+            for (int x = 0; x < 12; x++) {
+                int indiceAleatorio = numeroAleatorioEnRango(0, banco.length() - 1);
+                char caracterAleatorio = banco.charAt(indiceAleatorio);
+                numpedido += caracterAleatorio;
+            }
+        }
+        model.addAttribute("numPedido",numpedido);
+
         return "paciente/medicamentos";
     }
 
@@ -75,16 +101,43 @@ public class PacienteController {
         return "paciente/medicamentos";
     }
 
-    @GetMapping("/paciente/añadirCarrito")
-    public String anadirMedicamentoAlCarrito(Model model,
-                                             @RequestParam("id") int id, RedirectAttributes attr){
+    @GetMapping("/paciente/añadirCarrito1")
+    public String anadirMedicamentoAlCarrito1(Model model,
+                                             @RequestParam("id") int id, @RequestParam("numpedido") String numpedido, RedirectAttributes attr){
         int usuid = 29;
 
-        List<Carrito> carrito = carritoRepository.buscarDuplicados(id);
-
-        if (carrito.isEmpty()){
+        List<String> estadosdecompraporId = carritoRepository.estadosDeCompraPorUsuarioId(usuid);
+        boolean soloEstadosRegistrados = true;
+        for (String palabra : estadosdecompraporId) {
+            if (palabra!=null && palabra.equals("Comprando")) {
+                soloEstadosRegistrados = false;
+                break;
+            }
+        }
+        if(estadosdecompraporId.isEmpty() || soloEstadosRegistrados){
+            if(estadosdecompraporId.isEmpty() || soloEstadosRegistrados){
+                String registrado = "Registrado";
+                carritoRepository.borrarPedidoRegistrado(usuid, registrado);
+            }
+            String estadocompra = "Comprando";
             int cantidad = 1;
-            carritoRepository.AnadirAlCarrito(id, usuid, cantidad);
+            carritoRepository.AnadirAlCarrito(id, usuid, cantidad, numpedido, estadocompra);
+            attr.addFlashAttribute("msg","Se agrego un nuevo producto al carrito!");
+        }
+        return "redirect:/paciente/medicamentos";
+    }
+
+    @GetMapping("/paciente/añadirCarrito2")
+    public String anadirMedicamentoAlCarrito2(Model model,
+                                             @RequestParam("id") int id, RedirectAttributes attr){
+        int usuid = 29;
+        String estadocompra = "Comprando";
+        List<Carrito> duplicados = carritoRepository.buscarDuplicados(id);
+        if (duplicados.isEmpty()){
+            int cantidad = 1;
+            List<String> numeropedidoporId = carritoRepository.numPedidoPorUsuarioId(usuid);
+            String numpedido = numeropedidoporId.get(0);
+            carritoRepository.AnadirAlCarrito(id, usuid, cantidad, numpedido, estadocompra);
             attr.addFlashAttribute("msg","Se agrego un nuevo producto al carrito!");
         }
         else{
@@ -92,11 +145,17 @@ public class PacienteController {
             int cantidad = cantidadDelDuplicado+1;
             int id1 = id;
             int usuid2 = usuid;
+            List<String> numeropedidoporId = carritoRepository.numPedidoPorUsuarioId(usuid);
+            String numpedido = numeropedidoporId.get(0);
             carritoRepository.borrarElementoCarrito(id, usuid);
-            carritoRepository.AnadirAlCarrito(id1, usuid2, cantidad);
+            carritoRepository.AnadirAlCarrito(id1, usuid2, cantidad, numpedido, estadocompra);
             attr.addFlashAttribute("msg","Se agrego un producto existente al carrito!");
         }
         return "redirect:/paciente/medicamentos";
+    }
+
+    public static int numeroAleatorioEnRango(int minimo, int maximo) {
+        return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
     }
     /*---------------------------------------*/
 
@@ -106,16 +165,29 @@ public class PacienteController {
     @GetMapping("/paciente/carrito")
     public String listarProductosCarritoRT(Model model){
         List<Carrito> listadodelcarritort = carritoRepository.findAll();
-        model.addAttribute("listadoDelCarrito",listadodelcarritort);
-        List<Double> listaPrecioxCantidad = carritoRepository.CantidadxPrecioUnitario();
-        double sumaTotal = 0.0;
-        for (Double valor : listaPrecioxCantidad) {
-            sumaTotal += valor;
+        int car = 0;
+        if (listadodelcarritort.isEmpty()){
+            String msg1 = "Su carrito esta vacio.";
+            String msg2 = "No agrego ningun producto a su carrito.";
+            car = 1;
+            model.addAttribute("msg1",msg1);
+            model.addAttribute("msg2",msg2);
+            model.addAttribute("car",car);
         }
-        String sumaTotal2D = String.format("%.2f", sumaTotal);
-        model.addAttribute("precioTotal",sumaTotal2D);
-        int delivery = 0;
-        model.addAttribute("delivery",delivery);
+        else{
+            car = 0;
+            model.addAttribute("listadoDelCarrito",listadodelcarritort);
+            List<Double> listaPrecioxCantidad = carritoRepository.CantidadxPrecioUnitario();
+            double sumaTotal = 0.0;
+            for (Double valor : listaPrecioxCantidad) {
+                sumaTotal += valor;
+            }
+            String sumaTotal2D = String.format("%.2f", sumaTotal);
+            model.addAttribute("precioTotal",sumaTotal2D);
+            int delivery = 0;
+            model.addAttribute("delivery",delivery);
+            model.addAttribute("car",car);
+        }
         return "paciente/carrito";
     }
 
@@ -191,3 +263,5 @@ public class PacienteController {
     }
 
 }
+
+
