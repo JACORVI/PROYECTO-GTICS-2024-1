@@ -28,11 +28,11 @@ public class AdminSedeController {
     SedeHasMedicamentosRepository sedeHasMedicamentosRepository;
 
     public AdminSedeController(MedicamentosRepository medicamentosRepository,
-                                UsuarioRepository usuarioRepository,
-                                PedidosReposicionRepository pedidosReposicionRepository,
-                                UsuarioHasSedeRepository usuarioHasSedeRepository,
-                                SedeRepository sedeRepository,
-                                SedeHasMedicamentosRepository sedeHasMedicamentosRepository) {
+                               UsuarioRepository usuarioRepository,
+                               PedidosReposicionRepository pedidosReposicionRepository,
+                               UsuarioHasSedeRepository usuarioHasSedeRepository,
+                               SedeRepository sedeRepository,
+                               SedeHasMedicamentosRepository sedeHasMedicamentosRepository) {
 
         this.medicamentosRepository = medicamentosRepository;
 
@@ -48,7 +48,7 @@ public class AdminSedeController {
     }
 
 
-    @GetMapping(value = "/admin/inicioSupAdmin")
+    @GetMapping(value = "/admin/paginainicio")
     public String adminsedeinicio(){
         return "admin/inicioSupAdmin";
     }
@@ -56,18 +56,30 @@ public class AdminSedeController {
     public String adminsedereposicion(){
         return "admin/pedidos_reposicion";
     }
-    @GetMapping(value="/admin/medicamentosSupAdmin")
-    public String adminsedemedciamentos(Model model){
-        List<Medicamentos> listMed = medicamentosRepository.findAll();
-        model.addAttribute("listMed",listMed );
-        return "admin/medicamentosSupAdmin";
+
+    /*Vista de lista de medicamentos*/
+    @GetMapping(value="/admin/medicamentos")
+    public String adminsedeMedicamentos(Model model){
+        List<Medicamentos> medxSedeList = medicamentosRepository.listarMedicamentosporSede(1);
+        model.addAttribute("listMed",medxSedeList);
+        return "admin/medicamentos";
     }
+    /*---------------------------------------*/
 
     @GetMapping(value="/admins/nuevo_pedido")
     public String adminsedePedidos(){
 
         return "admin/nuevo_pedido";
     }
+
+    /*Vista de lista de doctores*/
+    @GetMapping(value="/admin/doctores")
+    public String adminsedeDoctores(Model model){
+        List<Usuario> doctorxsedeList = usuarioRepository.buscarDoctorporSede(1);
+        model.addAttribute("listaDoctor",doctorxsedeList);
+        return "admin/doctores";
+    }
+    /*---------------------------------------*/
 
     /*Vista de lista de farmacistas*/
     @GetMapping(value="/admin/farmacistas")
@@ -80,12 +92,20 @@ public class AdminSedeController {
 
     /*Vista para crear nuevo farmacista*/
     @GetMapping(value="/admin/registrar_farmacista")
-    public String adminsedeFarmacistas(@ModelAttribute("usuario") Usuario usuario){
+    public String adminsedeFarmacistas(RedirectAttributes attr, @ModelAttribute("usuario") Usuario usuario){
 
-        return "admin/nuevo_farmacista";
+        List<Usuario> farmacistaxsedeList = usuarioRepository.buscarFarmacistaporSede(1);
+        if(farmacistaxsedeList.size()>2){
+            attr.addFlashAttribute("msg1", "Solo se puede registrar un máximo de 3 farmacistas");
+            return "redirect:/admin/farmacistas";
+        }
+        else {
+            return "admin/nuevo_farmacista";
+        }
     }
     /*---------------------------------------*/
 
+    /*Guarda registro de farmacista*/
     @PostMapping("/admin/guardar_farmacista")
     public String guardarFarmacista(RedirectAttributes attr,
                                     @ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult) {
@@ -108,7 +128,9 @@ public class AdminSedeController {
         }
 
     }
+    /*---------------------------------------*/
 
+    /*Edita registro de farmacista*/
     @GetMapping("/admin/editar_farmacista")
     public String editarFarmacista(@ModelAttribute("usuario") Usuario usuario,
                                    Model model, @RequestParam("id") int id) {
@@ -123,7 +145,9 @@ public class AdminSedeController {
             return "redirect:/admin/farmacistas";
         }
     }
+    /*---------------------------------------*/
 
+    /*Elimina registro de farmacista*/
     @GetMapping("/admin/eliminar_farmacista")
     public String borrarFarmacista(@RequestParam("id") int id,
                                    RedirectAttributes attr) {
@@ -139,6 +163,7 @@ public class AdminSedeController {
         return "redirect:/admin/farmacistas";
 
     }
+    /*---------------------------------------*/
 
     @GetMapping(value="/admin/estado_soliciutd_farmacistas")
     public String adminsedeSolFarmacistas(){

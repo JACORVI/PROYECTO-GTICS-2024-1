@@ -26,4 +26,7 @@ public interface MedicamentosRepository extends JpaRepository<Medicamentos, Inte
 
     @Query(value = "SELECT id_medicamentos FROM medicamentos ORDER BY id_medicamentos DESC LIMIT 1;\n", nativeQuery = true)
     int buscarUltimo();
+
+    @Query(value = "select * from sede_has_medicamentos shm inner join medicamentos m on (shm.medicamentos_id_medicamentos = m.id_medicamentos) where sede_id_sede = ?1", nativeQuery = true)
+    List<Medicamentos> listarMedicamentosporSede(int sede_id_sede);
 }

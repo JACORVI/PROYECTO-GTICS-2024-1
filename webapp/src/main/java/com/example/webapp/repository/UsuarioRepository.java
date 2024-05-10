@@ -60,4 +60,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query(value = "select * from usuario u inner join usuario_has_sede uhs on (u.id_usuario = uhs.usuario_id_usuario) where rol = 'farmacista' and sede_id_sede = ?1", nativeQuery = true)
     List<Usuario> buscarFarmacistaporSede(int sede_id_sede);
+
+    @Query(value = "select * from usuario u inner join usuario_has_sede uhs on (u.id_usuario = uhs.usuario_id_usuario) where rol = 'Doctor' and sede_id_sede = ?1", nativeQuery = true)
+    List<Usuario> buscarDoctorporSede(int sede_id_sede);
 }
