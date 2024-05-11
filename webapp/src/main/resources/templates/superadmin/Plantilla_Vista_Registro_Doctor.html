@@ -163,11 +163,19 @@
                       </div>
                       <div class="col-12">
                           <label class="form-label">Código de Colegiatura</label>
-                          <input type="text" class="form-control" th:field="*{codigo_colegiatura}"
-                                 th:classappend="${#fields.hasErrors('codigo_colegiatura')?'is-invalid':''}"/>
-                          <div class="invalid-feedback"
-                               th:if="${#fields.hasErrors('codigo_colegiatura')}" th:errors="*{codigo_colegiatura}">
-                          </div>
+                          <select class="form-select" aria-label="Default select example" th:field="*{codigo_colegiatura}">
+                              <option th:value="${'DOD001'}">MED001</option>
+                              <option th:value="${'DOD002'}">MED002</option>
+                              <option th:value="${'DOD003'}">MED003</option>
+                              <option th:value="${'DOD004'}">MED004</option>
+                              <option th:value="${'DOD005'}">MED005</option>
+                              <option th:value="${'DOD006'}">MED006</option>
+                              <option th:value="${'DOD007'}">MED007</option>
+                              <option th:value="${'DOD008'}">MED008</option>
+                              <option th:value="${'DOD009'}">MED009</option>
+                              <option th:value="${'DOD010'}">MED010</option>
+                              <!-- Agrega más opciones según sea necesario -->
+                          </select>
                       </div>
                       <div class="text-center">
                           <button type="submit" class="btn btn-primary boton-primario">REGISTRAR</button>
