@@ -9,7 +9,7 @@
 
     <h3 class="mt-4" style="margin: 10px">Lista de pedidos de Reposición</h3>
 
-    <a class="btn btn-primary mt-4" href="#" style="margin: 50px; margin-bottom: 5px">Realizar nuevo pedido</a>
+    <a class="btn btn-primary mt-4" th:href="@{/admin/nuevo_pedido}" style="margin: 50px; margin-bottom: 5px">Realizar nuevo pedido</a>
     <section th:each="pedRep,info: ${listaPedRep}" th:if="${info.index < 2}" style="margin: 50px;">
 
         <h4 class="mb-5" th:text="${'Fecha solicitada: ' + pedRep.fecha_solicitud}"></h4>
@@ -88,7 +88,7 @@
     </section>
 
     <div style="text-align: center;" th:if="${listaPedRep.size() > 2}">
-        <a class="btn btn-outline-secondary mt-4 mb-4" href="#">Ver más</a>
+        <a class="btn btn-outline-secondary mt-4 mb-4" th:href="@{/admin/listaPedidosReposicion}">Ver más</a>
     </div>
 
 

@@ -54,6 +54,10 @@ public class AdminSedeController {
     @GetMapping(value = "/admin/paginainicio")
     public String adminsedeinicio(Model model){
         model.addAttribute("listaMedConPocoInvent",medicamentosRepository.medicamentosConPocoInventario(1));
+        model.addAttribute("listaMedSoli7",medicamentosRepository.medicamentosSolicitadosxdias(7));
+        model.addAttribute("listaMedSoli15",medicamentosRepository.medicamentosSolicitadosxdias(15));
+        model.addAttribute("listaMedSoli3",medicamentosRepository.medicamentosSolicitados3meses());
+        model.addAttribute("listaSedes",sedeRepository.SedesConMayorCantTransacciones());
         return "admin/paginainicio";
     }
     /*---------------------------------------*/
@@ -67,18 +71,22 @@ public class AdminSedeController {
     }
     /*---------------------------------------*/
 
-    @GetMapping(value="/admins/nuevo_pedido")
-    public String adminsedePedidos(){
-
-        return "admin/nuevo_pedido";
-    }
-
     /*Vista de lista de doctores*/
     @GetMapping(value="/admin/doctores")
     public String adminsedeDoctores(Model model){
         List<Usuario> doctorxsedeList = usuarioRepository.buscarDoctorporSede(1);
         model.addAttribute("listaDoctor",doctorxsedeList);
         return "admin/doctores";
+    }
+    /*---------------------------------------*/
+
+    /*Vista de solicitud de farmacistas*/
+    @GetMapping(value="/admin/estado_solicitud_farmacistas")
+    public String listaSolFarmacistas(Model model){
+        List<Usuario> farmacistaxsedeList = usuarioRepository.buscarFarmacistaporSede(1);
+        model.addAttribute("listaFarmacista",farmacistaxsedeList);
+
+        return "admin/estado_solicitud_farmacistas";
     }
     /*---------------------------------------*/
 
@@ -169,15 +177,29 @@ public class AdminSedeController {
     /*Vista de lista de pedidos de reposición*/
     @GetMapping(value ="/admin/pedidos_reposicion" )
     public String listaPedidosReposicion(Model model){
-        List<PedidosReposicion> pedRepoxSedeList = pedidosReposicionRepository.listarPedRepPorIdUsuario(40);
+        List<PedidosReposicion> pedRepoxSedeList = pedidosReposicionRepository.listarPedRepPorIdUsuario(28);
         model.addAttribute("listaPedRep",pedRepoxSedeList);
         return "admin/pedidos_reposicion";
     }
     /*---------------------------------------*/
 
-    @GetMapping(value="/admin/estado_soliciutd_farmacistas")
-    public String adminsedeSolFarmacistas(){
-
-        return "admin/estado_soliciutd_farmacistas";
+    /*Vista de lista completa de pedidos de reposición*/
+    @GetMapping(value ="/admin/listaPedidosReposicion" )
+    public String listaComPedidosReposicion(Model model){
+        List<PedidosReposicion> pedRepoxSedeList = pedidosReposicionRepository.listarPedRepPorIdUsuario(28);
+        model.addAttribute("listaPedRep",pedRepoxSedeList);
+        return "admin/pedidos_reposicion_2";
     }
+    /*---------------------------------------*/
+
+    /*Vista de generar nuevo pedido de reposición*/
+    @GetMapping(value="/admin/nuevo_pedido")
+    public String generarPedidosReposicion(Model model, @ModelAttribute("pedidosReposicion") PedidosReposicion pedidosReposicion){
+        List<Medicamentos> medxSedeList = medicamentosRepository.listarMedicamentosporSede(1);
+        model.addAttribute("listaMedica", medxSedeList);
+
+        return "admin/nuevo_pedido";
+    }
+    /*---------------------------------------*/
+
 }
