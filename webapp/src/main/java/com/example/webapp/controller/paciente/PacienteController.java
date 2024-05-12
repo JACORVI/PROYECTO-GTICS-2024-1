@@ -214,7 +214,6 @@ public class PacienteController {
             String numpedido = numeropedidoporId.get(0);
             model.addAttribute("numpedido", numpedido);
         }
-
         List<Carrito> listadodelcarritodl = carritoRepository.listarCarrito();
         int car = 0;
         if (listadodelcarritodl.isEmpty()){
