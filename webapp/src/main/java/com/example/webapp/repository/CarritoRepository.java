@@ -50,12 +50,6 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
             "WHERE usuario.id_usuario = ?1", nativeQuery = true)
     List<String> estadosDeCompraPorUsuarioId(int id);
 
-    @Query(value = "SELECT gticsbd.pedidos_paciente.tipo_de_pedido \n" +
-            "FROM gticsbd.pedidos_paciente \n" +
-            "WHERE gticsbd.pedidos_paciente.usuario_id_usuario = ?1\n" +
-            "AND gticsbd.pedidos_paciente.estado_del_pedido = ?2", nativeQuery = true)
-    List<String> tipoDePedidoPorUsuarioId(int id, String estadopedido);
-
     @Query(value = "SELECT gticsbd.carrito.numero_pedido\n" +
             "FROM gticsbd.carrito\n" +
             "WHERE gticsbd.carrito.usuario_id_usuario = ?1", nativeQuery = true)
@@ -73,7 +67,13 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
     @Modifying
     @Query(nativeQuery = true,value = "insert into gticsbd.pedidos_paciente (costo_total, tipo_de_pedido, validacion_del_pedido, estado_del_pedido, numero_tracking, usuario_id_usuario)\n" +
             "VALUES(?1, ?2, ?3, ?4, ?5, ?6)")
-    void registrarPedido(double costototal, String tipopedido, String validacionpedido, String estadopedido, String numpedido, int usuid);
+    void registrarPedidoDely(double costototal, String tipopedido, String validacionpedido, String estadopedido, String numpedido, int usuid);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value = "insert into gticsbd.pedidos_paciente_recojo (costo_total, tipo_de_pedido, validacion_del_pedido, estado_del_pedido, numero_tracking, usuario_id_usuario)\n" +
+            "VALUES(?1, ?2, ?3, ?4, ?5, ?6)")
+    void registrarPedidoReco(double costototal, String tipopedido, String validacionpedido, String estadopedido, String numpedido, int usuid);
 
     @Transactional
     @Modifying
@@ -91,5 +91,41 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
             "    hora_de_entrega = ?11,\n" +
             "    estado_del_pedido = ?12\n" +
             "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?13")
-    void finalizarPedido(String nombre, String apellido, int dni, int telefono, String seguro, String medico, String vencimiento, String fechasoli, String direccion, String distrito, String horaentrega, String estadopedido,int usuid);
+    void finalizarPedido1(String nombre, String apellido, int dni, int telefono, String seguro, String medico, String vencimiento, String fechasoli, String direccion, String distrito, String horaentrega, String estadopedido,int usuid);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value = "UPDATE gticsbd.pedidos_paciente_recojo \n" +
+            "SET nombre_paciente = ?1, \n" +
+            "    apellido_paciente = ?2, \n" +
+            "    dni = ?3,\n" +
+            "    telefono = ?4, \n" +
+            "    seguro = ?5, \t\n" +
+            "    medico_que_atiende = ?6, \n" +
+            "    aviso_vencimiento = ?7, \t\n" +
+            "    fecha_solicitud = ?8,\n" +
+            "    estado_del_pedido = ?9,\n" +
+            "    sede_de_recojo = ?10\n" +
+            "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?11")
+    void finalizarPedido2(String nombre, String apellido, int dni, int telefono, String seguro, String medico, String vencimiento, String fechasoli, String estadopedido, String sederecojo, int usuid);
+
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM gticsbd.pedidos_paciente_recojo\n" +
+            "WHERE usuario_id_usuario = ?1\n" +
+            "AND estado_del_pedido = 'Registrando';", nativeQuery = true)
+    void cancelarPedidoReco(int usuid);
+
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM gticsbd.pedidos_paciente\n" +
+            "WHERE usuario_id_usuario = ?1\n" +
+            "AND estado_del_pedido = 'Registrando';", nativeQuery = true)
+    void cancelarPedidoDely(int usuid);
+
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM gticsbd.carrito\n" +
+            "WHERE usuario_id_usuario = ?1", nativeQuery = true)
+    void borrarCarritoPorId(int usuid);
 }

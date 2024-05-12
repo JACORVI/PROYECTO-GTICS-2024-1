@@ -78,7 +78,7 @@ public class PacienteController {
         List<String> estadosdecompraporId = carritoRepository.estadosDeCompraPorUsuarioId(usuid);
         boolean soloEstadosRegistrados = true;
 
-        String banco = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        String banco = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         String numpedido = "";
         for (String palabra : estadosdecompraporId) {
             if (palabra!=null && palabra.equals("Comprando")) {
@@ -88,6 +88,10 @@ public class PacienteController {
         }
         if(estadosdecompraporId.isEmpty() || soloEstadosRegistrados){
             for (int x = 0; x < 12; x++) {
+                if (x > 0 && x % 4 == 0) {
+                    String guion = "-";
+                    numpedido += guion;
+                }
                 int indiceAleatorio = numeroAleatorioEnRango(0, banco.length() - 1);
                 char caracterAleatorio = banco.charAt(indiceAleatorio);
                 numpedido += caracterAleatorio;
@@ -121,7 +125,7 @@ public class PacienteController {
             }
         }
         if(estadosdecompraporId.isEmpty() || soloEstadosRegistrados){
-            if(estadosdecompraporId.isEmpty() || soloEstadosRegistrados){
+            if(soloEstadosRegistrados){
                 String registrado = "Registrado";
                 carritoRepository.borrarPedidoRegistrado(usuid, registrado);
             }
@@ -228,7 +232,7 @@ public class PacienteController {
             for (Double valor : listaPrecioxCantidad) {
                 sumaTotal += valor;
             }
-            double sumaTotal1 = sumaTotal + 5.00;
+            double sumaTotal1 = sumaTotal + 10.00;
             String sumaTotal2D = String.format("%.2f", sumaTotal);
             String sumaTotal2D1 = String.format("%.2f", sumaTotal1);
             model.addAttribute("precioTotal",sumaTotal2D);
@@ -254,43 +258,46 @@ public class PacienteController {
         int usuid = 29;
         String tipopedido = "Web - Recojo en tienda";
         if(tipo == 1){
-           tipopedido = "Web - Delivery";
+            tipopedido = "Web - Delivery";
+            String validacionpedido = "Pendiente";
+            String estadopedido = "Registrando";
+            carritoRepository.registrarPedidoDely(costototal, tipopedido, validacionpedido, estadopedido, numtrack, usuid);
+            return "redirect:/paciente/carrito/nuevoPedidoDelivery";
         }
-        String validacionpedido = "Pendiente";
-        String estadopedido = "Registrando";
-        carritoRepository.registrarPedido(costototal, tipopedido, validacionpedido, estadopedido, numtrack, usuid);
-        return "redirect:/paciente/carrito/nuevoPedido";
+        else{
+            String validacionpedido = "Pendiente";
+            String estadopedido = "Registrando";
+            carritoRepository.registrarPedidoReco(costototal, tipopedido, validacionpedido, estadopedido, numtrack, usuid);
+            return "redirect:/paciente/carrito/nuevoPedidoRecojo";
+        }
+
     }
     /*---------------------------------------*/
 
 
 
     /*QRUD y vista del FORM*/
-    @GetMapping("/paciente/carrito/nuevoPedido")
-    public String formParaFinalizarCompra(@ModelAttribute("pedidosPaciente") PedidosPaciente pedidosPaciente,
-                                            Model model){
-        int usuid = 29;
-        model.addAttribute("usuid",usuid);
-        String estadopedido = "Registrando";
-        List<String> listatipopedido = carritoRepository.tipoDePedidoPorUsuarioId(usuid, estadopedido);
-        String tipopedido = listatipopedido.get(0);
-        model.addAttribute("tipopedido", tipopedido);
+    @GetMapping("/paciente/carrito/nuevoPedidoDelivery")
+    public String formParaFinalizarCompraDely(@ModelAttribute("pedidosPaciente") PedidosPaciente pedidosPaciente,
+                                          Model model){
         model.addAttribute("listausuarios", usuarioRepository.findAll());
+        return "paciente/formcompradely";
+    }
+
+    @GetMapping("/paciente/carrito/nuevoPedidoRecojo")
+    public String formParaFinalizarCompraRecojo(@ModelAttribute("pedidosPacienteRecojo") PedidosPacienteRecojo pedidosPacienteRecojo,
+                                                Model model){
+        model.addAttribute("listausuarios", usuarioRepository.findAll());
+        model.addAttribute("listasedes", sedeRepository.findAll());
         return "paciente/formcompra";
     }
 
-    @PostMapping("/paciente/guardar")
-    public String guardarPedido(@ModelAttribute("pedidosPaciente") @Valid PedidosPaciente pedidosPaciente, BindingResult bindingResult,
+    @PostMapping("/paciente/guardarDely")
+    public String guardarPedidoDely(@ModelAttribute("pedidosPaciente") @Valid PedidosPaciente pedidosPaciente, BindingResult bindingResult,
                                 Model model) {
         if (bindingResult.hasErrors()){
-            int usuid = 29;
-            model.addAttribute("usuid",usuid);
-            String estadopedido = "Registrando";
-            List<String> listatipopedido = carritoRepository.tipoDePedidoPorUsuarioId(usuid, estadopedido);
-            String tipopedido = listatipopedido.get(0);
-            model.addAttribute("tipopedido", tipopedido);
             model.addAttribute("listausuarios", usuarioRepository.findAll());
-            return "paciente/formcompra";
+            return "paciente/formcompradely";
         }
         else{
             String nombre = pedidosPaciente.getNombre_paciente();
@@ -308,14 +315,57 @@ public class PacienteController {
             String direccion = pedidosPaciente.getDireccion();
             String distrito = pedidosPaciente.getDistrito();
             String horaentrega = pedidosPaciente.getHora_de_entrega();
-            System.out.println("HORAAAAA: " + horaentrega);
             String estadopedido = "Registrado";
             int usuid = 29;
-
-            carritoRepository.finalizarPedido(nombre,apellido,dni,telefono,seguro,medico,vencimiento,fechasoli,direccion,distrito,horaentrega,estadopedido,usuid);
+            carritoRepository.finalizarPedido1(nombre,apellido,dni,telefono,seguro,medico,vencimiento,fechasoli,direccion,distrito,horaentrega,estadopedido,usuid);
+            carritoRepository.borrarCarritoPorId(usuid);
 
             return "redirect:/paciente/medicamentos";
         }
+    }
+
+    @PostMapping("/paciente/guardarRecojo")
+    public String guardarPedidoReco(@ModelAttribute("pedidosPacienteReco") @Valid PedidosPacienteRecojo pedidosPacienteRecojo, BindingResult bindingResult,
+                                Model model) {
+        if (bindingResult.hasErrors()){
+            model.addAttribute("listausuarios", usuarioRepository.findAll());
+            return "paciente/formcompra";
+        }
+        else{
+            String nombre = pedidosPacienteRecojo.getNombre_paciente();
+            String apellido = pedidosPacienteRecojo.getApellido_paciente();
+            int dni = pedidosPacienteRecojo.getDni();
+            int telefono = pedidosPacienteRecojo.getTelefono();
+            String seguro = pedidosPacienteRecojo.getSeguro();
+            String medico = pedidosPacienteRecojo.getMedico_que_atiende();
+            String vencimiento = pedidosPacienteRecojo.getAviso_vencimiento();
+
+            LocalDate fechaActual = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String fechasoli = fechaActual.format(formatter);
+
+            String sederecojo = pedidosPacienteRecojo.getSede_de_recojo();
+            String estadopedido = "Registrado";
+            int usuid = 29;
+            carritoRepository.finalizarPedido2(nombre,apellido,dni,telefono,seguro,medico,vencimiento,fechasoli,estadopedido,sederecojo,usuid);
+            carritoRepository.borrarCarritoPorId(usuid);
+
+            return "redirect:/paciente/medicamentos";
+        }
+    }
+
+    @GetMapping("paciente/cancelarRegistroPedidoDely")
+    public String cancelarRegistroDePedidoDely(){
+        int usuid = 29;
+        carritoRepository.cancelarPedidoDely(usuid);
+        return "redirect:/paciente/medicamentos";
+    }
+
+    @GetMapping("paciente/cancelarRegistroPedidoReco")
+    public String cancelarRegistroDePedidoReco(){
+        int usuid = 29;
+        carritoRepository.cancelarPedidoReco(usuid);
+        return "redirect:/paciente/medicamentos";
     }
     /*---------------------------------------*/
 

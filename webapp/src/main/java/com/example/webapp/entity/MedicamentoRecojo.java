@@ -7,20 +7,20 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="medicamentos_del_pedido")
-public class MedicamentosDelPedido {
+@Table(name="medicamentos_recojo")
+public class MedicamentoRecojo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_medicamentos_del_pedido")
+    @Column(name="id_medicamentos_recojo")
     private int id;
     @Column(nullable = false)
     private String nombre_medicamento;
     private String costo_medicamento;
     private int cantidad;
     @ManyToOne
-    @JoinColumn(name = "pedidos_paciente_idpedidos_paciente")
+    @JoinColumn(name = "pedidos_paciente_recojo_idpedidos_paciente_recojo")
     private PedidosPaciente pedidosPaciente;
     @ManyToOne
-    @JoinColumn(name = "pedidos_paciente_usuario_id_usuario")
+    @JoinColumn(name = "pedidos_paciente_recojo_usuario_id_usuario")
     private Usuario usuario;
 }

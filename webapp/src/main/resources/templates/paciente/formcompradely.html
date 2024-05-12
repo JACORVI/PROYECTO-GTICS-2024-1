@@ -84,7 +84,7 @@
         <div class="container px-4 px-lg-5 mt-5">
             <h1>Formulario Para Finalizar su Compra</h1>
             <br>
-            <form method="post" style="font-size: large; font-weight: bold;" th:action="@{'/paciente/guardarRecojo'}" th:object="${pedidosPacienteRecojo}">
+            <form method="post" style="font-size: large; font-weight: bold;" th:action="@{'/paciente/guardarDely'}" th:object="${pedidosPaciente}">
                 <div class="mb-3">
                     <label class="form-label">Nombres del paciente</label>
                     <input class="form-control" type="text" th:field="*{nombre_paciente}" th:classappend="${#fields.hasErrors('nombre_paciente')?'is-invalid':''}">
@@ -129,15 +129,67 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Sede en la que desea recoger su pedido</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{sede_de_recojo}">
-                        <option th:each="sede : ${listasedes}" th:value="${sede.nombre}"  th:text="${sede.nombre}"></option>
+                    <label class="form-label">Dirección de Entrega</label>
+                    <input class="form-control" type="text" th:field="*{direccion}" th:classappend="${#fields.hasErrors('direccion')?'is-invalid':''}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Distrito de la entrega</label>
+                    <select class="form-select" aria-label="Default select example" th:field="*{distrito}">
+                        <option th:value="${'Ancón'}">Ancón</option>
+                        <option th:value="${'Ate'}">Ate</option>
+                        <option th:value="${'Barranco'}">Barranco</option>
+                        <option th:value="${'Breña'}">Breña</option>
+                        <option th:value="${'Carabayllo'}">Carabayllo</option>
+                        <option th:value="${'Chaclacayo'}">Chaclacayo</option>
+                        <option th:value="${'Chorrillos'}">Chorrillos</option>
+                        <option th:value="${'Cieneguilla'}">Cieneguilla</option>
+                        <option th:value="${'Comas'}">Comas</option>
+                        <option th:value="${'El Agustino'}">El Agustino</option>
+                        <option th:value="${'Independencia'}">Independencia</option>
+                        <option th:value="${'Jesús María'}">Jesús María</option>
+                        <option th:value="${'La Molina'}">La Molina</option>
+                        <option th:value="${'La Victoria'}">La Victoria</option>
+                        <option th:value="${'Lince'}">Lince</option>
+                        <option th:value="${'Los Olivos'}">Los Olivos</option>
+                        <option th:value="${'Lurigancho'}">Lurigancho</option>
+                        <option th:value="${'Lurín'}">Lurín</option>
+                        <option th:value="${'Magdalena del Mar'}">Magdalena del Mar</option>
+                        <option th:value="${'Miraflores'}">Miraflores</option>
+                        <option th:value="${'Pachacamac'}">Pachacamac</option>
+                        <option th:value="${'Pucusana'}">Pucusana</option>
+                        <option th:value="${'Pueblo Libre'}">Pueblo Libre</option>
+                        <option th:value="${'Puente Piedra'}">Puente Piedra</option>
+                        <option th:value="${'Punta Hermosa'}">Punta Hermosa</option>
+                        <option th:value="${'Punta Negra'}">Punta Negra</option>
+                        <option th:value="${'Rímac'}">Rímac</option>
+                        <option th:value="${'San Bartolo'}">San Bartolo</option>
+                        <option th:value="${'San Borja'}">San Borja</option>
+                        <option th:value="${'San Isidro'}">San Isidro</option>
+                        <option th:value="${'San Juan de Lurigancho'}">San Juan de Lurigancho</option>
+                        <option th:value="${'San Juan de Miraflores'}">San Juan de Miraflores</option>
+                        <option th:value="${'San Luis'}">San Luis</option>
+                        <option th:value="${'San Martín de Porres'}">San Martín de Porres</option>
+                        <option th:value="${'San Miguel'}">San Miguel</option>
+                        <option th:value="${'Santa Anita'}">Santa Anita</option>
+                        <option th:value="${'Santa María del Mar'}">Santa María del Mar</option>
+                        <option th:value="${'Santa Rosa'}">Santa Rosa</option>
+                        <option th:value="${'Santiago de Surco'}">Santiago de Surco</option>
+                        <option th:value="${'Surquillo'}">Surquillo</option>
+                        <option th:value="${'Villa El Salvador'}">Villa El Salvador</option>
+                        <option th:value="${'Villa María del Triunfo'}">Villa María del Triunfo</option>
                     </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Hora de Entrega</label>
+                    <input class="form-control" type="time" th:field="*{hora_de_entrega}" th:classappend="${#fields.hasErrors('hora_de_entrega')?'is-invalid':''}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('hora_de_entrega')}" th:errors="*{hora_de_entrega}"></div>
                 </div>
 
                 <br>
                 <button type="submit" class="btn btn-secondary" style="font-size: large;">Enviar solicitud de compra</button>
-                <a th:href="@{'/paciente/cancelarRegistroPedidoDely'}" class="btn btn-danger" style="font-size: large;">Cancelar solicitud de compra</a>
+                <a th:href="@{'/paciente/medicamentos'}" class="btn btn-danger" style="font-size: large;">Cancelar solicitud de compra</a>
                 <br>
                 <br>
                 <br>
