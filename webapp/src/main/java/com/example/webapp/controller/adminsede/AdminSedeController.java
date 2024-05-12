@@ -194,10 +194,8 @@ public class AdminSedeController {
 
     /*Vista de generar nuevo pedido de reposición*/
     @GetMapping(value="/admin/nuevo_pedido")
-    public String generarPedidosReposicion(Model model, @ModelAttribute("pedidosReposicion") PedidosReposicion pedidosReposicion){
-        List<Medicamentos> medxSedeList = medicamentosRepository.listarMedicamentosporSede(1);
-        model.addAttribute("listaMedica", medxSedeList);
-
+    public String generarPedidosReposicion(Model model){
+        model.addAttribute("listaMedConPocoInvent",medicamentosRepository.listarMedicamentosConPocoInvporSede(1));
         return "admin/nuevo_pedido";
     }
     /*---------------------------------------*/

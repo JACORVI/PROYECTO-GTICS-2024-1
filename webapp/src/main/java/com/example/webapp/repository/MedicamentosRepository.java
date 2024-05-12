@@ -44,4 +44,7 @@ public interface MedicamentosRepository extends JpaRepository<Medicamentos, Inte
             "inner join pedidos_reposicion pr on (prhm.pedidos_reposicion_id_pedidos_reposicion = pr.id_pedidos_reposicion) where pr.fecha_solicitud >= date_sub(curdate(), INTERVAL 3 MONTH) \n" +
             "group by m.nombre order by cantidadSolicitada desc limit 3;", nativeQuery = true)
     List<MedicamentoSolicitados3mesesDto> medicamentosSolicitados3meses();
+
+    @Query(value = "select * from sede_has_medicamentos shm inner join medicamentos m on (shm.medicamentos_id_medicamentos = m.id_medicamentos) where sede_id_sede = ?1 and (inventario < 25)", nativeQuery = true)
+    List<Medicamentos> listarMedicamentosConPocoInvporSede(int sede_id_sede);
 }
