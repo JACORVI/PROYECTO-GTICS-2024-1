@@ -2,6 +2,7 @@ package com.example.webapp.controller.paciente;
 
 import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.sql.Time;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -65,7 +71,7 @@ public class PacienteController {
 
         List<Medicamentos> listamedicamentos = medicamentosRepository.findAll();
         model.addAttribute("listaMedicamentos",listamedicamentos);
-        List<Carrito> tamanocarrito = carritoRepository.findAll();
+        List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
         model.addAttribute("tamañoCarrito",tamanocarrito.size());
 
         //generador de numero de pedidos
@@ -163,7 +169,13 @@ public class PacienteController {
 
     /*QRUD y vista del CARRITO*/
     @GetMapping("/paciente/carrito")
-    public String listarProductosCarritoRT(Model model){
+    public String listarProductosCarritoRT(Model model) {
+        int usuid = 29;
+        List<String> numeropedidoporId = carritoRepository.numPedidoPorUsuarioId(usuid);
+        if (!numeropedidoporId.isEmpty()){
+            String numpedido = numeropedidoporId.get(0);
+            model.addAttribute("numpedido", numpedido);
+        }
         List<Carrito> listadodelcarritort = carritoRepository.findAll();
         int car = 0;
         if (listadodelcarritort.isEmpty()){
@@ -175,7 +187,6 @@ public class PacienteController {
             model.addAttribute("car",car);
         }
         else{
-            car = 0;
             model.addAttribute("listadoDelCarrito",listadodelcarritort);
             List<Double> listaPrecioxCantidad = carritoRepository.CantidadxPrecioUnitario();
             double sumaTotal = 0.0;
@@ -193,20 +204,39 @@ public class PacienteController {
 
     @GetMapping("/paciente/carrito/delivery")
     public String listarProductosCarritoDL(Model model){
-        List<Carrito> listadodelcarritodl = carritoRepository.findAll();
-        model.addAttribute("listadoDelCarrito",listadodelcarritodl);
-        List<Double> listaPrecioxCantidad = carritoRepository.CantidadxPrecioUnitario();
-        double sumaTotal = 0.0;
-        for (Double valor : listaPrecioxCantidad) {
-            sumaTotal += valor;
+        int usuid = 29;
+        List<String> numeropedidoporId = carritoRepository.numPedidoPorUsuarioId(usuid);
+        if (!numeropedidoporId.isEmpty()){
+            String numpedido = numeropedidoporId.get(0);
+            model.addAttribute("numpedido", numpedido);
         }
-        double sumaTotal1 = sumaTotal + 5.00;
-        String sumaTotal2D = String.format("%.2f", sumaTotal);
-        String sumaTotal2D1 = String.format("%.2f", sumaTotal1);
-        model.addAttribute("precioTotal",sumaTotal2D);
-        model.addAttribute("precioTotalDely",sumaTotal2D1);
-        int delivery = 1;
-        model.addAttribute("delivery",delivery);
+
+        List<Carrito> listadodelcarritodl = carritoRepository.listarCarrito();
+        int car = 0;
+        if (listadodelcarritodl.isEmpty()){
+            String msg1 = "Su carrito esta vacio.";
+            String msg2 = "No agrego ningun producto a su carrito.";
+            car = 1;
+            model.addAttribute("msg1",msg1);
+            model.addAttribute("msg2",msg2);
+            model.addAttribute("car",car);
+        }
+        else{
+            model.addAttribute("listadoDelCarrito",listadodelcarritodl);
+            List<Double> listaPrecioxCantidad = carritoRepository.CantidadxPrecioUnitario();
+            double sumaTotal = 0.0;
+            for (Double valor : listaPrecioxCantidad) {
+                sumaTotal += valor;
+            }
+            double sumaTotal1 = sumaTotal + 5.00;
+            String sumaTotal2D = String.format("%.2f", sumaTotal);
+            String sumaTotal2D1 = String.format("%.2f", sumaTotal1);
+            model.addAttribute("precioTotal",sumaTotal2D);
+            model.addAttribute("precioTotalDely",sumaTotal2D1);
+            int delivery = 1;
+            model.addAttribute("delivery",delivery);
+            model.addAttribute("car",car);
+        }
         return "paciente/carrito";
     }
 
@@ -217,22 +247,75 @@ public class PacienteController {
         carritoRepository.borrarElementoCarrito(id, usuid);
         return "redirect:/paciente/carrito";
     }
+
+    @GetMapping("/paciente/carrito/registrarPedido")
+    public String registrarPedido(Model model,
+                                  @RequestParam("costototal") double costototal, @RequestParam("tipopedido") int tipo, @RequestParam("numtrack") String numtrack){
+        int usuid = 29;
+        String tipopedido = "Web - Recojo en tienda";
+        if(tipo == 1){
+           tipopedido = "Web - Delivery";
+        }
+        String validacionpedido = "Pendiente";
+        String estadopedido = "Registrando";
+        carritoRepository.registrarPedido(costototal, tipopedido, validacionpedido, estadopedido, numtrack, usuid);
+        return "redirect:/paciente/carrito/nuevoPedido";
+    }
     /*---------------------------------------*/
 
 
 
     /*QRUD y vista del FORM*/
     @GetMapping("/paciente/carrito/nuevoPedido")
-    public String formParaFinalizarCompra(  @ModelAttribute("pedidosPaciente") PedidosPaciente pedidosPaciente,
+    public String formParaFinalizarCompra(@ModelAttribute("pedidosPaciente") PedidosPaciente pedidosPaciente,
                                             Model model){
+        int usuid = 29;
+        model.addAttribute("usuid",usuid);
+        String estadopedido = "Registrando";
+        List<String> listatipopedido = carritoRepository.tipoDePedidoPorUsuarioId(usuid, estadopedido);
+        String tipopedido = listatipopedido.get(0);
+        model.addAttribute("tipopedido", tipopedido);
         model.addAttribute("listausuarios", usuarioRepository.findAll());
-        model.addAttribute("listaSedes",sedeRepository.findAll());
         return "paciente/formcompra";
     }
+
     @PostMapping("/paciente/guardar")
-    public String guardarPedido(@ModelAttribute("pedidosPaciente") PedidosPaciente pedidosPaciente) {
-        pedidosPacienteRepository.save(pedidosPaciente);
-        return "redirect:/paciente/finalmsgcompra";
+    public String guardarPedido(@ModelAttribute("pedidosPaciente") @Valid PedidosPaciente pedidosPaciente, BindingResult bindingResult,
+                                Model model) {
+        if (bindingResult.hasErrors()){
+            int usuid = 29;
+            model.addAttribute("usuid",usuid);
+            String estadopedido = "Registrando";
+            List<String> listatipopedido = carritoRepository.tipoDePedidoPorUsuarioId(usuid, estadopedido);
+            String tipopedido = listatipopedido.get(0);
+            model.addAttribute("tipopedido", tipopedido);
+            model.addAttribute("listausuarios", usuarioRepository.findAll());
+            return "paciente/formcompra";
+        }
+        else{
+            String nombre = pedidosPaciente.getNombre_paciente();
+            String apellido = pedidosPaciente.getApellido_paciente();
+            int dni = pedidosPaciente.getDni();
+            int telefono = pedidosPaciente.getTelefono();
+            String seguro = pedidosPaciente.getSeguro();
+            String medico = pedidosPaciente.getMedico_que_atiende();
+            String vencimiento = pedidosPaciente.getAviso_vencimiento();
+
+            LocalDate fechaActual = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String fechasoli = fechaActual.format(formatter);
+
+            String direccion = pedidosPaciente.getDireccion();
+            String distrito = pedidosPaciente.getDistrito();
+            String horaentrega = pedidosPaciente.getHora_de_entrega();
+            System.out.println("HORAAAAA: " + horaentrega);
+            String estadopedido = "Registrado";
+            int usuid = 29;
+
+            carritoRepository.finalizarPedido(nombre,apellido,dni,telefono,seguro,medico,vencimiento,fechasoli,direccion,distrito,horaentrega,estadopedido,usuid);
+
+            return "redirect:/paciente/medicamentos";
+        }
     }
     /*---------------------------------------*/
 

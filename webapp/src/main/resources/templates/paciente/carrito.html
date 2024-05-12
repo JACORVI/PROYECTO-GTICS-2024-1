@@ -57,17 +57,6 @@
                     <p th:if="${delivery == 1}">TIPO DE ENTREGA: DELIVERY</p>
                     <a class="btn" th:if="${delivery == 0}" th:href="@{'/paciente/carrito/delivery'}" style="margin-top: 0px; margin-bottom: 20px">Cambiar a Delivery</a>
                     <a class="btn" th:if="${delivery == 1}" th:href="@{'/paciente/carrito'}" style="margin-top: 0px; margin-bottom: 20px">Cambiar a Recojo en tienda</a>
-                    <label class="form-check-label" style="padding: 1vh 0;">
-                        ¿Desea que nuestro sistema le notifique entre 5 y 10 dias antes del vencimiento de sus medicamentos?
-                    </label>
-                    <select th:if="${car==0}">
-                        <option class="text-muted" id="delivery-precio">Si</option>
-                        <option class="text-muted" id="recojo-precio">No</option>
-                    </select>
-                    <select th:if="${car==1}" disabled>
-                        <option class="text-muted" id="delivery-precio">Si</option>
-                        <option class="text-muted" id="recojo-precio">No</option>
-                    </select>
                 </form>
                 <div class="row" th:if="${delivery == 0}" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
                     <div class="col">PRECIO TOTAL A PAGAR</div>
@@ -79,16 +68,18 @@
                 </div>
                 <div class="row" th:if="${delivery == 1}" style="padding: 0.5vh 0;">
                     <div class="col">Delivery</div>
-                    <div class="col text-right" th:text="'S/ 5'"></div>
+                    <div class="col text-right" th:text="'S/ 5.00'"></div>
                 </div>
                 <div class="row" th:if="${delivery == 1}" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
                     <div class="col">PRECIO TOTAL A PAGAR</div>
                     <div class="col text-right" th:text="'S/ ' + ${precioTotalDely}"></div>
                 </div>
-                <button th:if="${car==0}" class="btn">FINALIZAR PEDIDO</button>
-                <button th:if="${car==1}" class="btn" disabled>FINALIZAR PEDIDO</button>
+                <a th:if="${car==0 and delivery == 0}" class="btn" th:href="@{'/paciente/carrito/registrarPedido?costototal=' + ${precioTotal} + '&tipopedido=' + ${delivery} + '&numtrack=' + ${numpedido}}" >REGISTRAR PEDIDO</a>
+                <a th:if="${car==0 and delivery == 1}" class="btn" th:href="@{'/paciente/carrito/registrarPedido?costototal=' + ${precioTotalDely}+ '&tipopedido=' + ${delivery} + '&numtrack=' + ${numpedido}}" >REGISTRAR PEDIDO</a>
+                <a th:if="${car==1}" class="btn" disabled>REGISTRAR PEDIDO</a>
             </div>
-        </div>  
+        </div>
+
         <footer style="background-color: rgb(58, 65, 73); width: 100%;">
             <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
                 <div style="font-family: Arial; margin-left: 10px; color: white;">
