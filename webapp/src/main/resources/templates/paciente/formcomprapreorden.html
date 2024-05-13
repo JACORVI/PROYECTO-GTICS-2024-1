@@ -40,7 +40,6 @@
                 <ul class="navbar-nav m-auto">
                     <div class="input-group ml-40">
                     <input class="form-control" type="hidden" style="font-size: large;" placeholder="Buscar medicamento..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
-
                     </div>
                 </ul>
                 <form class="d-flex">
@@ -63,8 +62,8 @@
         <div class="container px-4 px-lg-5">
             <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: large;">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link" aria-current="page">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" aria-current="page">Medicamentos</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" >Medicamentos</a></li>
                     <li class="nav-item"><a class="nav-link" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
                         <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
                     </svg></div> Mensajes</a></li>
@@ -74,7 +73,7 @@
             <div class="m-auto">
                 <a class="btn btn-outline-light" >
                     <i class="bi-cart-fill me-1"></i>
-                    <span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${tamañoCarrito}">0</span>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${tamañoCarrito}"></span>
                 </a>
             </div>
         </div>
@@ -84,7 +83,7 @@
         <div class="container px-4 px-lg-5 mt-5">
             <h1>Formulario Para Finalizar su Compra</h1>
             <br>
-            <form method="post" style="font-size: large; font-weight: bold;" th:action="@{'/paciente/guardarRecojo'}" th:object="${pedidosPacienteRecojo}">
+            <form method="post" style="font-size: large; font-weight: bold;" th:action="@{'/paciente/guardarPreorden'}" th:object="${pedidosPaciente}">
                 <div class="mb-3">
                     <label class="form-label">Nombres del paciente</label>
                     <input class="form-control" type="text" th:field="*{nombre_paciente}" th:classappend="${#fields.hasErrors('nombre_paciente')?'is-invalid':''}">
@@ -129,15 +128,67 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Sede en la que desea recoger su pedido</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{sede_de_recojo}">
-                        <option th:each="sede : ${listasedes}" th:value="${sede.nombre}"  th:text="${sede.nombre}"></option>
+                    <label class="form-label">Dirección de Entrega</label>
+                    <input class="form-control" type="text" th:field="*{direccion}" th:classappend="${#fields.hasErrors('direccion')?'is-invalid':''}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Distrito de la entrega</label>
+                    <select class="form-select" aria-label="Default select example" th:field="*{distrito}">
+                        <option th:value="${'Ancón'}">Ancón</option>
+                        <option th:value="${'Ate'}">Ate</option>
+                        <option th:value="${'Barranco'}">Barranco</option>
+                        <option th:value="${'Breña'}">Breña</option>
+                        <option th:value="${'Carabayllo'}">Carabayllo</option>
+                        <option th:value="${'Chaclacayo'}">Chaclacayo</option>
+                        <option th:value="${'Chorrillos'}">Chorrillos</option>
+                        <option th:value="${'Cieneguilla'}">Cieneguilla</option>
+                        <option th:value="${'Comas'}">Comas</option>
+                        <option th:value="${'El Agustino'}">El Agustino</option>
+                        <option th:value="${'Independencia'}">Independencia</option>
+                        <option th:value="${'Jesús María'}">Jesús María</option>
+                        <option th:value="${'La Molina'}">La Molina</option>
+                        <option th:value="${'La Victoria'}">La Victoria</option>
+                        <option th:value="${'Lince'}">Lince</option>
+                        <option th:value="${'Los Olivos'}">Los Olivos</option>
+                        <option th:value="${'Lurigancho'}">Lurigancho</option>
+                        <option th:value="${'Lurín'}">Lurín</option>
+                        <option th:value="${'Magdalena del Mar'}">Magdalena del Mar</option>
+                        <option th:value="${'Miraflores'}">Miraflores</option>
+                        <option th:value="${'Pachacamac'}">Pachacamac</option>
+                        <option th:value="${'Pucusana'}">Pucusana</option>
+                        <option th:value="${'Pueblo Libre'}">Pueblo Libre</option>
+                        <option th:value="${'Puente Piedra'}">Puente Piedra</option>
+                        <option th:value="${'Punta Hermosa'}">Punta Hermosa</option>
+                        <option th:value="${'Punta Negra'}">Punta Negra</option>
+                        <option th:value="${'Rímac'}">Rímac</option>
+                        <option th:value="${'San Bartolo'}">San Bartolo</option>
+                        <option th:value="${'San Borja'}">San Borja</option>
+                        <option th:value="${'San Isidro'}">San Isidro</option>
+                        <option th:value="${'San Juan de Lurigancho'}">San Juan de Lurigancho</option>
+                        <option th:value="${'San Juan de Miraflores'}">San Juan de Miraflores</option>
+                        <option th:value="${'San Luis'}">San Luis</option>
+                        <option th:value="${'San Martín de Porres'}">San Martín de Porres</option>
+                        <option th:value="${'San Miguel'}">San Miguel</option>
+                        <option th:value="${'Santa Anita'}">Santa Anita</option>
+                        <option th:value="${'Santa María del Mar'}">Santa María del Mar</option>
+                        <option th:value="${'Santa Rosa'}">Santa Rosa</option>
+                        <option th:value="${'Santiago de Surco'}">Santiago de Surco</option>
+                        <option th:value="${'Surquillo'}">Surquillo</option>
+                        <option th:value="${'Villa El Salvador'}">Villa El Salvador</option>
+                        <option th:value="${'Villa María del Triunfo'}">Villa María del Triunfo</option>
                     </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Hora de Entrega</label>
+                    <input class="form-control" type="time" th:field="*{hora_de_entrega}" th:classappend="${#fields.hasErrors('hora_de_entrega')?'is-invalid':''}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('hora_de_entrega')}" th:errors="*{hora_de_entrega}"></div>
                 </div>
 
                 <br>
                 <button type="submit" class="btn btn-secondary" style="font-size: large;">Enviar solicitud de compra</button>
-                <a th:href="@{'/paciente/cancelarRegistroPedidoReco'}" class="btn btn-danger" style="font-size: large;">Cancelar solicitud de compra</a>
+                <a th:href="@{'/paciente/cancelarRegistroPedidoPreorden'}" class="btn btn-danger" style="font-size: large;">Cancelar solicitud de compra</a>
                 <br>
                 <br>
                 <br>

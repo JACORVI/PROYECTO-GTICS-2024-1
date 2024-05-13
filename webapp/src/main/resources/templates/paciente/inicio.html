@@ -1,331 +1,117 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Página principal</title>
-
-    <!-- -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <link rel="icon" type="image/x-icon" th:href="@{/paciente/img/logo.png}" />
-    <title>Pildo Pharm</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link th:href="@{/paciente/css/stylesSide.css}" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" charset="utf-8"></script>
-    <!-- -->
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <title>Pildo Pharm</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+              crossorigin="anonymous">
+        <link th:href="@{/paciente/css/stylesSide.css}" rel="stylesheet">
+        <!--Para la paginacion-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" charset="utf-8"></script>
 
 
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="navbar navbar-expand-lg fondo" style=" background-color: #0b636fc9;">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" th:href="@{/paciente/inicio}" style="color: white; font-size: x-large; margin-bottom: 3px;"><img th:src="@{/paciente/img/logo.png}" alt="Logo" width="50vw" height="50vh"> PildoPharm</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!--Buscado-->
+                    <ul class="navbar-nav m-auto">
+                        <form method="post" th:action="@{/paciente/medicamentos/buscarMedicamentos}" type="hidden">
+                            <div class="input-group ml-40">
+                                <input type="hidden" name="searchField" class="form-control" style="font-size: large;" placeholder="Buscar medicamento..." aria-label="Search for..." aria-describedby="btnNavbarSearch" th:value="${textoBuscado}">
 
-    <link th:href="@{/paciente/css/misestilos2.css}" rel="stylesheet" />
-    <link rel="stylesheet" th:href="@{/paciente/css/style.css}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCSkZALDDeauhgE9WHeS52ssPOo5xRLZoY&libraries=places"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-
-    <script src="https://use.fontawesome.com/releases/v5.7.2/css/all.css"></script>
-    <script th:src="@{/paciente/js/script.js}" defer></script>
-
-</head>
-<body class="sb-nav-fixed">
-<nav class="navbar navbar-expand-lg fondo" style=" background-color: #0b636fc9;">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#" style="color: white; font-size: x-large; margin-bottom: 3px;"><img src="img/logo.png" alt="Logo" width="50vw" height="50vh"> PildoPharm</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!--Buscado-->
-            <ul class="navbar-nav m-auto">
-                <div class="input-group ml-40">
-                    <input class="form-control" type="text" style="font-size: large;" placeholder="Buscar medicamento..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
-                    <button class="btn btn-outline-light" type="submit"><i class="bi-search me-1"></i></button>
+                            </div>
+                        </form>
+                    </ul>
+                    <form class="d-flex">
+                        <!--boton registrar-->
+                        <div class="dropdown" style="margin-top: 5px;">
+                            <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px; display: flex;" >
+                                <a class="text-decoration-none" style="margin-right: 10px;" href="#"><img th:src="@{/paciente/img/usuario.png}" width="50vw" height="50vh" alt="Avatar" class="avatar"></a><div style="display: flex; flex-direction: column; color: white;"><h5 style="margin: 0%;">Nombre Apellido</h5> <h7>Paciente</h7></div>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item">Perfil</a></li>
+                                <li><a class="dropdown-item" th:href="@{/paciente/mispedidos}">Mis pedidos</a></li>
+                                <li style="color: darkred!important;"><a class="dropdown-item" href="#" style="color: red!important;"><b>Cerrar Sesión</b></a></li>
+                            </ul>
+                        </div>
+                    </form>
                 </div>
-            </ul>
-            <form class="d-flex">
-                <!--boton registrar-->
-                <div class="dropdown" style="margin-top: 5px;">
-                    <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px; display: flex;" >
-                        <a class="text-decoration-none" style="margin-right: 10px;" href="#"><img src="img/usuario.png" width="50vw" height="50vh" alt="Avatar" class="avatar"></a><div style="display: flex; flex-direction: column; color: white;"><h5 style="margin: 0%;">Nombre Apellido</h5> <h7>Paciente</h7></div>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Perfil</a></li>
-                        <li><a class="dropdown-item" th:href="@{'/paciente/mispedidos'}">Mis pedidos</a></li>
-                        <li style="color: darkred!important;"><a class="dropdown-item" href="#" style="color: red!important;"><b>Cerrar Sesión</b></a></li>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #72b2bbc9!important;">
+            <div class="container px-4 px-lg-5">
+                <div class="collapse navbar-collapse" style="font-size: large;">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{/paciente/inicio}">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{/paciente/medicamentos}">Medicamentos</a></li>
+                        <li class="nav-item"><a class="nav-link" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                        </svg></div> Mensajes</a></li>
                     </ul>
                 </div>
-            </form>
-        </div>
-    </div>
-</nav>
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #72b2bbc9!important;">
-    <div class="container px-4 px-lg-5">
-        <div class="collapse navbar-collapse" style="font-size: large;">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{'/paciente/inicio'}">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{'/paciente/medicamentos'}">Medicamentos</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{'/paciente/mensajes'}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
-                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                </svg></div> Mensajes</a></li>
-            </ul>
-        </div>
-        <!--carrito-->
-        <div class="m-auto">
-            <a class="btn btn-outline-light" th:href="@{'/paciente/carrito'}" >
-                <i class="bi-cart-fill me-1"></i>
-                <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-            </a>
-        </div>
-    </div>
-</nav>
+                <!--carrito-->
+                <div class="m-auto">
+                    <a class="btn btn-outline-light" th:href="@{/paciente/carrito}" >
+                        <i class="bi-cart-fill me-1"></i>
+                        <span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${tamañoCarrito}"></span>
+                    </a>
+                </div>
+            </div>
+        </nav>
 
 <!-- TRABAJAR AQUI -->
 
 <div>
 
     <div class="container">
-        <br>
-        <h1 style="padding: 30px">Pre-orden de medicamentos solicitados</h1>
-        <h5 style="padding: 30px; text-align: justify;">Para realizar una pre-orden de un medicamento acercate a cualquiera de nuestras sedes o puedes realizarla por esta página web en la sección de medicamentos</h5>
-
-        <div th:if="${listaPreorden.isEmpty()}">
-            <br>
-            <p class="text-center" style="color: #a3b18a; font-weight: 1000; font-size: 40px;">Aún no tienes pedidos de pre-orden</p>
-            <br>
-            <br>
-        </div>
-
-        <div th:unless="${listaPreorden.isEmpty()}">
-            <h4 style="padding: 30px; font-weight: 100;">Tus pre-ordenes</h4>
-        </div>
-
-        <article class="card" th:each="preorden: ${listaPreorden}" style="margin-bottom: 30px">
-
-            <div class="card-body" style="padding: 30px;">
-                <article class="card">
-                    <div class="card-body row">
-                        <div class="col"> <strong style="display: inline-block;">Fecha estimada de la entrega:&nbsp;</strong><p th:text="${preorden.fecha_entrega}" style="display: inline-block;"></p></div>
-                        <hr>
-                        <div class="col"> <strong style="display: inline-block;">Hora de la entrega:&nbsp;</strong><p th:text="${preorden.hora_de_entrega}" style="display: inline-block;"></p></div>
-                        <hr>
-                        <div class="col"> <strong style="display: inline-block;">Medicamento solicitado:&nbsp;</strong><p th:text="${preorden.medicamentos.nombre}" style="display: inline-block;"></p></div>
-                        <hr>
-                        <div class="col"> <strong style="display: inline-block;">Numero de tracking:&nbsp;</strong><p th:text="${preorden.numero_tracking}" style="display: inline-block;"></p></div>
-                    </div>
-                </article>
+        <div class="column" >
+            <div class="container px-4 px-lg-5 mt-5">
+                <h1>Mis ordenes de compras</h1>
                 <br>
-                <p><strong>Estado de la orden: </strong></p>
-                <div class="track">
-                    <div class="step active" th:if="${preorden.estado_del_pedido == 'Recibido' or preorden.estado_del_pedido == 'En proceso' or preorden.estado_del_pedido == 'Empaquetando' or preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Recibido</span> </div>
-                    <div class="step" th:unless="${preorden.estado_del_pedido == 'Recibido' or preorden.estado_del_pedido == 'En proceso' or preorden.estado_del_pedido == 'Empaquetando' or preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Recibido</span> </div>
-                    <div class="step active" th:if="${preorden.estado_del_pedido == 'En proceso' or preorden.estado_del_pedido == 'Empaquetando' or preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-hourglass-half"></i> </span> <span class="text"> En proceso</span> </div>
-                    <div class="step" th:unless="${preorden.estado_del_pedido == 'En proceso' or preorden.estado_del_pedido == 'Empaquetando' or preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-hourglass-half"></i> </span> <span class="text"> En proceso</span> </div>
-                    <div class="step active" th:if="${preorden.estado_del_pedido == 'Empaquetando' or preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text" style="text-align:unset;"> Empaquetando </span> </div>
-                    <div class="step" th:unless="${preorden.estado_del_pedido == 'Empaquetando' or preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text" style="text-align:unset;"> Empaquetando </span> </div>
-                    <div class="step active" th:if="${preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En ruta</span> </div>
-                    <div class="step" th:unless="${preorden.estado_del_pedido == 'En Ruta' or preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En ruta</span> </div>
-                    <div class="step active" th:if="${preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-home"></i> </span> <span class="text">Entregado</span> </div>
-                    <div class="step" th:unless="${preorden.estado_del_pedido == 'Entregado'}"> <span class="icon"> <i class="fa fa-home"></i> </span> <span class="text">Entregado</span> </div>
-                </div>
+                <h3>Pedidos - Delivery</h3>
+                <br>
+                <h5 th:if="${lleno == 0}">Usted no ha realizado ninguna pre-orden</h5>
+                <table class="table table-hover" style="background-color: #D9D9D9; border-radius: 10px; text-align: center;" th:if="${lleno == 1}">
+                    <tr>
+                        <th colspan="0" style="text-align: center;">Orden de compra</th>
+                        <th>Fecha de Registro</th>
+                        <th>Estado de la compra</th>
+                        <th></th>
+                    </tr>
+                    <tr th:each="preorden : ${listaPedidosPreorden}">
+                        <td class="align-middle" style="font-size: large;" th:text="${preorden.numero_tracking}"></td>
+                        <td class="align-middle" style="font-size: large;" th:text="${preorden.fecha_solicitud}"></td>
+                        <td class="align-middle" style="font-size: large; color: rgb(3, 151, 3);" th:text="${preorden.estado_del_pedido}"></td>
+                        <td class="align-middle"> <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoPreorden?id=' + ${preorden.id}}" class="btn btn-info" th:if="${preorden.estado_del_pedido != 'Pendiente'}">Ver tracking</a> </td>
+                    </tr>
+                </table>
+                <br>
 
             </div>
-        </article>
-        <br>
-    </div>
-
-    <!-- CHATBOT-->
-
-    <button class="chatbot-toggler">
-        <span class="material-symbols-rounded">mode_comment</span>
-        <span class="material-symbols-outlined">close</span>
-    </button>
-    <div class="chatbot">
-        <header>
-            <h2>Chatbot</h2>
-            <span class="close-btn material-symbols-outlined">close</span>
-        </header>
-        <ul class="chatbox">
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Hola paciente 👋<br>¿Cómo puedo ayudarte?</p>
-            </li>
-            <li class="chat outgoing">
-                <p>Quiero generar un pedido</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>¿Qué producto está buscando?</p>
-            </li>
-            <li class="chat outgoing">
-                <p>Panadol antigripal</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Mira estos productos relacionados con tu búsqueda <br><br> <button type="button" class="btn btn-secondary">Ver lista</button></p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>¿Deseas más información sobre alguno de los productos de la lista?</p>
-            </li>
-            <li class="chat outgoing">
-                <p>Si</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>¿Sobre qué producto? Seleccione el producto que esta interesad@</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p><button type="button" class="btn btn-secondary">Producto 1</button></p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p><button type="button" class="btn btn-secondary">Producto 2</button></p>
-            </li>
-            <li class="chat outgoing">
-                <p>Producto 2</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>El producto 2 es ...</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>¿Desea comprar el producto?</p>
-            </li>
-            <li class="chat outgoing">
-                <p>Si</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>El producto se encuentra en stock. Indicame la cantidad que desee comprar</p>
-            </li>
-            <li class="chat outgoing">
-                <p>2</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>A continuación le pedire algunos datos para seguir con la compra</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Escribame su nombre completo</p>
-            </li>
-            <li class="chat outgoing">
-                <p>Javier</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Escribame su apellido</p>
-            </li>
-            <li class="chat outgoing">
-                <p>Perez</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Escribame su seguro</p>
-            </li>
-            <li class="chat outgoing">
-                <p>XXXXXX</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Escribame su dirección de entrega</p>
-            </li>
-            <li class="chat outgoing">
-                <p> Av. Universitaria 1801</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Escribame el nombre del distrito</p>
-            </li>
-            <li class="chat outgoing">
-                <p> San Miguel</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Escribame su teléfono</p>
-            </li>
-            <li class="chat outgoing">
-                <p>987654321</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Escribame su DNI</p>
-            </li>
-            <li class="chat outgoing">
-                <p>71589427</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>El medicamento solicitado requiere receta médica. Escribame el nombre de su doctor</p>
-            </li>
-            <li class="chat outgoing">
-                <p>Pedro Galvez</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Adjuntame la imagen de la receta en físico. Use el ícono del clip que esta en la parte inferior del chat</p>
-            </li>
-            <li class="chat outgoing">
-                <p><a href="#" style="color: white;">receta_medica.png</a></p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Para finalizar, indicame la hora de entrega estimada para que recibas el producto</p>
-            </li>
-            <li class="chat outgoing">
-                <p>3 pm en adelante</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Revisa tu resumen de orden de compra <br><br> <button type="button" class="btn btn-secondary">Ver resumen</button></p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>¿Esta conforme con la información? Si esta conforme se generará la orden del pedido</p>
-            </li>
-            <li class="chat outgoing">
-                <p>Estoy conforme</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Tu orden se ha generado. Toda la información enviada será revisada por un farmacista profesional.</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Si desea ver el estado de su compra lo puedo hacer en la sección “Ver mis pedidos”</p>
-            </li>
-            <li class="chat incoming">
-                <img th:src="@{/paciente/img/logo.png}">
-                <p>Gracias por atenderte en pildopharm</p>
-            </li>
-        </ul>
-
-        <div class="chat-input">
-            <textarea placeholder="Enter a message..." spellcheck="false" required></textarea>
-            <span id="send-btn" class="material-symbols-rounded">send</span>
         </div>
-
     </div>
+    </div>
+
+
 
 </div>
 
-<!-- ************* -->
-<footer style="background-color: rgba(11, 99, 111, 0.79); width: 100%;">
-    <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
-        <div style="font-family: Arial; margin-left: 10px; color: white;">
-            <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
+<div class="fixed-bottom" >
+    <footer style="background-color: rgb(58, 65, 73); width: 100%;">
+        <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
+            <div style="font-family: Arial; margin-left: 10px; color: white;">
+                <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
