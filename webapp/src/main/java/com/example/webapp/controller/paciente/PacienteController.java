@@ -317,6 +317,9 @@ public class PacienteController {
             String estadopedido = "Registrado";
             int usuid = 29;
             carritoRepository.finalizarPedido1(nombre,apellido,dni,telefono,seguro,medico,vencimiento,fechasoli,direccion,distrito,horaentrega,estadopedido,usuid);
+            List<Integer> listidpedidodely = carritoRepository.idpedidoPorUsuIdDely(usuid);
+            int idpedido = listidpedidodely.get(0);
+            carritoRepository.registrarMedicamentosPedidoDely(idpedido, usuid);
             carritoRepository.borrarCarritoPorId(usuid);
 
             return "redirect:/paciente/medicamentos";
@@ -324,10 +327,11 @@ public class PacienteController {
     }
 
     @PostMapping("/paciente/guardarRecojo")
-    public String guardarPedidoReco(@ModelAttribute("pedidosPacienteReco") @Valid PedidosPacienteRecojo pedidosPacienteRecojo, BindingResult bindingResult,
+    public String guardarPedidoReco(@ModelAttribute("pedidosPacienteRecojo") @Valid PedidosPacienteRecojo pedidosPacienteRecojo, BindingResult bindingResult,
                                 Model model) {
         if (bindingResult.hasErrors()){
             model.addAttribute("listausuarios", usuarioRepository.findAll());
+            model.addAttribute("listasedes", sedeRepository.findAll());
             return "paciente/formcompra";
         }
         else{
@@ -347,6 +351,10 @@ public class PacienteController {
             String estadopedido = "Registrado";
             int usuid = 29;
             carritoRepository.finalizarPedido2(nombre,apellido,dni,telefono,seguro,medico,vencimiento,fechasoli,estadopedido,sederecojo,usuid);
+            List<Integer> listidpedidoreco = carritoRepository.idpedidoPorUsuIdReco(usuid);
+            int idpedido = listidpedidoreco.get(0);
+            System.out.println("HOLAAAAA "+ idpedido);
+            carritoRepository.registrarMedicamentosPedidoReco(idpedido, usuid);
             carritoRepository.borrarCarritoPorId(usuid);
 
             return "redirect:/paciente/medicamentos";

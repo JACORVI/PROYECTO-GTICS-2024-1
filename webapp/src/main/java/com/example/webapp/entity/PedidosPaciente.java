@@ -30,6 +30,7 @@ public class PedidosPaciente {
     @NotBlank(message = "La dirección no puede ser nula")
     @Size(max = 90, message = "La dirección no puede tener más de 90 caracteres")
     private String direccion;
+    @NotBlank(message = "El distrito no debe ser nulo")
     private String distrito;
     @Positive(message = "El número de celular debe ser positivo")
     @Max(value = 1000000000, message = "El número de celular debe tener 9 dígitos")

@@ -55,6 +55,16 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
             "WHERE gticsbd.carrito.usuario_id_usuario = ?1", nativeQuery = true)
     List<String> numPedidoPorUsuarioId(int id);
 
+    @Query(value = "SELECT idpedidos_paciente\n" +
+            "FROM gticsbd.pedidos_paciente\n" +
+            "WHERE estado_del_pedido = 'Registrado' AND usuario_id_usuario = ?", nativeQuery = true)
+    List<Integer> idpedidoPorUsuIdDely(int id);
+
+    @Query(value = "SELECT idpedidos_paciente_recojo\n" +
+            "FROM gticsbd.pedidos_paciente_recojo\n" +
+            "WHERE estado_del_pedido = 'Registrado' AND usuario_id_usuario = ?", nativeQuery = true)
+    List<Integer> idpedidoPorUsuIdReco(int id);
+
     @Transactional
     @Modifying
     @Query(value = "SELECT gticsbd.carrito.cantidad * gticsbd.medicamentos.precio_unidad AS total\n" +
@@ -128,4 +138,20 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
     @Query(value = "DELETE FROM gticsbd.carrito\n" +
             "WHERE usuario_id_usuario = ?1", nativeQuery = true)
     void borrarCarritoPorId(int usuid);
+
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO gticsbd.medicamentos_del_pedido (nombre_medicamento, costo_medicamento, cantidad, pedidos_paciente_idpedidos_paciente, pedidos_paciente_usuario_id_usuario)\n" +
+            "SELECT m.nombre AS nombre_medicamento, m.precio_unidad AS costo_medicamento, c.cantidad, ?1, ?2\n" +
+            "FROM gticsbd.carrito c\n" +
+            "JOIN gticsbd.medicamentos m ON c.medicamentos_id_medicamentos = m.id_medicamentos;", nativeQuery = true)
+    void registrarMedicamentosPedidoDely(int idpedido, int usuid);
+
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO gticsbd.medicamentos_recojo (nombre_medicamento, costo_medicamento, cantidad, pedidos_paciente_recojo_idpedidos_paciente_recojo, pedidos_paciente_recojo_usuario_id_usuario)\n" +
+            "SELECT m.nombre AS nombre_medicamento, m.precio_unidad AS costo_medicamento, c.cantidad, ?1, ?2\n" +
+            "FROM gticsbd.carrito c\n" +
+            "JOIN gticsbd.medicamentos m ON c.medicamentos_id_medicamentos = m.id_medicamentos;", nativeQuery = true)
+    void registrarMedicamentosPedidoReco(int idpedido, int usuid);
 }
