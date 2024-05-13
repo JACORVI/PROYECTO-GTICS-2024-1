@@ -38,18 +38,21 @@ public class PacienteController {
     SedeRepository sedeRepository;
     PedidosPacienteRepository pedidosPacienteRepository;
     CarritoRepository carritoRepository;
+    PedidosPacienteRecojoRepository pedidosPacienteRecojoRepository;
 
     public PacienteController(MedicamentosRepository medicamentosRepository,
                               UsuarioRepository usuarioRepository,
                               SedeRepository sedeRepository,
                               PedidosPacienteRepository pedidosPacienteRepository,
-                              CarritoRepository carritoRepository) {
+                              CarritoRepository carritoRepository,
+                              PedidosPacienteRecojoRepository pedidosPacienteRecojoRepository) {
 
         this.medicamentosRepository = medicamentosRepository;
         this.sedeRepository = sedeRepository;
         this.usuarioRepository = usuarioRepository;
         this.pedidosPacienteRepository = pedidosPacienteRepository;
         this.carritoRepository = carritoRepository;
+        this.pedidosPacienteRecojoRepository = pedidosPacienteRecojoRepository;
     }
     /*---------------------------------------*/
 
@@ -380,8 +383,11 @@ public class PacienteController {
 
     /*QRUD y vista de MIS PEDIDOS*/
     @GetMapping("/paciente/mispedidos")
-    public String listaPedidos(){
-
+    public String listaPedidos(Model model){
+        List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
+        model.addAttribute("tamañoCarrito",tamanocarrito.size());
+        model.addAttribute("listaPedidosDely", pedidosPacienteRepository.findAll());
+        model.addAttribute("listaPedidosReco", pedidosPacienteRecojoRepository.findAll());
         return "paciente/mispedidos";
     }
     /*---------------------------------------*/

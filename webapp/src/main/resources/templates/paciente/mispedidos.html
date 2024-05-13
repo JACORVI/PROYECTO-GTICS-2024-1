@@ -55,7 +55,7 @@
             <div class="m-auto">
                 <a class="btn btn-outline-light" th:href="@{/paciente/carrito}" >
                     <i class="bi-cart-fill me-1"></i>
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${tamañoCarrito}"></span>
                 </a>
             </div>
         </div>
@@ -66,7 +66,9 @@
         <div class="container">
             <div class="column" >
                 <div class="container px-4 px-lg-5 mt-5">
-                    <h1>Mi ordenes de compras</h1>
+                    <h1>Mis ordenes de compras</h1>
+                    <br>
+                    <h3>Pedidos de Delivery</h3>
                     <br>
                     <table class="table table-hover" style="background-color: #D9D9D9; border-radius: 10px; text-align: center;">
                     <tr>

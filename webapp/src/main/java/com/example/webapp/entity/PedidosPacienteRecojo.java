@@ -31,7 +31,7 @@ public class PedidosPacienteRecojo {
     @Max(value = 100000000, message = "El número de DNI debe tener 8 dígitos")
     @Min(value = 9999999, message = "El número de DNI debe tener 8 dígitos")
     private int dni;
-    private double costo_total;
+    private Double costo_total;
     private String tipo_de_pedido;
     private String fecha_solicitud;
     private String fecha_entrega;

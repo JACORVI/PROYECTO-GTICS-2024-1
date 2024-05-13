@@ -42,7 +42,7 @@ public class PedidosPaciente {
     private int dni;
     @NotBlank(message = "La hora de entrega no puede ser nula")
     private String hora_de_entrega;
-    private double costo_total;
+    private Double costo_total;
     private String tipo_de_pedido;
     private String fecha_solicitud;
     private String fecha_entrega;
@@ -52,6 +52,7 @@ public class PedidosPaciente {
     private String estado_del_pedido;
     private String numero_tracking;
     private String aviso_vencimiento;
+    private String metodo_pago;
     @ManyToOne
     @JoinColumn(name = "usuario_id_usuario")
     private Usuario usuario;
