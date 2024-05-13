@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <title>Pildo Pharm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+          crossorigin="anonymous">
+    <link th:href="@{/farmacista/css/stylesSide.css}" rel="stylesheet">
+
+    <script>
+        function generateTrackingNumber() {
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            var trackingNumber = '';
+
+            // Generar 12 caracteres aleatorios
+            for (var i = 0; i < 12; i++) {
+                trackingNumber += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+
+            // Formatear el número de seguimiento con guiones cada 4 caracteres
+            trackingNumber = trackingNumber.replace(/(.{4})/g, '$1-');
+
+            // Eliminar el último guión
+            trackingNumber = trackingNumber.slice(0, -1);
+
+            return trackingNumber;
+        }
+    </script>
+</head>
+<body class="sb-nav-fixed">
+<nav class="navbar navbar-expand-lg fondo" style=" background-color: #0b636fc9;">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand"  style="color: white; font-size: x-large; margin-bottom: 3px;"><img th:src="@{/farmacista/img/logo.png}" alt="Logo" width="50vw" height="50vh"> PildoPharm</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!--Buscado-->
+            <ul class="navbar-nav m-auto">
+                <div class="input-group ml-40">
+                    <!--ocultar buscador
+                    <input class="form-control" type="text" style="font-size: large;" placeholder="Buscar por Nombre..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
+                    <button class="btn btn-outline-light" type="submit"><i class="bi-search me-1"></i></button>
+                --></div>
+            </ul>
+            <form class="d-flex">
+                <!--boton registrar-->
+                <div class="dropdown" style="margin-top: 5px;">
+                    <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px; display: flex;" >
+                        <a class="text-decoration-none" style="margin-right: 10px;" href="#"><img th:src="@{/farmacista/img/usuario.png}" width="50vw" height="50vh" alt="Avatar" class="avatar"></a><div style="display: flex; flex-direction: column; color: white;"><h5 style="margin: 0%;">Nombre Apellido</h5> <h7>Superadmin</h7></div>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item">Perfil</a></li>
+                        <li style="color: darkred!important;"><a class="dropdown-item"  style="color: red!important;"><b>Cerrar Sesión</b></a></li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #72b2bbc9!important;">
+    <div class="container px-4 px-lg-5">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: large;">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <!--<li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Inicio</a></li>-->
+
+                <li class="nav-item"><a class="nav-link"  th:href="@{/farmacista/medicamentos}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                </svg></div> Medicamentos</a></li>
+                <li class="nav-item"><a class="nav-link"  style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                </svg></div> Estado de Envíos</a></li>
+                <li class="nav-item"><a class="nav-link"  style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                </svg></div>Mensaje</a></li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Nuevo Pedido</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" >Con Pre-Orden</a></li>
+                        <li><a class="dropdown-item" >Sin Pre.Orden</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--carrito-->
+    <div class="m-auto">
+        <a class="btn btn-outline-light" th:href="@{/farmacista/carrito}" >
+            <i class="bi-cart-fill me-1"></i>
+            <span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${tamañoCarrito}"></span>
+        </a>
+    </div>
+    </div>
+</nav>
+    <!-- TRABAJAR AQUI-->
+<div style="width: 100%;">
+    <div class="container px-4 px-lg-5 mt-5">
+        <h1>Formulario Para Finalizar Su Compra</h1>
+        <br>
+        <form method="post" style="font-size: large; font-weight: bold;" th:action="@{/farmacista/guardarRecojo}" th:object="${pedidosPacienteRecojo}">
+            <div class="mb-3">
+                <label class="form-label">Nombres del comprador</label>
+                <input class="form-control" type="text" name="nombrePaciente" th:field="*{nombre_paciente}" th:classappend="${#fields.hasErrors('nombre_paciente')?'is-invalid':''}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre_paciente')}" th:errors="*{nombre_paciente}"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Apellidos del comprador</label>
+                <input class="form-control" type="text" name="apellidoPaciente" th:field="*{apellido_paciente}" th:classappend="${#fields.hasErrors('apellido_paciente')?'is-invalid':''}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('apellido_paciente')}" th:errors="*{apellido_paciente}"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Número de DNI</label>
+                <input class="form-control" type="number" name="dni" th:field="*{dni}" th:classappend="${#fields.hasErrors('dni')?'is-invalid':''}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Sede en la que desea recoger su pedido</label>
+                <select class="form-select" aria-label="Default select example" name="sedeDeRecojo" th:field="*{sede_de_recojo}">
+                    <option th:each="sede : ${listasedes}" th:value="${sede.nombre}"  th:text="${sede.nombre}"></option>
+                </select>
+            </div>
+
+            <br>
+            <button type="submit" class="btn btn-secondary" style="font-size: large;">Enviar solicitud de compra</button>
+            <a th:href="@{/farmacista/cancelarRegistroPedidoReco}" class="btn btn-danger" style="font-size: large;">Cancelar solicitud de compra</a>
+            <br>
+            <br>
+            <br>
+        </form>
+
+    </div>
+</div>
+    <footer style="background-color: rgb(58, 65, 73); width: 100%;">
+        <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
+            <div style="font-family: Arial; margin-left: 10px; color: white;">
+                <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
+</body>
+</html>
