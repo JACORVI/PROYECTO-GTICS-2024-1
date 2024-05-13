@@ -1,10 +1,7 @@
 package com.example.webapp.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,8 +30,9 @@ public class Usuario {
     @Size( max = 45, message = "El correo no puede tener más de 45 caracteres")
     private String correo;
 
-    @Digits(integer = 8, fraction = 0, message = "El DNI debe tener exactamente 8 dígitos")
     @Positive(message = "El DNI debe ser un número positivo")
+    @Max(value = 100000000, message = "El número de DNI debe tener 8 dígitos")
+    @Min(value = 9999999, message = "El número de DNI debe tener 8 dígitos")
     private int dni;
 
     @NotBlank

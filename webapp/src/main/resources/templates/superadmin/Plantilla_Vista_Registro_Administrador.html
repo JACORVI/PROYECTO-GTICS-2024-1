@@ -164,7 +164,9 @@
                 </div>
                 <div class="col-12">
                     <label class="form-label">Distrito</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{distrito}">
+                    <select class="form-select" aria-label="Default select example" th:field="*{distrito}"
+                            th:classappend="${#fields.hasErrors('distrito')?'is-invalid':''}">
+                        <option th:value="${''}"></option>
                         <option th:value="${'Ancon'}">Ancón</option>
                         <option th:value="${'Ate'}">Ate</option>
                         <option th:value="${'Barranco'}">Barranco</option>
@@ -209,6 +211,9 @@
                         <option th:value="${'Villa el Salvador'}">Villa El Salvador</option>
                         <option th:value="${'Villa Maria del Triunfo'}">Villa María del Triunfo</option>
                     </select>
+                    <div class="invalid-feedback"
+                         th:if="${#fields.hasErrors('distrito')}" th:errors="*{distrito}">
+                    </div>
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary boton-primario">REGISTRAR</button>
