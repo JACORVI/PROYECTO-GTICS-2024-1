@@ -184,4 +184,18 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
             "WHERE id_medicamentos = ?1", nativeQuery = true)
     List<String> nombreDelMedicamento(int id);
 
+
+
+    //eliminar posteriormente
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE gticsbd.pedidos_paciente_recojo " +
+            "SET nombre_paciente = ?1, " +
+            "    apellido_paciente = ?2, " +
+            "    dni = ?3, " +
+            "    sede_de_recojo = ?4 " +
+            "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?5")
+    void finalizarPedido22(String nombre, String apellido, int dni, String sederecojo, int usuid);
+
+
 }
