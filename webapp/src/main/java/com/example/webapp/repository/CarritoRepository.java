@@ -197,5 +197,48 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
             "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?5")
     void finalizarPedido22(String nombre, String apellido, int dni, String sederecojo, int usuid);
 
+    @Query(value = "SELECT *\n" +
+            "FROM carrito\n" +
+            "WHERE usuario_id_usuario = ?1 AND estado_de_compra != 'Registrado';", nativeQuery = true)
+    List<Carrito> listarCarritoxUsuario(int usuid);
+
+    @Query(value = "SELECT * FROM carrito WHERE numero_pedido = ?1", nativeQuery = true)
+    List<Carrito> listadodelcarritorxNumPed(String numero_pedido);
+
+    @Query(value = "SELECT gticsbd.carrito.cantidad * gticsbd.medicamentos.precio_unidad AS total FROM gticsbd.carrito JOIN \n" +
+            "gticsbd.medicamentos ON gticsbd.carrito.medicamentos_id_medicamentos = gticsbd.medicamentos.id_medicamentos \n" +
+            "WHERE numero_pedido = ?1", nativeQuery = true)
+    List<Double> CantidadxPrecioUnitarioxNumPed(String numero_pedido);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value = "insert into gticsbd.pedidos_reposicion (usuario_id_usuario, fecha_solicitud, costo_total, fecha_entrega, estado_de_reposicion,proveedor_id_proveedor)\n" +
+            "VALUES(?1, ?2, ?3, ?4, ?5, ?6)")
+    void registrarPedidoRepo1(int usuid, String fechaSolicitud, double costoTotal, String fechaEntrega, String estadoReposcion, int idProovedor);
+
+
+    @Transactional
+    @Modifying
+
+    @Query(nativeQuery = true,value = "insert into gticsbd.pedidos_reposicion_has_medicamentos (pedidos_reposicion_id_pedidos_reposicion, pedidos_reposicion_usuario_id_usuario, pedidos_reposicion_proveedor_id_proveedor,medicamentos_id_medicamentos,cantidad) \n" +
+            "VALUES(?1, ?2, ?3, ?4, ?5)")
+    void registrarPedidoRepo3(int idPedidosReposicion, int usid, int idProovedor,int idMedicamento, int cantidad);
+
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM gticsbd.pedidos_reposicion\n" +
+            "WHERE usuario_id_usuario = ?1\n" +
+            "AND estado_de_reposicion = 'Solicitado';", nativeQuery = true)
+    void eliminarPedidoRepo(int usuid);
+
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM gticsbd.carrito\n" +
+            "WHERE usuario_id_usuario = ?1\n" +
+            "AND estado_de_compra = 'Comprando';", nativeQuery = true)
+    void eliminarCarrito(int usuid);
+
+
+
 
 }
