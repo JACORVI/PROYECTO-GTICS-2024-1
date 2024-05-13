@@ -115,7 +115,11 @@
                 <input class="form-control" type="number" name="dni" th:field="*{dni}" th:classappend="${#fields.hasErrors('dni')?'is-invalid':''}">
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
             </div>
-
+            <div class="mb-3">
+                <label class="form-label">Numero de celular</label>
+                <input class="form-control" type="number" th:field="*{telefono}" th:classappend="${#fields.hasErrors('telefono')?'is-invalid':''}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></div>
+            </div>
             <div class="mb-3">
                 <label class="form-label">Sede en la que desea recoger su pedido</label>
                 <select class="form-select" aria-label="Default select example" name="sedeDeRecojo" th:field="*{sede_de_recojo}">
