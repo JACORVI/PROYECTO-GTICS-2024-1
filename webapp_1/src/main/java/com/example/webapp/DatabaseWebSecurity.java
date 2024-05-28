@@ -38,6 +38,7 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/farmacista/**").hasAuthority("Farmacista")
                 .antMatchers("/paciente/**").hasAuthority("Paciente")
                 .antMatchers("/superadmin/**").hasAuthority("Superadmin")
+                .antMatchers("/admin/**").hasAuthority("Administrador")
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/acceso").permitAll()
                 .failureUrl("/?error=true").and()

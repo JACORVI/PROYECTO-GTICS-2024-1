@@ -65,6 +65,12 @@ public class HomeController {
                 case "Superadmin":
                     log.info("Redirigiendo a Superadmin...");
                     return "redirect:/superadmin/";
+                case "Paciente":
+                    log.info("Redirigiendo a Paciente...");
+                    return "redirect:/paciente/inicio";
+                case "Administrador":
+                    log.info("Redirigiendo a Administrador...");
+                    return "redirect:/admin/medicamentos";
                 default:
                     log.info("Rol no reconocido: " + rol);
                     break;
