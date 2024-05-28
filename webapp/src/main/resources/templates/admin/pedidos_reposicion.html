@@ -1,103 +1,785 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{fragments/generaladmin.html :: header (title = 'Pedidos de Reposicion')}">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Shop Homepage - Start Bootstrap Template</title>
+
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" th:href="@{/admin/img/logo.png}" />
+    <!-- Bootstrap icons-->
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}" rel="stylesheet" />
+    <title>Pildo Pharm</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" th:href="@{img/logo.png}" />
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}" rel="stylesheet" />
+
+    <link th:href="@{/assets/admin/css/stylesSide.css}" rel="stylesheet" />
+    <script th:src="@{https://use.fontawesome.com/releases/v6.3.0/js/all.js}" crossorigin="anonymous"></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js}"></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js}"></script>
+    <script th:src="@{https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCSkZALDDeauhgE9WHeS52ssPOo5xRLZoY&libraries=places}"></script>
+    <style>
+        /* Estilos personalizados para los botones */
+        .boton_barbaro {
+            color: white;
+            background-color: red;
+            border-color: red;
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+
+        .boton_barbaro:hover {
+            background-color: #990000;
+            border-color: #990000;
+        }
+
+        .botoncito_gozu {
+            color: white;
+            background-color: black;
+            border-color: black;
+            margin-top: 32px;
+        }
+
+        .botoncito_gozu:hover {
+            background-color: #333;
+            border-color: #333;
+        }
+
+        .boton-primario {
+            background-color: #2bd831;
+            border-color: #2bd831;
+        }
+
+        .boton-primario:hover {
+            background-color: rgb(19, 164, 24);
+            border-color: rgb(19, 164, 24);
+        }
+    </style>
 </head>
 <body class="sb-nav-fixed">
-<div th:insert="~{fragments/generaladmin.html :: navar1}"></div>
-<div th:insert="~{fragments/generaladmin.html :: navar2}"></div>
-
-<div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
-<div th:if="${msg1 != null}" th:text="${msg1}" class="alert alert-danger" role="alert"></div>
-<h3 class="mt-4" style="margin: 10px">Lista de pedidos de Reposición</h3>
-
-<a class="btn btn-primary mt-4" th:href="@{/admin/nuevo_pedido}" style="margin: 50px; margin-bottom: 5px">Realizar nuevo pedido</a>
-<section th:each="pedRep,info: ${listaPedRep}" th:if="${info.index < 2}" style="margin: 50px;">
-
-    <h4 class="mb-5" th:text="${'Fecha solicitada: ' + pedRep.fecha_solicitud}"></h4>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.628142268458!2d-77.08077712618322!3d-12.069086642314176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c912d40840a5%3A0xd7a0bfb797e5862e!2sPontificia%20Universidad%20Cat%C3%B3lica%20del%20Per%C3%BA!5e0!3m2!1ses!2spe!4v1715354383395!5m2!1ses!2spe"
-                    class="h-100 w-100" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+<nav class="navbar navbar-expand-lg fondo" style=" background-color: #0b636fc9;">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="#" style="color: white; font-size: x-large; margin-bottom: 3px;"><img th:src="@{/admin/img/logo.png}" alt="Logo" width="50vw" height="50vh"> PildoPharm</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!--Buscado-->
+            <ul class="navbar-nav m-auto">
+                <div class="input-group ml-40">
+                    <input class="form-control" type="text" style="font-size: large;" placeholder="Buscar medicamento..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
+                    <button class="btn btn-outline-light" type="submit"><i class="bi-search me-1"></i></button>
+                </div>
+            </ul>
+            <form class="d-flex">
+                <!--boton registrar-->
+                <div class="dropdown" style="margin-top: 5px;">
+                    <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px; display: flex;" >
+                        <a class="text-decoration-none" style="margin-right: 10px;" href="#"><img th:src="@{/admin/img/usuario.png}" width="50vw" height="50vh" alt="Avatar" class="avatar"></a><div style="display: flex; flex-direction: column; color: white;"><h5 style="margin: 0%;">Nombre Apellido</h5> <h7>Administrador de sede</h7></div>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{'/admin/perfil'}">Perfil</a></li>
+                        <li><a class="dropdown-item" th:href="@{'/admin/mis_pedidos'}">Mis pedidos</a></li>
+                        <li style="color: darkred!important;"><a class="dropdown-item" th:href="@{'/admin/cerrar_sesiom'}" style="color: red!important;"><b>Cerrar Sesión</b></a></li>
+                    </ul>
+                </div>
+            </form>
         </div>
+    </div>
+</nav>
 
-        <div class="col-lg-7">
-            <div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="row mb-4">
-                            <div class="col-md-6 mb-4 mb-md-0">
-                                <div data-mdb-input-init class="form-outline">
-                                    <label class="form-label">Fecha de entrega</label>
-                                    <p th:text="${pedRep.fecha_entrega}"></p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div data-mdb-input-init class="form-outline">
-                                    <label class="form-label">Costo total</label>
-                                    <p th:text="${pedRep.costo_total}"></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div data-mdb-input-init class="form-outline mb-4">
-                            <label class="form-label">Proovedor: P1 </label>
-                        </div>
-                        <div class="text-center text-md-start">
-                            <a th:href="@{'/admin/editar_orden' + '?id=' + ${pedRep.id}}" class="btn btn-warning">
-                                Actualizar
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #72b2bbc9!important;">
+    <div class="container px-4 px-lg-5">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: large;">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/admin/inicioSupAdmin}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/admin/medicamentosSupAdmin}">Medicamentos</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/admin/pedidos_reposicion}">Pedidos de Reposición</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/admin/nuevo_pedido}">Nuevo Pedido</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/admin/farmacistas}">Farmacistas</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/admin/estado_solicitud_farmacistas}">Estado de solicitudes de Farmacistas</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+            </ul>
+        </div>
+        <!--carrito-->
+    </div>
+</nav>
+
+
+<!-- TRABAJAR AQUI-->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <h3 class="mt-4">Tabla de Pedidos</h3><div class="pagination-container">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item disabled">
+
+                    </li><li class="page-item">
+
+                    <a class="page-link" href="">Anterior</a>
+                </li>
+
+                    <li class="page-item disabled" <li=""><a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&amp;page=<%=i%>">1</a></li>
+
+
+
+                    <li class="page-item disabled">
+
+                    </li><li class="page-item ">
+
+                    <a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&amp;page=<%=Integer.parseInt(str)+1%>">Siguiente</a>
+                </li>
+
+                </ul>
+            </nav>
+        </div><table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
+            <thead>
+
+            <tr>
+                <th class="columna-imagen">PEDIDO</th>
+                <th class="columna-imagen">FECHA</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class=""><p style="font-size: 18px;">Pedido N°1</p></td>
+                <td class=""><p style="font-size: 18px;">15/07/2024</p></td>
+                <td>
+                    <div class="card-footer pt-1 br-3 border-top-0">
+                        <div class="text-center">
+                            <a href="Plantilla_Vista_Ver_Doctor.html" class="btn btn-success">
+                                Ver
                             </a>
-
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&amp;idVR=<%=juegoReservado.getIdVideojuego()%>&amp;idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&amp;stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </td>
+                <td>
+                    <div class="card-footer pt-1 br-3 border-top-0">
+                        <div class="text-center">
+                            <a href="Plantilla_Vista_Actualizar_Doctor.html" class="btn btn-warning">
+                                Editar
+                            </a>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&amp;idVR=<%=juegoReservado.getIdVideojuego()%>&amp;idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&amp;stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="card-footer pt-1 br-3 border-top-0">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
+                                Eliminar
+                            </button>
+                        </div>
+                        <!-- Modal -->
+                    </div>
+                    <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Aquí puedes agregar el contenido del formulario -->
+                                    <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&amp;id=<%=administrador.getIdUsuario()%>">
+                                        <div class="mb-3">
+                                            <label for="motivoDespido">Ingrese motivo de despido</label>
+                                            <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
+                                        </div>
+                                        <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
+                                        <button type="submit" class="btn btn-primary">Continuar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
 
-
-                </div>
-
-            </div>
-
+                <td>
+                    <div class="card-footer pt-1 br-3 border-top-0">
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&amp;idVR=<%=juegoReservado.getIdVideojuego()%>&amp;idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&amp;stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
         </div>
-        <article>
+        </td>
+        <style>
+            .pagination-container {
+                margin: 30px;
+            }
 
-            <div class="card-body" style="margin: 30px; margin-top: 5px">
-                <br>
-                <p><strong>Estado de la orden: </strong></p>
-                <div class="track">
-                    <div class="step active" th:if="${pedRep.estado_de_reposicion == 'Solicitado' or pedRep.estado_de_reposicion == 'En Proceso' or pedRep.estado_de_reposicion == 'Empaquetado' or pedRep.estado_de_reposicion == 'En Ruta' or pedRep.estado_de_reposicion == 'Entregado'}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Solicitado</span> </div>
-                    <div class="step" th:unless="${pedRep.estado_de_reposicion == 'Solicitado' or pedRep.estado_de_reposicion == 'En Proceso' or pedRep.estado_de_reposicion == 'Empaquetado' or pedRep.estado_de_reposicion == 'En Ruta' or pedRep.estado_de_reposicion == 'Entregado'}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Solicitado</span> </div>
-                    <div class="step active" th:if="${pedRep.estado_de_reposicion == 'En Proceso' or pedRep.estado_de_reposicion == 'Empaquetado' or pedRep.estado_de_reposicion == 'En Ruta' or pedRep.estado_de_reposicion == 'Entregado'}"> <span class="icon"> <i class="fa fa-hourglass-half"></i> </span> <span class="text"> En Proceso</span> </div>
-                    <div class="step" th:unless="${pedRep.estado_de_reposicion == 'En Proceso' or pedRep.estado_de_reposicion == 'Empaquetado' or pedRep.estado_de_reposicion == 'En Ruta' or pedRep.estado_de_reposicion == 'Entregado'}"> <span class="icon"> <i class="fa fa-hourglass-half"></i> </span> <span class="text"> En Proceso</span> </div>
-                    <div class="step active" th:if="${pedRep.estado_de_reposicion == 'Empaquetado' or pedRep.estado_de_reposicion == 'En Ruta' or pedRep.estado_de_reposicion == 'Entregado'}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text" style="text-align:unset;"> Empaquetado </span> </div>
-                    <div class="step" th:unless="${pedRep.estado_de_reposicion == 'Empaquetado' or pedRep.estado_de_reposicion == 'En Ruta' or pedRep.estado_de_reposicion == 'Entregado'}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text" style="text-align:unset;"> Empaquetado </span> </div>
-                    <div class="step active" th:if="${pedRep.estado_de_reposicion == 'En Ruta' or pedRep.estado_de_reposicion == 'Entregado'}"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En ruta</span> </div>
-                    <div class="step" th:unless="${pedRep.estado_de_reposicion == 'En Ruta' or pedRep.estado_de_reposicion == 'Entregado'}"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En ruta</span> </div>
-                    <div class="step active" th:if="${pedRep.estado_de_reposicion == 'Entregado'}"> <span class="icon"> <i class="fa fa-home"></i> </span> <span class="text">Entregado</span> </div>
-                    <div class="step" th:unless="${pedRep.estado_de_reposicion == 'Entregado'}"> <span class="icon"> <i class="fa fa-home"></i> </span> <span class="text">Entregado</span> </div>
-                </div>
+            .pagination-container .pagination {
+                justify-content: flex-end;
+                margin-left: auto;
+            }
 
-            </div>
-        </article>
+            .pagination-container .page-link {
+                font-size: 18px;
+                padding: 10px 15px;
+            }
+        </style>
+
+
+        </tr>
+        </tbody>
+        </table>
     </div>
+</div>
 
-</section>
+<div class="card-body">
+    <div class="table-responsive">
+        <h3 class="mt-4">Tabla de Sedes</h3><div class="pagination-container">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
 
-<div style="text-align: center;" th:if="${listaPedRep.size() > 2}">
-    <a class="btn btn-outline-secondary mt-4 mb-4" th:href="@{/admin/listaPedidosReposicion}">Ver más</a>
+                </li><li class="page-item">
+
+                <a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&amp;page=<%=Integer.parseInt(str)-1%>">Anterior</a>
+            </li>
+
+                <li class="page-item disabled" <li=""><a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&amp;page=<%=i%>">1</a></li>
+
+
+
+                <li class="page-item disabled">
+
+                </li><li class="page-item ">
+
+                <a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&amp;page=<%=Integer.parseInt(str)+1%>">Siguiente</a>
+            </li>
+
+            </ul>
+        </nav>
+    </div><table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
+        <thead>
+
+        <tr>
+            <th class="columna-imagen">SEDE</th>
+            <th class="columna-imagen">MONTO OBTENIDO EN MEDICAMENTOS</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class=""><p style="font-size: 18px;">Sede N°1</p></td>
+            <td class=""><p style="font-size: 18px;">$315.65</p></td>
+            <td>
+                <div class="card-footer pt-1 br-3 border-top-0">
+                    <div class="text-center">
+                        <a href="Plantilla_Vista_Ver_Administrador.html" class="btn btn-success">
+                            Ver
+                        </a>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&amp;idVR=<%=juegoReservado.getIdVideojuego()%>&amp;idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&amp;stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="card-footer pt-1 br-3 border-top-0">
+                    <div class="text-center">
+                        <a href="Plantilla_Vista_Actualizar_Administrador.html" class="btn btn-warning">
+                            Editar
+                        </a>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&amp;idVR=<%=juegoReservado.getIdVideojuego()%>&amp;idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&amp;stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="card-footer pt-1 br-3 border-top-0">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
+                            Eliminar
+                        </button>
+                    </div>
+                    <!-- Modal -->
+                </div>
+                <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Aquí puedes agregar el contenido del formulario -->
+                                <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&amp;id=<%=administrador.getIdUsuario()%>">
+                                    <div class="mb-3">
+                                        <label for="motivoDespido">Ingrese motivo de despido</label>
+                                        <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
+                                    </div>
+                                    <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
+                                    <button type="submit" class="btn btn-primary">Continuar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&amp;idVR=<%=juegoReservado.getIdVideojuego()%>&amp;idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&amp;stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </div>
+    </td>
+    <style>
+        .pagination-container {
+            margin: 30px;
+        }
+
+        .pagination-container .pagination {
+            justify-content: flex-end;
+            margin-left: auto;
+        }
+
+        .pagination-container .page-link {
+            font-size: 18px;
+            padding: 10px 15px;
+        }
+    </style>
+
+
+    </tr>
+    </tbody>
+    </table>
+</div>
+</div>
+
+<div class="card-body">
+    <div class="table-responsive">
+        <h3 class="mt-4">Tabla de Medicamentos Más Solicitados</h3><div class="pagination-container">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
+
+                </li><li class="page-item">
+
+                <a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&amp;page=<%=Integer.parseInt(str)-1%>">Anterior</a>
+            </li>
+
+                <li class="page-item disabled" <li=""><a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&amp;page=<%=i%>">1</a></li>
+
+
+
+                <li class="page-item disabled">
+
+                </li><li class="page-item ">
+
+                <a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&amp;page=<%=Integer.parseInt(str)+1%>">Siguiente</a>
+            </li>
+
+            </ul>
+        </nav>
+    </div><table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
+        <thead>
+
+        <tr>
+            <th class="columna-imagen">MEDICAMENTO</th>
+            <th class="columna-imagen">CANTIDAD DE SOLICITUDES</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class=""><p style="font-size: 18px;">Panadol</p></td>
+            <td class=""><p style="font-size: 18px;">128</p></td>
+            <td>
+                <div class="card-footer pt-1 br-3 border-top-0">
+                    <div class="text-center">
+                        <a href="Plantilla_Vista_Ver_Farmacista.html" class="btn btn-success">
+                            Ver
+                        </a>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&amp;idVR=<%=juegoReservado.getIdVideojuego()%>&amp;idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&amp;stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="card-footer pt-1 br-3 border-top-0">
+                    <div class="text-center">
+                        <a href="Plantilla_Vista_Actualizar_Farmacista.html" class="btn btn-warning">
+                            Actualizar
+                        </a>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&amp;idVR=<%=juegoReservado.getIdVideojuego()%>&amp;idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&amp;stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="card-footer pt-1 br-3 border-top-0">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
+                            Eliminar
+                        </button>
+                    </div>
+                    <!-- Modal -->
+                </div>
+                <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Aquí puedes agregar el contenido del formulario -->
+                                <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&amp;id=<%=administrador.getIdUsuario()%>">
+                                    <div class="mb-3">
+                                        <label for="motivoDespido">Ingrese motivo de despido</label>
+                                        <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
+                                    </div>
+                                    <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
+                                    <button type="submit" class="btn btn-primary">Continuar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="card-footer pt-1 br-3 border-top-0">
+                    <div class="text-center boton-despedir "><a class="btn mt-auto" data-bs-toggle="modal" data-bs-target="#exampleModal<%=juegoReservado.getIdVideojuego()%>"></a></div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&amp;idVR=<%=juegoReservado.getIdVideojuego()%>&amp;idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&amp;stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+
+
+            <style>
+                .pagination-container {
+                    margin: 30px;
+                }
+
+                .pagination-container .pagination {
+                    justify-content: flex-end;
+                    margin-left: auto;
+                }
+
+                .pagination-container .page-link {
+                    font-size: 18px;
+                    padding: 10px 15px;
+                }
+            </style>
+
+
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+
+<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts_1" aria-expanded="false" aria-controls="collapseLayouts">
+    <h3 class="mt-4">Tabla de Medicamentos con Poco Inventario</h3>
+    <div class="sb-sidenav-collapse-arrow"><svg class="svg-inline--fa fa-angle-down" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M169.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 274.7 54.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path></svg><!-- <i class="fas fa-angle-down"></i> Font Awesome fontawesome.com --></div>
+</a>
+<div class="collapse" id="collapseLayouts_1" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+    <nav class="sb-sidenav-menu-nested nav">
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="pagination-container">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item disabled">
+
+                            </li><li class="page-item">
+
+                            <a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&amp;page=<%=Integer.parseInt(str)-1%>">Anterior</a>
+                        </li>
+
+                            <li class="page-item disabled" <li=""><a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&amp;page=<%=i%>">1</a></li>
+
+
+
+                            <li class="page-item disabled">
+
+                            </li><li class="page-item ">
+
+                            <a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&amp;page=<%=Integer.parseInt(str)+1%>">Siguiente</a>
+                        </li>
+
+                        </ul>
+                    </nav>
+                </div><table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th class="columna-imagen">MEDICAMENTO</th>
+                    <th class="columna-imagen">CANTIDAD DE UNIDADES</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class=""><p style="font-size: 18px;">Dexametazona</p></td>
+                    <td class=""><p style="font-size: 18px;">256</p></td>
+                    <td>
+                        <div class="card-footer pt-1 br-3 border-top-0">
+                            <div class="text-center">
+                                <a href="Plantilla_Vista_Ver_Paciente.html" class="btn btn-success">
+                                    Ver
+                                </a>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&amp;idVR=<%=juegoReservado.getIdVideojuego()%>&amp;idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&amp;stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="card-footer pt-1 br-3 border-top-0">
+                            <div class="text-center">
+                                <a href="Plantilla_Vista_Actualizar_Paciente.html" class="btn btn-warning">
+                                    Editar
+                                </a>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&amp;idVR=<%=juegoReservado.getIdVideojuego()%>&amp;idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&amp;stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="card-footer pt-1 br-3 border-top-0">
+                            <div class="text-center">
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#crearListaModal">
+                                    Eliminar
+                                </button>
+                            </div>
+                            <!-- Modal -->
+                        </div>
+                        <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Aquí puedes agregar el contenido del formulario -->
+                                        <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&amp;id=<%=administrador.getIdUsuario()%>">
+                                            <div class="mb-3">
+                                                <label for="motivoDespido">Ingrese motivo de despido</label>
+                                                <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
+                                            </div>
+                                            <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
+                                            <button type="submit" class="btn btn-primary">Continuar</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="card-footer pt-1 br-3 border-top-0">
+                            <div class="text-center boton-despedir "><a class="btn mt-auto" data-bs-toggle="modal" data-bs-target="#exampleModal<%=juegoReservado.getIdVideojuego()%>"></a></div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&amp;idVR=<%=juegoReservado.getIdVideojuego()%>&amp;idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&amp;stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <style>
+                        .pagination-container {
+                            margin: 30px;
+                        }
+
+                        .pagination-container .pagination {
+                            justify-content: flex-end;
+                            margin-left: auto;
+                        }
+
+                        .pagination-container .page-link {
+                            font-size: 18px;
+                            padding: 10px 15px;
+                        }
+                    </style>
+
+
+                </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </nav></div>
+
 </div>
 
 
 
+</div>
 
-<footer style="background-color: rgb(58, 65, 73); width: 100%;">
+<footer style="background-color: rgba(11, 99, 111, 0.79); width: 100%;">
     <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
-        <div style="font-family: Arial; margin-left: 10px; color: white;">
+        <div style="font-family: Arial, 5px,serif; margin-left: 10px; color: white;">
             <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
         </div>
     </div>
 </footer>
 
-
-
+<!-- ************* -->
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

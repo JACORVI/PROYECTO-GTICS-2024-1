@@ -1,6 +1,6 @@
 package com.example.webapp.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,3 +28,4 @@ public class Carrito {
     private String numero_pedido;
     private String estado_de_compra;
 }
+

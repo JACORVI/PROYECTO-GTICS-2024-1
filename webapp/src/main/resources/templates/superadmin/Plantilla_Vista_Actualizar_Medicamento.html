@@ -10,10 +10,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <title>Pildo Pharm</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" th:href="@{/superadmin/img/logo.png}" />
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/superadmin/img/logo.png}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
 
-    <link th:href="@{/superadmin/css/stylesSide.css}" rel="stylesheet" />
+    <link th:href="@{/assets/superadmin/css/stylesSide.css}" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
@@ -57,212 +57,157 @@
     </style>
 </head>
 <body class="sb-nav-fixed">
-<nav class="navbar navbar-expand-lg fondo" style=" background-color: #0b636fc9;">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" th:href="@{/superadmin/Vista_Principal}" style="color: white; font-size: x-large; margin-bottom: 3px;"><img th:src="@{/superadmin/img/logo.png}" alt="Logo" width="50vw" height="50vh"> PildoPharm</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!--Buscado-->
-            <ul class="navbar-nav m-auto">
-                <div class="input-group ml-40">
-                    <!--ocultar buscador
-                    <input class="form-control" type="text" style="font-size: large;" placeholder="Buscar por Nombre..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
-                    <button class="btn btn-outline-light" type="submit"><i class="bi-search me-1"></i></button>
-                --></div>
-            </ul>
-            <form class="d-flex">
-                <!--boton registrar-->
-                <div class="dropdown" style="margin-top: 5px;">
-                    <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px; display: flex;" >
-                        <a class="text-decoration-none" style="margin-right: 10px;" href="#"><img th:src="@{/superadmin/img/usuario.png}" width="50vw" height="50vh" alt="Avatar" class="avatar"></a><div style="display: flex; flex-direction: column; color: white;"><h5 style="margin: 0%;">Nombre Apellido</h5> <h7>Superadmin</h7></div>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{/superadmin/Ver_Perfil}">Perfil</a></li>
-                        <li style="color: darkred!important;"><a class="dropdown-item" th:href="@{/superadmin/Cerrar_Cuenta}" style="color: red!important;"><b>Cerrar Sesión</b></a></li>
-                    </ul>
-                </div>
-            </form>
-        </div>
-    </div>
-</nav>
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #72b2bbc9!important;">
-    <div class="container px-4 px-lg-5">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: large;">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <!--<li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Inicio</a></li>-->
-
-                <li class="nav-item"><a class="nav-link" th:href="@{/superadmin/Medicamentos}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
-                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                </svg></div> Medicamentos</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/superadmin/Estado_Envios}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
-                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                </svg></div> Estado de Envíos</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/superadmin/Vista_Principal}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
-                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                </svg></div> Generar Reporte</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/superadmin/Estado_Solicitudes_Farmacistas}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
-                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                </svg></div> Estado de Solicitudes Farmacistas</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Nuevo Registro</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" th:href="@{/superadmin/Registro_Administrador}">Registrar Administrador</a></li>
-                        <li><a class="dropdown-item" th:href="@{/superadmin/Registro_Doctor}">Registrar Doctor</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+            <div th:replace="layout/PlantillaSuperAdmin :: navegacion"></div>
 
     <!-- TRABAJAR AQUI -->
-  <div class="container-xxl position-relative bg-white d-flex p-0" style="width: 80%;">
-      <!-- Form Start -->
-      <div class="container-fluid pt-4 px-4">
-          <form  method="POST" enctype="multipart/form-data" th:action="@{'/superadmin/Guardar_Medicamento'}" th:object="${medicamento}">
-              <h2 class="mb-4">EDITAR MEDICAMENTO</h2>
-              <div class="row g-4">
-                  <div class="col-sm-12 col-xl-6">
-                      <div class="bg-light rounded h-100 p-4">
-                          <h4><p style="text-align:center">Imagen del Medicamento</p></h4>
-                          <div class="container">
-                              <!-- Formulario de carga de imagen -->
-                              <div class="mb-3">
-                                  <label for="formFile" class="form-label">Selecciona una imagen para cargar:</label>
-                                  <input class="form-control" type="file" id="formFile" name="foto1">
-                                  <div class="bg-light rounded h-100 p-4">
-                                      <h4><p style="text-align:center"><img th:src="'data:image/png;base64,' + ${fotoBase64}" alt="..." style="width: 300px; height: 300px;"/></p></h4>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="col-sm-12 col-xl-6">
-                      <div class="bg-light rounded h-100 p-4">
-                          <h4><p style="text-align:center">Detalles del Medicamentso</p></h4>
-                          <input th:value="${medicamento.getId()}" name="id" type="hidden" />
-                          <input th:value="${medicamento.getFecha_ingreso()}" name="fecha_ingreso" type="hidden" />
-                          <input th:value="${medicamento.getCategoria()}" name="categoria" type="hidden" />
-                          <input th:value="${medicamento.getDosis()}" name="dosis" type="hidden" />
-                          <input th:value="${medicamento.getBorrado_logico()}" name="borrado_logico" type="hidden" />
-                          <input th:value="${medicamento.getFoto()}" name="foto" type="hidden" />
-                          <div class="mb-3">
-                              <label class="form-label">Nombre</label>
-                              <input type="text" class="form-control" th:field="*{nombre}"
-                                     th:classappend="${#fields.hasErrors('nombre')?'is-invalid':''}"/>
-                              <div class="invalid-feedback"
-                                   th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
-                              </div>
-                          </div>
-                          <div class="mb-3">
-                              <label class="form-label">Descripcion</label>
-                              <input type="text" class="form-control" th:field="*{descripcion}"
-                                     th:classappend="${#fields.hasErrors('descripcion')?'is-invalid':''}"/>
-                              <div class="invalid-feedback"
-                                   th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">
-                              </div>
-                          </div>
-                          <div class="mb-3">
-                              <label class="form-label" for="inventario">Inventario</label>
-                              <input type="text" class="form-control" th:field="*{inventario}"/>
-                              <div class="text-danger" th:if="${#fields.hasErrors('inventario')}" th:errors="*{inventario}">Error</div>
-                          </div>
-                          <div class="mb-3">
-                              <label class="form-label" for="precio_unidad">Precio por Unidad</label>
-                              <input type="text" class="form-control" th:field="*{precio_unidad}"/>
-                              <div class="text-danger" th:if="${#fields.hasErrors('precio_unidad')}" th:errors="*{precio_unidad}">Error</div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="text-center">
-                  <button type="submit" class="btn btn-primary boton-primario">EDITAR</button>
-              </div>
-          </form>
-          <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
-                    <thead>
-                        <h3 class="mt-4">Asignar Sede</h3>
-                    </thead>
-                    <tbody>
-                    <tr class="contenido" th:each="Sede, info: ${ListaSedes}">
-                        <td class=<%=color%><p style="font-size: 18px;" th:text="${Sede.getNombre()}">SEDE N°1</p></td>
-
-                        <div th:if="${ListaIndicador.get(Sede.getId()-1) == 'Asignado'}">
-
-                            <td>
-                                <div class="card-footer pt-1 br-3 border-top-0">
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
-                                            <i class=""></i>Asignar
-                                        </button>
+            <!-- TRABAJAR AQUI -->
+            <div class="container-xxl position-relative bg-white d-flex p-0" style="width: 80%;">
+                <!-- Form Start -->
+                <div class="container-fluid pt-4 px-4">
+                    <form  method="POST" enctype="multipart/form-data" th:action="@{'/superadmin/Guardar_Medicamento'}" th:object="${medicamento}">
+                        <h2 class="mb-4">EDITAR MEDICAMENTO</h2>
+                        <div class="row g-4">
+                            <div class="col-sm-12 col-xl-6">
+                                <div class="bg-light rounded h-100 p-4">
+                                    <h4><p style="text-align:center">Imagen del Medicamento</p></h4>
+                                    <div class="container">
+                                        <!-- Formulario de carga de imagen -->
+                                        <div class="mb-3">
+                                            <label for="formFile" class="form-label">Selecciona una imagen para cargar:</label>
+                                            <input class="form-control" type="file" id="formFile" name="foto1">
+                                            <div class="bg-light rounded h-100 p-4">
+                                                <h4><p style="text-align:center"><img th:src="'data:image/png;base64,' + ${fotoBase64}" alt="..." style="width: 300px; height: 300px;"/></p></h4>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </td>
-
-                            <td>
-                                <div class="card-footer pt-1 br-3 border-top-0">
-                                    <div class="text-center">
-                                        <a th:href="@{'/superadmin/No_Asignar_Sede_Medicamento?id=' + ${medicamento.getId()} + '&idsede=' + ${Sede.getId()}}"
-                                           class="btn btn-danger">
-                                            <i class=""></i> No Asignar
-                                        </a>
+                            </div>
+                            <div class="col-sm-12 col-xl-6">
+                                <div class="bg-light rounded h-100 p-4">
+                                    <h4><p style="text-align:center">Detalles del Medicamentso</p></h4>
+                                    <input th:value="${medicamento.getId()}" name="id" type="hidden" />
+                                    <input th:value="${medicamento.getFecha_ingreso()}" name="fecha_ingreso" type="hidden" />
+                                    <input th:value="${medicamento.getCategoria()}" name="categoria" type="hidden" />
+                                    <input th:value="${medicamento.getDosis()}" name="dosis" type="hidden" />
+                                    <input th:value="${medicamento.getBorrado_logico()}" name="borrado_logico" type="hidden" />
+                                    <input th:value="${medicamento.getFoto()}" name="foto" type="hidden" />
+                                    <div class="mb-3">
+                                        <label class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" th:field="*{nombre}"
+                                               th:classappend="${#fields.hasErrors('nombre')?'is-invalid':''}"/>
+                                        <div class="invalid-feedback"
+                                             th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Descripcion</label>
+                                        <input type="text" class="form-control" th:field="*{descripcion}"
+                                               th:classappend="${#fields.hasErrors('descripcion')?'is-invalid':''}"/>
+                                        <div class="invalid-feedback"
+                                             th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="inventario">Inventario</label>
+                                        <input type="text" class="form-control" th:field="*{inventario}"/>
+                                        <div class="text-danger" th:if="${#fields.hasErrors('inventario')}" th:errors="*{inventario}">Error</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="precio_unidad">Precio por Unidad</label>
+                                        <input type="text" class="form-control" th:field="*{precio_unidad}"/>
+                                        <div class="text-danger" th:if="${#fields.hasErrors('precio_unidad')}" th:errors="*{precio_unidad}">Error</div>
                                     </div>
                                 </div>
-                            </td>
-
-                            <td>
-                                <p style="font-size: 18px;" class="text-center">Asignado</p>
-                            </td>
+                            </div>
                         </div>
-
-                        <div th:if="${ListaIndicador.get(Sede.getId()-1) == 'NoAsignado'}">
-
-                            <td>
-                                <div class="card-footer pt-1 br-3 border-top-0">
-                                    <div class="text-center">
-                                        <a th:href="@{'/superadmin/Asignar_Sede_Medicamento?id=' + ${medicamento.getId()} + '&idsede=' + ${Sede.getId()}}" class="btn btn-success">
-                                            <i class=""></i> Asignar
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td>
-                                <div class="card-footer pt-1 br-3 border-top-0">
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
-                                            <i class=""></i>No asignar
-                                        </button>
-                                    </div>
-                                    <!-- Modal -->
-                                </div>
-                            </td>
-
-                            <td>
-                                <p style="font-size: 18px;" class="text-center">No Asignado</p>
-                            </td>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary boton-primario">EDITAR</button>
                         </div>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="pagination  d-flex justify-content-center" style="padding: 50px">
+                    </form>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
+                                <thead>
+                                <h3 class="mt-4">Asignar Sede</h3>
+                                </thead>
+                                <tbody>
+                                <tr class="contenido" th:each="Sede, info: ${ListaSedes}">
+                                    <td class=<%=color%><p style="font-size: 18px;" th:text="${Sede.getNombre()}">SEDE N°1</p></td>
+
+                                    <div th:if="${ListaIndicador.get(Sede.getId()-1) == 'Asignado'}">
+
+                                        <td>
+                                            <div class="card-footer pt-1 br-3 border-top-0">
+                                                <div class="text-center">
+                                                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
+                                                        <i class=""></i>Asignar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="card-footer pt-1 br-3 border-top-0">
+                                                <div class="text-center">
+                                                    <a th:href="@{'/superadmin/No_Asignar_Sede_Medicamento?id=' + ${medicamento.getId()} + '&idsede=' + ${Sede.getId()}}"
+                                                       class="btn btn-danger">
+                                                        <i class=""></i> No Asignar
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <p style="font-size: 18px;" class="text-center">Asignado</p>
+                                        </td>
+                                    </div>
+
+                                    <div th:if="${ListaIndicador.get(Sede.getId()-1) == 'NoAsignado'}">
+
+                                        <td>
+                                            <div class="card-footer pt-1 br-3 border-top-0">
+                                                <div class="text-center">
+                                                    <a th:href="@{'/superadmin/Asignar_Sede_Medicamento?id=' + ${medicamento.getId()} + '&idsede=' + ${Sede.getId()}}" class="btn btn-success">
+                                                        <i class=""></i> Asignar
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="card-footer pt-1 br-3 border-top-0">
+                                                <div class="text-center">
+                                                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
+                                                        <i class=""></i>No asignar
+                                                    </button>
+                                                </div>
+                                                <!-- Modal -->
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <p style="font-size: 18px;" class="text-center">No Asignado</p>
+                                        </td>
+                                    </div>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="pagination  d-flex justify-content-center" style="padding: 50px">
+                            </div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <button onclick="window.location.href='/superadmin/Medicamentos'" type="button" class="btn btn-warning">Retornar a la Página Principal</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-          <div class="col-12 text-center">
-              <button onclick="window.location.href='/superadmin/Medicamentos'" type="button" class="btn btn-warning">Retornar a la Página Principal</button>
-          </div>
-      </div>
-      </div>
-  </div>
-      <!-- Content End -->
-  </div>
-  <td class=<%=color%><p style="font-size: 18px;"></p></td>
+            <!-- Content End -->
+            </div>
+            <td class=<%=color%><p style="font-size: 18px;"></p></td>
 
 
 
-  <!-- Template Javascript -->
+            <!-- Template Javascript -->
       <script type="text/javascript">
           function getPageList(totalPages, page, maxLength) {
               function range(start, end) {
@@ -336,16 +281,13 @@
           });
       </script>
     <!-- ************* -->
-
-    <!-- ************* -->
     <footer style="background-color: rgba(11, 99, 111, 0.79); width: 100%;">
         <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
-            <div style="font-family: Arial,5px; margin-left: 10px; color: white;">
+            <div style="font-family: Arial, 5px; margin-left: 10px; color: white;">
                 <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
             </div>
         </div>
     </footer>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>

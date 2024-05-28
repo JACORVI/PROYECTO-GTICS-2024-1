@@ -3,7 +3,7 @@ package com.example.webapp.repository;
 import com.example.webapp.entity.Usuario;
 import com.example.webapp.entity.UsuarioHasSede;
 import com.example.webapp.entity.UsuarioHasSedeId;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

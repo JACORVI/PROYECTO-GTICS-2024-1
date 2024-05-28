@@ -2,14 +2,13 @@ package com.example.webapp.repository;
 
 import com.example.webapp.entity.Carrito;
 import com.example.webapp.entity.CarritoId;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.transaction.Transactional;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 @Repository

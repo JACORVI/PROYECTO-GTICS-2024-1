@@ -4,7 +4,7 @@ import com.example.webapp.dto.MedicamentoSolicitados3mesesDto;
 import com.example.webapp.dto.MedicamentoSolicitadosxdiasDto;
 import com.example.webapp.dto.MedicamentosPocoInventarioDto;
 import com.example.webapp.entity.Medicamentos;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

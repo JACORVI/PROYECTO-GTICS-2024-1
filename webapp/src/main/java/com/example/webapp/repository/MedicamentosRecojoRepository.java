@@ -1,8 +1,6 @@
 package com.example.webapp.repository;
 
 import com.example.webapp.entity.MedicamentoRecojo;
-import com.example.webapp.entity.MedicamentosDelPedido;
-import com.example.webapp.entity.PedidosPaciente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

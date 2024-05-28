@@ -1,246 +1,190 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Shop Homepage - Start Bootstrap Template</title>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Shop Homepage - Start Bootstrap Template</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <title>Pildo Pharm</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" th:href="@{/superadmin/img/logo.png}" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <title>Pildo Pharm</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" th:href="@{/assets/superadmin/img/logo.png}" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
 
-    <link th:href="@{/superadmin/css/stylesSide.css}" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCSkZALDDeauhgE9WHeS52ssPOo5xRLZoY&libraries=places"></script>
-    <style>
-        /* Estilos personalizados para los botones */
-        .boton_barbaro {
-            color: white;
-            background-color: red;
-            border-color: red;
-            margin-top: 16px;
-            margin-bottom: 16px;
-        }
+            <link th:href="@{/assets/superadmin/css/stylesSide.css}" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCSkZALDDeauhgE9WHeS52ssPOo5xRLZoY&libraries=places"></script>
+        <style>
+            /* Estilos personalizados para los botones */
+            .boton_barbaro {
+                color: white;
+                background-color: red;
+                border-color: red;
+                margin-top: 16px;
+                margin-bottom: 16px;
+            }
 
-        .boton_barbaro:hover {
-            background-color: #990000;
-            border-color: #990000;
-        }
+            .boton_barbaro:hover {
+                background-color: #990000;
+                border-color: #990000;
+            }
 
-        .botoncito_gozu {
-            color: white;
-            background-color: black;
-            border-color: black;
-            margin-top: 32px;
-        }
+            .botoncito_gozu {
+                color: white;
+                background-color: black;
+                border-color: black;
+                margin-top: 32px;
+            }
 
-        .botoncito_gozu:hover {
-            background-color: #333;
-            border-color: #333;
-        }
+            .botoncito_gozu:hover {
+                background-color: #333;
+                border-color: #333;
+            }
 
-        .boton-primario {
-            background-color: #2bd831;
-            border-color: #2bd831;
-        }
+            .boton-primario {
+                background-color: #2bd831;
+                border-color: #2bd831;
+            }
 
-        .boton-primario:hover {
-            background-color: rgb(19, 164, 24);
-            border-color: rgb(19, 164, 24);
-        }
-    </style>
-</head>
-<body class="sb-nav-fixed">
-<nav class="navbar navbar-expand-lg fondo" style=" background-color: #0b636fc9;">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" th:href="@{/superadmin/Vista_Principal}" style="color: white; font-size: x-large; margin-bottom: 3px;"><img th:src="@{/superadmin/img/logo.png}" alt="Logo" width="50vw" height="50vh"> PildoPharm</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!--Buscado-->
-            <ul class="navbar-nav m-auto">
-                <div class="input-group ml-40">
-                    <!--ocultar buscador
-                    <input class="form-control" type="text" style="font-size: large;" placeholder="Buscar por Nombre..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
-                    <button class="btn btn-outline-light" type="submit"><i class="bi-search me-1"></i></button>
-                --></div>
-            </ul>
-            <form class="d-flex">
-                <!--boton registrar-->
-                <div class="dropdown" style="margin-top: 5px;">
-                    <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px; display: flex;" >
-                        <a class="text-decoration-none" style="margin-right: 10px;" href="#"><img th:src="@{/superadmin/img/usuario.png}" width="50vw" height="50vh" alt="Avatar" class="avatar"></a><div style="display: flex; flex-direction: column; color: white;"><h5 style="margin: 0%;">Nombre Apellido</h5> <h7>Superadmin</h7></div>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{/superadmin/Ver_Perfil}">Perfil</a></li>
-                        <li style="color: darkred!important;"><a class="dropdown-item" th:href="@{/superadmin/Cerrar_Cuenta}" style="color: red!important;"><b>Cerrar Sesión</b></a></li>
-                    </ul>
+            .boton-primario:hover {
+                background-color: rgb(19, 164, 24);
+                border-color: rgb(19, 164, 24);
+            }
+        </style>
+    </head>
+    <body class="sb-nav-fixed">
+        <div th:replace="layout/PlantillaSuperAdmin :: navegacion"></div>
+
+        <!-- TRABAJAR AQUI -->
+        <div class="container-xxl position-relative bg-white d-flex p-0" style="width: 80%;">
+            <!-- Form Start -->
+            <div class="container-fluid pt-4 px-4">
+                <h2 class="mb-4">VER MEDICAMENTO</h2>
+                <div class="row g-4">
+                    <div class="col-sm-6 col-xl-6">
+                        <h4><p style="text-align:center">Imagen del Medicamento</p></h4>
+                        <div class="bg-light rounded h-100 p-4">
+                            <h4><p style="text-align:center"><img th:src="'data:image/png;base64,' + ${fotoBase64}" alt="..." style="width: 400px; height: 400px;"/></p></h4>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h4><p style="text-align:center">Detalles del Medicamento</p></h4>
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre</label>
+                                    <span class="form-control" type="text" contenteditable="false" th:text="${medicamento.getNombre()}">hola</span>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Descripción</label>
+                                    <span class="form-control" type="text" contenteditable="false" th:text="${medicamento.getDescripcion()}">hola</span>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Inventario</label>
+                                    <span class="form-control" type="text" contenteditable="false" th:text="${medicamento.getInventario()}">hola</span>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Precio Por Unidad</label>
+                                    <span class="form-control" type="text" contenteditable="false" th:text="${medicamento.getPrecio_unidad()}">hola</span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </form>
-        </div>
-    </div>
-</nav>
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #72b2bbc9!important;">
-    <div class="container px-4 px-lg-5">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: large;">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <!--<li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Inicio</a></li>-->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
+                            <thead>
+                            <h3 class="mt-4">Asignar Sede (Inhabilitado)</h3>
+                            </thead>
+                            <tbody>
+                            <tr class="contenido" th:each="Sede, info: ${ListaSedes}">
+                                <td class=<%=color%><p style="font-size: 18px;" th:text="${Sede.getNombre()}">SEDE N°1</p></td>
 
-                <li class="nav-item"><a class="nav-link" th:href="@{/superadmin/Medicamentos}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
-                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                </svg></div> Medicamentos</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/superadmin/Estado_Envios}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
-                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                </svg></div> Estado de Envíos</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/superadmin/Vista_Principal}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
-                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                </svg></div> Generar Reporte</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/superadmin/Estado_Solicitudes_Farmacistas}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
-                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                </svg></div> Estado de Solicitudes Farmacistas</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Nuevo Registro</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" th:href="@{/superadmin/Registro_Administrador}">Registrar Administrador</a></li>
-                        <li><a class="dropdown-item" th:href="@{/superadmin/Registro_Doctor}">Registrar Doctor</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+                                <div th:if="${ListaIndicador.get(Sede.getId()-1) == 'Asignado'}">
 
-    <!-- TRABAJAR AQUI -->
-  <div class="container-xxl position-relative bg-white d-flex p-0" style="width: 80%;">
-      <!-- Form Start -->
-      <div class="container-fluid pt-4 px-4">
-          <h2 class="mb-4">VER MEDICAMENTO</h2>
-          <div class="row g-4">
-              <div class="col-sm-6 col-xl-6">
-                  <h4><p style="text-align:center">Imagen del Medicamento</p></h4>
-                  <div class="bg-light rounded h-100 p-4">
-                      <h4><p style="text-align:center"><img th:src="'data:image/png;base64,' + ${fotoBase64}" alt="..." style="width: 400px; height: 400px;"/></p></h4>
-                  </div>
-              </div>
-              <div class="col-sm-6 col-xl-6">
-                  <div class="bg-light rounded h-100 p-4">
-                      <h4><p style="text-align:center">Detalles del Medicamento</p></h4>
-                      <form>
-                          <div class="mb-3">
-                              <label class="form-label">Nombre</label>
-                              <span class="form-control" type="text" contenteditable="false" th:text="${medicamento.getNombre()}">hola</span>
-                          </div>
-                          <div class="mb-3">
-                              <label class="form-label">Descripción</label>
-                              <span class="form-control" type="text" contenteditable="false" th:text="${medicamento.getDescripcion()}">hola</span>
-                          </div>
-                          <div class="mb-3">
-                              <label class="form-label">Inventario</label>
-                              <span class="form-control" type="text" contenteditable="false" th:text="${medicamento.getInventario()}">hola</span>
-                          </div>
-                          <div class="mb-3">
-                              <label class="form-label">Precio Por Unidad</label>
-                              <span class="form-control" type="text" contenteditable="false" th:text="${medicamento.getPrecio_unidad()}">hola</span>
-                          </div>
-                      </form>
-                  </div>
-              </div>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
-                    <thead>
-                        <h3 class="mt-4">Asignar Sede (Inhabilitado)</h3>
-                    </thead>
-                    <tbody>
-                    <tr class="contenido" th:each="Sede, info: ${ListaSedes}">
-                        <td class=<%=color%><p style="font-size: 18px;" th:text="${Sede.getNombre()}">SEDE N°1</p></td>
+                                    <td>
+                                        <div class="card-footer pt-1 br-3 border-top-0">
+                                            <div class="text-center">
+                                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
+                                                    <i class=""></i>Asignar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
 
-                        <div th:if="${ListaIndicador.get(Sede.getId()-1) == 'Asignado'}">
+                                    <td>
+                                        <div class="card-footer pt-1 br-3 border-top-0">
+                                            <div class="text-center">
+                                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
+                                                    <i class=""></i>No asignar
+                                                </button>
+                                            </div>
+                                            <!-- Modal -->
+                                        </div>
+                                    </td>
 
-                            <td>
-                                <div class="card-footer pt-1 br-3 border-top-0">
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
-                                            <i class=""></i>Asignar
-                                        </button>
-                                    </div>
+                                    <td>
+                                        <p style="font-size: 18px;" class="text-center">Asignado</p>
+                                    </td>
                                 </div>
-                            </td>
 
-                            <td>
-                                <div class="card-footer pt-1 br-3 border-top-0">
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
-                                            <i class=""></i>No asignar
-                                        </button>
-                                    </div>
-                                    <!-- Modal -->
+                                <div th:if="${ListaIndicador.get(Sede.getId()-1) == 'NoAsignado'}">
+
+                                    <td>
+                                        <div class="card-footer pt-1 br-3 border-top-0">
+                                            <div class="text-center">
+                                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
+                                                    <i class=""></i>Asignar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="card-footer pt-1 br-3 border-top-0">
+                                            <div class="text-center">
+                                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
+                                                    <i class=""></i>No asignar
+                                                </button>
+                                            </div>
+                                            <!-- Modal -->
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <p style="font-size: 18px;" class="text-center">No Asignado</p>
+                                    </td>
                                 </div>
-                            </td>
-
-                            <td>
-                                <p style="font-size: 18px;" class="text-center">Asignado</p>
-                            </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination  d-flex justify-content-center" style="padding: 50px">
                         </div>
-
-                        <div th:if="${ListaIndicador.get(Sede.getId()-1) == 'NoAsignado'}">
-
-                            <td>
-                                <div class="card-footer pt-1 br-3 border-top-0">
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
-                                            <i class=""></i>Asignar
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td>
-                                <div class="card-footer pt-1 br-3 border-top-0">
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
-                                            <i class=""></i>No asignar
-                                        </button>
-                                    </div>
-                                    <!-- Modal -->
-                                </div>
-                            </td>
-
-                            <td>
-                                <p style="font-size: 18px;" class="text-center">No Asignado</p>
-                            </td>
+                        <div class="row justify-content-between">
+                            <div class="col-auto">
+                                <a th:href="@{'/superadmin/Medicamentos'}" class="btn btn-warning">
+                                    <i class=""></i> Retornar a la Página Principal
+                                </a>
+                            </div>
+                            <div class="col-auto">
+                                <a th:href="@{'/superadmin/Editar_Medicamento'+ '?id=' + ${medicamento.getId()}}" class="btn btn-primary">
+                                    <i class=""></i> Click Para Editar Información
+                                </a>
+                            </div>
                         </div>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="pagination  d-flex justify-content-center" style="padding: 50px">
-            </div>
-              <div class="row justify-content-between">
-                  <div class="col-auto">
-                      <a th:href="@{'/superadmin/Medicamentos'}" class="btn btn-warning">
-                          <i class=""></i> Retornar a la Página Principal
-                      </a>
-                  </div>
-                  <div class="col-auto">
-                      <a th:href="@{'/superadmin/Editar_Medicamento'+ '?id=' + ${medicamento.getId()}}" class="btn btn-primary">
-                          <i class=""></i> Click Para Editar Información
-                      </a>
-                  </div>
-              </div>
+                    </div>
+                </div>
             </div>
         </div>
-      </div>
-      </div>
-  </div><!-- Content End -->
-  <td class=<%=color%><p style="font-size: 18px;"></p></td>
+        </div><!-- Content End -->
+        <td class=<%=color%><p style="font-size: 18px;"></p></td>
 
-  <!-- Template Javascript -->
+        <!-- Template Javascript -->
 <script type="text/javascript">
     function getPageList(totalPages, page, maxLength) {
         function range(start, end) {
@@ -273,7 +217,8 @@
         var currentPage;
 
         function showPage(whichPage) {
-            if (whichPage < 1 || whichPage > totalPages) return false;
+            if (whichPage < 1 || whichPage > totalPages)
+                return false;
 
             currentPage = whichPage;
 
@@ -283,8 +228,8 @@
 
             getPageList(totalPages, currentPage, paginationSize).forEach(item => {
                 $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
-                    .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
-                    .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
+                        .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                        .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
             });
 
             $(".previous-page").toggleClass("disable", currentPage === 1);
@@ -293,9 +238,9 @@
         }
 
         $(".pagination").append(
-            $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
-            $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
-        );
+                $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+                $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+                );
 
         $(".contenido").show();
         showPage(1);
@@ -314,26 +259,23 @@
     });
 </script>
 
-    <!-- ************* -->
-<div class="fixed-bottom">
-    <!-- ************* -->
-    <footer style="background-color: rgba(11, 99, 111, 0.79); width: 100%;">
-        <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
-            <div style="font-family: Arial,5px; margin-left: 10px; color: white;">
-                <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
-            </div>
+<!-- ************* -->
+<footer style="background-color: rgba(11, 99, 111, 0.79); width: 100%;">
+    <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
+        <div style="font-family: Arial, 5px; margin-left: 10px; color: white;">
+            <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
         </div>
-    </footer>
-</div>
+    </div>
+</footer>
 
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-              crossorigin="anonymous"></script>
-      <script src="js/scripts.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-      <script src="assets/demo/chart-area-demo.js"></script>
-      <script src="assets/demo/chart-bar-demo.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-              crossorigin="anonymous"></script>
-      <script src="js/datatables-simple-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="assets/demo/chart-area-demo.js"></script>
+<script src="assets/demo/chart-bar-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+crossorigin="anonymous"></script>
+<script src="js/datatables-simple-demo.js"></script>
 </body>
 </html>

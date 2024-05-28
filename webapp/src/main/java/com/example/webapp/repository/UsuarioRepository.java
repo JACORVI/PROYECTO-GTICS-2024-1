@@ -2,7 +2,7 @@ package com.example.webapp.repository;
 
 import com.example.webapp.entity.Medicamentos;
 import com.example.webapp.entity.Usuario;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -64,4 +64,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value = "select * from usuario u inner join usuario_has_sede uhs on (u.id_usuario = uhs.usuario_id_usuario) where rol = 'Doctor' and sede_id_sede = ?1", nativeQuery = true)
     List<Usuario> buscarDoctorporSede(int sede_id_sede);
 
+    @Query(value = "select * from usuario where correo = ?1 ", nativeQuery = true)
+    List<Usuario> buscarPorCorreo(String correo);
 }

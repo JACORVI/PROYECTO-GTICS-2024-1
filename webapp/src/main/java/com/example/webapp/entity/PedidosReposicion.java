@@ -1,10 +1,9 @@
 package com.example.webapp.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -21,8 +20,9 @@ public class PedidosReposicion {
     private Usuario usuario;
 
     @Column(nullable = false)
-    private String fecha_solicitud;
+    private Date fecha_solicitud;
     private double costo_total;
-    private String fecha_entrega;
+    private Date fecha_entrega;
     private String estado_de_reposicion;
 }
+
