@@ -61,7 +61,6 @@
 
         <!-- TRABAJAR AQUI -->
 
-
         <div class="container" >
             <div class="row">
                 <div class="col-lg-12">
@@ -110,11 +109,51 @@
                         </div>
                         <div class="col-12">
                             <label class="form-label">Distrito</label>
-                            <input type="text" class="form-control" th:field="*{distrito}"
-                                   th:classappend="${#fields.hasErrors('distrito')?'is-invalid':''}"/>
-                            <div class="invalid-feedback"
-                                 th:if="${#fields.hasErrors('distrito')}" th:errors="*{distrito}">
-                            </div>
+                            <select class="form-select" aria-label="Default select example" th:field="*{distrito}">
+                                <option th:value="${'Ancon'}">Ancón</option>
+                                <option th:value="${'Ate'}">Ate</option>
+                                <option th:value="${'Barranco'}">Barranco</option>
+                                <option th:value="${'Brenia'}">Breña</option>
+                                <option th:value="${'Carabayllo'}">Carabayllo</option>
+                                <option th:value="${'Cercado de Lima'}">Cercado de Lima</option>
+                                <option th:value="${'Chaclacayo'}">Chaclacayo</option>
+                                <option th:value="${'Chorrillos'}">Chorrillos</option>
+                                <option th:value="${'Cieneguilla'}">Cieneguilla</option>
+                                <option th:value="${'Comas'}">Comas</option>
+                                <option th:value="${'El Agustino'}">El Agustino</option>
+                                <option th:value="${'Independencia'}">Independencia</option>
+                                <option th:value="${'Jesus maria'}">Jesús María</option>
+                                <option th:value="${'La Molina'}">La Molina</option>
+                                <option th:value="${'La Victoria'}">La Victoria</option>
+                                <option th:value="${'Lince'}">Lince</option>
+                                <option th:value="${'Los Olivos'}">Los Olivos</option>
+                                <option th:value="${'Lurigancho'}">Lurigancho</option>
+                                <option th:value="${'Lurin'}">Lurín</option>
+                                <option th:value="${'Magdalena del mar'}">Magdalena del Mar</option>
+                                <option th:value="${'Miraflores'}">Miraflores</option>
+                                <option th:value="${'Pachacamac'}">Pachacámac</option>
+                                <option th:value="${'Pucusana'}">Pucusana</option>
+                                <option th:value="${'Pueblo Libre'}">Pueblo Libre</option>
+                                <option th:value="${'Puente Piedra'}">Puente Piedra</option>
+                                <option th:value="${'Punta Hermosa'}">Punta Hermosa</option>
+                                <option th:value="${'Punta Negra'}">Punta Negra</option>
+                                <option th:value="${'Rimac'}">Rímac</option>
+                                <option th:value="${'San Bartolo'}">San Bartolo</option>
+                                <option th:value="${'San Borja'}">San Borja</option>
+                                <option th:value="${'San Isidro'}">San Isidro</option>
+                                <option th:value="${'San Juan de Lurigancho'}">San Juan de Lurigancho</option>
+                                <option th:value="${'San Juan de Miraflores'}">San Juan de Miraflores</option>
+                                <option th:value="${'San Luis'}">San Luis</option>
+                                <option th:value="${'San Martin de Porres'}">San Martín de Porres</option>
+                                <option th:value="${'San Miguel'}">San Miguel</option>
+                                <option th:value="${'Santa Anita'}">Santa Anita</option>
+                                <option th:value="${'Santa Maria del Mar'}">Santa María del Mar</option>
+                                <option th:value="${'Santa Rosa'}">Santa Rosa</option>
+                                <option th:value="${'Santiago de Surco'}">Santiago de Surco</option>
+                                <option th:value="${'Surquillo'}">Surquillo</option>
+                                <option th:value="${'Villa el Salvador'}">Villa El Salvador</option>
+                                <option th:value="${'Villa Maria del Triunfo'}">Villa María del Triunfo</option>
+                            </select>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary boton-primario">EDITAR</button>

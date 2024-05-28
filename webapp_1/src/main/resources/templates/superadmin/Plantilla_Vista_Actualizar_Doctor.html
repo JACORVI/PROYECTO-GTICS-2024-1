@@ -59,8 +59,8 @@
     <body class="sb-nav-fixed">
         <div th:replace="layout/PlantillaSuperAdmin :: navegacion"></div>
 
-        <!-- TRABAJAR AQUI -->
 
+        <!-- TRABAJAR AQUI -->
 
         <div class="container" >
             <div class="row">
@@ -103,18 +103,25 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">DNI</label>
                             <label class="form-label" for="dni">DNI</label>
                             <input type="text" class="form-control" th:field="*{dni}"/>
                             <div class="text-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">Error</div>
                         </div>
                         <div class="col-12">
                             <label class="form-label">Código de Colegiatura</label>
-                            <input type="text" class="form-control" th:field="*{codigo_colegiatura}"
-                                   th:classappend="${#fields.hasErrors('codigo_colegiatura')?'is-invalid':''}"/>
-                            <div class="invalid-feedback"
-                                 th:if="${#fields.hasErrors('codigo_colegiatura')}" th:errors="*{codigo_colegiatura}">
-                            </div>
+                            <select class="form-select" aria-label="Default select example" th:field="*{codigo_colegiatura}">
+                                <option th:value="${'DOD001'}">DOD001</option>
+                                <option th:value="${'DOD002'}">DOD002</option>
+                                <option th:value="${'DOD003'}">DOD003</option>
+                                <option th:value="${'DOD004'}">DOD004</option>
+                                <option th:value="${'DOD005'}">DOD005</option>
+                                <option th:value="${'DOD006'}">DOD006</option>
+                                <option th:value="${'DOD007'}">DOD007</option>
+                                <option th:value="${'DOD008'}">DOD008</option>
+                                <option th:value="${'DOD009'}">DOD009</option>
+                                <option th:value="${'DOD010'}">DOD010</option>
+                                <!-- Agrega más opciones según sea necesario -->
+                            </select>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary boton-primario">EDITAR</button>
@@ -244,7 +251,6 @@
                     </div>
                     <br><br><br><br>
                 </div>
-
                 <script type="text/javascript">
                     function getPageList(totalPages, page, maxLength) {
                         function range(start, end) {
