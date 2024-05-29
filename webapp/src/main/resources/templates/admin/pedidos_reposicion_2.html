@@ -6,12 +6,10 @@
 <div th:insert="~{fragments/generaladmin.html :: navar1}"></div>
 <div th:insert="~{fragments/generaladmin.html :: navar2}"></div>
 
-<div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
-<div th:if="${msg1 != null}" th:text="${msg1}" class="alert alert-danger" role="alert"></div>
+
 <h3 class="mt-4" style="margin: 10px">Lista de pedidos de Reposición</h3>
 
-<a class="btn btn-primary mt-4" th:href="@{/admin/nuevo_pedido}" style="margin: 50px; margin-bottom: 5px">Realizar nuevo pedido</a>
-<section th:each="pedRep,info: ${listaPedRep}" th:if="${info.index < 2}" style="margin: 50px;">
+<section th:each="pedRep,info: ${listaPedRep}" style="margin: 50px;">
 
     <h4 class="mb-5" th:text="${'Fecha solicitada: ' + pedRep.fecha_solicitud}"></h4>
 
@@ -44,13 +42,20 @@
                             <label class="form-label">Proovedor: P1 </label>
                         </div>
                         <div class="text-center text-md-start">
-                            <a th:href="@{'/admin/editar_orden' + '?id=' + ${pedRep.id}}" class="btn btn-warning">
-                                Actualizar
-                            </a>
-
+                            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-warning mb-5 mb-md-0">
+                                Editar
+                            </button>
+                            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger mb-5 mb-md-0">
+                                Eliminar
+                            </button>
                         </div>
                     </div>
-
+                    <div class="col-md-6">
+                        <p>Medicamentos solicitados:</p>
+                        <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-secondary mb-5 mb-md-0">
+                            Ver lista de medicamentos
+                        </button>
+                    </div>
 
                 </div>
 
@@ -80,12 +85,6 @@
     </div>
 
 </section>
-
-<div style="text-align: center;" th:if="${listaPedRep.size() > 2}">
-    <a class="btn btn-outline-secondary mt-4 mb-4" th:href="@{/admin/listaPedidosReposicion}">Ver más</a>
-</div>
-
-
 
 
 <footer style="background-color: rgb(58, 65, 73); width: 100%;">
