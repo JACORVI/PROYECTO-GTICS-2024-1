@@ -20,9 +20,9 @@ public class PedidosReposicion {
     private Usuario usuario;
 
     @Column(nullable = false)
-    private Date fecha_solicitud;
+    private String fecha_solicitud;
     private double costo_total;
-    private Date fecha_entrega;
+    private String fecha_entrega;
     private String estado_de_reposicion;
 }
 
