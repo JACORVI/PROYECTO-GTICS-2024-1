@@ -8,6 +8,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+import com.example.webapp.validation.ValidApellidos;
+import com.example.webapp.validation.ValidCorreo;
 import com.example.webapp.validation.ValidNombre;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,13 +29,10 @@ public class Usuario {
     @Column(nullable = false)
     @ValidNombre
     private String nombres;
-    @NotBlank
-    @Size( max = 45, message = "Los apellidos no puede tener más de 45 caracteres")
+    @ValidApellidos
     private String apellidos;
 
-    @NotBlank
-    @Size( max = 45, message = "El correo no puede tener más de 45 caracteres")
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$", message = "El correo debe tener un formato válido")
+    @ValidCorreo
     private String correo;
 
     @Digits(integer = 8, fraction = 0, message = "El DNI debe tener exactamente 8 dígitos")

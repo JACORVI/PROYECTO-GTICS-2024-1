@@ -2,6 +2,9 @@ package com.example.webapp.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
+import com.example.webapp.validation.ValidApellidos;
+import com.example.webapp.validation.ValidNombre;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -19,11 +22,9 @@ public class PedidosPaciente {
     @Column(name="idpedidos_paciente")
     private int id;
     @Column(nullable = false)
-    @NotBlank(message = "El nombre no puede ser nulo")
-    @Size(max = 45, message = "El nombre no puede tener más de 45 caracteres")
+    @ValidNombre
     private String nombre_paciente;
-    @NotBlank(message = "El apellido no puede ser nulo")
-    @Size(max = 45, message = "El apellido no puede tener más de 45 caracteres")
+    @ValidApellidos
     private String apellido_paciente;
     private String medico_que_atiende;
     private String seguro;
