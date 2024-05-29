@@ -31,54 +31,7 @@
     </script>
 </head>
 <body class="sb-nav-fixed">
-<nav class="navbar navbar-expand-lg fondo" style=" background-color: #0b636fc9;">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" style="color: white; font-size: x-large; margin-bottom: 3px;"><img th:src="@{/assets/paciente/img/logo.png}" alt="Logo" width="50vw" height="50vh"> PildoPharm</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse">
-            <!--Buscado-->
-            <ul class="navbar-nav m-auto">
-                <div class="input-group ml-40">
-                    <input class="form-control" type="hidden" style="font-size: large;" placeholder="Buscar medicamento..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
-
-                </div>
-            </ul>
-            <form class="d-flex">
-                <!--boton registrar-->
-                <div class="dropdown" style="margin-top: 5px;">
-                    <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px; display: flex;" >
-                        <a class="text-decoration-none" style="margin-right: 10px;" ><img th:src="@{/assets/paciente/img/usuario.png}" width="50vw" height="50vh" alt="Avatar" class="avatar"></a><div style="display: flex; flex-direction: column; color: white;"><h5 style="margin: 0%;">Nombre Apellido</h5> <h7>Paciente</h7></div>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" >Perfil</a></li>
-                        <li><a class="dropdown-item" >Mis pedidos</a></li>
-                        <li style="color: darkred!important;"><a class="dropdown-item" style="color: red!important;"><b>Cerrar Sesión</b></a></li>
-                    </ul>
-                </div>
-            </form>
-        </div>
-    </div>
-</nav>
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #72b2bbc9!important;">
-    <div class="container px-4 px-lg-5">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: large;">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link" aria-current="page">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" aria-current="page">Medicamentos</a></li>
-                <li class="nav-item"><a class="nav-link" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
-                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                </svg></div> Mensajes</a></li>
-            </ul>
-        </div>
-        <!--carrito-->
-        <div class="m-auto">
-            <a class="btn btn-outline-light" >
-                <i class="bi-cart-fill me-1"></i>
-                <span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${tamañoCarrito}">0</span>
-            </a>
-        </div>
-    </div>
-</nav>
+<div th:replace="layout/PlantillaPaciente :: navegacion"></div>
 <!-- TRABAJAR AQUI-->
 <div style="width: 100%;">
     <div class="container px-4 px-lg-5 mt-5">

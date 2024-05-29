@@ -28,7 +28,7 @@
             </div>
             <div class="row border-top border-bottom">
                 <div class="row main align-items-center" th:each="productos : ${listadoDelCarrito}">
-                    <div class="col-2"><img class="img-fluid" th:src="@{/paciente/img/medicamento.avif}"></div>
+                    <div class="col-2"><img class="img-fluid" th:src="@{/assets/paciente/img/medicamento.avif}"></div>
                     <div class="col">
                         <div class="row text-muted" th:text="${productos.medicamentos_id_medicamentos.categoria}"></div>
                         <div class="row" th:text="${productos.medicamentos_id_medicamentos.nombre}"></div>
