@@ -40,8 +40,8 @@ public class Usuario {
     @Positive(message = "El DNI debe ser un número positivo")
     private int dni;
 
-    @NotBlank
-    @Size( max = 45, message = "El código de colegiatura no puede tener más de 45 caracteres")
+   // @NotBlank
+   // @Size( max = 45, message = "El código de colegiatura no puede tener más de 45 caracteres")
     private String codigo_colegiatura;
 
     @NotBlank
@@ -51,8 +51,8 @@ public class Usuario {
     private String estado;
     private String rol;
 
-    @NotBlank
-    @Size( max = 45, message = "El código de colegiatura no puede tener más de 45 caracteres")
+   // @NotBlank
+   // @Size( max = 45, message = "El código de colegiatura no puede tener más de 45 caracteres")
     private String contrasena;
     private Date fecha_creacion;
     private String estado_solicitud;

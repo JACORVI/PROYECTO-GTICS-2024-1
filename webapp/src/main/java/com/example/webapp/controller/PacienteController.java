@@ -77,7 +77,7 @@ public class PacienteController {
             numpedido += caracterAleatorio;
         }
         List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
-        model.addAttribute("tamañoCarrito",tamanocarrito.size());
+        model.addAttribute("tamanoCarrito",tamanocarrito.size());
         carritoRepository.registrarPedidoDely(costototal, tipopedido, validacion, estadopedido, numpedido, usuid);
         List<Integer> listidpedidodely = carritoRepository.idpedidoPorUsuIdDely(usuid);
         int idpedido = listidpedidodely.get(0);
@@ -93,7 +93,7 @@ public class PacienteController {
     public String preordenFormRegistro(@ModelAttribute("pedidosPaciente") PedidosPaciente pedidosPaciente,
                                        Model model){
         List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
-        model.addAttribute("tamañoCarrito",tamanocarrito.size());
+        model.addAttribute("tamanoCarrito",tamanocarrito.size());
         model.addAttribute("listausuarios", usuarioRepository.findAll());
         return "paciente/formcomprapreorden";
     }
@@ -104,7 +104,7 @@ public class PacienteController {
         if (bindingResult.hasErrors()){
             model.addAttribute("listausuarios", usuarioRepository.findAll());
             List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
-            model.addAttribute("tamañoCarrito",tamanocarrito.size());
+            model.addAttribute("tamanoCarrito",tamanocarrito.size());
             model.addAttribute("listausuarios", usuarioRepository.findAll());
             return "paciente/formcomprapreorden";
         }
@@ -146,7 +146,7 @@ public class PacienteController {
     public String listarPreordenes(Model model){
         int usuid = 29;
         List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
-        model.addAttribute("tamañoCarrito",tamanocarrito.size());
+        model.addAttribute("tamanoCarrito",tamanocarrito.size());
         model.addAttribute("listaPedidosPreorden", pedidosPacienteRepository.findAll());
         List <String> tamanolista = pedidosPacienteRepository.pedidosPreorden(usuid);
         int lleno = 1;
@@ -167,7 +167,7 @@ public class PacienteController {
             model.addAttribute("listamedicamentodely", listaMedicamentosDely);
             model.addAttribute("pedido", pedidosPaciente);
             List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
-            model.addAttribute("tamañoCarrito",tamanocarrito.size());
+            model.addAttribute("tamanoCarrito",tamanocarrito.size());
         }
         else{
             return "redirect:/paciente/inicio";
@@ -184,7 +184,7 @@ public class PacienteController {
         List<Medicamentos> listamedicamentos = medicamentosRepository.findAll();
         model.addAttribute("listaMedicamentos",listamedicamentos);
         List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
-        model.addAttribute("tamañoCarrito",tamanocarrito.size());
+        model.addAttribute("tamanoCarrito",tamanocarrito.size());
 
         //generador de numero de pedidos
         List<String> estadosdecompraporId = carritoRepository.estadosDeCompraPorUsuarioId(usuid);
@@ -393,7 +393,7 @@ public class PacienteController {
     public String formParaFinalizarCompraDely(@ModelAttribute("pedidosPaciente") PedidosPaciente pedidosPaciente,
                                               Model model){
         List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
-        model.addAttribute("tamañoCarrito",tamanocarrito.size());
+        model.addAttribute("tamanoCarrito",tamanocarrito.size());
         model.addAttribute("listausuarios", usuarioRepository.findAll());
         return "paciente/formcompradely";
     }
@@ -404,7 +404,7 @@ public class PacienteController {
         model.addAttribute("listausuarios", usuarioRepository.findAll());
         model.addAttribute("listasedes", sedeRepository.findAll());
         List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
-        model.addAttribute("tamañoCarrito",tamanocarrito.size());
+        model.addAttribute("tamanoCarrito",tamanocarrito.size());
         return "paciente/formcompra";
     }
 
@@ -413,7 +413,7 @@ public class PacienteController {
                                     Model model) {
         if (bindingResult.hasErrors()){
             List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
-            model.addAttribute("tamañoCarrito",tamanocarrito.size());
+            model.addAttribute("tamanoCarrito",tamanocarrito.size());
             model.addAttribute("listausuarios", usuarioRepository.findAll());
             return "paciente/formcompradely";
         }
@@ -450,7 +450,7 @@ public class PacienteController {
                                     Model model) {
         if (bindingResult.hasErrors()){
             List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
-            model.addAttribute("tamañoCarrito",tamanocarrito.size());
+            model.addAttribute("tamanoCarrito",tamanocarrito.size());
             model.addAttribute("listausuarios", usuarioRepository.findAll());
             model.addAttribute("listasedes", sedeRepository.findAll());
             return "paciente/formcompra";
@@ -503,7 +503,7 @@ public class PacienteController {
     public String listaPedidos(Model model){
         int usuid = 29;
         List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
-        model.addAttribute("tamañoCarrito",tamanocarrito.size());
+        model.addAttribute("tamanoCarrito",tamanocarrito.size());
         model.addAttribute("listaPedidosDely", pedidosPacienteRepository.findAll());
         List <String> tamanolistadely = pedidosPacienteRepository.pedidosDelivery(usuid);
         int llenodely = 1;
@@ -535,7 +535,7 @@ public class PacienteController {
             model.addAttribute("listamedicamentodely", listaMedicamentosDely);
             model.addAttribute("pedido", pedidosPaciente);
             List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
-            model.addAttribute("tamañoCarrito",tamanocarrito.size());
+            model.addAttribute("tamanoCarrito",tamanocarrito.size());
         }
         else{
             return "redirect:/paciente/mispedidos";
@@ -553,7 +553,7 @@ public class PacienteController {
             model.addAttribute("listamedicamento", listaMedicamentosReco);
             model.addAttribute("pedido", pedidosPacienteRecojo);
             List<Carrito> tamanocarrito = carritoRepository.listarCarrito();
-            model.addAttribute("tamañoCarrito",tamanocarrito.size());
+            model.addAttribute("tamanoCarrito",tamanocarrito.size());
         }
         else{
             return "redirect:/paciente/mispedidos";
