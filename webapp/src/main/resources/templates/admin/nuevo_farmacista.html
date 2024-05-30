@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{layout/generaladmin.html :: header (title = 'Registrar Farmacista')}"></head>
+<body>
+<div th:insert="~{layout/generaladmin.html :: navar1}"></div>
+<div th:insert="~{layout/generaladmin.html :: navar2}"></div>
+
+<div class="container" >
+    <div class="row">
+        <div class="col-lg-12">
+            <br>
+            <h2 class="mb-4">NUEVO FARMACISTA</h2>
+            <form class="row g-3" method="post" th:action="@{'/admin/guardar_farmacista'}" th:object="${usuario}">
+
+                <input th:field="*{id}" type="hidden"/>
+                <input th:field="*{seguro}" type="hidden"/>
+                <input th:value="${'Inactivo'}" name="estado" type="hidden" />
+                <input th:value="${'Farmacista'}" name="rol" type="hidden" />
+                <input th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" name="fecha_creacion" type="hidden" />
+                <input th:value="${'Contrasena45'}" name="contrasena" type="hidden" />
+                <input th:value="*{'Pendiente'}" name ="estado_solicitud" type="hidden" />
+                <input th:field="*{motivo_rechazo}" type="hidden" />
+                <input th:value="${0}" name="borrado_logico" type="hidden" />
+
+                <div class="col-md-6">
+                    <label class="form-label">Nombres</label>
+                    <input type="text" class="form-control" th:field="*{nombres}"
+                           th:classappend="${#fields.hasErrors('nombres')?'is-invalid':''}"/>
+                    <div class="invalid-feedback"
+                         th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" th:field="*{apellidos}"
+                           th:classappend="${#fields.hasErrors('apellidos')?'is-invalid':''}"/>
+                    <div class="invalid-feedback"
+                         th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">DNI</label>
+                    <input type="text" class="form-control" th:field="*{dni}"/>
+                    <div class="text-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">error</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Correo Electrónico</label>
+                    <input type="text" class="form-control" th:field="*{correo}"
+                           th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}"/>
+                    <div class="invalid-feedback"
+                         th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label class="form-label">Distrito</label>
+                    <select class="form-select" aria-label="Default select example" th:field="*{distrito}">
+                        <option th:value="${'Ancon'}">Ancón</option>
+                        <option th:value="${'Ate'}">Ate</option>
+                        <option th:value="${'Barranco'}">Barranco</option>
+                        <option th:value="${'Brenia'}">Breña</option>
+                        <option th:value="${'Carabayllo'}">Carabayllo</option>
+                        <option th:value="${'Cercado de Lima'}">Cercado de Lima</option>
+                        <option th:value="${'Chaclacayo'}">Chaclacayo</option>
+                        <option th:value="${'Chorrillos'}">Chorrillos</option>
+                        <option th:value="${'Cieneguilla'}">Cieneguilla</option>
+                        <option th:value="${'Comas'}">Comas</option>
+                        <option th:value="${'El Agustino'}">El Agustino</option>
+                        <option th:value="${'Independencia'}">Independencia</option>
+                        <option th:value="${'Jesus maria'}">Jesús María</option>
+                        <option th:value="${'La Molina'}">La Molina</option>
+                        <option th:value="${'La Victoria'}">La Victoria</option>
+                        <option th:value="${'Lince'}">Lince</option>
+                        <option th:value="${'Los Olivos'}">Los Olivos</option>
+                        <option th:value="${'Lurigancho'}">Lurigancho</option>
+                        <option th:value="${'Lurin'}">Lurín</option>
+                        <option th:value="${'Magdalena del mar'}">Magdalena del Mar</option>
+                        <option th:value="${'Miraflores'}">Miraflores</option>
+                        <option th:value="${'Pachacamac'}">Pachacámac</option>
+                        <option th:value="${'Pucusana'}">Pucusana</option>
+                        <option th:value="${'Pueblo Libre'}">Pueblo Libre</option>
+                        <option th:value="${'Puente Piedra'}">Puente Piedra</option>
+                        <option th:value="${'Punta Hermosa'}">Punta Hermosa</option>
+                        <option th:value="${'Punta Negra'}">Punta Negra</option>
+                        <option th:value="${'Rimac'}">Rímac</option>
+                        <option th:value="${'San Bartolo'}">San Bartolo</option>
+                        <option th:value="${'San Borja'}">San Borja</option>
+                        <option th:value="${'San Isidro'}">San Isidro</option>
+                        <option th:value="${'San Juan de Lurigancho'}">San Juan de Lurigancho</option>
+                        <option th:value="${'San Juan de Miraflores'}">San Juan de Miraflores</option>
+                        <option th:value="${'San Luis'}">San Luis</option>
+                        <option th:value="${'San Martin de Porres'}">San Martín de Porres</option>
+                        <option th:value="${'San Miguel'}">San Miguel</option>
+                        <option th:value="${'Santa Anita'}">Santa Anita</option>
+                        <option th:value="${'Santa Maria del Mar'}">Santa María del Mar</option>
+                        <option th:value="${'Santa Rosa'}">Santa Rosa</option>
+                        <option th:value="${'Santiago de Surco'}">Santiago de Surco</option>
+                        <option th:value="${'Surquillo'}">Surquillo</option>
+                        <option th:value="${'Villa el Salvador'}">Villa El Salvador</option>
+                        <option th:value="${'Villa Maria del Triunfo'}">Villa María del Triunfo</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label class="form-label">Código de Colegiatura</label>
+                    <select class="form-select" aria-label="Default select example" th:field="*{codigo_colegiatura}">
+                        <option th:value="${'MED001'}">MED001</option>
+                        <option th:value="${'MED002'}">MED002</option>
+                        <option th:value="${'MED003'}">MED003</option>
+                        <option th:value="${'MED004'}">MED004</option>
+                        <option th:value="${'MED005'}">MED005</option>
+                        <option th:value="${'MED006'}">MED006</option>
+                        <option th:value="${'MED007'}">MED007</option>
+                        <option th:value="${'MED008'}">MED008</option>
+                        <option th:value="${'MED009'}">MED009</option>
+                        <option th:value="${'MED010'}">MED010</option>
+                        <!-- Agrega más opciones según sea necesario -->
+                    </select>
+                </div>
+                <div class="text-center">
+                    <a th:href="@{'/admin/farmacistas'}" class="btn btn-danger">CANCELAR</a>
+                    <button type="submit" class="btn btn-primary boton-primario">REGISTRAR</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br><br><br><br>
+</div>
+
+
+
+<div class="fixed-bottom">
+    <footer style="background-color: rgb(58, 65, 73); width: 100%;">
+        <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
+            <div style="font-family: Arial; margin-left: 10px; color: white;">
+                <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="assets/demo/chart-area-demo.js"></script>
+<script src="assets/demo/chart-bar-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+<script src="js/datatables-simple-demo.js"></script>
+
+</body>
+</html>

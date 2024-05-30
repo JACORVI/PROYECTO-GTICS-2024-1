@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Shop Homepage - Start Bootstrap Template</title>
+
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="img/logo3_title.png" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <title>Pildo Pharm</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" th:href="@{/superadmin/img/logo.png}" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+
+        <link href="/assets/farmacista/css/stylesSide.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCSkZALDDeauhgE9WHeS52ssPOo5xRLZoY&libraries=places"></script>
+        <style>
+            /* Estilos personalizados para los botones */
+            .boton_barbaro {
+                color: white;
+                background-color: red;
+                border-color: red;
+                margin-top: 16px;
+                margin-bottom: 16px;
+            }
+
+            .boton_barbaro:hover {
+                background-color: #990000;
+                border-color: #990000;
+            }
+
+            .botoncito_gozu {
+                color: white;
+                background-color: black;
+                border-color: black;
+                margin-top: 32px;
+            }
+
+            .botoncito_gozu:hover {
+                background-color: #333;
+                border-color: #333;
+            }
+
+            .boton-primario {
+                background-color: #2bd831;
+                border-color: #2bd831;
+            }
+
+            .boton-primario:hover {
+                background-color: rgb(19, 164, 24);
+                border-color: rgb(19, 164, 24);
+            }
+            .avatar-img {
+                width: 200px; /* Ajusta el ancho deseado */
+                height: auto; /* El alto se ajustará automáticamente según la proporción */
+            }
+            .custom-shadow-border {
+                border: 1px solid #dee2e6; /* Color de borde suave */
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.45); /* Sombra suave */
+                padding: 10px; /* Espaciado interno */
+                background: white; /* Fondo blanco para el contenido */
+                margin-top: 30px; /* Espaciado superior */
+            }
+            @media (max-width: 768px) {
+                .row.custom-shadow-border.with-padding {
+                    padding: 15px 10px; /* Incrementa el padding lateral si es necesario */
+                    margin-left: 5px; /* Ajusta según necesidad */
+                    margin-right: 5px; /* Ajusta según necesidad */
+                }
+            }
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                overflow-x: hidden;
+            }
+
+            body {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+
+            main {
+                flex: 1 0 auto; /* Ajustado para asegurar que se expande con el contenido */
+                display: flex;
+                flex-direction: column; /* Asegúrate de que el contenido fluya verticalmente */
+                overflow-y: auto; /* Permite el desplazamiento dentro del main si es necesario */
+            }
+            footer {
+                width: 100%;
+                position: fixed; /* Cambiado de 'fixed' a 'sticky' */
+                bottom: 0;
+                background-color: rgba(11, 99, 111, 0.79);
+                clear: both;
+            }
+
+
+            .row {
+                padding-bottom: 28px !important;
+            }
+
+
+            .custom-shadow-border.with-padding {
+                height: 100h; /* Ajusta este valor según sea necesario */
+                overflow-y: hidden; /* Oculta el desbordamiento en lugar de mostrar scroll */
+            }
+
+
+        </style>
+    </head>
+    <body class="sb-nav-fixed">
+        <div th:replace="layout/PlantillaFarmacista :: navegacion"></div>
+        <!-- TRABAJAR AQUI -->
+
+        <div style="width: 100%;">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
+                            <thead>
+                            <h3 class="mt-4">Lista de Solicitudes</h3>
+                            <tr>
+                                <th class="columna-imagen">N° Pedido</th>
+                                <th class="columna-imagen">Nombre</th>
+                                <th class="columna-imagen">Fecha</th>
+                                <th class="columna-imagen">Costo</th>
+                                <th class="columna-imagen">Estado</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class=<%=color%><p style="font-size: 18px;">Pedido N° 1</p></td>
+                                    <td class=<%=color%><p style="font-size: 18px;">Julio César Aliaga Machuca</p></td>
+                                    <td class=<%=color%><p style="font-size: 18px;">12/07/2024</p></td>
+
+                                    <td class=<%=color%><p style="font-size: 18px;">YYY</p></td>
+                                    <td class=<%=color%><p style="font-size: 18px;">Validado</p></td>
+
+
+                                    <td>
+                                        <div class="card-footer pt-1 br-3 border-top-0">
+                                            <div class="text-center">
+
+
+                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearListaModal">
+                                                    <i class="bi bi-check2-circle" style="vertical-align: middle; margin-right: 5px;"></i>
+
+                                                    <span style="vertical-align: middle;">Aceptar</span>
+                                                </button>
+                                            </div>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                            <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="card-footer pt-1 br-3 border-top-0">
+                                            <div class="text-center">
+                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#crearListaModal">
+                                                    <i class="bi bi-eye-fill" style="vertical-align: middle; margin-right: 5px;"></i>
+
+                                                    <span style="vertical-align: middle;">Ver</span>
+                                                </button>
+                                            </div>
+
+                                            <!-- Modal -->
+                                        </div>
+                                        <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <!-- Aquí puedes agregar el contenido del formulario -->
+                                                        <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&id=<%=administrador.getIdUsuario()%>">
+                                                            <div class="mb-3">
+                                                                <label for="motivoDespido">Ingrese motivo de despido</label>
+                                                                <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
+                                                            </div>
+                                                            <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
+                                                            <button type="submit" class="btn btn-primary">Continuar</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                            <style>
+                                .pagination-container {
+                                    margin: 30px;
+                                }
+
+                                .pagination-container .pagination {
+                                    justify-content: flex-end;
+                                    margin-left: auto;
+                                }
+
+                                .pagination-container .page-link {
+                                    font-size: 18px;
+                                    padding: 10px 15px;
+                                }
+                            </style>
+                            <div class="d-flex justify-content-center mt-4">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
+                                        <!-- Suponiendo que 'i' es una variable de iteración del bucle -->
+                                        <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&page=<%=i%>">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/ServletGeneral?action=jr&page=<%=Integer.parseInt(str)+1%>">Siguiente</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- ************ -->
+        </div>
+
+        <!-- ************* -->
+        <footer th:replace="layout/PlantillaFarmacista :: footer"></footer>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+
+
+    </body>
+</html>
