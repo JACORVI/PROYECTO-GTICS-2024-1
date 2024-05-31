@@ -42,19 +42,17 @@ public class Usuario implements Serializable {
     @Size( max = 45, message = "El Distrito no puede tener más de 45 caracteres")
     private String distrito;
     private String seguro;
-    private String estado;
-
+    private int estado;
     private String contrasena;
     private Date fecha_creacion;
     private String estado_solicitud;
     private String motivo_rechazo;
     private int borrado_logico;
 
-
-    private String imagen;
-    private String telefono;
-    private String referencia;
     private String direccion;
+    private String imagen;
+    private String referencia;
+    private String telefono;
 
     @ManyToOne
     @JoinColumn(name="id_roles")

@@ -157,7 +157,12 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-center"><p style="font-size: 18px;" th:text="${Usuarios.getEstado()}">Panadol</p></td>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 0}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Inactivo</p></td>
+                            </div>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 1}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Activo</p></td>
+                            </div>
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
@@ -289,7 +294,12 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-center"><p style="font-size: 18px;" th:text="${Usuarios.getEstado()}">Panadol</p></td>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 0}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Inactivo</p></td>
+                            </div>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 1}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Activo</p></td>
+                            </div>
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
@@ -422,7 +432,12 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-center"><p style="font-size: 18px;" th:text="${Usuarios.getEstado()}">Panadol</p></td>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 0}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Inactivo</p></td>
+                            </div>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 1}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Activo</p></td>
+                            </div>
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
@@ -554,7 +569,12 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-center"><p style="font-size: 18px;" th:text="${Usuarios.getEstado()}">Panadol</p></td>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 0}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Inactivo</p></td>
+                            </div>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 1}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Activo</p></td>
+                            </div>
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">

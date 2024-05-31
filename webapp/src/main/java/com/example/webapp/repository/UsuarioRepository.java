@@ -15,20 +15,23 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     public Usuario findByCorreo(String email);
 
-    @Query(value = "select * from usuario where rol = ?1 and borrado_logico = ?2 order by fecha_creacion", nativeQuery = true)
-    List<Usuario> buscarFarmacista(String rol,int borrado_logico);
+    @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 and estado_solicitud = ?3 order by fecha_creacion", nativeQuery = true)
+    List<Usuario> buscarFarmacistaAceptado(int rol,int borrado_logico,String estado_solicitud);
+
+    @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 order by fecha_creacion", nativeQuery = true)
+    List<Usuario> buscarFarmacista(int rol,int borrado_logico);
 
     @Query(value = "SELECT id_usuario FROM usuario ORDER BY id_usuario DESC LIMIT 1;\n", nativeQuery = true)
     int buscarUltimo();
 
-    @Query(value = "select * from usuario where rol = ?1 and borrado_logico = ?2 ", nativeQuery = true)
-    List<Usuario> buscarDoctor(String rol,int borrado_logico);
+    @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 ", nativeQuery = true)
+    List<Usuario> buscarDoctor(int rol,int borrado_logico);
 
-    @Query(value = "select * from usuario where rol = ?1 and borrado_logico = ?2 ", nativeQuery = true)
-    List<Usuario> buscarAdministrador(String rol,int borrado_logico);
+    @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 ", nativeQuery = true)
+    List<Usuario> buscarAdministrador(int rol,int borrado_logico);
 
-    @Query(value = "select * from usuario where rol = ?1 and borrado_logico = ?2 ", nativeQuery = true)
-    List<Usuario> buscarPaciente(String rol,int borrado_logico);
+    @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 ", nativeQuery = true)
+    List<Usuario> buscarPaciente(int rol,int borrado_logico);
 
     @Transactional
     @Modifying

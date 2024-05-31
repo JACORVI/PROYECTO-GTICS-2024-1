@@ -543,13 +543,13 @@ public class SuperadminController {
     //Listar Usuarios
     @GetMapping("/Vista_Principal")
     public String Usuarios(Model model) {
-        List<Usuario> lista = usuarioRepository.buscarDoctor("Doctor",0);
+        List<Usuario> lista = usuarioRepository.buscarDoctor(5,0);
         model.addAttribute("listTransportation", lista);
-        List<Usuario> lista1 = usuarioRepository.buscarAdministrador("Administrador",0);
+        List<Usuario> lista1 = usuarioRepository.buscarAdministrador(2,0);
         model.addAttribute("listTransportation1", lista1);
-        List<Usuario> lista2 = usuarioRepository.buscarFarmacista("Farmacista",0);
+        List<Usuario> lista2 = usuarioRepository.buscarFarmacistaAceptado(3,0,"Aceptado");
         model.addAttribute("listTransportation2", lista2);
-        List<Usuario> lista3 = usuarioRepository.buscarPaciente("Paciente",0);
+        List<Usuario> lista3 = usuarioRepository.buscarPaciente(4,0);
         model.addAttribute("listTransportation3", lista3);
         return "superadmin/Plantilla_Vista_Principal";
     }
@@ -1646,7 +1646,7 @@ public class SuperadminController {
     //CRUD ESTADO SOLICITUDES FARMACISTAS
     @GetMapping("/Estado_Solicitudes_Farmacistas")
     public String Estado_Solicitudes_Farmacistas(Model model) {
-        List<Usuario> lista = usuarioRepository.buscarFarmacista("Farmacista",0);
+        List<Usuario> lista = usuarioRepository.buscarFarmacista(3,0);
         model.addAttribute("listTransportation", lista);
         return "superadmin/Plantilla_Vista_Estado_Solicitudes_Farmacistas";
     }

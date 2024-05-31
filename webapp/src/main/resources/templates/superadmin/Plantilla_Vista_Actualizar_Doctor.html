@@ -209,14 +209,14 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Inactivo'}">
+                                        <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 0}">
                                             <div class="text-center">
                                                 <a th:href="@{'/superadmin/Pasar_Activo'+ '?id=' + ${usuario.getId()}}" class="btn btn-success">
                                                     <i class=""></i> Pasar a Activo
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Activo'}">
+                                        <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 1}">
                                             <div class="text-center">
                                                 <a class="btn btn-secondary">
                                                     <i class=""></i> Pasar a Activo
@@ -225,14 +225,14 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Inactivo'}">
+                                        <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 0}">
                                             <div class="text-center">
                                                 <a class="btn btn-secondary">
                                                     <i class=""></i> Pasar a Inactivo
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 'Activo'}">
+                                        <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 1}">
                                             <div class="text-center">
                                                 <a th:href="@{'/superadmin/Pasar_Inactivo'+ '?id=' + ${usuario.getId()}}" class="btn btn-danger">
                                                     <i class=""></i> Pasar a Inactivo
@@ -240,7 +240,12 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="text-center"><p style="font-size: 18px;" th:text="'Estado Actual: '+ ${usuario.getEstado()}">Panadol</p></td>
+                                    <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 0}">
+                                        <td class="text-center"><p style="font-size: 18px;">Estado Actual Inactivo</p></td>
+                                    </div>
+                                    <div class="card-footer pt-1 br-3 border-top-0" th:if="${usuario.getEstado() == 1}">
+                                        <td class="text-center"><p style="font-size: 18px;">Estado Actual Activo</p></td>
+                                    </div>
                                 </tr>
                                 </tbody>
                             </table>
