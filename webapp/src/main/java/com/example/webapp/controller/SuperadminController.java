@@ -51,7 +51,7 @@ public class SuperadminController {
     }
 
 
-    @GetMapping("")
+    @GetMapping("/")
     public String Plantilla() {
         return "superadmin/Plantilla";
     }

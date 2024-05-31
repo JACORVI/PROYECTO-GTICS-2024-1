@@ -1,4 +1,5 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <body>
         <div th:fragment="navegacion">
             <nav class="navbar navbar-expand-lg fondo" style=" background-color: #0b636fc9;">
@@ -24,20 +25,27 @@
                                         <img th:unless="${session['avatar'] != null}" th:src="@{/assets/superadmin/img/usuario.png}" width="50vw" height="50vh" alt="Avatar" class="avatar">
 
                                     </a>
-                                    <div style="display: flex; flex-direction: column; color: white;">
-                                        <h5 style="margin: 0%;" th:text="${session.usuario.nombres + ' ' + session.usuario.apellidos}" >Nombre Apellido</h5> 
-                                        <h7 
-                                            th:text="${session.usuario.rol}">Rol</h7>
+                                    <div sec:authorize="isAuthenticated()" style="display: flex; flex-direction: column; color: white;">
+                                        <h5 style="margin: 0%;" th:text="${session.usuario.nombres} + ' ' + ${session.usuario.apellidos}"></h5>
+                                        <h7 th:text="${session.usuario.getRol().getNombre()}">Rol</h7>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="/perfil">Perfil</a></li>
+                                            <li><a class="dropdown-item" th:href="@{/paciente/mispedidos}">Mis pedidos</a></li>
+                                            <li style="color: darkred!important;">
+                                                <form th:action="@{/logout}" method="post">
+                                                    <input class="btn btn-link" type="submit" value="Cerrar Sesión">
+                                                </form>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="/perfil">Perfil</a></li>
-                                    <li><a class="dropdown-item" href="#">Mis pedidos</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/paciente/mispedidos}">Mis pedidos</a></li>
                                     <li style="color: darkred!important;">
-                                        <a class="dropdown-item" 
-                                           th:href="@{/logout}" style="color: red!important;">
-                                            <b>Cerrar Sesión</b>
-                                        </a>
+                                        <form th:action="@{/logout}" method="post">
+                                            <input class="btn btn-link" type="submit" value="Cerrar Sesión">
+                                        </form>
                                     </li>
                                 </ul>
                             </div>
