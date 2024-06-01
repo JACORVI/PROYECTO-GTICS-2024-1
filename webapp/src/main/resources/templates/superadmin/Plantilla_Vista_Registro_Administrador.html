@@ -69,8 +69,8 @@
                     <form class="row g-3" method="post" th:action="@{'/superadmin/Guardar_Usuario'}" th:object="${usuario}">
                         <input th:value="${'Sin-Codigo'}" name="codigo_colegiatura" type="hidden" />
                         <input name="seguro" type="hidden" />
-                        <input th:value="${'Activo'}" name="estado" type="hidden" />
-                        <input th:value="${'Administrador'}" name="rol" type="hidden" />
+                        <input th:value="${1}" name="estado" type="hidden" />
+                        <input th:value="${3}" name="rol" type="hidden" />
                         <input th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" name="fecha_creacion" type="hidden" />
                         <input th:value="${'Contrasena12'}" name="contrasena" type="hidden" />
                         <input name="estado_solicitud" type="hidden" />

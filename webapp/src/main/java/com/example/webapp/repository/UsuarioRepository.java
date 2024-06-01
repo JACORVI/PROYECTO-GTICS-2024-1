@@ -41,12 +41,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Transactional
     @Modifying
     @Query(nativeQuery = true,value = "update usuario set estado = ?1 where id_usuario = ?2")
-    void pasarActivo(String valor, int id);
+    void pasarActivo(int valor, int id);
 
     @Transactional
     @Modifying
     @Query(nativeQuery = true,value = "update usuario set estado = ?1 where id_usuario = ?2")
-    void pasarInactivo(String valor, int id);
+    void pasarInactivo(int valor, int id);
 
     @Transactional
     @Modifying
