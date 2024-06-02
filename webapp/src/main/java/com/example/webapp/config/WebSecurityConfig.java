@@ -37,7 +37,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.formLogin()
-                .loginPage("/openLoginWindow")
+                .loginPage("/login")
                 .loginProcessingUrl("/submitLoginForm")
                 .successHandler((request, response, authentication) -> {
 
@@ -82,7 +82,7 @@ public class WebSecurityConfig {
                 .anyRequest().permitAll();
 
         http.logout()
-                .logoutSuccessUrl("/openLoginWindow")
+                .logoutSuccessUrl("/login")
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
 

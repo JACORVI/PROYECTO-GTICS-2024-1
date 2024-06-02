@@ -18,24 +18,87 @@
 
         </style>
     </head>
-    <body>
-        <div th:replace="layout/MensajesTemplate :: mensajes"></div>
-        <div class="container">
-            <div class="signin-signup">
-                <form action="/login" method="post" class="sign-in-form" id="login-form">
-                    <h2 class="title">Iniciar Sesión</h2>
-                    <div class="input-field">
-                        <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Correo" id="email" name="username">
-                        <div class="error" id="email-error"></div>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Contraseña" id="login-password" name="password">
-                        <div class="error" id="password-error"></div>
-                    </div>
-                    <button type="button" class="forgot-pass">Olvidaste tu contraseña</button>
-                    <input type="submit" value="Login" class="btn" id="login-button">
+    <body>   <!--
+
+    <div th:replace="layout/MensajesTemplate :: mensajes"></div>-->
+
+    <div class="container">
+        <div class="signin-signup">
+            <form method="post" th:action="@{/submitLoginForm}" class="sign-in-form" id="login-form">
+                <h2 class="title">Iniciar Sesión</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Correo" id="username" name="username" required autofocus>
+                    <div class="error" id="email-error" th:if="${param.error}" style="color:red">Correo incorrecto</div>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Contraseña" id="password" name="password" required>
+                    <div class="error" id="password-error" th:if="${param.error}" style="color:red">Contraseña incorrecta</div>
+                </div>
+                <button type="button" class="forgot-pass">Olvidaste tu contraseña</button>
+                <input type="submit" value="Login" class="btn" id="login-button">
+                <p class="social-text">¡Visita nuestras redes sociales!</p>
+                <div class="social-media">
+                    <a href="https://www.youtube.com/watch?v=nLvg_sqNYB0" class="social-icon" target="_blank">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+                <p class="account-text">¿No tienes una cuenta?<a href="#" id="sign-up-btn2"> Registro</a></p>
+            </form>
+            <form id="formReg" action="/registro/usuario" class="sign-up-form"
+                  th:object="${usuario}" method="post">
+                <h2 class="title">Registro</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Nombre" th:field="*{nombres}">
+                    <div class="error" id="nombre-usuario-error"></div>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-user-plus"></i>
+                    <input type="text" placeholder="Apellidos" th:field="*{apellidos}">
+                    <div class="error" id="apellidos-usuario-error"></div>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-hashtag"></i>
+                    <input type="text" placeholder="N° DNI" th:field="*{dni}">
+                    <div class="error" id="dni-error"></div>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="text" placeholder="Correo" th:field="*{correo}">
+                    <div class="error" id="email-registro-error"></div>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-user-shield"></i>
+                    <input type="text" placeholder="Seguro" th:field="*{seguro}">
+                    <div class="error" id="seguro-registro-error"></div>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-location"></i>
+                    <input type="text" placeholder="Distrito" th:field="*{distrito}">
+                    <div class="error" id="distrito-registro-error"></div>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-street-view"></i>
+                    <input type="text" placeholder="Dirección"  th:field="*{direccion}">
+                    <div class="error" id="direccion-registro-error"></div>
+                </div>
+                <input type="submit" value="Registrar" class="btn" id="registro-button">
+                <p class="account-text">¿Ya posees una cuenta?<a href="#" id="sign-in-btn2"> Ingresar</a></p>
+            </form>
+        </div>
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>Adelante, empieza tu registro!</h3>
+                    <button class="btn" id="sign-in-btn">Ingresar</button>
                     <p class="social-text">¡Visita nuestras redes sociales!</p>
                     <div class="social-media">
                         <a href="https://www.youtube.com/watch?v=nLvg_sqNYB0" class="social-icon" target="_blank">
@@ -47,113 +110,40 @@
                         <a href="" class="social-icon">
                             <i class="fab fa-instagram"></i>
                         </a>
-
                     </div>
-                    <p class="account-text">¿No tienes una cuenta?<a href="#" id="sign-up-btn2"> Registro</a></p>
-                </form>
-                <form id="formReg" action="/registro/usuario" class="sign-up-form" 
-                      th:object="${usuario}" method="post">
-                    <h2 class="title">Registro</h2>
-                    <div class="input-field">
-                        <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Nombre" th:field="*{nombres}">
-                        <div class="error" id="nombre-usuario-error"></div>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-user-plus"></i>
-                        <input type="text" placeholder="Apellidos" th:field="*{apellidos}">
-                        <div class="error" id="apellidos-usuario-error"></div>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-hashtag"></i>
-                        <input type="text" placeholder="N° DNI" th:field="*{dni}">
-                        <div class="error" id="dni-error"></div>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-envelope"></i>
-                        <input type="text" placeholder="Correo" th:field="*{correo}">
-                        <div class="error" id="email-registro-error"></div>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-user-shield"></i>
-                        <input type="text" placeholder="Seguro" th:field="*{seguro}">
-                        <div class="error" id="seguro-registro-error"></div>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-location"></i>
-                        <input type="text" placeholder="Distrito" th:field="*{distrito}">
-                        <div class="error" id="distrito-registro-error"></div>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-street-view"></i>
-
-                        <input type="text" placeholder="Dirección"  th:field="*{direccion}">
-                        <div class="error" id="direccion-registro-error"></div>
-                    </div>
-
-
-
-
-
-                    <input type="submit" value="Registrar" class="btn" id="registro-button">
-
-                    <p class="account-text">¿Ya posees una cuenta?<a href="#" id="sign-in-btn2"> Ingresar</a></p>
-                </form>
-            </div>
-            <div class="panels-container">
-                <div class="panel left-panel">
-                    <div class="content">
-                        <h3>Adelante, empieza tu registro!</h3>
-
-                        <button class="btn" id="sign-in-btn">Ingresar</button>
-                        <p class="social-text">¡Visita nuestras redes sociales!</p>
-                        <div class="social-media">
-                            <a href="https://www.youtube.com/watch?v=nLvg_sqNYB0" class="social-icon" target="_blank">
-                                <i class="fab fa-facebook"></i>
-                            </a>
-                            <a href="" class="social-icon">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a href="" class="social-icon">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-
-                        </div>
-                    </div>
-              
                 </div>
-                <div class="panel right-panel">
-                    <div class="content">
-                        <h3>¡Bienvenido!
-                            Estamos encantados de tenerte de nuevo.</h3>
-                        <p>
-                            Gracias a ti, continuamos creciendo con PildoPharm. 
-                        </p>
-                        <p>
-
-                            ¿No posees una cuenta?
-                        </p>
-                        <button class="btn" id="sign-up-btn">Registro</button>
-                    </div>
+            </div>
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>¡Bienvenido! Estamos encantados de tenerte de nuevo.</h3>
+                    <p>
+                        Gracias a ti, continuamos creciendo con PildoPharm.
+                    </p>
+                    <p>
+                        ¿No posees una cuenta?
+                    </p>
+                    <button class="btn" id="sign-up-btn">Registro</button>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="registroModalLabel">Registro Exitoso</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Tu respectivo formulario fue enviado, en un plazo máximo de 48h recibiras una notificación sobre el estado de tu registro.
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="ok-button">OK</button>
-                    </div>
+    </div>
+    <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registroModalLabel">Registro Exitoso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Tu respectivo formulario fue enviado, en un plazo máximo de 48h recibiras una notificación sobre el estado de tu registro.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="ok-button">OK</button>
                 </div>
             </div>
         </div>
+    </div>
+
         <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
