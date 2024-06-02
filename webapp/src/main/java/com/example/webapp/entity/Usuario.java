@@ -21,6 +21,8 @@ public class Usuario implements Serializable {
     private int id;
     @Column(nullable = false)
 
+    @NotBlank
+    @Size( max = 45, message = "Los apellidos no puede tener más de 45 caracteres")
     private String nombres;
     @NotBlank
     @Size( max = 45, message = "Los apellidos no puede tener más de 45 caracteres")

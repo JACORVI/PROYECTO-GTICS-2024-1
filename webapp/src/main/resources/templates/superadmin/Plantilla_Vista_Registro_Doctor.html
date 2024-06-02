@@ -71,7 +71,7 @@
                         <input name="estado_solicitud" type="hidden" />
                         <input name="motivo_rechazo" type="hidden" />
                         <input th:value="${1}" name="estado" type="hidden" />
-                        <input th:value="${5}" name="rol" type="hidden" />
+                        <input th:value="${5}" name="rol.id" type="hidden" />
                         <input th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" name="fecha_creacion" type="hidden" />
                         <input th:value="${'Contrasena12'}" name="contrasena" type="hidden" />
                         <input th:value="${0}" name="borrado_logico" type="hidden" />

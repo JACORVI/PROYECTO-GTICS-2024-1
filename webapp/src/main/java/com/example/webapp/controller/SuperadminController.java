@@ -51,7 +51,7 @@ public class SuperadminController {
     }
 
 
-    @GetMapping("/")
+    @GetMapping(value = {"", "/"})
     public String Plantilla() {
         return "superadmin/Plantilla";
     }
@@ -556,18 +556,21 @@ public class SuperadminController {
 
     @PostMapping("/Guardar_Usuario")
     public String guardar_Doctor(@ModelAttribute ("usuario") @Valid Usuario usuario, BindingResult bindingResult, Model model) {
-
+        System.out.println(usuario.getNombres());
+        System.out.println(usuario.getCorreo());
+        System.out.println(usuario.getRol().getId());
+        System.out.println(usuario.getRol().getNombre());
         if(usuario.getId() == 0){
             if (bindingResult.hasErrors()) {
-                if (usuario.getRol().getNombre().equals("Doctor")) {
+                if (usuario.getRol().getId() == 5) {
                     return "superadmin/Plantilla_Vista_Registro_Doctor";
-                } else if (usuario.getRol().getNombre().equals("Admin")) {
+                } else if (usuario.getRol().getId() == 2) {
                     return "superadmin/Plantilla_Vista_Registro_Administrador";
                 }
             } else {
                 usuarioRepository.save(usuario);
 
-                if (usuario.getRol().getNombre().equals("Doctor")) {
+                if (usuario.getRol().getId() == 5) {
                     List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
                     List<Sede> list1 = sedeRepository.findAll();
 
@@ -594,7 +597,7 @@ public class SuperadminController {
                     model.addAttribute("ListaSedes", list1);
                     return "superadmin/Plantilla_Vista_Ver_Doctor";
                 }
-                if (usuario.getRol().getNombre().equals("Admin")) {
+                if (usuario.getRol().getId() == 2) {
                     List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
                     List<Sede> list1 = sedeRepository.findAll();
                     List<String> listaIndicador = new ArrayList<>();
@@ -603,7 +606,7 @@ public class SuperadminController {
                         int i = 0;
                         for (UsuarioHasSede usuarioHasSede : list) {
                             if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
-                                if (usuarioHasSede.getUsuario_id_usario().getRol().getNombre().equals("Administrador")) {
+                                if (usuarioHasSede.getUsuario_id_usario().getRol().getId() == 2) {
                                     if (usuarioHasSede.getUsuario_id_usario().getId() == usuario.getId()) {
                                         i = 1;
                                     } else {
@@ -633,7 +636,7 @@ public class SuperadminController {
         }else{
 
             if (bindingResult.hasErrors()) {
-                if (usuario.getRol().getNombre().equals("Doctor")) {
+                if (usuario.getRol().getId() == 5) {
                     List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
                     List<Sede> list1 = sedeRepository.findAll();
 
@@ -660,7 +663,7 @@ public class SuperadminController {
                     model.addAttribute("ListaSedes", list1);
                     return "superadmin/Plantilla_Vista_Actualizar_Doctor";
 
-                } else if (usuario.getRol().getNombre().equals("Admin")) {
+                } else if (usuario.getRol().getId() == 2) {
                     List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
                     List<Sede> list1 = sedeRepository.findAll();
                     List<String> listaIndicador = new ArrayList<>();
@@ -669,7 +672,7 @@ public class SuperadminController {
                         int i = 0;
                         for (UsuarioHasSede usuarioHasSede : list) {
                             if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
-                                if (usuarioHasSede.getUsuario_id_usario().getRol().getNombre().equals("Admin")) {
+                                if (usuarioHasSede.getUsuario_id_usario().getRol().getId() == 2) {
                                     if (usuarioHasSede.getUsuario_id_usario().getId() == usuario.getId()) {
                                         i = 1;
                                     } else {
@@ -694,7 +697,7 @@ public class SuperadminController {
                     model.addAttribute("ListaSedes", list1);
                     return "superadmin/Plantilla_Vista_Actualizar_Administrador";
 
-                } else if (usuario.getRol().getNombre().equals("Farmacista")){
+                } else if (usuario.getRol().getId() == 3){
                     List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
                     List<Sede> list1 = sedeRepository.findAll();
 
@@ -705,7 +708,7 @@ public class SuperadminController {
                         int pertenencia = 0;
                         for (UsuarioHasSede usuarioHasSede : list) {
                             if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
-                                if (usuarioHasSede.getUsuario_id_usario().getRol().getNombre().equals("Farmacista")) {
+                                if (usuarioHasSede.getUsuario_id_usario().getRol().getId() == 3) {
                                     i = i + 1;
                                     if (usuarioHasSede.getUsuario_id_usario().getId() == usuario.getId()) {
                                         pertenencia = 1;
@@ -740,7 +743,7 @@ public class SuperadminController {
             } else {
                 usuarioRepository.save(usuario);
 
-                if (usuario.getRol().getNombre().equals("Doctor")) {
+                if (usuario.getRol().getId() == 5) {
                     List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
                     List<Sede> list1 = sedeRepository.findAll();
 
@@ -767,7 +770,7 @@ public class SuperadminController {
                     model.addAttribute("ListaSedes", list1);
                     return "superadmin/Plantilla_Vista_Ver_Doctor";
                 }
-                if (usuario.getRol().getNombre().equals("Admin")) {
+                if (usuario.getRol().getId() == 2) {
                     List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
                     List<Sede> list1 = sedeRepository.findAll();
                     List<String> listaIndicador = new ArrayList<>();
@@ -776,7 +779,7 @@ public class SuperadminController {
                         int i = 0;
                         for (UsuarioHasSede usuarioHasSede : list) {
                             if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
-                                if (usuarioHasSede.getUsuario_id_usario().getRol().getNombre().equals("Admin")) {
+                                if (usuarioHasSede.getUsuario_id_usario().getRol().getId() == 2) {
                                     if (usuarioHasSede.getUsuario_id_usario().getId() == usuario.getId()) {
                                         i = 1;
                                     } else {
@@ -801,7 +804,7 @@ public class SuperadminController {
                     model.addAttribute("ListaSedes", list1);
                     return "superadmin/Plantilla_Vista_Ver_Administrador";
                 }
-                if (usuario.getRol().getNombre().equals("Farmacista")) {
+                if (usuario.getRol().getId() == 3) {
                     List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
                     List<Sede> list1 = sedeRepository.findAll();
 
@@ -812,7 +815,7 @@ public class SuperadminController {
                         int pertenencia = 0;
                         for (UsuarioHasSede usuarioHasSede : list) {
                             if (sede.getId() == usuarioHasSede.getSede_id_sede().getId()) {
-                                if (usuarioHasSede.getUsuario_id_usario().getRol().getNombre().equals("Farmacista")) {
+                                if (usuarioHasSede.getUsuario_id_usario().getRol().getId() == 3) {
                                     i = i + 1;
                                     if (usuarioHasSede.getUsuario_id_usario().getId() == usuario.getId()) {
                                         pertenencia = 1;
@@ -837,11 +840,11 @@ public class SuperadminController {
                     model.addAttribute("ListaSedes", list1);
                     return "superadmin/Plantilla_Vista_Ver_Farmacista";
                 }
-                if (usuario.getRol().getNombre().equals("Paciente")) {
+                if (usuario.getRol().getId() == 4) {
                     model.addAttribute("usuario", usuario);
                     return "superadmin/Plantilla_Vista_Ver_Paciente";
                 }
-                if (usuario.getRol().getNombre().equals("Superadmin")) {
+                if (usuario.getRol().getId() == 1) {
                     model.addAttribute("usuario", usuario);
                     return "redirect:/superadmin/Ver_Perfil";
                 }
@@ -1622,6 +1625,9 @@ public class SuperadminController {
         Optional<Usuario> optUsuario = usuarioRepository.findById(id);
         if (optUsuario.isPresent()) {
             Usuario usuario = optUsuario.get();
+            System.out.println(usuario.getRol());
+            System.out.println(usuario.getRol().getNombre());
+            System.out.println(usuario.getRol().getId());
             model.addAttribute("usuario", usuario);
             return "superadmin/Plantilla_Vista_Ver_Paciente";
         } else {
