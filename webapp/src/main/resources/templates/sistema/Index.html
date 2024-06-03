@@ -28,13 +28,13 @@
                 <h2 class="title">Iniciar Sesión</h2>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Correo" id="username" name="username" required autofocus>
-                    <div class="error" id="email-error" th:if="${param.error}" style="color:red">Correo incorrecto</div>
+                    <input type="text" placeholder="Correo" id="email" name="username">
+                    <div class="error" id="email-error"></div>
                 </div>
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Contraseña" id="password" name="password" required>
-                    <div class="error" id="password-error" th:if="${param.error}" style="color:red">Contraseña incorrecta</div>
+                    <input type="password" placeholder="Contraseña" id="login-password" name="password">
+                    <div class="error" id="password-error"></div>
                 </div>
                 <button type="button" class="forgot-pass">Olvidaste tu contraseña</button>
                 <input type="submit" value="Login" class="btn" id="login-button">
@@ -43,15 +43,17 @@
                     <a href="https://www.youtube.com/watch?v=nLvg_sqNYB0" class="social-icon" target="_blank">
                         <i class="fab fa-facebook"></i>
                     </a>
-                    <a href="#" class="social-icon">
+                    <a href="" class="social-icon">
                         <i class="fab fa-twitter"></i>
                     </a>
-                    <a href="#" class="social-icon">
+                    <a href="" class="social-icon">
                         <i class="fab fa-instagram"></i>
                     </a>
+
                 </div>
                 <p class="account-text">¿No tienes una cuenta?<a href="#" id="sign-up-btn2"> Registro</a></p>
             </form>
+
             <form id="formReg" action="/registro/usuario" class="sign-up-form"
                   th:object="${usuario}" method="post">
                 <h2 class="title">Registro</h2>

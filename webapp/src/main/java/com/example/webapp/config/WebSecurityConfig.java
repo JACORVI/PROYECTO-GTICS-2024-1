@@ -71,20 +71,21 @@ public class WebSecurityConfig {
                         }
                     }
                 });
-        /*
 
-         */
         http.authorizeHttpRequests()
-                .requestMatchers("/paciente","/paciente/**").hasAnyAuthority("Paciente")
-                .requestMatchers("/superadmin","/superadmin/**").hasAnyAuthority("Superadmin")
-                .requestMatchers("/farmacista","/farmacista/**").hasAnyAuthority("Farmacista")
-                .requestMatchers("/admin","/admin/**").hasAnyAuthority("Admin")
-                .anyRequest().permitAll();
+                .requestMatchers("/paciente", "/paciente/**").hasAnyAuthority("Paciente")
+                .requestMatchers("/superadmin", "/superadmin/**").hasAnyAuthority("Superadmin")
+                .requestMatchers("/farmacista", "/farmacista/**").hasAnyAuthority("Farmacista")
+                .requestMatchers("/admin", "/admin/**").hasAnyAuthority("Admin")
+                .requestMatchers("/login", "/registro/usuario", "/assets/**").permitAll()
+                .anyRequest().authenticated();
 
         http.logout()
                 .logoutSuccessUrl("/login")
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
+
+        http.csrf().disable(); // Deshabilitar CSRF temporalmente para pruebas
 
         return http.build();
     }
