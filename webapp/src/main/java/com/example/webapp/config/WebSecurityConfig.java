@@ -75,6 +75,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests()
                 .requestMatchers("/paciente", "/paciente/**").hasAnyAuthority("Paciente")
                 .requestMatchers("/superadmin", "/superadmin/**").hasAnyAuthority("Superadmin")
+                .requestMatchers("/submitLoginForm").hasAnyAuthority("Superadmin")
                 .requestMatchers("/farmacista", "/farmacista/**").hasAnyAuthority("Farmacista")
                 .requestMatchers("/admin", "/admin/**").hasAnyAuthority("Admin")
                 .requestMatchers("/login", "/registro/usuario", "/assets/**").permitAll()

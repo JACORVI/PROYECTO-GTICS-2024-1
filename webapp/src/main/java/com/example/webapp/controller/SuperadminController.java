@@ -2,9 +2,16 @@ package com.example.webapp.controller;
 
 import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import jakarta.validation.Valid;
 import lombok.SneakyThrows;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -539,6 +546,30 @@ public class SuperadminController {
 
 
     //------------------------------------------------------------------------------------------------------------------
+
+    //Nueva Sesion
+    @GetMapping("/NuevaSesion")
+    public String nuevaSesion(@RequestParam("id") int id, HttpServletRequest request, HttpServletResponse response, Model model) {
+        // Cerrar la sesión actual
+        SecurityContextHolder.clearContext();
+        request.getSession().invalidate();
+
+        // Obtener el usuario por ID
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        if (usuario == null) {
+            return "redirect:/error";
+        }
+        System.out.println(usuario.getNombres());
+        System.out.println(usuario.getCorreo());
+
+        // Agregar las credenciales del usuario al modelo
+        model.addAttribute("username", usuario.getCorreo());
+        model.addAttribute("password", "thanos1234");
+
+        // Devolver la vista HTML directamente
+        return "autoLogin";
+    }
+
 
     //Listar Usuarios
     @GetMapping("/Vista_Principal")
