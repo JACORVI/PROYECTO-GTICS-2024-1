@@ -2,11 +2,14 @@ package com.example.webapp.controller;
 
 import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
+import com.example.webapp.util.Correo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,15 +18,15 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Controller
 @RequestMapping("/superadmin")
@@ -36,6 +39,7 @@ public class SuperadminController {
     UsuarioHasSedeRepository usuarioHasSedeRepository;
     SedeRepository sedeRepository;
     SedeHasMedicamentosRepository sedeHasMedicamentosRepository;
+    private static final Logger logger = LoggerFactory.getLogger(SuperadminController.class);
 
     public SuperadminController(MedicamentosRepository medicamentosRepository,
                                 UsuarioRepository usuarioRepository,
@@ -56,7 +60,11 @@ public class SuperadminController {
 
         this.sedeHasMedicamentosRepository = sedeHasMedicamentosRepository;
     }
+    @Autowired
+    private Correo correo;
 
+    @Autowired
+    private PasswordEncoder encoder;
 
     @GetMapping(value = {"", "/"})
     public String Plantilla() {
@@ -586,20 +594,33 @@ public class SuperadminController {
     }
 
     @PostMapping("/Guardar_Usuario")
-    public String guardar_Doctor(@ModelAttribute ("usuario") @Valid Usuario usuario, BindingResult bindingResult, Model model) {
+    public String guardar_Doctor(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult, Model model) {
         System.out.println(usuario.getNombres());
         System.out.println(usuario.getCorreo());
         System.out.println(usuario.getRol().getId());
         System.out.println(usuario.getRol().getNombre());
-        if(usuario.getId() == 0){
+        if (usuario.getId() == 0) {
             if (bindingResult.hasErrors()) {
+                List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+
+                for (FieldError fieldError : fieldErrors) {
+                    String fieldName = fieldError.getField();
+                    String errorMessage = fieldError.getDefaultMessage();
+                    logger.error("Error de validación en el campo {}: {}", fieldName, errorMessage);
+                }
                 if (usuario.getRol().getId() == 5) {
                     return "superadmin/Plantilla_Vista_Registro_Doctor";
                 } else if (usuario.getRol().getId() == 2) {
                     return "superadmin/Plantilla_Vista_Registro_Administrador";
                 }
             } else {
+                usuario.setCuenta_activada(1);
+                usuario.setFecha_creacion(new Date());
+                usuario.setContrasena(encoder.encode("" + usuario.getDni()));
                 usuarioRepository.save(usuario);
+
+                String html = correo.construirCuerpo(usuario);
+                correo.EnviarCorreo("Bienvenido a PildoPharm", html, usuario);
 
                 if (usuario.getRol().getId() == 5) {
                     List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
@@ -664,9 +685,18 @@ public class SuperadminController {
                 }
             }
 
-        }else{
+        } else {
 
             if (bindingResult.hasErrors()) {
+                List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+
+                for (FieldError fieldError : fieldErrors) {
+                    String fieldName = fieldError.getField();
+                    String errorMessage = fieldError.getDefaultMessage();
+                    logger.error("Error de validación en el campo {}: {}", fieldName, errorMessage);
+                }
+
+
                 if (usuario.getRol().getId() == 5) {
                     List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
                     List<Sede> list1 = sedeRepository.findAll();
@@ -728,7 +758,7 @@ public class SuperadminController {
                     model.addAttribute("ListaSedes", list1);
                     return "superadmin/Plantilla_Vista_Actualizar_Administrador";
 
-                } else if (usuario.getRol().getId() == 3){
+                } else if (usuario.getRol().getId() == 3) {
                     List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
                     List<Sede> list1 = sedeRepository.findAll();
 
@@ -765,14 +795,20 @@ public class SuperadminController {
                     return "superadmin/Plantilla_Vista_Actualizar_Farmacista";
 
                 }// else if (usuario.getRol().equals("Paciente")){
-                  //  model.addAttribute("usuario", usuario);
-                  //  return "superadmin/Plantilla_Vista_Actualizar_Paciente";
+                //  model.addAttribute("usuario", usuario);
+                //  return "superadmin/Plantilla_Vista_Actualizar_Paciente";
                 //} else if (usuario.getRol().equals("Superadmin")){
                 //    model.addAttribute("usuario", usuario);
                 //    return "superadmin/Perfil";
                 //}
             } else {
+                Usuario objUpd = usuarioRepository.findById(usuario.getId()).orElse(null);
+                if (objUpd != null) {
+                    usuario.setFecha_creacion(objUpd.getFecha_creacion());
+                }
                 usuarioRepository.save(usuario);
+
+
 
                 if (usuario.getRol().getId() == 5) {
                     List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
@@ -884,7 +920,6 @@ public class SuperadminController {
         }
         return "redirect:/superadmin/Vista_Principal";
     }
-
     @GetMapping("/Ver_Perfil")
     public String Actualizar_Superadmin(Model model,@ModelAttribute ("usuario") Usuario usuario) {
         usuario = usuarioRepository.buscarSuperadmin("Superadmin",0);

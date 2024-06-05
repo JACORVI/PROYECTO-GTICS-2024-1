@@ -69,4 +69,28 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query(value = "select * from usuario where correo = ?1 ", nativeQuery = true)
     List<Usuario> buscarPorCorreo(String correo);
+
+    @Query(value = "select * from usuario where token_recuperacion = ?1 ", nativeQuery = true)
+    Usuario buscarPorToken(String token);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Usuario SET fecha_recuperacion = DATE_ADD(NOW(), INTERVAL 10 MINUTE), token_recuperacion = ?1 WHERE id_usuario = ?2", nativeQuery = true)
+    int actualizarFechaYTokenRecuperacion(String token, int idUsuario);
+
+    @Query(value = "CALL SP_Validar_Token(?1, ?2)", nativeQuery = true)
+    String validarToken(int idUsuario, String tokenEnviado);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Usuario SET contrasena = ?1 , token_recuperacion = null, fecha_recuperacion=null , cuenta_activada=1  "
+            + "  WHERE id_usuario = ?2", nativeQuery = true)
+    int actualizarPassword(String contrasena, int idUsuario);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Usuario SET contrasena = ?1 ,"
+            + " token_recuperacion = null, fecha_recuperacion=null , cuenta_activada=1, estado=1  "
+            + "  WHERE id_usuario = ?2", nativeQuery = true)
+    int actualizarPasswordyEstado(String contrasena, int idUsuario);
 }

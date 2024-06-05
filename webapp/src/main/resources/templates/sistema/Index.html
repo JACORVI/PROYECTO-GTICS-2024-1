@@ -1,43 +1,108 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <link rel="stylesheet" href="/assets/superadmin/css/css_login.css">
-        <link rel="icon" href="/assets/paciente/img/logo.png" />
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <title>PildoPharm Login</title>
-        <style>
-            .error-message {
-                font-weight: bold;
-                font-size: 18px;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/superadmin/css/css_login.css">
+    <link rel="icon" href="/assets/paciente/img/logo.png" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>PildoPharm Login</title>
+    <style>
+        .error-message {
+            font-weight: bold;
+            font-size: 18px;
+        }
 
-        </style>
-    </head>
-    <body>   <!--
+    </style>
+</head>
+<body>
 
-    <div th:replace="layout/MensajesTemplate :: mensajes"></div>-->
+<div th:replace="layout/MensajesTemplate :: mensajes"></div>
 
-    <div class="container">
-        <div class="signin-signup">
-            <form method="post" th:action="@{/submitLoginForm}" class="sign-in-form" id="login-form">
-                <h2 class="title">Iniciar Sesión</h2>
-                <div class="input-field">
-                    <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Correo" id="email" name="username">
-                    <div class="error" id="email-error"></div>
-                </div>
-                <div class="input-field">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Contraseña" id="login-password" name="password">
-                    <div class="error" id="password-error"></div>
-                </div>
-                <button type="button" class="forgot-pass">Olvidaste tu contraseña</button>
-                <input type="submit" value="Login" class="btn" id="login-button">
+<div class="container">
+    <div class="signin-signup">
+        <form method="post" th:action="@{/submitLoginForm}" class="sign-in-form" id="login-form">
+            <h2 class="title">Iniciar Sesión</h2>
+            <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Correo" id="email" name="username">
+                <div class="error" id="email-error"></div>
+            </div>
+            <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <input  type="password" placeholder="Contraseña" id="login-password" name="password">
+                <div class="error" id="password-error"></div>
+            </div>
+            <button type="button" class="forgot-pass">Olvidaste tu contraseña</button>
+            <input type="submit" value="Login" class="btn" id="login-button">
+            <p class="social-text">¡Visita nuestras redes sociales!</p>
+            <div class="social-media">
+                <a href="https://www.youtube.com/watch?v=nLvg_sqNYB0" class="social-icon" target="_blank">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="" class="social-icon">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
+            </div>
+            <p class="account-text">¿No tienes una cuenta?<a href="#" id="sign-up-btn2"> Registro</a></p>
+        </form>
+
+        <form id="formReg" action="/registro/usuario" class="sign-up-form"
+              th:object="${usuario}" method="post">
+            <h2 class="title">Registro</h2>
+            <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Nombre" th:field="*{nombres}">
+                <div class="error" id="nombre-usuario-error"></div>
+            </div>
+            <div class="input-field">
+                <i class="fas fa-user-plus"></i>
+                <input type="text" placeholder="Apellidos" th:field="*{apellidos}">
+                <div class="error" id="apellidos-usuario-error"></div>
+            </div>
+            <div class="input-field">
+                <i class="fas fa-hashtag"></i>
+                <input type="text" placeholder="N° DNI" th:field="*{dni}">
+                <div class="error" id="dni-error"></div>
+            </div>
+            <div class="input-field">
+                <i class="fas fa-envelope"></i>
+                <input type="text" placeholder="Correo" th:field="*{correo}">
+                <div class="error" id="email-registro-error"></div>
+            </div>
+            <div class="input-field">
+                <i class="fas fa-user-shield"></i>
+                <input type="text" placeholder="Seguro" th:field="*{seguro}">
+                <div class="error" id="seguro-registro-error"></div>
+            </div>
+            <div class="input-field">
+                <i class="fas fa-location"></i>
+                <input type="text" placeholder="Distrito" th:field="*{distrito}">
+                <div class="error" id="distrito-registro-error"></div>
+            </div>
+            <div class="input-field">
+                <i class="fas fa-street-view"></i>
+                <input type="text" placeholder="Dirección"  th:field="*{direccion}">
+                <div class="error" id="direccion-registro-error"></div>
+            </div>
+            <input type="hidden"  th:field="*{id}">
+            <input type="hidden"  th:field="*{codigo_colegiatura}">
+            <input type="submit" value="Registrar" class="btn" id="registro-button">
+            <p class="account-text">¿Ya posees una cuenta?<a href="#" id="sign-in-btn2"> Ingresar</a></p>
+        </form>
+    </div>
+    <div class="panels-container">
+        <div class="panel left-panel">
+            <div class="content">
+                <h3>Adelante, empieza tu registro!</h3>
+                <button class="btn" id="sign-in-btn">Ingresar</button>
                 <p class="social-text">¡Visita nuestras redes sociales!</p>
                 <div class="social-media">
                     <a href="https://www.youtube.com/watch?v=nLvg_sqNYB0" class="social-icon" target="_blank">
@@ -49,375 +114,341 @@
                     <a href="" class="social-icon">
                         <i class="fab fa-instagram"></i>
                     </a>
+                </div>
+            </div>
+        </div>
+        <div class="panel right-panel">
+            <div class="content">
+                <h3>¡Bienvenido! Estamos encantados de tenerte de nuevo.</h3>
+                <p>
+                    Gracias a ti, continuamos creciendo con PildoPharm.
+                </p>
+                <p>
+                    ¿No posees una cuenta?
+                </p>
+                <button class="btn" id="sign-up-btn">Registro</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registroModalLabel">Registro Exitoso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Tu respectivo formulario fue enviado, en un plazo máximo de 48h recibiras una notificación sobre el estado de tu registro.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="ok-button">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                </div>
-                <p class="account-text">¿No tienes una cuenta?<a href="#" id="sign-up-btn2"> Registro</a></p>
-            </form>
-
-            <form id="formReg" action="/registro/usuario" class="sign-up-form"
-                  th:object="${usuario}" method="post">
-                <h2 class="title">Registro</h2>
-                <div class="input-field">
-                    <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Nombre" th:field="*{nombres}">
-                    <div class="error" id="nombre-usuario-error"></div>
-                </div>
-                <div class="input-field">
-                    <i class="fas fa-user-plus"></i>
-                    <input type="text" placeholder="Apellidos" th:field="*{apellidos}">
-                    <div class="error" id="apellidos-usuario-error"></div>
-                </div>
-                <div class="input-field">
-                    <i class="fas fa-hashtag"></i>
-                    <input type="text" placeholder="N° DNI" th:field="*{dni}">
-                    <div class="error" id="dni-error"></div>
-                </div>
-                <div class="input-field">
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="forgotPasswordModalLabel">¿Olvidaste tu contraseña?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Por favor, ingresa tu dirección de correo electrónico para restablecer tu contraseña.
+                <div class="input-field1">
                     <i class="fas fa-envelope"></i>
-                    <input type="text" placeholder="Correo" th:field="*{correo}">
-                    <div class="error" id="email-registro-error"></div>
+                    <input type="text" id="forgot-password-email" placeholder="Correo">
                 </div>
-                <div class="input-field">
-                    <i class="fas fa-user-shield"></i>
-                    <input type="text" placeholder="Seguro" th:field="*{seguro}">
-                    <div class="error" id="seguro-registro-error"></div>
-                </div>
-                <div class="input-field">
-                    <i class="fas fa-location"></i>
-                    <input type="text" placeholder="Distrito" th:field="*{distrito}">
-                    <div class="error" id="distrito-registro-error"></div>
-                </div>
-                <div class="input-field">
-                    <i class="fas fa-street-view"></i>
-                    <input type="text" placeholder="Dirección"  th:field="*{direccion}">
-                    <div class="error" id="direccion-registro-error"></div>
-                </div>
-                <input type="submit" value="Registrar" class="btn" id="registro-button">
-                <p class="account-text">¿Ya posees una cuenta?<a href="#" id="sign-in-btn2"> Ingresar</a></p>
-            </form>
-        </div>
-        <div class="panels-container">
-            <div class="panel left-panel">
-                <div class="content">
-                    <h3>Adelante, empieza tu registro!</h3>
-                    <button class="btn" id="sign-in-btn">Ingresar</button>
-                    <p class="social-text">¡Visita nuestras redes sociales!</p>
-                    <div class="social-media">
-                        <a href="https://www.youtube.com/watch?v=nLvg_sqNYB0" class="social-icon" target="_blank">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="" class="social-icon">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="" class="social-icon">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
+
             </div>
-            <div class="panel right-panel">
-                <div class="content">
-                    <h3>¡Bienvenido! Estamos encantados de tenerte de nuevo.</h3>
-                    <p>
-                        Gracias a ti, continuamos creciendo con PildoPharm.
-                    </p>
-                    <p>
-                        ¿No posees una cuenta?
-                    </p>
-                    <button class="btn" id="sign-up-btn">Registro</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="reset-password-button">Enviar</button>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registroModalLabel">Registro Exitoso</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Tu respectivo formulario fue enviado, en un plazo máximo de 48h recibiras una notificación sobre el estado de tu registro.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="ok-button">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-        <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="forgotPasswordModalLabel">¿Olvidaste tu contraseña?</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Por favor, ingresa tu dirección de correo electrónico para restablecer tu contraseña.
-                        <div class="input-field1">
-                            <i class="fas fa-envelope"></i>
-                            <input type="text" id="forgot-password-email" placeholder="Correo">
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="reset-password-button">Enviar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+</div>
 
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+<script src="/assets/superadmin/js/animacion.js"></script>
 
-        <script src="/assets/superadmin/js/animacion.js"></script>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const nombreUsuarioInput = document.querySelector("#nombres");
-                const apellidosUsuarioInput = document.querySelector("#apellidos");
-                const dniInput = document.querySelector("#dni");
-                const correoRegistroInput = document.querySelector("#correo");
-                const seguroRegistroInput = document.querySelector("#seguro");
-                const distritoRegistroInput = document.querySelector("#distrito");
-                const direccionRegistroInput = document.querySelector("#direccion");
-                const registroButton = document.querySelector("#registro-button");
-
-                nombreUsuarioInput.addEventListener("input", validarNombreUsuario);
-                apellidosUsuarioInput.addEventListener("input", validarApellidos);
-                dniInput.addEventListener("input", validarDNI);
-                correoRegistroInput.addEventListener("input", validarCorreoRegistro);
-                seguroRegistroInput.addEventListener("input", validarSeguroRegistro);
-                distritoRegistroInput.addEventListener("input", validarDistritoRegistro);
-                direccionRegistroInput.addEventListener("input", validarDireccionRegistro);
+<script>
 
 
-                function validarNombreUsuario() {
-                    const nombreUsuarioValue = nombreUsuarioInput.value.trim();
-                    const regexNombreUsuario = /^[A-Za-z\u00C0-\u00FF\s]{1,20}$/; // Permitir letras y espacios, máximo 20 caracteres
-                    const nombreUsuarioError = document.querySelector("#nombre-usuario-error");
+    document.addEventListener("DOMContentLoaded", function () {
+        const nombreUsuarioInput = document.querySelector("#nombres");
+        const apellidosUsuarioInput = document.querySelector("#apellidos");
+        const dniInput = document.querySelector("#dni");
+        const correoRegistroInput = document.querySelector("#correo");
+        const seguroRegistroInput = document.querySelector("#seguro");
+        const distritoRegistroInput = document.querySelector("#distrito");
+        const direccionRegistroInput = document.querySelector("#direccion");
+        const registroButton = document.querySelector("#registro-button");
 
-                    if (!nombreUsuarioValue) {
-                        nombreUsuarioError.textContent = "Campo vacío";
-                        nombreUsuarioError.classList.add("error-message");
-                    } else if (nombreUsuarioValue.length > 16) {
-                        nombreUsuarioError.textContent = "Máx 16 letras";
-                        nombreUsuarioError.classList.add("error-message");
-                    } else if (!/^[A-Za-z\u00C0-\u00FF\s]*$/.test(nombreUsuarioValue)) {
-                        nombreUsuarioError.textContent = "Caracter inválido";
-                        nombreUsuarioError.classList.add("error-message");
-                    } else if (nombreUsuarioValue.length < 3) {
-                        nombreUsuarioError.textContent = "Mín 3 letras";
-                        nombreUsuarioError.classList.add("error-message");
-                    } else {
-                        nombreUsuarioError.textContent = "";
-                        nombreUsuarioError.classList.remove("error-message");
-                    }
-                }
-                function validarApellidos() {
-                    const apellidosUsuarioValue = apellidosUsuarioInput.value.trim();
-                    const regexApellidos = /^[A-Za-z\u00C0-\u00FF\s]{3,20}$/; // Permitir letras y espacios, mínimo 3 y máximo 20 caracteres
-                    const apellidosUsuarioError = document.querySelector("#apellidos-usuario-error");
-
-                    if (!apellidosUsuarioValue) {
-                        apellidosUsuarioError.textContent = "Campo vacío";
-                        apellidosUsuarioError.classList.add("error-message");
-                    } else if (apellidosUsuarioValue.length > 18) {
-                        apellidosUsuarioError.textContent = "Máx 18 letras";
-                        apellidosUsuarioError.classList.add("error-message");
-                    } else if (!/^[A-Za-z\u00C0-\u00FF\s]*$/.test(apellidosUsuarioValue)) {
-                        apellidosUsuarioError.textContent = "Caracteres inválidos";
-                        apellidosUsuarioError.classList.add("error-message");
-                    } else if (apellidosUsuarioValue.length < 3) {
-                        apellidosUsuarioError.textContent = "Mín 3 letras";
-                        apellidosUsuarioError.classList.add("error-message");
-                    } else {
-                        apellidosUsuarioError.textContent = "";
-                        apellidosUsuarioError.classList.remove("error-message");
-                    }
-                }
-                function validarDNI() {
-                    const dniValue = dniInput.value.trim();
-                    const dniError = document.querySelector("#dni-error");
-
-                    if (!dniValue) {
-                        dniError.textContent = "Campo vacío";
-                        dniError.classList.add("error-message");
-                    } else if (!/^\d+$/.test(dniValue)) {
-                        dniError.textContent = "Solo números";
-                        dniError.classList.add("error-message");
-                    } else if (dniValue.length > 8) {
-                        dniError.textContent = "¡Solo 8 dígitos!";
-                        dniError.classList.add("error-message");
-                    } else if (dniValue.length < 8) {
-                        dniError.textContent = "8 dígitos requeridos";
-                        dniError.classList.add("error-message");
-                    } else {
-                        dniError.textContent = "";
-                        dniError.classList.remove("error-message");
-                    }
-                }
-
-                function validarCorreoRegistro() {
-                    const correoRegistroValue = correoRegistroInput.value.trim();
-                    const regexCorreoRegistro = /^[^\s@]+@[^\s@]+\.(com)$/i;
-                    const correoRegistroError = document.querySelector("#email-registro-error");
-
-                    if (!correoRegistroValue) {
-                        correoRegistroError.textContent = "Campo vacío";
-                        correoRegistroError.classList.add("error-message");
-                    } else if (correoRegistroValue.length > 21) {
-                        correoRegistroError.textContent = "Máximo 21 caracteres";
-                        correoRegistroError.classList.add("error-message");
-                    } else if (regexCorreoRegistro.test(correoRegistroValue)) {
-                        correoRegistroError.textContent = "";
-                        correoRegistroError.classList.remove("error-message");
-                    } else {
-                        correoRegistroError.textContent = "Correo no válido";
-                        correoRegistroError.classList.add("error-message");
-                    }
-                }
-
-                function validarSeguroRegistro() {
-                    const seguroRegistroInput = document.querySelector("#seguro");
-                    const seguroRegistroValue = seguroRegistroInput.value.trim();
-                    const seguroRegistroError = document.querySelector("#seguro-registro-error");
-
-                    if (!seguroRegistroValue) {
-                        seguroRegistroError.textContent = "Campo vacío";
-                        seguroRegistroError.style.color = "red";
-                        seguroRegistroError.classList.add("error-message");
-                    } else if (!/^[a-zA-Z\u00C0-\u017F\s]+$/.test(seguroRegistroValue)) {
-                        seguroRegistroError.textContent = "Solo se permiten letras y espacios";
-                        seguroRegistroError.style.color = "red";
-                        seguroRegistroError.classList.add("error-message");
-                    } else if (seguroRegistroValue.length > 15) {
-                        seguroRegistroError.textContent = "Máximo 15 caracteres";
-                        seguroRegistroError.style.color = "red";
-                        seguroRegistroError.classList.add("error-message");
-                    } else {
-                        seguroRegistroError.textContent = "";
-                        seguroRegistroError.classList.remove("error-message");
-                    }
-                }
-                function validarDistritoRegistro() {
-                    const distritoRegistroInput = document.querySelector("#distrito"); // Corregido: Usar #distritoRegistro en lugar de #distritoInput
-                    const distritoRegistroValue = distritoRegistroInput.value.trim();
-                    const distritoRegistroError = document.querySelector("#distrito-registro-error");
-
-                    if (!distritoRegistroValue) {
-                        distritoRegistroError.textContent = "Campo vacío";
-                        distritoRegistroError.style.color = "red";
-                        distritoRegistroError.classList.add("error-message");
-                    } else if (!/^[\w\s]+$/.test(distritoRegistroValue)) {
-                        distritoRegistroError.textContent = "Solo se permiten letras y espacios";
-                        distritoRegistroError.style.color = "red";
-                        distritoRegistroError.classList.add("error-message");
-                    } else if (distritoRegistroValue.length > 15) {
-                        distritoRegistroError.textContent = "Máximo 15 caracteres";
-                        distritoRegistroError.style.color = "red";
-                        distritoRegistroError.classList.add("error-message");
-                    } else {
-                        distritoRegistroError.textContent = "";
-                        distritoRegistroError.classList.remove("error-message");
-                    }
-                }
-
-                function validarDireccionRegistro() {
-                    const direccionRegistroInput = document.querySelector("#direccion");
-                    const direccionRegistroValue = direccionRegistroInput.value.trim();
-                    const direccionRegistroError = document.querySelector("#direccion-registro-error");
-
-                    if (!direccionRegistroValue) {
-                        direccionRegistroError.textContent = "Campo vacío";
-                        direccionRegistroError.style.color = "red";
-                        direccionRegistroError.classList.add("error-message"); // Aplicar la clase de error
-                    } else if (!/^[\w\s]+$/.test(direccionRegistroValue)) {
-                        direccionRegistroError.textContent = "Solo se permiten letras y espacios";
-                        direccionRegistroError.style.color = "red";
-                        direccionRegistroError.classList.add("error-message"); // Aplicar la clase de error
-                    } else if (direccionRegistroValue.length > 15) {
-                        direccionRegistroError.textContent = "Máximo 15 caracteres";
-                        direccionRegistroError.style.color = "red";
-                        direccionRegistroError.classList.add("error-message"); // Aplicar la clase de error
-                    } else {
-                        direccionRegistroError.textContent = "";
-                        direccionRegistroError.classList.remove("error-message"); // Quitar la clase de error si no hay error
-                    }
-                }
+        nombreUsuarioInput.addEventListener("input", validarNombreUsuario);
+        apellidosUsuarioInput.addEventListener("input", validarApellidos);
+        dniInput.addEventListener("input", validarDNI);
+        correoRegistroInput.addEventListener("input", validarCorreoRegistro);
+        seguroRegistroInput.addEventListener("input", validarSeguroRegistro);
+        distritoRegistroInput.addEventListener("input", validarDistritoRegistro);
+        direccionRegistroInput.addEventListener("input", validarDireccionRegistro);
 
 
-                registroButton.addEventListener("click", function (e) {
-                    e.preventDefault();
+        function validarNombreUsuario() {
+            const nombreUsuarioValue = nombreUsuarioInput.value.trim();
+            const regexNombreUsuario = /^[A-Za-z\u00C0-\u00FF\s]{1,20}$/; // Permitir letras y espacios, máximo 20 caracteres
+            const nombreUsuarioError = document.querySelector("#nombre-usuario-error");
 
-                    validarNombreUsuario();
-                    validarApellidos();
-                    validarDNI();
-                    validarCorreoRegistro();
-                    validarSeguroRegistro(); // Agregar validación de seguro
-                    validarDistritoRegistro(); // Agregar validación de distrito
-                    validarDireccionRegistro(); // Agregar validación de dirección
+            if (!nombreUsuarioValue) {
+                nombreUsuarioError.textContent = "Campo vacío";
+                nombreUsuarioError.classList.add("error-message");
+            } else if (nombreUsuarioValue.length > 16) {
+                nombreUsuarioError.textContent = "Máx 16 letras";
+                nombreUsuarioError.classList.add("error-message");
+            } else if (!/^[A-Za-z\u00C0-\u00FF\s]*$/.test(nombreUsuarioValue)) {
+                nombreUsuarioError.textContent = "Caracter inválido";
+                nombreUsuarioError.classList.add("error-message");
+            } else if (nombreUsuarioValue.length < 3) {
+                nombreUsuarioError.textContent = "Mín 3 letras";
+                nombreUsuarioError.classList.add("error-message");
+            } else {
+                nombreUsuarioError.textContent = "";
+                nombreUsuarioError.classList.remove("error-message");
+            }
+        }
+        function validarApellidos() {
+            const apellidosUsuarioValue = apellidosUsuarioInput.value.trim();
+            const regexApellidos = /^[A-Za-z\u00C0-\u00FF\s]{3,20}$/; // Permitir letras y espacios, mínimo 3 y máximo 20 caracteres
+            const apellidosUsuarioError = document.querySelector("#apellidos-usuario-error");
 
-                    const nombreUsuarioError = document.querySelector("#nombre-usuario-error");
-                    const apellidosUsuarioError = document.querySelector("#apellidos-usuario-error");
-                    const dniError = document.querySelector("#dni-error");
-                    const correoRegistroError = document.querySelector("#email-registro-error");
-                    const seguroRegistroError = document.querySelector("#seguro-registro-error");
-                    const distritoRegistroError = document.querySelector("#distrito-registro-error");
-                    const direccionRegistroError = document.querySelector("#direccion-registro-error");
+            if (!apellidosUsuarioValue) {
+                apellidosUsuarioError.textContent = "Campo vacío";
+                apellidosUsuarioError.classList.add("error-message");
+            } else if (apellidosUsuarioValue.length > 18) {
+                apellidosUsuarioError.textContent = "Máx 18 letras";
+                apellidosUsuarioError.classList.add("error-message");
+            } else if (!/^[A-Za-z\u00C0-\u00FF\s]*$/.test(apellidosUsuarioValue)) {
+                apellidosUsuarioError.textContent = "Caracteres inválidos";
+                apellidosUsuarioError.classList.add("error-message");
+            } else if (apellidosUsuarioValue.length < 3) {
+                apellidosUsuarioError.textContent = "Mín 3 letras";
+                apellidosUsuarioError.classList.add("error-message");
+            } else {
+                apellidosUsuarioError.textContent = "";
+                apellidosUsuarioError.classList.remove("error-message");
+            }
+        }
+        function validarDNI() {
+            const dniValue = dniInput.value.trim();
+            const dniError = document.querySelector("#dni-error");
 
-                    if (
-                            nombreUsuarioError.textContent === "" &&
-                            apellidosUsuarioError.textContent === "" &&
-                            dniError.textContent === "" &&
-                            correoRegistroError.textContent === "" &&
-                            seguroRegistroError.textContent === "" &&
-                            distritoRegistroError.textContent === "" &&
-                            direccionRegistroError.textContent === ""
-                            ) {
-                        //     const registroModal = new bootstrap.Modal(document.getElementById("registroModal"));
-                        //    registroModal.show();
-                        document.getElementById("formReg").submit();
-                    }
-                });
+            if (!dniValue) {
+                dniError.textContent = "Campo vacío";
+                dniError.classList.add("error-message");
+            } else if (!/^\d+$/.test(dniValue)) {
+                dniError.textContent = "Solo números";
+                dniError.classList.add("error-message");
+            } else if (dniValue.length > 8) {
+                dniError.textContent = "¡Solo 8 dígitos!";
+                dniError.classList.add("error-message");
+            } else if (dniValue.length < 8) {
+                dniError.textContent = "8 dígitos requeridos";
+                dniError.classList.add("error-message");
+            } else {
+                dniError.textContent = "";
+                dniError.classList.remove("error-message");
+            }
+        }
 
-                document.querySelector(".forgot-pass").addEventListener("click", function () {
-                    const forgotPasswordModal = new bootstrap.Modal(document.getElementById("forgotPasswordModal"));
-                    forgotPasswordModal.show();
-                });
+        function validarCorreoRegistro() {
+            const correoRegistroValue = correoRegistroInput.value.trim();
+            const regexCorreoRegistro = /^[^\s@]+@[^\s@]+\.(com)$/i;
+            const correoRegistroError = document.querySelector("#email-registro-error");
 
-                function validarForgotPasswordEmail() {
-                    const forgotPasswordEmailInput = document.querySelector("#forgot-password-email");
-                    const forgotPasswordEmailValue = forgotPasswordEmailInput.value.trim();
-                    const regexForgotPasswordEmail = /^[a-zA-Z0-9_À-ÿ.-]+@[^@\s]+\.com$/;
+            if (!correoRegistroValue) {
+                correoRegistroError.textContent = "Campo vacío";
+                correoRegistroError.classList.add("error-message");
+            } else if (correoRegistroValue.length > 21) {
+                correoRegistroError.textContent = "Máximo 21 caracteres";
+                correoRegistroError.classList.add("error-message");
+            } else if (regexCorreoRegistro.test(correoRegistroValue)) {
+                correoRegistroError.textContent = "";
+                correoRegistroError.classList.remove("error-message");
+            } else {
+                correoRegistroError.textContent = "Correo no válido";
+                correoRegistroError.classList.add("error-message");
+            }
+        }
+
+        function validarSeguroRegistro() {
+            const seguroRegistroInput = document.querySelector("#seguro");
+            const seguroRegistroValue = seguroRegistroInput.value.trim();
+            const seguroRegistroError = document.querySelector("#seguro-registro-error");
+
+            if (!seguroRegistroValue) {
+                seguroRegistroError.textContent = "Campo vacío";
+                seguroRegistroError.style.color = "red";
+                seguroRegistroError.classList.add("error-message");
+            } else if (!/^[a-zA-Z\u00C0-\u017F\s]+$/.test(seguroRegistroValue)) {
+                seguroRegistroError.textContent = "Solo se permiten letras y espacios";
+                seguroRegistroError.style.color = "red";
+                seguroRegistroError.classList.add("error-message");
+            } else if (seguroRegistroValue.length > 15) {
+                seguroRegistroError.textContent = "Máximo 15 caracteres";
+                seguroRegistroError.style.color = "red";
+                seguroRegistroError.classList.add("error-message");
+            } else {
+                seguroRegistroError.textContent = "";
+                seguroRegistroError.classList.remove("error-message");
+            }
+        }
+        function validarDistritoRegistro() {
+            const distritoRegistroInput = document.querySelector("#distrito"); // Corregido: Usar #distritoRegistro en lugar de #distritoInput
+            const distritoRegistroValue = distritoRegistroInput.value.trim();
+            const distritoRegistroError = document.querySelector("#distrito-registro-error");
+
+            if (!distritoRegistroValue) {
+                distritoRegistroError.textContent = "Campo vacío";
+                distritoRegistroError.style.color = "red";
+                distritoRegistroError.classList.add("error-message");
+            } else if (!/^[\w\s]+$/.test(distritoRegistroValue)) {
+                distritoRegistroError.textContent = "Solo se permiten letras y espacios";
+                distritoRegistroError.style.color = "red";
+                distritoRegistroError.classList.add("error-message");
+            } else if (distritoRegistroValue.length > 15) {
+                distritoRegistroError.textContent = "Máximo 15 caracteres";
+                distritoRegistroError.style.color = "red";
+                distritoRegistroError.classList.add("error-message");
+            } else {
+                distritoRegistroError.textContent = "";
+                distritoRegistroError.classList.remove("error-message");
+            }
+        }
+
+        function validarDireccionRegistro() {
+            const direccionRegistroInput = document.querySelector("#direccion");
+            const direccionRegistroValue = direccionRegistroInput.value.trim();
+            const direccionRegistroError = document.querySelector("#direccion-registro-error");
+
+            if (!direccionRegistroValue) {
+                direccionRegistroError.textContent = "Campo vacío";
+                direccionRegistroError.style.color = "red";
+                direccionRegistroError.classList.add("error-message"); // Aplicar la clase de error
+            } else if (!/^[\w\s]+$/.test(direccionRegistroValue)) {
+                direccionRegistroError.textContent = "Solo se permiten letras y espacios";
+                direccionRegistroError.style.color = "red";
+                direccionRegistroError.classList.add("error-message"); // Aplicar la clase de error
+            } else if (direccionRegistroValue.length > 15) {
+                direccionRegistroError.textContent = "Máximo 15 caracteres";
+                direccionRegistroError.style.color = "red";
+                direccionRegistroError.classList.add("error-message"); // Aplicar la clase de error
+            } else {
+                direccionRegistroError.textContent = "";
+                direccionRegistroError.classList.remove("error-message"); // Quitar la clase de error si no hay error
+            }
+        }
 
 
-                    if (regexForgotPasswordEmail.test(forgotPasswordEmailValue)) {
-                        forgotPasswordEmailInput.placeholder = "Correo";
-                        forgotPasswordEmailInput.style.color = "black";
-                    } else {
-                        forgotPasswordEmailInput.placeholder = "Correo no válido";
-                        forgotPasswordEmailInput.style.color = "red";
-                    }
-                }
+        registroButton.addEventListener("click", function (e) {
+            e.preventDefault();
 
-                const forgotPasswordEmailInput = document.querySelector("#forgot-password-email");
-                forgotPasswordEmailInput.addEventListener("input", validarForgotPasswordEmail);
+            validarNombreUsuario();
+            validarApellidos();
+            validarDNI();
+            validarCorreoRegistro();
+            validarSeguroRegistro(); // Agregar validación de seguro
+            validarDistritoRegistro(); // Agregar validación de distrito
+            validarDireccionRegistro(); // Agregar validación de dirección
 
-                document.querySelector("#reset-password-button").addEventListener("click", function (e) {
-                    e.preventDefault();
+            const nombreUsuarioError = document.querySelector("#nombre-usuario-error");
+            const apellidosUsuarioError = document.querySelector("#apellidos-usuario-error");
+            const dniError = document.querySelector("#dni-error");
+            const correoRegistroError = document.querySelector("#email-registro-error");
+            const seguroRegistroError = document.querySelector("#seguro-registro-error");
+            const distritoRegistroError = document.querySelector("#distrito-registro-error");
+            const direccionRegistroError = document.querySelector("#direccion-registro-error");
 
-                    validarForgotPasswordEmail();
+            if (
+                nombreUsuarioError.textContent === "" &&
+                apellidosUsuarioError.textContent === "" &&
+                dniError.textContent === "" &&
+                correoRegistroError.textContent === "" &&
+                seguroRegistroError.textContent === "" &&
+                distritoRegistroError.textContent === "" &&
+                direccionRegistroError.textContent === ""
+            ) {
+                //     const registroModal = new bootstrap.Modal(document.getElementById("registroModal"));
+                //    registroModal.show();
+                document.getElementById("formReg").submit();
+            }
+        });
 
-                    if (forgotPasswordEmailInput.placeholder === "Correo") {
+        document.querySelector(".forgot-pass").addEventListener("click", function () {
+            const forgotPasswordModal = new bootstrap.Modal(document.getElementById("forgotPasswordModal"));
+            forgotPasswordModal.show();
+        });
 
-                        const forgotPasswordModal = bootstrap.Modal.getInstance(document.getElementById("forgotPasswordModal"));
-                        forgotPasswordModal.hide();
+        function validarForgotPasswordEmail() {
+            const forgotPasswordEmailInput = document.querySelector("#forgot-password-email");
+            const forgotPasswordEmailValue = forgotPasswordEmailInput.value.trim();
+            const regexForgotPasswordEmail = /^[a-zA-Z0-9_À-ÿ.-]+@[^@\s]+\.com$/;
+
+
+            if (regexForgotPasswordEmail.test(forgotPasswordEmailValue)) {
+                forgotPasswordEmailInput.placeholder = "Correo";
+                forgotPasswordEmailInput.style.color = "black";
+            } else {
+                forgotPasswordEmailInput.placeholder = "Correo no válido";
+                forgotPasswordEmailInput.style.color = "red";
+            }
+        }
+
+        const forgotPasswordEmailInput = document.querySelector("#forgot-password-email");
+        forgotPasswordEmailInput.addEventListener("input", validarForgotPasswordEmail);
+
+        document.querySelector("#reset-password-button").addEventListener("click", function (e) {
+            e.preventDefault();
+
+            validarForgotPasswordEmail();
+
+            if (forgotPasswordEmailInput.placeholder === "Correo") {
+                var correo = document.getElementById("forgot-password-email").value;
+                document.getElementById("reset-password-button").disabled = true;
+
+                $.ajax({
+                    type: "GET",
+                    data: {
+                        correo: correo
+                    },
+                    dataType: 'json',
+                    url: "/reestablecer/generar_token",
+                    success: function (data) {
+                        if (data.response === "OK") {
+                            const forgotPasswordModal = bootstrap.Modal.getInstance(document.getElementById("forgotPasswordModal"));
+                            forgotPasswordModal.hide();
+                            document.getElementById("forgot-password-email").value = "";
+                            Swal.fire('¡Éxito!', "Envio correo correcto! Por favor revise su bandeja para poder reestablecer su contraseña.", 'success');
+                        } else {
+                            Swal.fire('¡Error!', data.response, 'error');
+                        }
+                    },
+                    error: function (xhr, status, errorThrown) {
+                        Swal.fire('¡Error!', "No se ha podido recuperar contraseña.", 'error');
+
+                    }, complete: function () {
+                        document.getElementById("reset-password-button").disabled = false;
                     }
                 });
-            });
-        </script>
 
-    </body>
+            }
+        });
+    });
+
+</script>
+
+
+</body>
 </html>

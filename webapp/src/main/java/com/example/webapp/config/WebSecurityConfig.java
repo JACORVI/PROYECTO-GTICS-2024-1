@@ -16,9 +16,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 
 import javax.sql.DataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Configuration
 public class WebSecurityConfig {
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     final UsuarioRepository usuarioRepository;
     final DataSource dataSource;
@@ -78,7 +81,9 @@ public class WebSecurityConfig {
                 .requestMatchers("/submitLoginForm").hasAnyAuthority("Superadmin")
                 .requestMatchers("/farmacista", "/farmacista/**").hasAnyAuthority("Farmacista")
                 .requestMatchers("/admin", "/admin/**").hasAnyAuthority("Admin")
-                .requestMatchers("/login", "/registro/usuario", "/assets/**").permitAll()
+                .requestMatchers("/login", "/registro/usuario", "/assets/**",
+                        "/reestablecer/**").
+                permitAll()
                 .anyRequest().authenticated();
 
         http.logout()
@@ -95,12 +100,12 @@ public class WebSecurityConfig {
     public UserDetailsManager users(DataSource dataSource) {
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
         //para loguearse sqlAuth -> correo | password | enable
-        String sqlAuth = "SELECT correo, contrasena, estado FROM gticsbd.usuario where correo = ?";
+        String sqlAuth = "SELECT correo, contrasena, estado FROM usuario where correo = ? AND cuenta_activada = 1";
 
         //para autenticación -> correo, nombre del rol
-        String sqlAuto = "SELECT u.correo, r.nombre FROM gticsbd.usuario u \n" +
-                "               inner join gticsbd.roles r on u.id_roles = r.id_roles \n" +
-                "               where u.correo = ?";
+        String sqlAuto = "SELECT u.correo, r.nombre FROM usuario u \n"
+                + "               inner join roles r on u.id_roles = r.id_roles \n"
+                + "               where u.correo = ?";
 
         users.setUsersByUsernameQuery(sqlAuth);
         users.setAuthoritiesByUsernameQuery(sqlAuto);
