@@ -2,6 +2,7 @@ package com.example.webapp.controller;
 
 import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,8 +56,12 @@ public class AdminSedeController {
 
     /*Vista de inicio (dashboard)*/
     @GetMapping(value = "/admin/paginainicio")
-    public String adminsedeinicio(Model model){
-        model.addAttribute("listaMedConPocoInvent",medicamentosRepository.medicamentosConPocoInventario(1));
+    public String adminsedeinicio(Model model, HttpSession session){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        int idSede = usuarioHasSedeRepository.buscarSedeDeUsuario(usuario.getId());
+
+        model.addAttribute("listaMedConPocoInvent",medicamentosRepository.medicamentosConPocoInventario(idSede));
         model.addAttribute("listaMedSoli7",medicamentosRepository.medicamentosSolicitadosxdias(7));
         model.addAttribute("listaMedSoli15",medicamentosRepository.medicamentosSolicitadosxdias(15));
         model.addAttribute("listaMedSoli3",medicamentosRepository.medicamentosSolicitados3meses());
@@ -67,8 +72,12 @@ public class AdminSedeController {
 
     /*Vista de lista de medicamentos*/
     @GetMapping(value="/admin/medicamentos")
-    public String adminsedeMedicamentos(Model model){
-        List<Medicamentos> medxSedeList = medicamentosRepository.listarMedicamentosporSede(1);
+    public String adminsedeMedicamentos(Model model, HttpSession session){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        int idSede = usuarioHasSedeRepository.buscarSedeDeUsuario(usuario.getId());
+
+        List<Medicamentos> medxSedeList = medicamentosRepository.listarMedicamentosporSede(idSede);
         model.addAttribute("listMed",medxSedeList);
         return "admin/medicamentos";
     }
@@ -76,8 +85,12 @@ public class AdminSedeController {
 
     /*Vista de lista de doctores*/
     @GetMapping(value="/admin/doctores")
-    public String adminsedeDoctores(Model model){
-        List<Usuario> doctorxsedeList = usuarioRepository.buscarDoctorporSede(1);
+    public String adminsedeDoctores(Model model, HttpSession session){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        int idSede = usuarioHasSedeRepository.buscarSedeDeUsuario(usuario.getId());
+
+        List<Usuario> doctorxsedeList = usuarioRepository.buscarDoctorporSede(idSede);
         model.addAttribute("listaDoctor",doctorxsedeList);
         return "admin/doctores";
     }
@@ -85,8 +98,12 @@ public class AdminSedeController {
 
     /*Vista de solicitud de farmacistas*/
     @GetMapping(value="/admin/estado_solicitud_farmacistas")
-    public String listaSolFarmacistas(Model model){
-        List<Usuario> farmacistaxsedeList = usuarioRepository.buscarFarmacistaporSede(1);
+    public String listaSolFarmacistas(Model model, HttpSession session){
+
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idSede = usuarioHasSedeRepository.buscarSedeDeUsuario(admin.getId());
+
+        List<Usuario> farmacistaxsedeList = usuarioRepository.buscarFarmacistaporSede(idSede);
         model.addAttribute("listaFarmacista",farmacistaxsedeList);
 
         return "admin/estado_solicitud_farmacistas";
@@ -95,8 +112,12 @@ public class AdminSedeController {
 
     /*Vista de lista de farmacistas*/
     @GetMapping(value="/admin/farmacistas")
-    public String adminsedeFarmacistas(Model model){
-        List<Usuario> farmacistaxsedeList = usuarioRepository.buscarFarmacistaporSede(1);
+    public String adminsedeFarmacistas(Model model, HttpSession session){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        int idSede = usuarioHasSedeRepository.buscarSedeDeUsuario(usuario.getId());
+
+        List<Usuario> farmacistaxsedeList = usuarioRepository.buscarFarmacistaporSede(idSede);
         model.addAttribute("listaFarmacista",farmacistaxsedeList);
         return "admin/farmacistas";
     }
@@ -104,9 +125,12 @@ public class AdminSedeController {
 
     /*Vista para crear nuevo farmacista*/
     @GetMapping(value="/admin/registrar_farmacista")
-    public String adminsedeFarmacistas(RedirectAttributes attr, @ModelAttribute("usuario") Usuario usuario){
+    public String adminsedeFarmacistas(HttpSession session, RedirectAttributes attr, @ModelAttribute("usuario") Usuario usuario){
 
-        List<Usuario> farmacistaxsedeList = usuarioRepository.buscarFarmacistaporSede(1);
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idSede = usuarioHasSedeRepository.buscarSedeDeUsuario(admin.getId());
+
+        List<Usuario> farmacistaxsedeList = usuarioRepository.buscarFarmacistaporSede(idSede);
         if(farmacistaxsedeList.size()>2){
             attr.addFlashAttribute("msg1", "Solo se puede registrar un máximo de 3 farmacistas");
             return "redirect:/admin/farmacistas";
@@ -119,8 +143,11 @@ public class AdminSedeController {
 
     /*Guarda registro de farmacista*/
     @PostMapping("/admin/guardar_farmacista")
-    public String guardarFarmacista(RedirectAttributes attr,
+    public String guardarFarmacista(HttpSession session, RedirectAttributes attr,
                                     @ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult) {
+
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idSede = usuarioHasSedeRepository.buscarSedeDeUsuario(admin.getId());
 
         if (bindingResult.hasErrors()) { //si no hay errores, se realiza el flujo normal
             return "admin/nuevo_farmacista";
@@ -129,7 +156,7 @@ public class AdminSedeController {
             if (usuario.getId() == 0) {
                 attr.addFlashAttribute("msg", "Farmacista creado exitosamente");
                 usuarioRepository.save(usuario);
-                usuarioHasSedeRepository.AsignarSede(usuario.getId(), 1);
+                usuarioHasSedeRepository.AsignarSede(usuario.getId(), idSede);
             } else {
                 usuarioRepository.save(usuario);
                 attr.addFlashAttribute("msg", "Farmacista actualizado exitosamente");
@@ -178,9 +205,13 @@ public class AdminSedeController {
     /*---------------------------------------*/
 
     /*Vista de lista de pedidos de reposición*/
-    @GetMapping(value ="/admin/pedidos_reposicion" )
-    public String listaPedidosReposicion(Model model){
-        List<PedidosReposicion> pedRepoxSedeList = pedidosReposicionRepository.listarPedRepPorIdUsuario(28);
+    @GetMapping(value ="/admin/pedidos_reposicion")
+    public String listaPedidosReposicion(Model model, HttpSession session){
+
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idAdmin = admin.getId();
+
+        List<PedidosReposicion> pedRepoxSedeList = pedidosReposicionRepository.listarPedRepPorIdUsuario(idAdmin);
         model.addAttribute("listaPedRep",pedRepoxSedeList);
         return "admin/pedidos_reposicion";
     }
@@ -188,8 +219,12 @@ public class AdminSedeController {
 
     /*Vista de lista completa de pedidos de reposición*/
     @GetMapping(value ="/admin/listaPedidosReposicion" )
-    public String listaComPedidosReposicion(Model model){
-        List<PedidosReposicion> pedRepoxSedeList = pedidosReposicionRepository.listarPedRepPorIdUsuario(28);
+    public String listaComPedidosReposicion(Model model, HttpSession session){
+
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idAdmin = admin.getId();
+
+        List<PedidosReposicion> pedRepoxSedeList = pedidosReposicionRepository.listarPedRepPorIdUsuario(idAdmin);
         model.addAttribute("listaPedRep",pedRepoxSedeList);
         return "admin/pedidos_reposicion_2";
     }
@@ -197,16 +232,19 @@ public class AdminSedeController {
 
     /*Vista de generar nuevo pedido de reposición*/
     @GetMapping(value="/admin/nuevo_pedido")
-    public String generarPedidosReposicion(RedirectAttributes attr,Model model) {
+    public String generarPedidosReposicion(RedirectAttributes attr,Model model, HttpSession session) {
         LocalDate fecha = LocalDate.now();
         String fechaString = fecha.toString();
 
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idAdmin = admin.getId();
+        int idSede = usuarioHasSedeRepository.buscarSedeDeUsuario(idAdmin);
 
-        List<PedidosReposicion> lista = pedidosReposicionRepository.PedRexfecha(fechaString, 28);
+        List<PedidosReposicion> lista = pedidosReposicionRepository.PedRexfecha(fechaString, idAdmin);
 
         if (lista.isEmpty()) {
-            model.addAttribute("listaMedConPocoInvent", medicamentosRepository.listarMedicamentosConPocoInvporSede(1));
-            List<Carrito> tamanocarrito = carritoRepository.listarCarritoxUsuario(28);
+            model.addAttribute("listaMedConPocoInvent", medicamentosRepository.listarMedicamentosConPocoInvporSede(idSede));
+            List<Carrito> tamanocarrito = carritoRepository.listarCarritoxUsuario(idAdmin);
             if (tamanocarrito.isEmpty()) {
                 int tamCarrito = 0;
                 model.addAttribute("tamanhoCarrito", tamCarrito);
@@ -215,7 +253,7 @@ public class AdminSedeController {
             }
 
             //generador de numero de pedidos
-            List<String> estadosdecompraporId = carritoRepository.estadosDeCompraPorUsuarioId(28);
+            List<String> estadosdecompraporId = carritoRepository.estadosDeCompraPorUsuarioId(idAdmin);
             boolean soloEstadosRegistrados = true;
 
             String banco = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -249,10 +287,12 @@ public class AdminSedeController {
 
     /*Añadiendo el primer medicamento al carrito*/
     @GetMapping("/admin/añadirCarrito1")
-    public String anadirMedicamentoAlCarrito1(@RequestParam("id") int id, @RequestParam("numpedido") String numpedido, RedirectAttributes attr){
-        int usuid = 28;
+    public String anadirMedicamentoAlCarrito1(HttpSession session, @RequestParam("id") int id, @RequestParam("numpedido") String numpedido, RedirectAttributes attr){
 
-        List<String> estadosdecompraporId = carritoRepository.estadosDeCompraPorUsuarioId(usuid);
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idAdmin = admin.getId();
+
+        List<String> estadosdecompraporId = carritoRepository.estadosDeCompraPorUsuarioId(idAdmin);
         boolean soloEstadosRegistrados = true;
         for (String palabra : estadosdecompraporId) {
             if (palabra!=null && palabra.equals("Comprando")) {
@@ -263,11 +303,11 @@ public class AdminSedeController {
         if(estadosdecompraporId.isEmpty() || soloEstadosRegistrados){
             if(soloEstadosRegistrados){
                 String registrado = "Registrado";
-                carritoRepository.borrarPedidoRegistrado(usuid, registrado);
+                carritoRepository.borrarPedidoRegistrado(idAdmin, registrado);
             }
             String estadocompra = "Comprando";
             int cantidad = 50;
-            carritoRepository.AnadirAlCarrito(id, usuid, cantidad, numpedido, estadocompra);
+            carritoRepository.AnadirAlCarrito(id, idAdmin, cantidad, numpedido, estadocompra);
             attr.addFlashAttribute("msg","Se agrego un nuevo medicamento!");
         }
         return "redirect:/admin/nuevo_pedido";
@@ -276,15 +316,18 @@ public class AdminSedeController {
 
     /*Añadiendo más medicamentos al carrito*/
     @GetMapping("/admin/añadirCarrito2")
-    public String anadirMedicamentoAlCarrito2(@RequestParam("id") int id, RedirectAttributes attr){
-        int usuid = 28;
+    public String anadirMedicamentoAlCarrito2(HttpSession session, @RequestParam("id") int id, RedirectAttributes attr){
+
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idAdmin = admin.getId();
+
         String estadocompra = "Comprando";
         List<Carrito> duplicados = carritoRepository.buscarDuplicados(id);
         if (duplicados.isEmpty()){
             int cantidad = 50;
-            List<String> numeropedidoporId = carritoRepository.numPedidoPorUsuarioId(usuid);
+            List<String> numeropedidoporId = carritoRepository.numPedidoPorUsuarioId(idAdmin);
             String numpedido = numeropedidoporId.get(0);
-            carritoRepository.AnadirAlCarrito(id, usuid, cantidad, numpedido, estadocompra);
+            carritoRepository.AnadirAlCarrito(id, idAdmin, cantidad, numpedido, estadocompra);
             attr.addFlashAttribute("msg","Se agrego un nuevo medicamento!");
         }
         else{
@@ -302,11 +345,15 @@ public class AdminSedeController {
 
     /*Vista de medicamentos agregados al carrito*/
     @GetMapping("/admin/carrito")
-    public String listarProductosCarrito(RedirectAttributes attr,Model model) {
-        List<Carrito> tamanocarrito = carritoRepository.listarCarritoxUsuario(28);
+    public String listarProductosCarrito(HttpSession session, RedirectAttributes attr,Model model) {
+
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idAdmin = admin.getId();
+
+        List<Carrito> tamanocarrito = carritoRepository.listarCarritoxUsuario(idAdmin);
         if (!tamanocarrito.isEmpty()) {
 
-            List<String> numeropedidoporId = carritoRepository.numPedidoPorUsuarioId(28);
+            List<String> numeropedidoporId = carritoRepository.numPedidoPorUsuarioId(idAdmin);
             if (!numeropedidoporId.isEmpty()) {
                 String numpedido = numeropedidoporId.get(0);
                 model.addAttribute("numpedido", numpedido);
@@ -344,27 +391,31 @@ public class AdminSedeController {
 
     /*Borrar medicamentos del carrito*/
     @GetMapping("/admin/carrito/borrar")
-    public String borrarElementoCarrito(@RequestParam("id") int id) {
-        int usuid = 28;
-        carritoRepository.borrarElementoCarrito(id, usuid);
+    public String borrarElementoCarrito(HttpSession session, @RequestParam("id") int id) {
+
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idAdmin = admin.getId();
+
+        carritoRepository.borrarElementoCarrito(id, idAdmin);
         return "redirect:/admin/carrito";
     }
     /*---------------------------------------*/
 
     /*Vista del formulario del pedido*/
     @GetMapping("/admin/carrito/formulario")
-    public String registrarPedido(@ModelAttribute("pedidosReposicion") PedidosReposicion pedidosReposicion,@RequestParam("costototal") double costototal,
+    public String registrarPedido(HttpSession session, @ModelAttribute("pedidosReposicion") PedidosReposicion pedidosReposicion,@RequestParam("costototal") double costototal,
                                   Model model){
+
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idAdmin = admin.getId();
 
         String estadopedido = "Solicitado";
         LocalDate fecha = LocalDate.now();
         String fechaString = fecha.toString();
 
-        int usuid = 28;
+        carritoRepository.registrarPedidoRepo1(idAdmin,fechaString,costototal,"2024-09-25",estadopedido,1);
 
-        carritoRepository.registrarPedidoRepo1(usuid,fechaString,costototal,"2024-09-25",estadopedido,1);
-
-        int IdRep = pedidosReposicionRepository.idPedRexfecha(fechaString,usuid);
+        int IdRep = pedidosReposicionRepository.idPedRexfecha(fechaString,idAdmin);
         pedidosReposicion.setId(IdRep);
         pedidosReposicion.setFecha_solicitud(fechaString);
         pedidosReposicion.setCosto_total(costototal);
@@ -380,15 +431,19 @@ public class AdminSedeController {
 
     @PostMapping("/admin/guardarOrden")
     public String guardarPedidoReco(RedirectAttributes attr, @ModelAttribute("pedidosReposicion") PedidosReposicion pedidosReposicion,
-                                    Model model) {
-        List<Carrito> carritoxusId = carritoRepository.listarCarritoxUsuario(28);
+                                    Model model, HttpSession session) {
+
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idAdmin = admin.getId();
+
+        List<Carrito> carritoxusId = carritoRepository.listarCarritoxUsuario(idAdmin);
         for (Carrito producto : carritoxusId) {
-            carritoRepository.registrarPedidoRepo3(pedidosReposicion.getId(), 28,1,producto.getMedicamentos_id_medicamentos().getId(),50);
+            carritoRepository.registrarPedidoRepo3(pedidosReposicion.getId(), idAdmin,1,producto.getMedicamentos_id_medicamentos().getId(),50);
         }
 
         attr.addFlashAttribute("msg", "Orden creada exitosamente");
 
-        carritoRepository.borrarCarritoPorId(28);
+        carritoRepository.borrarCarritoPorId(idAdmin);
 
 
         return "redirect:/admin/pedidos_reposicion";
@@ -410,11 +465,14 @@ public class AdminSedeController {
     }
 
     @GetMapping("admin/cancelarRegistro")
-    public String cancelarRegistro(@RequestParam("id") int id,RedirectAttributes attr){
-        int usuid = 28;
-        pedidosReposicionRepository.eliminarTodo(id);
-        carritoRepository.eliminarPedidoRepo(usuid);
-        carritoRepository.eliminarCarrito(usuid);
+    public String cancelarRegistro(HttpSession session, @RequestParam("id") int id,RedirectAttributes attr){
+
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idAdmin = admin.getId();
+
+        //pedidosReposicionRepository.eliminarTodo(id);
+        carritoRepository.eliminarPedidoRepo(id);
+        carritoRepository.eliminarCarrito(idAdmin);
 
         attr.addFlashAttribute("msg", "Orden cancelada exitosamente");
         return "redirect:/admin/pedidos_reposicion";
@@ -422,11 +480,14 @@ public class AdminSedeController {
     /*---------------------------------------*/
 
     @GetMapping("admin/eliminarOrdenDeRepo")
-    public String eliminarOrden(@RequestParam("id") int id,RedirectAttributes attr){
-        int usuid = 28;
+    public String eliminarOrden(HttpSession session,@RequestParam("id") int id,RedirectAttributes attr){
+
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idAdmin = admin.getId();
+
         pedidosReposicionRepository.eliminarTodo(id);
-        carritoRepository.eliminarPedidoRepo(usuid);
-        carritoRepository.eliminarCarrito(usuid);
+        carritoRepository.eliminarPedidoRepo(id);
+        carritoRepository.eliminarCarrito(idAdmin);
 
         attr.addFlashAttribute("msg", "Solicitud de orden eliminada exitosamente");
         return "redirect:/admin/pedidos_reposicion";

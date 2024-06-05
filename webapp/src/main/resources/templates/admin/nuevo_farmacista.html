@@ -14,8 +14,8 @@
 
                 <input th:field="*{id}" type="hidden"/>
                 <input th:field="*{seguro}" type="hidden"/>
-                <input th:value="${'Inactivo'}" name="estado" type="hidden" />
-                <input th:value="${'Farmacista'}" name="rol" type="hidden" />
+                <input th:value="${0}" name="estado" type="hidden" />
+                <input th:value="${3}" name="rol.id" type="hidden" />
                 <input th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" name="fecha_creacion" type="hidden" />
                 <input th:value="${'Contrasena45'}" name="contrasena" type="hidden" />
                 <input th:value="*{'Pendiente'}" name ="estado_solicitud" type="hidden" />
@@ -41,7 +41,7 @@
                 <div class="col-md-6">
                     <label class="form-label">DNI</label>
                     <input type="text" class="form-control" th:field="*{dni}"/>
-                    <div class="text-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">error</div>
+                    <div class="text-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">Error</div>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Correo Electrónico</label>
@@ -50,6 +50,22 @@
                     <div class="invalid-feedback"
                          th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}">
                     </div>
+                </div>
+                <div class="col-6">
+                    <label class="form-label">Código de Colegiatura</label>
+                    <select class="form-select" aria-label="Default select example" th:field="*{codigo_colegiatura}">
+                        <option th:value="${'MED001'}">MED001</option>
+                        <option th:value="${'MED002'}">MED002</option>
+                        <option th:value="${'MED003'}">MED003</option>
+                        <option th:value="${'MED004'}">MED004</option>
+                        <option th:value="${'MED005'}">MED005</option>
+                        <option th:value="${'MED006'}">MED006</option>
+                        <option th:value="${'MED007'}">MED007</option>
+                        <option th:value="${'MED008'}">MED008</option>
+                        <option th:value="${'MED009'}">MED009</option>
+                        <option th:value="${'MED010'}">MED010</option>
+                        <!-- Agrega más opciones según sea necesario -->
+                    </select>
                 </div>
                 <div class="col-6">
                     <label class="form-label">Distrito</label>
@@ -97,22 +113,6 @@
                         <option th:value="${'Surquillo'}">Surquillo</option>
                         <option th:value="${'Villa el Salvador'}">Villa El Salvador</option>
                         <option th:value="${'Villa Maria del Triunfo'}">Villa María del Triunfo</option>
-                    </select>
-                </div>
-                <div class="col-6">
-                    <label class="form-label">Código de Colegiatura</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{codigo_colegiatura}">
-                        <option th:value="${'MED001'}">MED001</option>
-                        <option th:value="${'MED002'}">MED002</option>
-                        <option th:value="${'MED003'}">MED003</option>
-                        <option th:value="${'MED004'}">MED004</option>
-                        <option th:value="${'MED005'}">MED005</option>
-                        <option th:value="${'MED006'}">MED006</option>
-                        <option th:value="${'MED007'}">MED007</option>
-                        <option th:value="${'MED008'}">MED008</option>
-                        <option th:value="${'MED009'}">MED009</option>
-                        <option th:value="${'MED010'}">MED010</option>
-                        <!-- Agrega más opciones según sea necesario -->
                     </select>
                 </div>
                 <div class="text-center">

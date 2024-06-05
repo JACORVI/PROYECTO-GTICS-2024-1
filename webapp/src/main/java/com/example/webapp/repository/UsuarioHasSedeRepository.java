@@ -34,5 +34,8 @@ public interface UsuarioHasSedeRepository extends JpaRepository<UsuarioHasSede, 
     @Query(nativeQuery = true,value = "delete from usuario_has_sede where usuario_id_usuario= ?1")
     void AsignarSedeBorrando(int idUsuario);
 
+    @Query(value = "select sede_id_sede from usuario_has_sede where usuario_id_usuario = ?1", nativeQuery = true)
+    int buscarSedeDeUsuario(int id);
+
 
 }

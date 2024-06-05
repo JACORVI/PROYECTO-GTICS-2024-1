@@ -49,12 +49,11 @@
                         <div style="display: flex; flex-direction: column; color: white;">
                             <h5 style="margin: 0%;" th:text="${session.usuario.nombres + ' ' + session.usuario.apellidos}" >Nombre Apellido</h5>
                             <h7
-                                    th:text="${session.usuario.rol}">Rol</h7>
+                                    th:text="${session.usuario.rol.nombre}">Rol</h7>
                         </div>
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/perfil">Perfil</a></li>
-                        <li><a class="dropdown-item" href="#">Mis pedidos</a></li>
                         <li style="color: darkred!important;">
                             <a class="dropdown-item"
                                th:href="@{/logout}" style="color: red!important;">

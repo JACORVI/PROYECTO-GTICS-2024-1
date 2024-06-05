@@ -42,20 +42,13 @@
                             <label class="form-label">Proovedor: P1 </label>
                         </div>
                         <div class="text-center text-md-start">
-                            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-warning mb-5 mb-md-0">
-                                Editar
-                            </button>
-                            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger mb-5 mb-md-0">
-                                Eliminar
-                            </button>
+                            <a th:href="@{'/admin/editar_orden' + '?id=' + ${pedRep.id}}" class="btn btn-warning">
+                                Actualizar
+                            </a>
+
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <p>Medicamentos solicitados:</p>
-                        <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-secondary mb-5 mb-md-0">
-                            Ver lista de medicamentos
-                        </button>
-                    </div>
+
 
                 </div>
 

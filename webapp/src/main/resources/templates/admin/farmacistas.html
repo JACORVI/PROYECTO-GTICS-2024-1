@@ -47,7 +47,9 @@
                         </div>
                     </div>
                 </td>
-                <td class="text-center" th:text="${farmacista.estado}"><p></p></td>
+
+                <td class="text-center" th:if="${farmacista.estado==0}"><p>Inactivo</p></td>
+                <td class="text-center" th:if="${farmacista.estado==1}"><p>Activo</p></td>
             </tr>
             </tbody>
         </table>

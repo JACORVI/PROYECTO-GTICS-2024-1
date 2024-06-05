@@ -70,7 +70,7 @@ public class WebSecurityConfig {
                             response.sendRedirect("/farmacista/nuevopedido");
                         }
                         if (rol.equals("Admin")) {
-                            response.sendRedirect("/admin/medicamentos");
+                            response.sendRedirect("/admin/paginainicio");
                         }
                     }
                 });

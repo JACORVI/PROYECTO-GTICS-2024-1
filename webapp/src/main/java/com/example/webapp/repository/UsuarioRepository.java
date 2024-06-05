@@ -61,10 +61,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value = "select * from usuario where rol = ?1 and borrado_logico = ?2 order by fecha_creacion", nativeQuery = true)
     Usuario buscarSuperadmin(String rol,int borrado_logico);
 
-    @Query(value = "select * from usuario u inner join usuario_has_sede uhs on (u.id_usuario = uhs.usuario_id_usuario) where rol = 'farmacista' and sede_id_sede = ?1", nativeQuery = true)
+    @Query(value = "select * from usuario u inner join usuario_has_sede uhs on (u.id_usuario = uhs.usuario_id_usuario) where id_roles = 3 and sede_id_sede = ?1", nativeQuery = true)
     List<Usuario> buscarFarmacistaporSede(int sede_id_sede);
 
-    @Query(value = "select * from usuario u inner join usuario_has_sede uhs on (u.id_usuario = uhs.usuario_id_usuario) where rol = 'Doctor' and sede_id_sede = ?1", nativeQuery = true)
+    @Query(value = "select * from usuario u inner join usuario_has_sede uhs on (u.id_usuario = uhs.usuario_id_usuario) where id_roles = 5 and sede_id_sede = ?1", nativeQuery = true)
     List<Usuario> buscarDoctorporSede(int sede_id_sede);
 
     @Query(value = "select * from usuario where correo = ?1 ", nativeQuery = true)
