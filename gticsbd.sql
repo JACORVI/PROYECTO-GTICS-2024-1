@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: gticsbd
 -- ------------------------------------------------------
--- Server version	8.0.32
+-- Server version	8.0.24
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -368,7 +368,7 @@ CREATE TABLE `roles` (
   `id_roles` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_roles`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -377,7 +377,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'Superadmin'),(2,'Admin'),(3,'Farmacista'),(4,'Paciente');
+INSERT INTO `roles` VALUES (1,'Superadmin'),(2,'Admin'),(3,'Farmacista'),(4,'Paciente'),(5,'Doctor');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -460,7 +460,6 @@ CREATE TABLE `spring_session` (
 
 LOCK TABLES `spring_session` WRITE;
 /*!40000 ALTER TABLE `spring_session` DISABLE KEYS */;
-INSERT INTO `spring_session` VALUES ('8b02282f-65df-45cb-a2a0-b0811079d4f3','86b25563-ca43-4464-b30b-53a8cb55694d',1717099854843,1717100676405,1800,1717102476405,'rodlu@gmail.com');
 /*!40000 ALTER TABLE `spring_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -486,7 +485,6 @@ CREATE TABLE `spring_session_attributes` (
 
 LOCK TABLES `spring_session_attributes` WRITE;
 /*!40000 ALTER TABLE `spring_session_attributes` DISABLE KEYS */;
-INSERT INTO `spring_session_attributes` VALUES ('8b02282f-65df-45cb-a2a0-b0811079d4f3','org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN',_binary '¬\í\0sr\06org.springframework.security.web.csrf.DefaultCsrfTokenZ\ï·\È/¢û\Õ\0L\0\nheaderNamet\0Ljava/lang/String;L\0\rparameterNameq\0~\0L\0tokenq\0~\0xpt\0X-CSRF-TOKENt\0_csrft\0$ba8f73a7-1e41-4447-abc9-4f90aab5ca03'),('8b02282f-65df-45cb-a2a0-b0811079d4f3','SPRING_SECURITY_CONTEXT',_binary '¬\í\0sr\0=org.springframework.security.core.context.SecurityContextImpl\0\0\0\0\0\0X\0L\0authenticationt\02Lorg/springframework/security/core/Authentication;xpsr\0Oorg.springframework.security.authentication.UsernamePasswordAuthenticationToken\0\0\0\0\0\0X\0L\0credentialst\0Ljava/lang/Object;L\0	principalq\0~\0xr\0Gorg.springframework.security.authentication.AbstractAuthenticationTokenÓª(~nGd\0Z\0\rauthenticatedL\0authoritiest\0Ljava/util/Collection;L\0detailsq\0~\0xpsr\0&java.util.Collections$UnmodifiableListü%1µ\ìŽ\0L\0listt\0Ljava/util/List;xr\0,java.util.Collections$UnmodifiableCollectionB\0€\Ë^÷\0L\0cq\0~\0xpsr\0java.util.ArrayListx\Ò™\Ça\0I\0sizexp\0\0\0w\0\0\0sr\0Borg.springframework.security.core.authority.SimpleGrantedAuthority\0\0\0\0\0\0X\0L\0rolet\0Ljava/lang/String;xpt\0Pacientexq\0~\0\rsr\0Horg.springframework.security.web.authentication.WebAuthenticationDetails\0\0\0\0\0\0X\0L\0\rremoteAddressq\0~\0L\0	sessionIdq\0~\0xpt\00:0:0:0:0:0:0:1t\0$29cecf9c-25cf-49c1-917c-1dc7e677939bpsr\02org.springframework.security.core.userdetails.User\0\0\0\0\0\0X\0Z\0accountNonExpiredZ\0accountNonLockedZ\0credentialsNonExpiredZ\0enabledL\0authoritiest\0Ljava/util/Set;L\0passwordq\0~\0L\0usernameq\0~\0xpsr\0%java.util.Collections$UnmodifiableSet€’Ñ›€U\0\0xq\0~\0\nsr\0java.util.TreeSetÝ˜P“•\í‡[\0\0xpsr\0Forg.springframework.security.core.userdetails.User$AuthorityComparator\0\0\0\0\0\0X\0\0xpw\0\0\0q\0~\0xpt\0rodlu@gmail.com'),('8b02282f-65df-45cb-a2a0-b0811079d4f3','SPRING_SECURITY_SAVED_REQUEST',_binary '¬\í\0sr\0Aorg.springframework.security.web.savedrequest.DefaultSavedRequest\0\0\0\0\0\0X\0I\0\nserverPortL\0contextPatht\0Ljava/lang/String;L\0cookiest\0Ljava/util/ArrayList;L\0headerst\0Ljava/util/Map;L\0localesq\0~\0L\0matchingRequestParameterNameq\0~\0L\0methodq\0~\0L\0\nparametersq\0~\0L\0pathInfoq\0~\0L\0queryStringq\0~\0L\0\nrequestURIq\0~\0L\0\nrequestURLq\0~\0L\0schemeq\0~\0L\0\nserverNameq\0~\0L\0servletPathq\0~\0xp\0\0t\0\0sr\0java.util.ArrayListx\Ò™\Ça\0I\0sizexp\0\0\0\0w\0\0\0\0xsr\0java.util.TreeMapÁö>-%j\æ\0L\0\ncomparatort\0Ljava/util/Comparator;xpsr\0*java.lang.String$CaseInsensitiveComparatorw\\}\\P\å\Î\0\0xpw\0\0\0t\0acceptsq\0~\0\0\0\0w\0\0\0t\0‡text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7xt\0accept-encodingsq\0~\0\0\0\0w\0\0\0t\0gzip, deflate, br, zstdxt\0accept-languagesq\0~\0\0\0\0w\0\0\0t\0en,es-ES;q=0.9,es;q=0.8xt\0\nconnectionsq\0~\0\0\0\0w\0\0\0t\0\nkeep-alivext\0hostsq\0~\0\0\0\0w\0\0\0t\0localhost:8080xt\0purposesq\0~\0\0\0\0w\0\0\0t\0prefetchxt\0	sec-ch-uasq\0~\0\0\0\0w\0\0\0t\0A\"Google Chrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"xt\0sec-ch-ua-mobilesq\0~\0\0\0\0w\0\0\0t\0?0xt\0sec-ch-ua-platformsq\0~\0\0\0\0w\0\0\0t\0	\"Windows\"xt\0sec-fetch-destsq\0~\0\0\0\0w\0\0\0t\0documentxt\0sec-fetch-modesq\0~\0\0\0\0w\0\0\0t\0navigatext\0sec-fetch-sitesq\0~\0\0\0\0w\0\0\0t\0nonext\0sec-fetch-usersq\0~\0\0\0\0w\0\0\0t\0?1xt\0sec-purposesq\0~\0\0\0\0w\0\0\0t\0prefetch;prerenderxt\0upgrade-insecure-requestssq\0~\0\0\0\0w\0\0\0t\01xt\0\nuser-agentsq\0~\0\0\0\0w\0\0\0t\0oMozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36xxsq\0~\0\0\0\0w\0\0\0sr\0java.util.Locale~ø`œ0ù\ì\0I\0hashcodeL\0countryq\0~\0L\0\nextensionsq\0~\0L\0languageq\0~\0L\0scriptq\0~\0L\0variantq\0~\0xpÿÿÿÿq\0~\0q\0~\0t\0enq\0~\0q\0~\0xsq\0~\0>ÿÿÿÿt\0ESq\0~\0t\0esq\0~\0q\0~\0xsq\0~\0>ÿÿÿÿq\0~\0q\0~\0q\0~\0Cq\0~\0q\0~\0xxt\0continuet\0GETsq\0~\0pw\0\0\0\0xppt\0/paciente/iniciot\0%http://localhost:8080/paciente/iniciot\0httpt\0	localhostt\0/paciente/inicio'),('8b02282f-65df-45cb-a2a0-b0811079d4f3','usuario',_binary '¬\í\0sr\0!com.example.webapp.entity.Usuario!s£z\í÷bÀ\0I\0borrado_logicoI\0dniI\0idL\0	apellidost\0Ljava/lang/String;L\0codigo_colegiaturaq\0~\0L\0\ncontrasenaq\0~\0L\0correoq\0~\0L\0	direccionq\0~\0L\0distritoq\0~\0L\0estadoq\0~\0L\0estado_solicitudq\0~\0L\0fecha_creaciont\0Ljava/sql/Date;L\0imagenq\0~\0L\0motivo_rechazoq\0~\0L\0nombresq\0~\0L\0\nreferenciaq\0~\0L\0rolt\0!Lcom/example/webapp/entity/Roles;L\0seguroq\0~\0L\0telefonoq\0~\0xp\0\0\0\0\0Ö‡\0\0\0t\0Lujant\0No tienet\0<$2a$10$u828b590H.p5.N5UZnLRxeVZrIiC/f/9/3AEREiwFeg9k9MLSt37Wt\0rodlu@gmail.compt\0San Juan de Luriganchot\01t\0Aceptadosr\0\rjava.sql.DateúFh?5f—\0\0xr\0java.util.DatehjKYt\0\0xpw\0\0(9`€xppt\0Andrespsr\0com.example.webapp.entity.Roles4˜4ÿ¢T\0I\0idL\0nombreq\0~\0xp\0\0\0t\0Pacientet\0Rimacp');
 /*!40000 ALTER TABLE `spring_session_attributes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -543,10 +541,13 @@ CREATE TABLE `usuario` (
   `referencia` varchar(255) DEFAULT NULL,
   `telefono` varchar(255) DEFAULT NULL,
   `id_roles` int NOT NULL,
+  `cuenta_activada` int DEFAULT NULL,
+  `fecha_recuperacion` datetime DEFAULT NULL,
+  `token_recuperacion` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`,`id_roles`),
   KEY `fk_usuario_roles1_idx` (`id_roles`),
   CONSTRAINT `fk_usuario_roles1` FOREIGN KEY (`id_roles`) REFERENCES `roles` (`id_roles`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -555,7 +556,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'Andres','Lujan','rodlu@gmail.com',1234567,'No tiene','San Juan de Lurigancho','Rimac',1,'$2a$10$u828b590H.p5.N5UZnLRxeVZrIiC/f/9/3AEREiwFeg9k9MLSt37W',NULL,'2024-04-29','Aceptado',NULL,0,NULL,NULL,NULL,NULL,4);
+INSERT INTO `usuario` VALUES (1,'Andres','Lujan','rodlu@gmail.com',1234567,'No tiene','San Juan de Lurigancho','Rimac',1,'$2a$10$u828b590H.p5.N5UZnLRxeVZrIiC/f/9/3AEREiwFeg9k9MLSt37W',NULL,'2024-04-29','Aceptado',NULL,0,NULL,NULL,NULL,NULL,4,1,NULL,NULL),(2,'Pedro','Perez','pedro@gmail.com',12345678,'No tiene','Lima','Rima',1,'$2a$12$eYN9rTOB.pVGwqLuD7At3.RFgHFWpEwsrzfN9SW7RjVVy0F7lQ73K',NULL,'2024-04-29','Aceptado',NULL,0,NULL,NULL,NULL,NULL,1,1,'2024-06-04 18:55:52','LQOGqcuÃ‘gTV5HktH0yRw8Y9h3XEE5Ja2ahSbO3yJ'),(43,'elvis','perez','pepe@gmail.com',78945612,'Sin-Codigo','Lurigancho','',1,'$2a$12$TAYg.j0p1KwoCfyJadqw9ud54mi/ao2fyarFEVWyL1uNBhfM7OH0e',NULL,'2024-06-02','','',0,NULL,NULL,NULL,NULL,1,1,NULL,NULL),(44,'juan','pedro','hhh@gmail.com',78945661,'Sin-Codigo','peru ','rimac',0,'',NULL,'2024-06-04',NULL,NULL,0,'peru',NULL,NULL,NULL,4,0,NULL,'QNZTVq2nXrZ4omw3SpRZasbSuHgCVfQgOcH2c5Wy'),(45,'pedro','hola','jjjj@gmail.com',78945623,'Sin-Codigo','av peru ','Rimac',1,'$2a$10$hdQ4pC6zpwWe5s.1cBXdL.Z0birVcBQ5V8jjQzmblxeS.DTJq56vq',NULL,'2024-06-04',NULL,NULL,0,'Av bolivar',NULL,NULL,NULL,4,1,NULL,NULL),(46,'juan pedro','poll','po@gmail.com',45632178,'DOD008','Sin-Distrito','',1,'$2a$10$aHBzf1J67QCqkx5YmIluH.pwqrtXNW7jIO49NTOQqVLlaAZMCIlim',NULL,'2024-06-04','','',0,NULL,NULL,NULL,NULL,5,1,NULL,NULL),(47,'Juan Pablo','Perez Rodriguez','lll@gmail.com',96385274,'Sin-Codigo','Lurin','',1,'$2a$10$y7Mb0sVaokUk0iPF3IMRVOfQ2hx2SDShaxkwYSi5LuG/UYn5OXgGO',NULL,'2024-06-04','','',0,NULL,NULL,NULL,NULL,2,1,NULL,NULL),(49,'juancito','perez','coreldrain@gmail.com',45612323,'Sin-Codigo','rimac rim','rimac',1,'',NULL,'2024-06-04',NULL,NULL,0,'rimac',NULL,NULL,NULL,4,1,'2024-06-05 16:43:22','uGbwleVdedpMps3SnVhf4lk6MI2j8L5LBSdMTAX6');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -595,4 +596,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-30 15:26:45
+-- Dump completed on 2024-06-05 16:35:18
