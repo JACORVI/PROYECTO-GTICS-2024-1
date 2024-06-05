@@ -72,7 +72,6 @@ public class Correo {
 
     public String construirCuerpoRecuperarPassword(Usuario obj) {
         String urlBase = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-
         String url = urlBase + "/reestablecer/password?token=" + obj.getToken_recuperacion();
 
         String cuerpo = " <html lang='en'>\n"
@@ -81,40 +80,35 @@ public class Correo {
                 + "</head>\n"
                 + "<body>\n"
                 + "    <center>\n"
-                + "        <div style='text-align: left; color: rgba(15, 153, 171, 1); width: 670px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.3s'>\n"
-                + "            <div style='padding: 2px 16px;'>\n"
-                + "                <div style='background:  rgba(15, 153, 171, 1) !important; padding: 10px; '>\n"
-                + "                    <table>\n"
-                + "                        <tr>\n"
-                + "                            <td>\n"
-                + "                                <span style='font-size: 24px; \n"
-                + "                                font-family:LucidaGrande,tahoma,verdana,arial,sans-serif;\n"
-                + "                                color: white;'>REESTABLECER CONTRASEÑA: PildoPharm</span>\n"
-                + "                            </td>\n"
-                + "                        </tr>\n"
-                + "                    </table>\n"
-                + "                </div>\n"
-                + "       \n"
+                + "        <div style='width: 600px; text-align: left; color: #333; font-family: Arial, sans-serif;'>\n"
+                + "            <div style='background-color: #0f99ab; padding: 20px;'>\n"
+                + "                <img src='https://www.example.com/logo.png' alt='Logo' style='width: 100px; height: auto;' />\n"
+                + "                <h1 style='color: #fff; font-size: 24px;'>REESTABLECER CONTRASEÑA: PildoPharm</h1>\n"
+                + "            </div>\n"
+                + "            <div style='padding: 20px; background-color: #f4f4f4;'>\n"
                 + "                <p>Hola, @@_NOMBRES_COMPLETOS_@@:</p>\n"
-                + "                <span style='text-align: justify;'>Recibimos una solicitud para reestablecer tu contraseña.<br />"
-                + "  Ingresa al siguiente link proporcionado:</span><br />\n"
-                + "                </span>\n"
-                + "              <p style='font-weight: bold;'>Link: <a href='@@_URL_@@' target='_blank'>@@_URL_@@</a></p> \n"
-                + "                 <p style='font-style: italic;'>Nota: Recuerda que este url solo es válido por los proximos @@_MINUTES_RECUPERAR_@@ minutos desde el envió a este correo. </p>\n"
-                + "                <strong>¿No solicitaste este cambio?</strong>\n"
-                + "                <p>Si no solicitaste reestablecer tu contraseña, ignorar este mensaje</p>\n"
+                + "                <p>Recibimos una solicitud para reestablecer tu contraseña.<br />\n"
+                + "                Ingresa al siguiente link proporcionado:</p>\n"
+                + "                <p style='text-align: center; margin: 20px 0;'>\n"
+                + "                    <a href='@@_URL_@@' style='background-color: #0f99ab; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Link de recuperación</a>\n"
+                + "                </p>\n"
+                + "                <p style='font-style: italic;'>Nota: Recuerda que este url solo es válido por los próximos @@_MINUTES_RECUPERAR_@@ minutos desde el envío de este correo.</p>\n"
+                + "                <p><strong>¿No solicitaste este cambio?</strong></p>\n"
+                + "                <p>Si no solicitaste reestablecer tu contraseña, ignora este mensaje.</p>\n"
                 + "            </div>\n"
                 + "        </div>\n"
                 + "    </center>\n"
                 + "</body>\n"
-                + "</html>;";
+                + "</html>";
 
-        cuerpo = cuerpo.replaceAll("@@_URL_@@", "" + url);
+        cuerpo = cuerpo.replaceAll("@@_URL_@@", url);
         cuerpo = cuerpo.replaceAll("@@_NOMBRES_COMPLETOS_@@", obj.getNombres() + " " + obj.getApellidos());
-        cuerpo = cuerpo.replaceAll("@@_MINUTES_RECUPERAR_@@", "" + 10);
+        cuerpo = cuerpo.replaceAll("@@_MINUTES_RECUPERAR_@@", "10"); // 10 minutos
 
         return cuerpo;
     }
+
+
 
     public String construirCuerpoActivarCuenta(Usuario obj) {
         String urlBase = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
