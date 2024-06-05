@@ -9,8 +9,8 @@
 <h3 style="margin: 40px">Sedes con mayor cantidad de transacciones de medicamentos</h3>
 
 <div class="text-center" style="width: 100%; padding: 40px">
-    <table class="table table-bordered">
-        <thead class="thead-dark">
+    <table class="table table-bordered border-dark">
+        <thead class="table-dark">
         <tr>
             <th scope="col">Puesto</th>
             <th scope="col">Sede</th>
@@ -62,7 +62,16 @@
                         legend: {display: false},
                         title: {
                             display: true,
-                            text: "En los ultimos 7 días"
+                            text: "En los ultimos 7 días",
+                            fontSize: 20
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    min: 0 // Establecer el valor mínimo explícitamente
+                                }
+                            }]
                         }
                     }
                 });
@@ -103,7 +112,16 @@
                         legend: {display: false},
                         title: {
                             display: true,
-                            text: "En los ultimos 15 días"
+                            text: "En los ultimos 15 días",
+                            fontSize: 20
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    min: 0 // Establecer el valor mínimo explícitamente
+                                }
+                            }]
                         }
                     }
                 });
@@ -112,7 +130,7 @@
     </div>
 </div>
 <div class="contenido">
-    <div class="card shadow" style="margin-right:30px; max-width: 900px">
+    <div class="card shadow mb-4" style="margin-right:30px; max-width: 900px">
         <div class="card-body">
 
             <canvas id="myChart3"></canvas>
@@ -144,7 +162,16 @@
                         legend: {display: false},
                         title: {
                             display: true,
-                            text: "En los ultimos 3 meses"
+                            text: "En los ultimos 3 meses",
+                            fontSize: 20
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    min: 0 // Establecer el valor mínimo explícitamente
+                                }
+                            }]
                         }
                     }
                 });
@@ -153,7 +180,7 @@
     </div>
 </div>
 <!-- Paginacion-->
-<div class="pagination  d-flex justify-content-center" style="padding: 50px">
+<div class="pagination d-flex justify-content-center" style="padding: 50px">
 </div>
 
 <!-- Script de paginacion-->
@@ -209,8 +236,8 @@
         }
 
         $(".pagination").append(
-            $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
-            $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+            $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("<")),
+            $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text(">"))
         );
 
         $(".contenido").show();
@@ -232,9 +259,9 @@
 
 <!-- Project Card Example -->
 <h3 style="margin: 40px">Medicamentos con Poco Inventario</h3>
-<div class="card mb-4" style="margin: 100px; margin-top: 10px">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Medicamentos que necesitan reposición</h6>
+<div class="card border-secondary mb-3" style="border-radius: 10px;margin: 100px; margin-top: 10px">
+    <div class="card-header bg-secondary border-secondary py-3">
+        <h6 class="m-0 font-weight-bold text-light">Medicamentos que necesitan reposición</h6>
     </div>
     <div class="card-body">
         <div th:each="medPocoInvet: ${listaMedConPocoInvent}">
