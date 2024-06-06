@@ -286,8 +286,19 @@ public class SuperadminController {
                 return "superadmin/Plantilla_Vista_Actualizar_Medicamento";
 
             } else {
+                System.out.println("Zise de la Foto Actualizar");
+                System.out.println(foto1.getSize());
+                System.out.println(medicamentos.getFoto());
+                if (foto1.getSize()==0) {
+                    System.out.println("No se envio nada, que se quede con la actual");
+                    System.out.println(foto1.getSize());
 
-                if (foto1.getHeaderNames().isEmpty()) {
+                    Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(medicamentos.getId());
+
+                    Medicamentos medicamento = optMedicamento.get();
+
+                    medicamentos.setFoto(medicamento.getFoto());
+
                     medicamentosRepository.save(medicamentos);
                     List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
                     List<Sede> list1 = sedeRepository.findAll();
@@ -322,6 +333,8 @@ public class SuperadminController {
 
                     return "superadmin/Plantilla_Vista_Ver_Medicamento";
                 } else {
+                    System.out.println("Se envio una nueva imagen, hay que actaulizar");
+                    System.out.println(foto1.getSize());
                     try {
                         InputStream fotoStream=foto1.getInputStream();
                         byte[] fotoBytes=fotoStream.readAllBytes();
