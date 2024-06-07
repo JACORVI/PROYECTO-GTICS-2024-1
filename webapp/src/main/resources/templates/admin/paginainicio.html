@@ -136,14 +136,14 @@
             <canvas id="myChart3"></canvas>
 
             <script th:inline="javascript">
-                var listaMedSoli15 = /*[[${listaMedSoli3}]]*/ [];
+                var listaMedSoli3 = /*[[${listaMedSoli3}]]*/ [];
                 /* Crear arrays para xValues y yValues */
                 var xValues = [];
                 var yValues = [];
                 var barColors = ["red", "green","blue","orange","brown"];
 
                 /* Recorrer la listaMedSoli15 y agregar los valores a los arrays */
-                listaMedSoli15.forEach(function(element) {
+                listaMedSoli3.forEach(function(element) {
                     xValues.push(element.medicamento);
                     yValues.push(element.cantidadSolicitada);
                 });

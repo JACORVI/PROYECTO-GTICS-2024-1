@@ -16,7 +16,6 @@
                 <input th:field="*{seguro}" type="hidden"/>
                 <input th:value="${0}" name="estado" type="hidden" />
                 <input th:value="${3}" name="rol.id" type="hidden" />
-                <input th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" name="fecha_creacion" type="hidden" />
                 <input th:value="${'Contrasena45'}" name="contrasena" type="hidden" />
                 <input th:value="*{'Pendiente'}" name ="estado_solicitud" type="hidden" />
                 <input th:field="*{motivo_rechazo}" type="hidden" />
