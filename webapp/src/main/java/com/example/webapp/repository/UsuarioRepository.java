@@ -75,7 +75,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE Usuario SET fecha_recuperacion = DATE_ADD(NOW(), INTERVAL 10 MINUTE), token_recuperacion = ?1 WHERE id_usuario = ?2", nativeQuery = true)
+    @Query(value = "UPDATE usuario SET fecha_recuperacion = DATE_ADD(NOW(), INTERVAL 10 MINUTE), token_recuperacion = ?1 WHERE id_usuario = ?2", nativeQuery = true)
     int actualizarFechaYTokenRecuperacion(String token, int idUsuario);
 
     @Query(value = "CALL SP_Validar_Token(?1, ?2)", nativeQuery = true)
@@ -83,13 +83,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE Usuario SET contrasena = ?1 , token_recuperacion = null, fecha_recuperacion=null , cuenta_activada=1  "
+    @Query(value = "UPDATE usuario SET contrasena = ?1 , token_recuperacion = null, fecha_recuperacion=null , cuenta_activada=1  "
             + "  WHERE id_usuario = ?2", nativeQuery = true)
     int actualizarPassword(String contrasena, int idUsuario);
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE Usuario SET contrasena = ?1 ,"
+    @Query(value = "UPDATE usuario SET contrasena = ?1 ,"
             + " token_recuperacion = null, fecha_recuperacion=null , cuenta_activada=1, estado=1  "
             + "  WHERE id_usuario = ?2", nativeQuery = true)
     int actualizarPasswordyEstado(String contrasena, int idUsuario);
