@@ -68,7 +68,8 @@ public class SuperadminController {
 
     @GetMapping(value = {"", "/"})
     public String Plantilla() {
-        return "superadmin/Plantilla";
+
+        return "redirect:/superadmin/Vista_Principal";
     }
 
     @GetMapping("/Registrar_Medicamento")
@@ -255,6 +256,10 @@ public class SuperadminController {
                 List<SedeHasMedicamentos> list = sedeHasMedicamentosRepository.findAll();
                 List<Sede> list1 = sedeRepository.findAll();
 
+                Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(medicamentos.getId());
+
+                Medicamentos medicamento = optMedicamento.get();
+
                 List<String> listaIndicador = new ArrayList<>();
 
                 for (Sede sede : list1) {
@@ -274,7 +279,7 @@ public class SuperadminController {
                 }
 
                 System.out.println(listaIndicador);
-                byte[] fotito = medicamentos.getFoto();
+                byte[] fotito = medicamento.getFoto();
                 String fotoBase = Base64.getEncoder().encodeToString(fotito);
 
                 model.addAttribute("fotoBase64", fotoBase);
