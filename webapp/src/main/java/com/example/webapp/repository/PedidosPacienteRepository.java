@@ -2,6 +2,7 @@ package com.example.webapp.repository;
 
 
 import com.example.webapp.entity.PedidosPaciente;
+import com.example.webapp.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,8 @@ import java.util.List;
 
 @Repository
 public interface PedidosPacienteRepository extends JpaRepository<PedidosPaciente, Integer> {
+    List<PedidosPaciente> findByUsuario(Usuario usuario);
+
     @Query(value = "select * from pedidos_paciente where tipo_de_pedido = ?1", nativeQuery = true)
     List<PedidosPaciente> buscarPedidosPorTipo(String tipo_de_pedido);
 
@@ -27,5 +30,9 @@ public interface PedidosPacienteRepository extends JpaRepository<PedidosPaciente
             "FROM gticsbd.pedidos_paciente \n" +
             "WHERE usuario_id_usuario = ?1 AND estado_del_pedido != 'Registrando' AND tipo_de_pedido = 'Pre-orden';", nativeQuery = true)
     List<String> pedidosPreorden(int usuid);
+
+    @Query(value = "SELECT numero_tracking\n" +
+            "FROM gticsbd.pedidos_paciente;", nativeQuery = true)
+    List<String> numerosDePedidosDely();
 
 }

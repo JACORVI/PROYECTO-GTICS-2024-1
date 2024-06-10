@@ -1,8 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-body{
-    background-color: #eeeeee;
-    font-family: 'Open Sans',serif
-}
 .card{
     position: relative;
     display: -webkit-box;
@@ -28,7 +24,7 @@ body{
     background-color: #fff;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1)
 }
-.track{
+.trackeador{
     position: relative;
     background-color: #ddd;
     height: 7px;
@@ -37,7 +33,7 @@ body{
     display: flex;margin-bottom: 60px;
     margin-top: 50px
 }
-.track .step{
+.trackeador .step{
     -webkit-box-flex: 1;
     -ms-flex-positive: 1;
     flex-grow: 1;width: 25%;
@@ -45,10 +41,10 @@ body{
     text-align: center;
     position: relative
 }
-.track .step.active:before{
+.trackeador .step.active:before{
     background: #FF5722
 }
-.track .step::before{
+.trackeador .step::before{
     height: 7px;
     position: absolute;
     content: "";
@@ -56,8 +52,8 @@ body{
     left: 0;
     top: 18px
 }
-.track .step.active .icon{
+.trackeador .step.active .icon{
     background: #ee5435;
     color: #fff
 }
-.track .icon{display: inline-block;width: 40px;height: 40px;line-height: 40px;position: relative;border-radius: 100%;background: #ddd}.track .step.active .text{font-weight: 400;color: #000}.track .text{display: block;margin-top: 7px}.itemside{position: relative;display: -webkit-box;display: -ms-flexbox;display: flex;width: 100%}.itemside .aside{position: relative;-ms-flex-negative: 0;flex-shrink: 0}.img-sm{width: 80px;height: 80px;padding: 7px}ul.row, ul.row-sm{list-style: none;padding: 0}.itemside .info{padding-left: 15px;padding-right: 7px}.itemside .title{display: block;margin-bottom: 5px;color: #212529}p{margin-top: 0;margin-bottom: 1rem}.btn-warning{color: #ffffff;background-color: #ee5435;border-color: #ee5435;border-radius: 1px}.btn-warning:hover{color: #ffffff;background-color: #ff2b00;border-color: #ff2b00;border-radius: 1px}
+.trackeador .icon{display: inline-block;width: 40px;height: 40px;line-height: 40px;position: relative;border-radius: 100%;background: #ddd}.track .step.active .text{font-weight: 400;color: #000}.track .text{display: block;margin-top: 7px}.itemside{position: relative;display: -webkit-box;display: -ms-flexbox;display: flex;width: 100%}.itemside .aside{position: relative;-ms-flex-negative: 0;flex-shrink: 0}.img-sm{width: 80px;height: 80px;padding: 7px}ul.row, ul.row-sm{list-style: none;padding: 0}.itemside .info{padding-left: 15px;padding-right: 7px}.itemside .title{display: block;margin-bottom: 5px;color: #212529}p{margin-top: 0;margin-bottom: 1rem}.btn-warning{color: #ffffff;background-color: #ee5435;border-color: #ee5435;border-radius: 1px}.btn-warning:hover{color: #ffffff;background-color: #ff2b00;border-color: #ff2b00;border-radius: 1px}

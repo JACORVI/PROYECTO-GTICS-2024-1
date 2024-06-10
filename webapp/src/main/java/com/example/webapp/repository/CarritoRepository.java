@@ -12,11 +12,25 @@ import java.util.List;
 
 @Repository
 public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
-
     @Query(value = "SELECT *\n" +
             "FROM gticsbd.carrito\n" +
             "WHERE estado_de_compra != 'Registrado';", nativeQuery = true)
     List<Carrito> listarCarrito();
+
+    @Query(value = "SELECT *\n" +
+            "FROM gticsbd.carrito\n" +
+            "WHERE estado_de_compra = 'Comprando' and usuario_id_usuario = ?1", nativeQuery = true)
+    List<Carrito> carritoPorId(int id);
+
+    @Query(value = "SELECT gticsbd.carrito.estado_de_compra\n" +
+            "FROM gticsbd.usuario\n" +
+            "JOIN gticsbd.carrito ON gticsbd.usuario.id_usuario = gticsbd.carrito.usuario_id_usuario\n" +
+            "WHERE usuario.id_usuario = ?1", nativeQuery = true)
+    List<String> estadosDeCompraPorUsuarioId(int id);
+
+    @Query(value = "SELECT numero_pedido\n" +
+            "FROM gticsbd.carrito", nativeQuery = true)
+    List<String> numerosDePedidosCarrito();
 
     @Query(value = "select * from carrito where medicamentos_id_medicamentos=?1", nativeQuery = true)
     List<Carrito> buscarDuplicados(int id);
@@ -42,11 +56,6 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
             "VALUES(?1, ?2, ?3, ?4, ?5)")
     void AnadirAlCarrito(int idMedicamentos, int idUsuario, int cantidad, String numpedido, String estadocompra);
 
-    @Query(value = "SELECT gticsbd.carrito.estado_de_compra\n" +
-            "FROM gticsbd.usuario\n" +
-            "JOIN gticsbd.carrito ON gticsbd.usuario.id_usuario = gticsbd.carrito.usuario_id_usuario\n" +
-            "WHERE usuario.id_usuario = ?1", nativeQuery = true)
-    List<String> estadosDeCompraPorUsuarioId(int id);
 
     @Query(value = "SELECT gticsbd.carrito.numero_pedido\n" +
             "FROM gticsbd.carrito\n" +
@@ -225,9 +234,9 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
     @Transactional
     @Modifying
     @Query(value = "DELETE FROM gticsbd.pedidos_reposicion\n" +
-            "WHERE id_pedidos_reposicion = ?1\n" +
+            "WHERE usuario_id_usuario = ?1\n" +
             "AND estado_de_reposicion = 'Solicitado';", nativeQuery = true)
-    void eliminarPedidoRepo(int id);
+    void eliminarPedidoRepo(int usuid);
 
     @Transactional
     @Modifying

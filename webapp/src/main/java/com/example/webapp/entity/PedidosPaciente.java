@@ -3,11 +3,7 @@ package com.example.webapp.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
-
-import java.sql.Date;
-import java.sql.Time;
 
 @Entity
 @Getter
@@ -19,28 +15,22 @@ public class PedidosPaciente {
     @Column(name="idpedidos_paciente")
     private int id;
     @Column(nullable = false)
-    @NotBlank(message = "El nombre no puede ser nulo")
-    @Size(max = 45, message = "El nombre no puede tener más de 45 caracteres")
     private String nombre_paciente;
-    @NotBlank(message = "El apellido no puede ser nulo")
-    @Size(max = 45, message = "El apellido no puede tener más de 45 caracteres")
     private String apellido_paciente;
     private String medico_que_atiende;
+    @NotNull(message = "Debe seleccionar una opción")
     private String seguro;
-    @NotBlank(message = "La dirección no puede ser nula")
+    @NotBlank(message = "La dirección no puede quedar vacia")
     @Size(max = 90, message = "La dirección no puede tener más de 90 caracteres")
     private String direccion;
-    @NotBlank(message = "El distrito no debe ser nulo")
+    @NotNull(message = "Debe seleccionar una opción")
     private String distrito;
     @Positive(message = "El número de celular debe ser positivo")
     @Max(value = 1000000000, message = "El número de celular debe tener 9 dígitos")
     @Min(value = 899999999, message = "El número de celular debe empezar con el dígito 9")
     private int telefono;
-    @Positive(message = "El número de DNI debe ser positivo")
-    @Max(value = 100000000, message = "El número de DNI debe tener 8 dígitos")
-    @Min(value = 9999999, message = "El número de DNI debe tener 8 dígitos")
     private int dni;
-    @NotBlank(message = "La hora de entrega no puede ser nula")
+    @NotBlank(message = "La hora de entrega no puede quedar vacia")
     private String hora_de_entrega;
     private Double costo_total;
     private String tipo_de_pedido;

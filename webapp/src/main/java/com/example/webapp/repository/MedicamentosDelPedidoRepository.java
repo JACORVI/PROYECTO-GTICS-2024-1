@@ -11,6 +11,6 @@ import java.util.List;
 public interface MedicamentosDelPedidoRepository extends JpaRepository<MedicamentosDelPedido, Integer>{
     @Query(value = "SELECT * \n" +
             "FROM gticsbd.medicamentos_del_pedido \n" +
-            "WHERE pedidos_paciente_idpedidos_paciente = ?1 AND pedidos_paciente_usuario_id_usuario = 29", nativeQuery = true)
+            "WHERE pedidos_paciente_idpedidos_paciente = ?1", nativeQuery = true)
     List<MedicamentosDelPedido> listaMedicamentosDely(int idpedido);
 }

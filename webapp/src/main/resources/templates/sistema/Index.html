@@ -33,8 +33,7 @@
             </div>
             <div class="input-field">
                 <i class="fas fa-lock"></i>
-                <input  type="password" placeholder="Contraseña" id="login-password" name="password">
-                <div class="error" id="password-error"></div>
+                <input  type="password" placeholder="Contraseña" name="password">
             </div>
             <button type="button" class="forgot-pass">Olvidaste tu contraseña</button>
             <input type="submit" value="Login" class="btn" id="login-button">
@@ -205,8 +204,8 @@
             if (!nombreUsuarioValue) {
                 nombreUsuarioError.textContent = "Campo vacío";
                 nombreUsuarioError.classList.add("error-message");
-            } else if (nombreUsuarioValue.length > 16) {
-                nombreUsuarioError.textContent = "Máx 16 letras";
+            } else if (nombreUsuarioValue.length > 40) {
+                nombreUsuarioError.textContent = "Máx 40 letras";
                 nombreUsuarioError.classList.add("error-message");
             } else if (!/^[A-Za-z\u00C0-\u00FF\s]*$/.test(nombreUsuarioValue)) {
                 nombreUsuarioError.textContent = "Caracter inválido";
@@ -227,8 +226,8 @@
             if (!apellidosUsuarioValue) {
                 apellidosUsuarioError.textContent = "Campo vacío";
                 apellidosUsuarioError.classList.add("error-message");
-            } else if (apellidosUsuarioValue.length > 18) {
-                apellidosUsuarioError.textContent = "Máx 18 letras";
+            } else if (apellidosUsuarioValue.length > 40) {
+                apellidosUsuarioError.textContent = "Máx 40 letras";
                 apellidosUsuarioError.classList.add("error-message");
             } else if (!/^[A-Za-z\u00C0-\u00FF\s]*$/.test(apellidosUsuarioValue)) {
                 apellidosUsuarioError.textContent = "Caracteres inválidos";
@@ -271,8 +270,8 @@
             if (!correoRegistroValue) {
                 correoRegistroError.textContent = "Campo vacío";
                 correoRegistroError.classList.add("error-message");
-            } else if (correoRegistroValue.length > 21) {
-                correoRegistroError.textContent = "Máximo 21 caracteres";
+            } else if (correoRegistroValue.length > 30) {
+                correoRegistroError.textContent = "Máximo 30 caracteres";
                 correoRegistroError.classList.add("error-message");
             } else if (regexCorreoRegistro.test(correoRegistroValue)) {
                 correoRegistroError.textContent = "";
@@ -318,8 +317,8 @@
                 distritoRegistroError.textContent = "Solo se permiten letras y espacios";
                 distritoRegistroError.style.color = "red";
                 distritoRegistroError.classList.add("error-message");
-            } else if (distritoRegistroValue.length > 15) {
-                distritoRegistroError.textContent = "Máximo 15 caracteres";
+            } else if (distritoRegistroValue.length > 40) {
+                distritoRegistroError.textContent = "Máximo 40 caracteres";
                 distritoRegistroError.style.color = "red";
                 distritoRegistroError.classList.add("error-message");
             } else {

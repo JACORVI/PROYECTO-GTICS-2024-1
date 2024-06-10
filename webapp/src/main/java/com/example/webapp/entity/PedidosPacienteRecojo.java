@@ -1,7 +1,10 @@
 package com.example.webapp.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,21 +18,16 @@ public class PedidosPacienteRecojo {
     @Column(name="idpedidos_paciente_recojo")
     private int id;
     @Column(nullable = false)
-    @NotBlank(message = "El nombre no puede ser nulo")
-    @Size(max = 45, message = "El nombre no puede tener más de 45 caracteres")
     private String nombre_paciente;
-    @NotBlank(message = "El apellido no puede ser nulo")
-    @Size(max = 45, message = "El apellido no puede tener más de 45 caracteres")
     private String apellido_paciente;
+    @NotNull(message = "Debe seleccionar una opción")
     private String medico_que_atiende;
+    @NotNull(message = "Debe seleccionar una opción")
     private String seguro;
     @Positive(message = "El número de celular debe ser positivo")
     @Max(value = 1000000000, message = "El número de celular debe tener 9 dígitos")
     @Min(value = 899999999, message = "El número de celular debe empezar con el dígito 9")
     private int telefono;
-    @Positive(message = "El número de DNI debe ser positivo")
-    @Max(value = 100000000, message = "El número de DNI debe tener 8 dígitos")
-    @Min(value = 9999999, message = "El número de DNI debe tener 8 dígitos")
     private int dni;
     private Double costo_total;
     private String tipo_de_pedido;
@@ -40,7 +38,9 @@ public class PedidosPacienteRecojo {
     private String fecha_validacion;
     private String estado_del_pedido;
     private String numero_tracking;
+    @NotNull(message = "Debe seleccionar una opción")
     private String aviso_vencimiento;
+    @NotNull(message = "Debe seleccionar una opción")
     private String sede_de_recojo;
     @ManyToOne
     @JoinColumn(name = "usuario_id_usuario")
