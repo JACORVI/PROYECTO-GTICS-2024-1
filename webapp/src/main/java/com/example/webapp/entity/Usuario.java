@@ -22,30 +22,23 @@ public class Usuario implements Serializable {
     @Column(name = "id_usuario")
     private int id;
     @Column(nullable = false)
-
-    @NotBlank
-    @Size(max = 45, message = "Los apellidos no puede tener más de 45 caracteres")
     private String nombres;
-    @NotBlank
-    @Size(max = 45, message = "Los apellidos no puede tener más de 45 caracteres")
     private String apellidos;
 
-    @NotBlank
+    @NotBlank(message = "El correo no puede quedar vacio")
     @Size(max = 45, message = "El correo no puede tener más de 45 caracteres")
     private String correo;
 
-    @Digits(integer = 8, fraction = 0, message = "El DNI debe tener exactamente 8 dígitos")
-    @Positive(message = "El DNI debe ser un número positivo")
     private int dni;
 
-    @NotBlank
-    @Size(max = 45, message = "El código de colegiatura no puede tener más de 45 caracteres")
     private String codigo_colegiatura;
 
-    @NotBlank
-    @Size(max = 45, message = "El Distrito no puede tener más de 45 caracteres")
+    @NotNull(message = "Debe seleccionar un distrito")
     private String distrito;
+
+    @NotNull(message = "Debe seleccionar una opción")
     private String seguro;
+
     private int estado;
     private String contrasena;
     private Date fecha_creacion;
@@ -53,15 +46,15 @@ public class Usuario implements Serializable {
     private String motivo_rechazo;
     private int borrado_logico;
 
+    @NotBlank(message = "La dirección no puede quedar vacia")
+    @Size(max = 90, message = "La dirección no puede tener más de 90 caracteres")
     private String direccion;
+
     private String imagen;
     private String referencia;
     private String telefono;
-
     private int cuenta_activada;
-
     private Date fecha_recuperacion;
-
     private String token_recuperacion;
 
     @ManyToOne

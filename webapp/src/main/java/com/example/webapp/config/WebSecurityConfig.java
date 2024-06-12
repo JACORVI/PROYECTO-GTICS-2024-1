@@ -81,10 +81,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/submitLoginForm").hasAnyAuthority("Superadmin")
                 .requestMatchers("/farmacista", "/farmacista/**").hasAnyAuthority("Farmacista")
                 .requestMatchers("/admin", "/admin/**").hasAnyAuthority("Admin")
-                .requestMatchers("/login", "/registro/usuario", "/assets/**",
-                        "/reestablecer/**").
-                permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         http.logout()
                 .logoutSuccessUrl("/login")

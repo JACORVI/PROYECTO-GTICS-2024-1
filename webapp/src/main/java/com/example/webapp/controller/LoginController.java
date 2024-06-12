@@ -1,10 +1,13 @@
 package com.example.webapp.controller;
 
+import com.example.webapp.dao.DataDao;
+import com.example.webapp.entity.Data;
 import com.example.webapp.entity.Roles;
 import com.example.webapp.entity.Usuario;
 import com.example.webapp.repository.UsuarioRepository;
 import com.example.webapp.util.Correo;
 import com.example.webapp.util.Utileria;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +35,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class LoginController {
+
+    final DataDao dataDao;
+
+    public LoginController(DataDao dataDao) {
+        this.dataDao = dataDao;
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
@@ -164,23 +173,86 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String loginWindow(Model model
-    ) {
-        Usuario usuario = new Usuario();
-        Roles rol = new Roles();
-        rol.setId(4);
-        usuario.setCodigo_colegiatura("Sin-Codigo");
-        usuario.setRol(rol);
-
-        model.addAttribute("usuario", usuario);
+    public String loginWindow(Authentication auth) {
+        try {
+            Usuario usuario = usuarioRepository.findByCorreo(auth.getName());
+            String rol = usuario.getRol().getNombre();
+            if (rol.equals("Paciente")) {
+                return "redirect:/paciente/inicio";
+            }
+            if (rol.equals("Superadmin")) {
+                return "redirect:/superadmin/";
+            }
+            if (rol.equals("Farmacista")) {
+                return "redirect:/farmacista/nuevopedido";
+            }
+            if (rol.equals("Admin")) {
+                return "redirect:/admin/medicamentos";
+            }
+        }
+        catch (Exception ex) {
+            return "sistema/Index";
+        }
         return "sistema/Index";
     }
 
+    @PostMapping("/validarDNI")
+    public String validarPersona(@ModelAttribute("dni") String dni, RedirectAttributes redirectAttributes, Model model) {
+        try {
+            Data data = dataDao.buscarPorDni(dni);
+            return "redirect:/registro?dni=" + dni;
+        }
+        catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "El DNI ingresado no es valido.");
+            System.out.println(e.getMessage());
+            return "redirect:/login";
+        }
+    }
+
+
+    @GetMapping("/registro")
+    public String registerWindow(@RequestParam("dni") String dni, RedirectAttributes redirectAttributes, Model model) {
+        try {
+            Data data = dataDao.buscarPorDni(dni);
+
+            //NOMBRES -> Nombres
+            String nombreCompleto = data.getNombres();
+            String[] palabras1 = nombreCompleto.split(" ");
+            StringBuilder nombreFormateado = new StringBuilder();
+            for (String palabra : palabras1) {
+                if (!nombreFormateado.toString().isEmpty()) {
+                    nombreFormateado.append(" ");
+                }
+                nombreFormateado.append(palabra.substring(0, 1).toUpperCase())
+                        .append(palabra.substring(1).toLowerCase());
+            }
+
+            //APELLIDOS -> Apellidos
+            String apellidoCompleto = data.getApellido_paterno() + " " + data.getApellido_materno();
+            String[] palabras2 = apellidoCompleto.split(" ");
+            StringBuilder apellidoFormateado = new StringBuilder();
+            for (String palabra : palabras2) {
+                if (!apellidoFormateado.toString().isEmpty()) {
+                    apellidoFormateado.append(" ");
+                }
+                apellidoFormateado.append(palabra.substring(0, 1).toUpperCase())
+                        .append(palabra.substring(1).toLowerCase());
+            }
+
+            model.addAttribute("nombresValidados", nombreFormateado.toString());
+            model.addAttribute("apellidosValidados", apellidoFormateado.toString());
+            model.addAttribute("dniValidado", data.getDni());
+            return "sistema/FormRegistro";
+        }
+        catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "El DNI ingresado no es valido.");
+            return "redirect:/login";
+        }
+    }
+
     @PostMapping("/registro/usuario")
-    public String registrarUsuario(@ModelAttribute("usuario")
-                                   @Valid Usuario usuario,
-                                   BindingResult bindingResult,
-                                   RedirectAttributes redirectAttributes
+    public String registrarUsuario(@ModelAttribute("usuario") @Valid Usuario usuario,
+                                   BindingResult bindingResult, RedirectAttributes redirectAttributes
     ) {
         Roles rol = new Roles();
         rol.setId(4); // ROL PACIENTE
@@ -272,4 +344,6 @@ public class LoginController {
     public Usuario usuario() {
         return new Usuario();
     }
+
+
 }

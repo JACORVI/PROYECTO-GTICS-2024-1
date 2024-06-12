@@ -70,7 +70,7 @@ public class PacienteController {
             lleno = 0;
         }
         model.addAttribute("lleno", lleno);
-        return "/paciente/inicio";
+        return "paciente/inicio";
     }
     @GetMapping("/paciente/generarPreorden")
     public String registrarPreorden(@RequestParam("id") int id, Model model, Authentication authentication){
