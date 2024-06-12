@@ -172,7 +172,7 @@ public class LoginController {
         return response;
     }
 
-    @GetMapping("/login")
+    @GetMapping(value = {"/login", "/", ""})
     public String loginWindow(Authentication auth) {
         try {
             Usuario usuario = usuarioRepository.findByCorreo(auth.getName());
