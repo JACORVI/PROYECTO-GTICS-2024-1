@@ -110,13 +110,55 @@
                             </td>
 
                             <td>
-                                <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado_solicitud() == 'Pendiente'}">
+                                <!--<div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado_solicitud() == 'Pendiente'}">
                                     <div class="text-center">
                                         <a th:href="@{'/superadmin/Rechazar_Administrador'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-danger">
                                             <i class=""></i> Rechazar
                                         </a>
                                     </div>
+                                </div>!-->
+                                <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado_solicitud() == 'Pendiente'}">
+                                    <div class="text-center">
+                                        <div class="text-center">
+                                            <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalRechazo' + ${Usuarios.getId()}">Rechazar</a>
+                                        </div>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" th:id="'modalRechazo' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalLabel">¿Seguro que desea rechazar a este farmacista?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'formRechazo' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/Rechazar_Administrador'}" onsubmit="return validarMotivoRechazo('${Usuarios.getId()}')">
+                                                        <input type="hidden" th:value="${Usuarios.getId()}" name="id_usuario" />
+                                                        <div class="form-floating mb-3">
+                                                            <input type="text" class="form-control" placeholder="Ingrese motivo de rechazo" name="textoRechazoNuevo" th:id="'textoRechazoNuevo' + ${Usuarios.getId()}">
+                                                            <label>Ingrese Motivo de Rechazo</label>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'formRechazo' + ${Usuarios.getId()}">Rechazar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
+                            <script>
+                                function validarMotivoRechazo(userId) {
+                                    var motivo = document.getElementById('textoRechazoNuevo' + userId).value;
+                                    if (motivo.trim() === "") {
+                                        alert("Debe ingresar un motivo de rechazo.");
+                                        return false; // Evita el envío del formulario
+                                    }
+                                    return true; // Permite el envío del formulario
+                                }
+                            </script>
                                 <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado_solicitud() == 'Rechazado'}">
                                     <div class="text-center">
                                         <a class="btn btn-secondary">

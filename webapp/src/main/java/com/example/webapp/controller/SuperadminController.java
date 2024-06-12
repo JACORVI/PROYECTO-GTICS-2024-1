@@ -558,8 +558,8 @@ public class SuperadminController {
     }
 
     //Eliminar Medicamento
-    @GetMapping("/Eliminar_Medicamento")
-    public String borrarTransportista(@RequestParam("id") int id) {
+    @PostMapping("/Eliminar_Medicamento")
+    public String borrarTransportista(@RequestParam("id_medicamento") int id) {
 
         Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(id);
 
@@ -955,8 +955,8 @@ public class SuperadminController {
     }
 
 
-    @GetMapping("/Eliminar_Usuario")
-    public String borrarDoctor(@RequestParam("id") int id) {
+    @PostMapping("/Eliminar_Usuario")
+    public String borrarDoctor(@RequestParam("id_usuario") int id) {
 
         Optional<Usuario> optUsuario = usuarioRepository.findById(id);
 
@@ -964,7 +964,6 @@ public class SuperadminController {
             usuarioRepository.borradoLogico(1,id);
         }
         return "redirect:/superadmin/Vista_Principal";
-
     }
 
     @GetMapping("/Asignar_Sede")
@@ -1602,9 +1601,11 @@ public class SuperadminController {
 
         return "redirect:/superadmin/Estado_Solicitudes_Farmacistas";
     }
-    @GetMapping("/Rechazar_Administrador")
-    public String Rechazar_Administrador(@RequestParam("id") int id) {
-        usuarioRepository.rechazarAdministrador("Rechazado",id);
+    @PostMapping("/Rechazar_Administrador")
+    public String Rechazar_Administrador(@RequestParam("id_usuario") int id,@RequestParam("textoRechazoNuevo") String textoRechazo) {
+        System.out.println(id);
+        System.out.println(textoRechazo);
+        usuarioRepository.rechazarAdministrador("Rechazado",textoRechazo,id);
 
         return "redirect:/superadmin/Estado_Solicitudes_Farmacistas";
     }

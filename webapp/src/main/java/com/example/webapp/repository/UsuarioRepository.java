@@ -50,13 +50,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true,value = "update usuario set estado_solicitud = ?1 where id_usuario = ?2")
+    @Query(nativeQuery = true,value = "update usuario set estado_solicitud = ?1 , estado = 1 where id_usuario = ?2")
     void aceptarAdministrador(String valor, int id);
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true,value = "update usuario set estado_solicitud = ?1 where id_usuario = ?2")
-    void rechazarAdministrador(String valor, int id);
+    @Query(nativeQuery = true,value = "update usuario set estado_solicitud = ?1, motivo_rechazo = ?2 where id_usuario = ?3")
+    void rechazarAdministrador(String valor, String motivo_rechazo, int id);
 
     @Query(value = "select * from usuario where rol = ?1 and borrado_logico = ?2 order by fecha_creacion", nativeQuery = true)
     Usuario buscarSuperadmin(String rol,int borrado_logico);

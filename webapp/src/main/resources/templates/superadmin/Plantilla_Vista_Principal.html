@@ -126,32 +126,28 @@
                             </td>
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
                                     <div class="text-center">
-                                        <a th:href="@{'/superadmin/Eliminar_Usuario'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-danger">
-                                            <i class=""></i> Eliminar
-                                        </a>
+                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Eliminar</a>
                                     </div>
+
                                     <!-- Modal -->
-                                </div>
-                                <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <!-- Aquí puedes agregar el contenido del formulario -->
-                                                <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&id=<%=administrador.getIdUsuario()%>">
-                                                    <div class="mb-3">
-                                                        <label for="motivoDespido">Ingrese motivo de despido</label>
-                                                        <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
-                                                    </div>
-                                                    <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
-                                                    <button type="submit" class="btn btn-primary">Continuar</button>
-                                                </form>
+                                    <div class="modal fade" th:id="'modalEliminar' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalEliminarLabel">¿Seguro que desea eliminar este usuario?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'formEliminar' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/Eliminar_Usuario'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}">Eliminar</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -238,32 +234,28 @@
                             </td>
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
                                     <div class="text-center">
-                                        <a th:href="@{'/superadmin/Eliminar_Usuario'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-danger">
-                                            <i class=""></i> Eliminar
-                                        </a>
+                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Eliminar</a>
                                     </div>
+
                                     <!-- Modal -->
-                                </div>
-                                <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <!-- Aquí puedes agregar el contenido del formulario -->
-                                                <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&id=<%=administrador.getIdUsuario()%>">
-                                                    <div class="mb-3">
-                                                        <label for="motivoDespido">Ingrese motivo de despido</label>
-                                                        <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
-                                                    </div>
-                                                    <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
-                                                    <button type="submit" class="btn btn-primary">Continuar</button>
-                                                </form>
+                                    <div class="modal fade" th:id="'modalEliminar' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalEliminarLabel">¿Seguro que desea eliminar este usuario?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'formEliminar' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/Eliminar_Usuario'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}">Eliminar</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -376,32 +368,28 @@
                             </td>
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
                                     <div class="text-center">
-                                        <a th:href="@{'/superadmin/Eliminar_Usuario'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-danger">
-                                            <i class=""></i> Eliminar
-                                        </a>
+                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Eliminar</a>
                                     </div>
+
                                     <!-- Modal -->
-                                </div>
-                                <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <!-- Aquí puedes agregar el contenido del formulario -->
-                                                <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&id=<%=administrador.getIdUsuario()%>">
-                                                    <div class="mb-3">
-                                                        <label for="motivoDespido">Ingrese motivo de despido</label>
-                                                        <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
-                                                    </div>
-                                                    <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
-                                                    <button type="submit" class="btn btn-primary">Continuar</button>
-                                                </form>
+                                    <div class="modal fade" th:id="'modalEliminar' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalEliminarLabel">¿Seguro que desea eliminar este usuario?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'formEliminar' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/Eliminar_Usuario'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}">Eliminar</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -512,33 +500,37 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="card-footer pt-1 br-3 border-top-0">
+                                <!--<div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
                                         <a th:href="'/superadmin/Eliminar_Usuario'+ '?id=' + ${Usuarios.getId()}" class="btn btn-danger">
                                             <i class=""></i> Eliminar
                                         </a>
                                     </div>
+
+                                </div>-->
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
+                                    <div class="text-center">
+                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Eliminar</a>
+                                    </div>
+
                                     <!-- Modal -->
-                                </div>
-                                <div class="modal fade" id="crearListaModal" tabindex="-1" role="dialog" aria-labelledby="crearListaModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="crearListaModalLabel">Despido</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <!-- Aquí puedes agregar el contenido del formulario -->
-                                                <form method="POST" action="<%=request.getContextPath()%>/AdministradoresServlet?p=despedir&id=<%=administrador.getIdUsuario()%>">
-                                                    <div class="mb-3">
-                                                        <label for="motivoDespido">Ingrese motivo de despido</label>
-                                                        <input type="text" class="form-control" name="motivoDespido" id="motivoDespido">
-                                                    </div>
-                                                    <a class="btn btn-danger" href="<%=request.getContextPath()%>/AdministradoresServlet">Cancelar</a>
-                                                    <button type="submit" class="btn btn-primary">Continuar</button>
-                                                </form>
+                                    <div class="modal fade" th:id="'modalEliminar' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalEliminarLabel">¿Seguro que desea eliminar este usuario?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'formEliminar' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/Eliminar_Usuario'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}">Eliminar</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
