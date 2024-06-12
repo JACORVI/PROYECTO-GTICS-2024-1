@@ -56,23 +56,22 @@
                                     <div class="col-sm-7">
                                         <div class="single-welcome-hero">
                                             <div class="welcome-hero-txt">
-                                                <h4>Dato Curioso</h4>
-                                                <h2>cloth covered accent chair</h2>
+                                                <h4>DATO CURIOSO</h4>
+                                                <h2>¿Sabías que la vitamina C es un verdadero héroe para tu salud?</h2>
                                                 <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiuiana smod tempor  ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
+                                                    No solo refuerza tu sistema inmunológico, sino que también mejora la absorción del hierro de los vegetales que comes. Además, ¿te cuento un secreto? Los marineros del siglo XVIII siempre llevaban cítricos a bordo para evitar el temido escorbuto, una enfermedad causada por la falta de esta vitamina. Así que, ¡haz como los marineros y asegura tu dosis diaria de vitamina C!
                                                 </p>
                                                 <div class="packages-price">
                                                     <p>
-                                                        $ 399.00
-                                                        <del>$ 499.00</del>
+                                                        S/ 15.99
                                                     </p>
                                                 </div>
                                                 <button class="btn-cart welcome-add-cart" onclick="window.location.href='#'">
                                                     <span class="lnr lnr-plus-circle"></span>
-                                                    add <span>to</span> cart
+                                                    añadir <span>al</span> carrito
                                                 </button>
                                                 <button class="btn-cart welcome-add-cart welcome-more-info" onclick="window.location.href='#'">
-                                                    more info
+                                                    mas información
                                                 </button>
                                             </div><!--/.welcome-hero-txt-->
                                         </div><!--/.single-welcome-hero-->
@@ -99,23 +98,24 @@
                                     <div class="col-sm-7">
                                         <div class="single-welcome-hero">
                                             <div class="welcome-hero-txt">
-                                                <h4>great design collection</h4>
-                                                <h2>mapple wood accent chair</h2>
+                                                <h4>GRAN OFERTA</h4>
+                                                <h2>Babylac Pro 3</h2>
                                                 <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiuiana smod tempor  ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
+                                                    ¡Oferta por fin de mes por esta gran mezcla láctea para niños en edad crecimiento!
+                                                    <br>Única enriquecida con Lactoferrina.
                                                 </p>
                                                 <div class="packages-price">
                                                     <p>
-                                                        $ 199.00
-                                                        <del>$ 299.00</del>
+                                                        S/ 109.99
+                                                        <del>$ 129.99</del>
                                                     </p>
                                                 </div>
                                                 <button class="btn-cart welcome-add-cart" onclick="window.location.href='#'">
                                                     <span class="lnr lnr-plus-circle"></span>
-                                                    add <span>to</span> cart
+                                                    añadir <span>al</span> carrito
                                                 </button>
                                                 <button class="btn-cart welcome-add-cart welcome-more-info" onclick="window.location.href='#'">
-                                                    more info
+                                                    mas información
                                                 </button>
                                             </div><!--/.welcome-hero-txt-->
                                         </div><!--/.single-welcome-hero-->
@@ -142,23 +142,22 @@
                                     <div class="col-sm-7">
                                         <div class="single-welcome-hero">
                                             <div class="welcome-hero-txt">
-                                                <h4>great design collection</h4>
-                                                <h2>valvet accent arm chair</h2>
+                                                <h4>VIDA SALUDABLE</h4>
+                                                <h2>Proteina WHEY - Gold Standard</h2>
                                                 <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiuiana smod tempor  ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
+                                                    ¿Estás listo para ver resultados reales y maximizar tu potencial? ¡Prueba nuestra proteína Whey y siente la diferencia en tu rendimiento y recuperación! ¡Vamos, tu mejor versión te está esperando!
                                                 </p>
                                                 <div class="packages-price">
                                                     <p>
-                                                        $ 299.00
-                                                        <del>$ 399.00</del>
+                                                        S/ 299.99
                                                     </p>
                                                 </div>
                                                 <button class="btn-cart welcome-add-cart" onclick="window.location.href='#'">
                                                     <span class="lnr lnr-plus-circle"></span>
-                                                    add <span>to</span> cart
+                                                    añadir <span>al</span> carrito
                                                 </button>
                                                 <button class="btn-cart welcome-add-cart welcome-more-info" onclick="window.location.href='#'">
-                                                    more info
+                                                    mas información
                                                 </button>
                                             </div><!--/.welcome-hero-txt-->
                                         </div><!--/.single-welcome-hero-->
@@ -191,179 +190,21 @@
             </div><!--/.section-header-->
             <div class="new-arrivals-content">
                 <div class="row">
-                    <div class="col-md-3 col-sm-4">
-                        <div class="single-new-arrival">
-                            <div class="single-new-arrival-bg">
-                                <img src="assets/images/collection/arrivals1.png" alt="new-arrivals images">
-                                <div class="single-new-arrival-bg-overlay"></div>
-                                <div class="sale bg-1">
-                                    <p>sale</p>
+                    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" >
+                        <div class="contenido" th:each="medicamentos : ${ultimosMedicamentos}" >
+                            <div class="single-new-arrival">
+                                <div class="single-new-arrival-bg">
+                                    <img th:src="@{/assets/paciente/img/medicamento.avif}" alt="new-arrivals images">
+                                    <div class="single-new-arrival-bg-overlay"></div>
+                                    <div class="new-arrival-cart">
+                                        <p class="arrival-review pull-right">
+                                            <a href="#"><span class="lnr lnr-frame-expand"></span></a>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="new-arrival-cart">
-                                    <p>
-                                        <span class="lnr lnr-cart"></span>
-                                        <a href="#">add <span>to </span> cart</a>
-                                    </p>
-                                    <p class="arrival-review pull-right">
-                                        <span class="lnr lnr-heart"></span>
-                                        <span class="lnr lnr-frame-expand"></span>
-                                    </p>
-                                </div>
+                                <h4><a href="#" th:text="${medicamentos.nombre}"></a></h4>
+                                <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
                             </div>
-                            <h4><a href="#">wooden chair</a></h4>
-                            <p class="arrival-product-price">$65.00</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-4">
-                        <div class="single-new-arrival">
-                            <div class="single-new-arrival-bg">
-                                <img src="assets/images/collection/arrivals2.png" alt="new-arrivals images">
-                                <div class="single-new-arrival-bg-overlay"></div>
-                                <div class="sale bg-2">
-                                    <p>sale</p>
-                                </div>
-                                <div class="new-arrival-cart">
-                                    <p>
-                                        <span class="lnr lnr-cart"></span>
-                                        <a href="#">add <span>to </span> cart</a>
-                                    </p>
-                                    <p class="arrival-review pull-right">
-                                        <span class="lnr lnr-heart"></span>
-                                        <span class="lnr lnr-frame-expand"></span>
-                                    </p>
-                                </div>
-                            </div>
-                            <h4><a href="#">single armchair</a></h4>
-                            <p class="arrival-product-price">$80.00</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-4">
-                        <div class="single-new-arrival">
-                            <div class="single-new-arrival-bg">
-                                <img src="assets/images/collection/arrivals3.png" alt="new-arrivals images">
-                                <div class="single-new-arrival-bg-overlay"></div>
-                                <div class="new-arrival-cart">
-                                    <p>
-                                        <span class="lnr lnr-cart"></span>
-                                        <a href="#">add <span>to </span> cart</a>
-                                    </p>
-                                    <p class="arrival-review pull-right">
-                                        <span class="lnr lnr-heart"></span>
-                                        <span class="lnr lnr-frame-expand"></span>
-                                    </p>
-                                </div>
-                            </div>
-                            <h4><a href="#">wooden armchair</a></h4>
-                            <p class="arrival-product-price">$40.00</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-4">
-                        <div class="single-new-arrival">
-                            <div class="single-new-arrival-bg">
-                                <img src="assets/images/collection/arrivals4.png" alt="new-arrivals images">
-                                <div class="single-new-arrival-bg-overlay"></div>
-                                <div class="sale bg-1">
-                                    <p>sale</p>
-                                </div>
-                                <div class="new-arrival-cart">
-                                    <p>
-                                        <span class="lnr lnr-cart"></span>
-                                        <a href="#">add <span>to </span> cart</a>
-                                    </p>
-                                    <p class="arrival-review pull-right">
-                                        <span class="lnr lnr-heart"></span>
-                                        <span class="lnr lnr-frame-expand"></span>
-                                    </p>
-                                </div>
-                            </div>
-                            <h4><a href="#">stylish chair</a></h4>
-                            <p class="arrival-product-price">$100.00</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-4">
-                        <div class="single-new-arrival">
-                            <div class="single-new-arrival-bg">
-                                <img src="assets/images/collection/arrivals5.png" alt="new-arrivals images">
-                                <div class="single-new-arrival-bg-overlay"></div>
-                                <div class="new-arrival-cart">
-                                    <p>
-                                        <span class="lnr lnr-cart"></span>
-                                        <a href="#">add <span>to </span> cart</a>
-                                    </p>
-                                    <p class="arrival-review pull-right">
-                                        <span class="lnr lnr-heart"></span>
-                                        <span class="lnr lnr-frame-expand"></span>
-                                    </p>
-                                </div>
-                            </div>
-                            <h4><a href="#">modern chair</a></h4>
-                            <p class="arrival-product-price">$120.00</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-4">
-                        <div class="single-new-arrival">
-                            <div class="single-new-arrival-bg">
-                                <img src="assets/images/collection/arrivals6.png" alt="new-arrivals images">
-                                <div class="single-new-arrival-bg-overlay"></div>
-                                <div class="sale bg-1">
-                                    <p>sale</p>
-                                </div>
-                                <div class="new-arrival-cart">
-                                    <p>
-                                        <span class="lnr lnr-cart"></span>
-                                        <a href="#">add <span>to </span> cart</a>
-                                    </p>
-                                    <p class="arrival-review pull-right">
-                                        <span class="lnr lnr-heart"></span>
-                                        <span class="lnr lnr-frame-expand"></span>
-                                    </p>
-                                </div>
-                            </div>
-                            <h4><a href="#">mapple wood dinning table</a></h4>
-                            <p class="arrival-product-price">$140.00</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-4">
-                        <div class="single-new-arrival">
-                            <div class="single-new-arrival-bg">
-                                <img src="assets/images/collection/arrivals7.png" alt="new-arrivals images">
-                                <div class="single-new-arrival-bg-overlay"></div>
-                                <div class="sale bg-2">
-                                    <p>sale</p>
-                                </div>
-                                <div class="new-arrival-cart">
-                                    <p>
-                                        <span class="lnr lnr-cart"></span>
-                                        <a href="#">add <span>to </span> cart</a>
-                                    </p>
-                                    <p class="arrival-review pull-right">
-                                        <span class="lnr lnr-heart"></span>
-                                        <span class="lnr lnr-frame-expand"></span>
-                                    </p>
-                                </div>
-                            </div>
-                            <h4><a href="#">arm chair</a></h4>
-                            <p class="arrival-product-price">$90.00</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-4">
-                        <div class="single-new-arrival">
-                            <div class="single-new-arrival-bg">
-                                <img src="assets/images/collection/arrivals8.png" alt="new-arrivals images">
-                                <div class="single-new-arrival-bg-overlay"></div>
-                                <div class="new-arrival-cart">
-                                    <p>
-                                        <span class="lnr lnr-cart"></span>
-                                        <a href="#">add <span>to </span> cart</a>
-                                    </p>
-                                    <p class="arrival-review pull-right">
-                                        <span class="lnr lnr-heart"></span>
-                                        <span class="lnr lnr-frame-expand"></span>
-                                    </p>
-                                </div>
-                            </div>
-                            <h4><a href="#">wooden bed</a></h4>
-                            <p class="arrival-product-price">$140.00</p>
                         </div>
                     </div>
                 </div>

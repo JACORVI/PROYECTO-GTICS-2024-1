@@ -65,6 +65,7 @@ public class PacienteController {
         model.addAttribute("listaPedidosPreorden", pedidosPacienteRepository.findByUsuario(usuario));
         List<String> tamanolista = pedidosPacienteRepository.pedidosPreorden(usuid);
         model.addAttribute("tamanolistaPreOrden", tamanolista.size());
+        model.addAttribute("ultimosMedicamentos", medicamentosRepository.ultimosMedicamentos());
         int lleno = 1;
         if (tamanolista.isEmpty()) {
             lleno = 0;
@@ -252,6 +253,11 @@ public class PacienteController {
         model.addAttribute("numPedido",numpedido);
 
         return "paciente/medicamentos";
+    }
+
+    @GetMapping("/paciente/medicamentos/info")
+    public String informacionDelMedicamento(){
+        return "paciente/infomedicamento";
     }
 
     @GetMapping("/paciente/añadirCarrito1")
