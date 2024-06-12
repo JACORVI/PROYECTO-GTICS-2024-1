@@ -494,6 +494,12 @@ public class AdminSedeController {
     }
     /*---------------------------------------*/
 
-
+    @PostMapping("/admin/BuscarMedicamentos")
+    public String buscarTransportista(@RequestParam("searchField") String searchField,
+                                      Model model){
+        List<Medicamentos> medicamentosList = medicamentosRepository.findByNombre(searchField);
+        model.addAttribute("listMed",medicamentosList);
+        return "admin/medicamentos";
+    }
 
 }

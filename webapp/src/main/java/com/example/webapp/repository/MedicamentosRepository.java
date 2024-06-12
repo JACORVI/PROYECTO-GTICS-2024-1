@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 public interface MedicamentosRepository extends JpaRepository<Medicamentos, Integer> {
-    List<Medicamentos> findByNombre(String textoIngresado);
+    List<Medicamentos> findByNombre(String nombre);
     @Query(value = "select * from medicamentos where nombre like %?1%" , nativeQuery = true)
     List<Medicamentos> buscarMedicamento(String nombreMedicamento);
 
