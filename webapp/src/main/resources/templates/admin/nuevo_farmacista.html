@@ -13,9 +13,10 @@
             <form class="row g-3" method="post" th:action="@{'/admin/guardar_farmacista'}" th:object="${usuario}">
 
                 <input th:field="*{id}" type="hidden"/>
-                <input th:field="*{seguro}" type="hidden"/>
+                <input th:value="*{'Sin seguro'}" name="seguro" type="hidden"/>
                 <input th:value="${0}" name="estado" type="hidden" />
                 <input th:value="${3}" name="rol.id" type="hidden" />
+                <input th:value="${'Sin direccion'}" name="direccion" type="hidden" />
                 <input th:value="${'Contrasena45'}" name="contrasena" type="hidden" />
                 <input th:value="*{'Pendiente'}" name ="estado_solicitud" type="hidden" />
                 <input th:field="*{motivo_rechazo}" type="hidden" />

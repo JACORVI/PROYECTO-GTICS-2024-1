@@ -234,9 +234,9 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
     @Transactional
     @Modifying
     @Query(value = "DELETE FROM gticsbd.pedidos_reposicion\n" +
-            "WHERE usuario_id_usuario = ?1\n" +
+            "WHERE id_pedidos_reposicion = ?1\n" +
             "AND estado_de_reposicion = 'Solicitado';", nativeQuery = true)
-    void eliminarPedidoRepo(int usuid);
+    void eliminarPedidoRepo(int id);
 
     @Transactional
     @Modifying
