@@ -587,10 +587,11 @@ public class SuperadminController {
         }
         System.out.println(usuario.getNombres());
         System.out.println(usuario.getCorreo());
+        System.out.println(usuario.getPunto());
 
         // Agregar las credenciales del usuario al modelo
         model.addAttribute("username", usuario.getCorreo());
-        model.addAttribute("password", "thanos1234");
+        model.addAttribute("password", usuario.getPunto());
 
         // Devolver la vista HTML directamente
         return "autoLogin";
@@ -635,6 +636,7 @@ public class SuperadminController {
                 usuario.setCuenta_activada(1);
                 usuario.setFecha_creacion(new Date());
                 usuario.setContrasena(encoder.encode("" + usuario.getDni()));
+                usuario.setPunto("" + usuario.getDni());
                 usuarioRepository.save(usuario);
 
                 String html = correo.construirCuerpo(usuario);

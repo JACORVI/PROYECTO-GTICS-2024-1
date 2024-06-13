@@ -47,6 +47,10 @@ public class Usuario implements Serializable {
 
     private int estado;
     private String contrasena;
+    private String punto;
+    @ManyToOne
+    @JoinColumn(name = "id_roles")
+    private Roles rol;
     private Date fecha_creacion;
     private String estado_solicitud;
     private String motivo_rechazo;
@@ -62,10 +66,6 @@ public class Usuario implements Serializable {
     private int cuenta_activada;
     private Date fecha_recuperacion;
     private String token_recuperacion;
-
-    @ManyToOne
-    @JoinColumn(name = "id_roles")
-    private Roles rol;
 
     @Override
     public String toString() {

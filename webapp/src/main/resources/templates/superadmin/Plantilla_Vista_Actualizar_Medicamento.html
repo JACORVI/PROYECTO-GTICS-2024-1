@@ -74,7 +74,8 @@
                                         <!-- Formulario de carga de imagen -->
                                         <div class="mb-3">
                                             <label for="formFile" class="form-label">Selecciona una imagen para cargar:</label>
-                                            <input class="form-control" type="file" id="formFile" name="foto1">
+                                            <input class="form-control" type="file" id="formFile" name="foto1" accept="image/*">
+                                            <div id="error-message" style="color: red; margin-top: 10px;"></div>
                                             <div class="bg-light rounded h-100 p-4">
                                                 <h4><p style="text-align:center"><img th:src="'data:image/png;base64,' + ${fotoBase64}" alt="..." style="width: 300px; height: 300px;"/></p></h4>
                                             </div>
@@ -82,6 +83,44 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <script>
+                                document.getElementById('formFile').addEventListener('change', function() {
+                                    const fileInput = document.getElementById('formFile');
+                                    const file = fileInput.files[0];
+                                    const maxSizeInBytes = 1024 * 1024; // 1 MB
+                                    const errorMessageElement = document.getElementById('error-message');
+
+                                    if (file) {
+                                        if (!file.type.startsWith('image/')) {
+                                            errorMessageElement.textContent = 'El archivo seleccionado no es una imagen.';
+                                            fileInput.value = ''; // Limpiar el campo de archivo
+                                            return;
+                                        }
+
+                                        if (file.size > maxSizeInBytes) {
+                                            errorMessageElement.textContent = 'La imagen no debe superar 1 MB.';
+                                            fileInput.value = ''; // Limpiar el campo de archivo
+                                            return;
+                                        }
+
+                                        // Si pasa ambas validaciones, limpiar el mensaje de error
+                                        errorMessageElement.textContent = '';
+                                    }
+                                });
+                            </script>
+
+
+
+
+
+
+
+
+
+
+
+
                             <div class="col-sm-12 col-xl-6">
                                 <div class="bg-light rounded h-100 p-4">
                                     <h4><p style="text-align:center">Detalles del Medicamentso</p></h4>

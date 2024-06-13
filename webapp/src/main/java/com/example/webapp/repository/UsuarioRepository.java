@@ -83,14 +83,14 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE usuario SET contrasena = ?1 , token_recuperacion = null, fecha_recuperacion=null , cuenta_activada=1  "
-            + "  WHERE id_usuario = ?2", nativeQuery = true)
-    int actualizarPassword(String contrasena, int idUsuario);
+    @Query(value = "UPDATE usuario SET contrasena = ?1 , punto = ?2, token_recuperacion = null, fecha_recuperacion=null , cuenta_activada=1  "
+            + "  WHERE id_usuario = ?3", nativeQuery = true)
+    int actualizarPassword(String contrasena, String contrasena1,int idUsuario);
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE usuario SET contrasena = ?1 ,"
+    @Query(value = "UPDATE usuario SET contrasena = ?1 , punto = ?2,"
             + " token_recuperacion = null, fecha_recuperacion=null , cuenta_activada=1, estado=1  "
-            + "  WHERE id_usuario = ?2", nativeQuery = true)
-    int actualizarPasswordyEstado(String contrasena, int idUsuario);
+            + "  WHERE id_usuario = ?3", nativeQuery = true)
+    int actualizarPasswordyEstado(String contrasena, String contrasena1, int idUsuario);
 }

@@ -156,8 +156,9 @@ public class LoginController {
                                                RedirectAttributes attributes, Model model) {
         Map<String, String> response = new HashMap<>();
         try {
+            String passwordcopia = password;
             password = encoder.encode(password);
-            int result = usuarioRepository.actualizarPassword(password, id);
+            int result = usuarioRepository.actualizarPassword(password,passwordcopia, id);
 
             if (result > 0) {
                 response.put("response", "OK");
@@ -324,8 +325,9 @@ public class LoginController {
                                                       RedirectAttributes attributes, Model model) {
         Map<String, String> response = new HashMap<>();
         try {
+            String passwordcopia = password;
             password = encoder.encode(password);
-            int result = usuarioRepository.actualizarPasswordyEstado(password, id);
+            int result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
 
             if (result > 0) {
                 response.put("response", "OK");
