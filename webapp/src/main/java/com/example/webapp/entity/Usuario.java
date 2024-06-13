@@ -22,13 +22,19 @@ public class Usuario implements Serializable {
     @Column(name = "id_usuario")
     private int id;
     @Column(nullable = false)
+    @NotBlank
+    @Size(max = 45, message = "Los apellidos no puede tener más de 45 caracteres")
     private String nombres;
+
+    @NotBlank
+    @Size(max = 45, message = "Los apellidos no puede tener más de 45 caracteres")
     private String apellidos;
 
     @NotBlank(message = "El correo no puede quedar vacio")
     @Size(max = 45, message = "El correo no puede tener más de 45 caracteres")
     private String correo;
-
+    @Digits(integer = 8, fraction = 0, message = "El DNI debe tener exactamente 8 dígitos")
+    @Positive(message = "El DNI debe ser un número positivo")
     private int dni;
 
     private String codigo_colegiatura;
