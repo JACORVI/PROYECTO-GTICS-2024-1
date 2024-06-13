@@ -136,7 +136,7 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalEliminarLabel">¿Seguro que desea eliminar este usuario?</h5>
+                                                    <h5 class="modal-title" id="modalEliminarLabel"  th:text="${'¿Seguro que deseas eliminar al doctor '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea eliminar este usuario?</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
@@ -244,7 +244,7 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalEliminarLabel">¿Seguro que desea eliminar este usuario?</h5>
+                                                    <h5 class="modal-title" id="modalEliminarLabel" th:text="${'¿Seguro que deseas eliminar al administrador '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea eliminar este usuario?</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
@@ -269,28 +269,32 @@
                             </div>
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
                                     <div class="text-center">
-                                        <a th:href="@{'/superadmin/NuevaSesion'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-outline-info">
-                                            <i class=""></i>Ingresar Como
-                                        </a>
+                                        <a class="btn btn-outline-info" data-bs-toggle="modal" th:data-bs-target="'#modal' + ${Usuarios.getId()}">Ingresar Como</a>
                                     </div>
+
                                     <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" th:id="'modal' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <h5 class="modal-title" id="modalLabel" th:text="${'¿Seguro que deseas ingresar como el administrador '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea ingresar como este usuario?</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'form' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/NuevaSesion'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'form' + ${Usuarios.getId()}">Ingresar</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </td>
                             </td>
                         </tr>
                         </tbody>
@@ -378,7 +382,7 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalEliminarLabel">¿Seguro que desea eliminar este usuario?</h5>
+                                                    <h5 class="modal-title" id="modalEliminarLabel" th:text="${'¿Seguro que deseas eliminar al farmacista '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea eliminar este usuario?</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
@@ -403,28 +407,32 @@
                             </div>
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
                                     <div class="text-center">
-                                        <a th:href="@{'/superadmin/NuevaSesion'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-outline-info">
-                                            <i class=""></i>Ingresar Como
-                                        </a>
+                                        <a class="btn btn-outline-info" data-bs-toggle="modal" th:data-bs-target="'#modal' + ${Usuarios.getId()}">Ingresar Como</a>
                                     </div>
+
                                     <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" th:id="'modal' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <h5 class="modal-title" id="modalLabel" th:text="${'¿Seguro que deseas ingresar como el farmacista '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea ingresar como este usuario?</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'form' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/NuevaSesion'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'form' + ${Usuarios.getId()}">Ingresar</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </td>
                             </td>
                         </tr>
                         </tbody>
@@ -519,7 +527,7 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalEliminarLabel">¿Seguro que desea eliminar este usuario?</h5>
+                                                    <h5 class="modal-title" id="modalEliminarLabel" th:text="${'¿Seguro que deseas eliminar al paciente '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea eliminar este usuario?</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
@@ -544,28 +552,32 @@
                             </div>
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
                                     <div class="text-center">
-                                        <a th:href="@{'/superadmin/NuevaSesion'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-outline-info">
-                                            <i class=""></i>Ingresar Como
-                                        </a>
+                                        <a class="btn btn-outline-info" data-bs-toggle="modal" th:data-bs-target="'#modal' + ${Usuarios.getId()}">Ingresar Como</a>
                                     </div>
+
                                     <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" th:id="'modal' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <h5 class="modal-title" id="modalLabel" th:text="${'¿Seguro que deseas ingresar como el paciente '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea ingresar como este usuario?</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'form' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/NuevaSesion'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'form' + ${Usuarios.getId()}">Ingresar</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </td>
                             </td>
                         </tr>
                         </tbody>

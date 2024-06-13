@@ -574,8 +574,8 @@ public class SuperadminController {
     //------------------------------------------------------------------------------------------------------------------
 
     //Nueva Sesion
-    @GetMapping("/NuevaSesion")
-    public String nuevaSesion(@RequestParam("id") int id, HttpServletRequest request, HttpServletResponse response, Model model) {
+    @PostMapping("/NuevaSesion")
+    public String nuevaSesion(@RequestParam("id_usuario") int id, HttpServletRequest request, HttpServletResponse response, Model model) {
         // Cerrar la sesión actual
         SecurityContextHolder.clearContext();
         request.getSession().invalidate();
