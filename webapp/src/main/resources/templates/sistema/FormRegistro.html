@@ -63,8 +63,10 @@
             </div>
             <input type="hidden"  th:field="*{id}">
             <input type="hidden"  th:field="*{codigo_colegiatura}">
-            <input type="submit" value="Registrar" class="btn" id="registro-button" style="margin-top: 1vh;">
+            <input type="submit" value="Registrar" class="btn" id="registro-button" style="margin-top: 1vh; margin-bottom: 1vh;">
+            <a th:href="@{/login}" class="btn">Regresar al login</a>
         </form>
+
     </div>
 </div>
 <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
