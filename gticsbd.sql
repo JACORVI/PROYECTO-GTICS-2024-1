@@ -46,6 +46,30 @@ LOCK TABLES `carrito` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `distrito`
+--
+
+DROP TABLE IF EXISTS `distrito`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `distrito` (
+  `id_distrito` int NOT NULL,
+  `nombre` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id_distrito`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `distrito`
+--
+
+LOCK TABLES `distrito` WRITE;
+/*!40000 ALTER TABLE `distrito` DISABLE KEYS */;
+INSERT INTO `distrito` VALUES (1,'Ancón'),(2,'Ate'),(3,'Barranco'),(4,'Breña'),(5,'Carabayllo'),(6,'Chaclacayo'),(7,'Chorrillos'),(8,'Cieneguilla'),(9,'Comas'),(10,'El Agustino'),(11,'Independencia'),(12,'Jesús María'),(13,'La Molina'),(14,'La Victoria'),(15,'Lima'),(16,'Lince'),(17,'Los Olivos'),(18,'Lurigancho'),(19,'Lurin'),(20,'Magdalena del Mar'),(21,'Miraflores'),(22,'Pachacamac'),(23,'Pucusana'),(24,'Pueblo Libre'),(25,'Puente Piedra'),(26,'Punta Hermosa'),(27,'Punta Negra'),(28,'Rímac'),(29,'San Bartolo'),(30,'San Borja'),(31,'San Isidro'),(32,'San Juan de Lurigancho'),(33,'San Juan de Miraflores'),(34,'San Luis'),(35,'San Martín de Porres'),(36,'San Miguel'),(37,'Santa Anita'),(38,'Santa María del Mar'),(39,'Santa Rosa'),(40,'Santiago de Surco'),(41,'Surquillo'),(42,'Villa El Salvador'),(43,'Villa María del Triunfo');
+/*!40000 ALTER TABLE `distrito` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `medicamentos`
 --
 
@@ -135,7 +159,6 @@ CREATE TABLE `medicamentos_recojo` (
 
 LOCK TABLES `medicamentos_recojo` WRITE;
 /*!40000 ALTER TABLE `medicamentos_recojo` DISABLE KEYS */;
-INSERT INTO `medicamentos_recojo` VALUES (2,'Paracetamol',13.99,1,4,1),(3,'Loratadina',9.99,2,4,1);
 /*!40000 ALTER TABLE `medicamentos_recojo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,7 +248,6 @@ CREATE TABLE `pedidos_paciente_recojo` (
 
 LOCK TABLES `pedidos_paciente_recojo` WRITE;
 /*!40000 ALTER TABLE `pedidos_paciente_recojo` DISABLE KEYS */;
-INSERT INTO `pedidos_paciente_recojo` VALUES (4,'Andres','Lujan','Sin medico','Pacifico',932832585,1234567,NULL,33.97,'Web - Recojo en tienda','2024-06-09',NULL,'Pendiente',NULL,NULL,'Pendiente','TD2V-GCBB-S7NH','No','Surco',1);
 /*!40000 ALTER TABLE `pedidos_paciente_recojo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -435,6 +457,30 @@ LOCK TABLES `sede_has_medicamentos` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `seguro`
+--
+
+DROP TABLE IF EXISTS `seguro`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `seguro` (
+  `id_seguro` int NOT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id_seguro`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `seguro`
+--
+
+LOCK TABLES `seguro` WRITE;
+/*!40000 ALTER TABLE `seguro` DISABLE KEYS */;
+INSERT INTO `seguro` VALUES (1,'Rimac'),(2,'Pacifico'),(3,'Mapfre'),(4,'Seguro social'),(5,'Essalud'),(6,'No tengo seguro');
+/*!40000 ALTER TABLE `seguro` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `spring_session`
 --
 
@@ -502,6 +548,7 @@ CREATE TABLE `tarjeta` (
   `numero` int DEFAULT NULL,
   `fecha_caduca` date DEFAULT NULL,
   `cci` int DEFAULT NULL,
+  `ahorros` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id_tarjeta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -529,8 +576,6 @@ CREATE TABLE `usuario` (
   `correo` varchar(45) NOT NULL,
   `dni` int NOT NULL,
   `codigo_colegiatura` varchar(45) DEFAULT NULL,
-  `distrito` varchar(45) DEFAULT NULL,
-  `seguro` varchar(45) DEFAULT NULL,
   `estado` int DEFAULT NULL,
   `contrasena` varchar(100) NOT NULL,
   `foto` longblob,
@@ -547,10 +592,16 @@ CREATE TABLE `usuario` (
   `fecha_recuperacion` datetime DEFAULT NULL,
   `token_recuperacion` varchar(200) DEFAULT NULL,
   `punto` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id_usuario`,`id_roles`),
+  `id_distrito` int NOT NULL,
+  `id_seguro` int NOT NULL,
+  PRIMARY KEY (`id_usuario`,`id_roles`,`id_distrito`,`id_seguro`),
   KEY `fk_usuario_roles1_idx` (`id_roles`),
-  CONSTRAINT `fk_usuario_roles1` FOREIGN KEY (`id_roles`) REFERENCES `roles` (`id_roles`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb3;
+  KEY `fk_usuario_distrito1_idx` (`id_distrito`),
+  KEY `fk_usuario_seguro1_idx` (`id_seguro`),
+  CONSTRAINT `fk_usuario_distrito1` FOREIGN KEY (`id_distrito`) REFERENCES `distrito` (`id_distrito`),
+  CONSTRAINT `fk_usuario_roles1` FOREIGN KEY (`id_roles`) REFERENCES `roles` (`id_roles`),
+  CONSTRAINT `fk_usuario_seguro1` FOREIGN KEY (`id_seguro`) REFERENCES `seguro` (`id_seguro`)
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -559,7 +610,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'Andres','Lujan','rodlu@gmail.com',1234567,'No tiene','San Juan de Lurigancho','Rimac',1,'$2a$10$u828b590H.p5.N5UZnLRxeVZrIiC/f/9/3AEREiwFeg9k9MLSt37W',NULL,'2024-04-29','Aceptado',NULL,0,NULL,NULL,NULL,NULL,4,1,NULL,NULL,NULL),(2,'Pedro','Perez','pedro@gmail.com',12345678,'No tiene','Lima','Rima',1,'$2a$10$u828b590H.p5.N5UZnLRxeVZrIiC/f/9/3AEREiwFeg9k9MLSt37W',NULL,'2024-04-29','Aceptado',NULL,0,NULL,NULL,NULL,NULL,1,1,'2024-06-04 18:55:52','LQOGqcuÑgTV5HktH0yRw8Y9h3XEE5Ja2ahSbO3yJ',NULL),(43,'elvis','perez','pepe@gmail.com',78945612,'Sin-Codigo','Lurigancho','',1,'$2a$12$TAYg.j0p1KwoCfyJadqw9ud54mi/ao2fyarFEVWyL1uNBhfM7OH0e',NULL,'2024-06-02','','',0,NULL,NULL,NULL,NULL,1,1,NULL,NULL,NULL),(44,'juan','pedro','hhh@gmail.com',78945661,'Sin-Codigo','peru ','rimac',0,'',NULL,'2024-06-04',NULL,NULL,0,'peru',NULL,NULL,NULL,4,0,NULL,'QNZTVq2nXrZ4omw3SpRZasbSuHgCVfQgOcH2c5Wy',NULL),(45,'pedro','hola','jjjj@gmail.com',78945623,'Sin-Codigo','av peru ','Rimac',1,'$2a$10$hdQ4pC6zpwWe5s.1cBXdL.Z0birVcBQ5V8jjQzmblxeS.DTJq56vq',NULL,'2024-06-04',NULL,NULL,0,'Av bolivar',NULL,NULL,NULL,4,1,NULL,NULL,NULL),(46,'juan pedro','poll','po@gmail.com',45632178,'DOD008','Sin-Distrito','',1,'$2a$10$aHBzf1J67QCqkx5YmIluH.pwqrtXNW7jIO49NTOQqVLlaAZMCIlim',NULL,'2024-06-04','','',0,NULL,NULL,NULL,NULL,5,1,NULL,NULL,NULL),(47,'Juan Pablo','Perez Rodriguez','lll@gmail.com',96385274,'Sin-Codigo','Lurin','',1,'$2a$10$y7Mb0sVaokUk0iPF3IMRVOfQ2hx2SDShaxkwYSi5LuG/UYn5OXgGO',NULL,'2024-06-04','','',0,NULL,NULL,NULL,NULL,2,1,NULL,NULL,NULL),(49,'juancito','perez','coreldrain@gmail.com',45612323,'Sin-Codigo','rimac rim','rimac',1,'',NULL,'2024-06-04',NULL,NULL,0,'rimac',NULL,NULL,NULL,4,1,'2024-06-05 16:43:22','uGbwleVdedpMps3SnVhf4lk6MI2j8L5LBSdMTAX6',NULL),(50,'Andres Rodrigo','Lujan Fernandez','rodrigolujanf28@gmail.com',76398184,'Sin-Codigo','SJL','Rimac',1,'$2a$10$uPORaELSS/WghjbNsdjT0e3OXgua1AZ.pPoaBWOmHX7HxFxK6/ES6',NULL,'2024-06-11',NULL,NULL,0,'Jr.chavin De Huantar 558, Urb. Zarate',NULL,NULL,NULL,4,1,NULL,NULL,NULL);
+INSERT INTO `usuario` VALUES (51,'Andres Rodrigo','Lujan Fernandez','rodrigolujanf28@gmail.com',76398184,'Sin-Codigo',1,'$2a$10$jli9iupEztEX4IyFNMBQIuKUGynvsYGVwuDwSzjBbggVaAGp5x0AK',NULL,'2024-06-16',NULL,NULL,0,'Jr.chavin De Huantar 558, Urb. Zarate, Distrito SJL',NULL,NULL,NULL,4,1,NULL,NULL,'Andro281601',32,2);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -599,4 +650,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-11 20:56:00
+-- Dump completed on 2024-06-16 18:40:10

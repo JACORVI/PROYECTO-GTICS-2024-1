@@ -15,6 +15,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     public Usuario findByCorreo(String email);
 
+    @Query(value = "SELECT dni FROM gticsbd.usuario;", nativeQuery = true)
+    List<Integer> listaDniExistentes();
+
     @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 and estado_solicitud = ?3 order by fecha_creacion", nativeQuery = true)
     List<Usuario> buscarFarmacistaAceptado(int rol,int borrado_logico,String estado_solicitud);
 

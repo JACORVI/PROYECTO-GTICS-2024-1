@@ -26,45 +26,53 @@
     <div class="signin-signup">
         <form id="formReg" th:action="@{/registro/usuario}" class="sign-in-form" th:object="${usuario}" method="post">
             <h2 class="title">Registro</h2>
-            <div class="input-field">
+            <div class="input-field-select">
                 <i class="fas fa-user"></i>
                 <input type="text" name="nombresRegister" th:value="${nombresValidados}" disabled>
                 <input type="hidden" name="nombres" th:value="${nombresValidados}">
             </div>
-            <div class="input-field">
+            <div class="input-field-select">
                 <i class="fas fa-user-plus"></i>
                 <input type="text" name="apellidosRegister" th:value="${apellidosValidados}" disabled>
                 <input type="hidden" name="apellidos" th:value="${apellidosValidados}">
             </div>
-            <div class="input-field">
+            <div class="input-field-select">
                 <i class="fas fa-hashtag"></i>
                 <input type="text" name="dniRegister" th:value="${dniValidado}" disabled>
                 <input type="hidden" name="dni" th:value="${dniValidado}">
             </div>
-            <div class="input-field">
+            <div class="input-field-select">
                 <i class="fas fa-envelope"></i>
-                <input type="text" placeholder="Ingresa tu correo..." th:field="*{correo}">
+                <input type="text" placeholder="Ingresa tu correo..." th:field="*{correo}" th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}">
                 <div class="error" id="email-registro-error"></div>
             </div>
-            <div class="input-field">
+            <div class="input-field-select">
                 <i class="fas fa-user-shield"></i>
-                <input type="text" placeholder="Ingresa tu seguro..." th:field="*{seguro}">
-                <div class="error" id="seguro-registro-error"></div>
+                <select class="form-select" aria-label="Default select example" th:field="*{seguro}">
+                    <option value="">↓↓↓ Seleccione el seguro que tiene ↓↓↓</option>
+                    <option th:each="seguro : ${listaSeguros}" th:value="${seguro.id}" th:text="${seguro.nombre}"></option>
+                </select>
             </div>
-            <div class="input-field">
+            <div th:if="${seguroError != null}" th:text="${seguroError}" style="color: red"></div>
+            <div class="input-field-select">
                 <i class="fas fa-location"></i>
-                <input type="text" placeholder="Ingresa tu distrito..." th:field="*{distrito}">
-                <div class="error" id="distrito-registro-error"></div>
+                <select class="form-select" aria-label="Default select example" th:field="*{distrito}">
+                    <option value="">↓↓↓ Seleccione su distrito de residencia ↓↓↓</option>
+                    <option th:each="distrito : ${listaDistritos}" th:value="${distrito.id}" th:text="${distrito.nombre}"></option>
+                </select>
             </div>
-            <div class="input-field">
+            <div th:if="${distritoError != null}" th:text="${distritoError}" style="color: red"></div>
+            <div class="input-field-select">
                 <i class="fas fa-street-view"></i>
-                <input type="text" placeholder="Ingresa tu dirección..."  th:field="*{direccion}">
+                <input type="text" placeholder="Ingresa tu dirección..."  th:field="*{direccion}" th:classappend="${#fields.hasErrors('direccion')?'is-invalid':''}">
                 <div class="error" id="direccion-registro-error"></div>
             </div>
             <input type="hidden"  th:field="*{id}">
             <input type="hidden"  th:field="*{codigo_colegiatura}">
-            <input type="submit" value="Registrar" class="btn" id="registro-button" style="margin-top: 1vh; margin-bottom: 1vh;">
-            <a th:href="@{/login}" class="btn">Regresar al login</a>
+            <div>
+                <input type="submit" value="Registrar" class="btn" id="registro-button" style="margin-top: 1vh; margin-bottom: 1vh; margin-right: 1vh;">
+                <a th:href="@{/login}" class="btn">Regresar al login</a>
+            </div>
         </form>
 
     </div>
@@ -119,14 +127,10 @@
     document.addEventListener("DOMContentLoaded", function () {
 
         const correoRegistroInput = document.querySelector("#correo");
-        const seguroRegistroInput = document.querySelector("#seguro");
-        const distritoRegistroInput = document.querySelector("#distrito");
         const direccionRegistroInput = document.querySelector("#direccion");
         const registroButton = document.querySelector("#registro-button");
 
         correoRegistroInput.addEventListener("input", validarCorreoRegistro);
-        seguroRegistroInput.addEventListener("input", validarSeguroRegistro);
-        distritoRegistroInput.addEventListener("input", validarDistritoRegistro);
         direccionRegistroInput.addEventListener("input", validarDireccionRegistro);
 
         function validarCorreoRegistro() {
@@ -149,59 +153,6 @@
             }
         }
 
-        function validarSeguroRegistro() {
-            const seguroRegistroInput = document.querySelector("#seguro");
-            const seguroRegistroValue = seguroRegistroInput.value.trim();
-            const seguroRegistroError = document.querySelector("#seguro-registro-error");
-
-            if (!seguroRegistroValue) {
-                seguroRegistroError.textContent = "Campo vacío";
-                seguroRegistroError.style.color = "red";
-                seguroRegistroError.classList.add("error-message");
-            } else if (seguroRegistroValue.length < 4) {
-                seguroRegistroError.textContent = "Minimo 4 caracteres";
-                seguroRegistroError.style.color = "red";
-                seguroRegistroError.classList.add("error-message");
-            } else if (seguroRegistroValue.length > 45) {
-                    seguroRegistroError.textContent = "Máximo 45 caracteres";
-                    seguroRegistroError.style.color = "red";
-                    seguroRegistroError.classList.add("error-message");
-            } else if (!/^[a-zA-Z\u00C0-\u017F\s]+$/.test(seguroRegistroValue)) {
-                seguroRegistroError.textContent = "Solo se permiten letras y espacios";
-                seguroRegistroError.style.color = "red";
-                seguroRegistroError.classList.add("error-message");
-            } else {
-                seguroRegistroError.textContent = "";
-                seguroRegistroError.classList.remove("error-message");
-            }
-        }
-        function validarDistritoRegistro() {
-            const distritoRegistroInput = document.querySelector("#distrito"); // Corregido: Usar #distritoRegistro en lugar de #distritoInput
-            const distritoRegistroValue = distritoRegistroInput.value.trim();
-            const distritoRegistroError = document.querySelector("#distrito-registro-error");
-
-            if (!distritoRegistroValue) {
-                distritoRegistroError.textContent = "Campo vacío";
-                distritoRegistroError.style.color = "red";
-                distritoRegistroError.classList.add("error-message");
-            } else if (!/^[\w\s]+$/.test(distritoRegistroValue)) {
-                distritoRegistroError.textContent = "Solo se permiten letras y espacios";
-                distritoRegistroError.style.color = "red";
-                distritoRegistroError.classList.add("error-message");
-            } else if (distritoRegistroValue.length < 3) {
-                distritoRegistroError.textContent = "Mínimo 3 caracteres";
-                distritoRegistroError.style.color = "red";
-                distritoRegistroError.classList.add("error-message");
-            } else if (distritoRegistroValue.length > 45) {
-                distritoRegistroError.textContent = "Máximo 45 caracteres";
-                distritoRegistroError.style.color = "red";
-                distritoRegistroError.classList.add("error-message");
-            } else {
-                distritoRegistroError.textContent = "";
-                distritoRegistroError.classList.remove("error-message");
-            }
-        }
-
         function validarDireccionRegistro() {
             const direccionRegistroInput = document.querySelector("#direccion");
             const direccionRegistroValue = direccionRegistroInput.value.trim();
@@ -209,10 +160,6 @@
 
             if (!direccionRegistroValue) {
                 direccionRegistroError.textContent = "Campo vacío";
-                direccionRegistroError.style.color = "red";
-                direccionRegistroError.classList.add("error-message"); // Aplicar la clase de error
-            } else if (!/^[\w\s]+$/.test(direccionRegistroValue)) {
-                direccionRegistroError.textContent = "Solo se permiten letras y espacios";
                 direccionRegistroError.style.color = "red";
                 direccionRegistroError.classList.add("error-message"); // Aplicar la clase de error
             } else if (direccionRegistroValue.length < 10) {
@@ -229,24 +176,17 @@
             }
         }
 
-
         registroButton.addEventListener("click", function (e) {
             e.preventDefault();
 
             validarCorreoRegistro();
-            validarSeguroRegistro(); // Agregar validación de seguro
-            validarDistritoRegistro(); // Agregar validación de distrito
             validarDireccionRegistro(); // Agregar validación de dirección
 
             const correoRegistroError = document.querySelector("#email-registro-error");
-            const seguroRegistroError = document.querySelector("#seguro-registro-error");
-            const distritoRegistroError = document.querySelector("#distrito-registro-error");
             const direccionRegistroError = document.querySelector("#direccion-registro-error");
 
             if (
                 correoRegistroError.textContent === "" &&
-                seguroRegistroError.textContent === "" &&
-                distritoRegistroError.textContent === "" &&
                 direccionRegistroError.textContent === ""
             ) {
                 document.getElementById("formReg").submit();
@@ -256,7 +196,6 @@
     });
 
 </script>
-
 
 </body>
 </html>
