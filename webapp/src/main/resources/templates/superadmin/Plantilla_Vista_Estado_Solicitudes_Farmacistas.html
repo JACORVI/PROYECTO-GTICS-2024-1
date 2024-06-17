@@ -82,7 +82,7 @@
                             <td class=<%=color%><p style="font-size: 18px;" th:text="${Usuarios.getFecha_creacion()}"></p></td>
                             <td class=<%=color%><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}"></p></td>
                             <td class=<%=color%><p style="font-size: 18px;" th:text="${Usuarios.getDni()}"></p></td>
-                            <td class=<%=color%><p style="font-size: 18px;" th:text="${Usuarios.getDistrito()}"></p></td>
+                            <td class=<%=color%><p style="font-size: 18px;" th:text="${Usuarios.getDistrito().getNombre()}"></p></td>
                             <td class=<%=color%><p style="font-size: 18px;" th:text="${Usuarios.getCodigo_colegiatura()}"></p></td>
 
                             <td>
@@ -256,10 +256,10 @@
                     });
                 });
             </script>
-            <footer style="background-color: rgba(11, 99, 111, 0.79); width: 100%; position: fixed; bottom: 0; left: 0;">
+            <footer style="background-color: rgba(11, 99, 111, 0.79); width: 100%;">
                 <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
-                    <div style="font-family: Arial; font-size: 14px; margin-left: 10px; color: white;">
-                        Derechos de autor Pildo Pharmacy S.A.
+                    <div style="font-family: Arial, 5px; margin-left: 10px; color: white;">
+                        <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
                     </div>
                 </div>
             </footer>

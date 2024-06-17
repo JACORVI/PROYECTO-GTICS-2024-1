@@ -70,14 +70,14 @@
                 <input th:value="${usuario.getId()}" name="id" type="hidden" />
                 <input th:value="${usuario.getCuenta_activada()}" name="cuenta_activada" type="hidden" />
                 <input th:value="${usuario.getCodigo_colegiatura()}" name="codigo_colegiatura" type="hidden" />
-                <input th:value="${usuario.getSeguro()}" name="seguro" type="hidden" />
+                <input th:value="${6}" name="seguro.id" type="hidden" />
                 <input th:value="${usuario.getEstado()}" name="estado" type="hidden" />
                 <input th:value="${2}" name="rol.id" type="hidden" />
-
                 <input th:value="${usuario.getContrasena()}" name="contrasena" type="hidden" />
                 <input th:value="${usuario.getEstado_solicitud()}" name="estado_solicitud" type="hidden" />
                 <input th:value="${usuario.getMotivo_rechazo()}" name="motivo_rechazo" type="hidden" />
                 <input th:value="${usuario.getBorrado_logico()}" name="borrado_logico" type="hidden" />
+                <input th:value="${'No necesaria para un Administrador'}" name="direccion" type="hidden" />
 
                 <div class="col-md-6">
                     <label class="form-label">Nombres</label>
@@ -108,52 +108,12 @@
                     <input type="text" class="form-control" th:field="*{dni}"/>
                     <div class="text-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">Error</div>
                 </div>
+
                 <div class="col-12">
                     <label class="form-label">Distrito</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{distrito}">
-                        <option th:value="${'Ancon'}">Ancón</option>
-                        <option th:value="${'Ate'}">Ate</option>
-                        <option th:value="${'Barranco'}">Barranco</option>
-                        <option th:value="${'Brenia'}">Breña</option>
-                        <option th:value="${'Carabayllo'}">Carabayllo</option>
-                        <option th:value="${'Cercado de Lima'}">Cercado de Lima</option>
-                        <option th:value="${'Chaclacayo'}">Chaclacayo</option>
-                        <option th:value="${'Chorrillos'}">Chorrillos</option>
-                        <option th:value="${'Cieneguilla'}">Cieneguilla</option>
-                        <option th:value="${'Comas'}">Comas</option>
-                        <option th:value="${'El Agustino'}">El Agustino</option>
-                        <option th:value="${'Independencia'}">Independencia</option>
-                        <option th:value="${'Jesus maria'}">Jesús María</option>
-                        <option th:value="${'La Molina'}">La Molina</option>
-                        <option th:value="${'La Victoria'}">La Victoria</option>
-                        <option th:value="${'Lince'}">Lince</option>
-                        <option th:value="${'Los Olivos'}">Los Olivos</option>
-                        <option th:value="${'Lurigancho'}">Lurigancho</option>
-                        <option th:value="${'Lurin'}">Lurín</option>
-                        <option th:value="${'Magdalena del mar'}">Magdalena del Mar</option>
-                        <option th:value="${'Miraflores'}">Miraflores</option>
-                        <option th:value="${'Pachacamac'}">Pachacámac</option>
-                        <option th:value="${'Pucusana'}">Pucusana</option>
-                        <option th:value="${'Pueblo Libre'}">Pueblo Libre</option>
-                        <option th:value="${'Puente Piedra'}">Puente Piedra</option>
-                        <option th:value="${'Punta Hermosa'}">Punta Hermosa</option>
-                        <option th:value="${'Punta Negra'}">Punta Negra</option>
-                        <option th:value="${'Rimac'}">Rímac</option>
-                        <option th:value="${'San Bartolo'}">San Bartolo</option>
-                        <option th:value="${'San Borja'}">San Borja</option>
-                        <option th:value="${'San Isidro'}">San Isidro</option>
-                        <option th:value="${'San Juan de Lurigancho'}">San Juan de Lurigancho</option>
-                        <option th:value="${'San Juan de Miraflores'}">San Juan de Miraflores</option>
-                        <option th:value="${'San Luis'}">San Luis</option>
-                        <option th:value="${'San Martin de Porres'}">San Martín de Porres</option>
-                        <option th:value="${'San Miguel'}">San Miguel</option>
-                        <option th:value="${'Santa Anita'}">Santa Anita</option>
-                        <option th:value="${'Santa Maria del Mar'}">Santa María del Mar</option>
-                        <option th:value="${'Santa Rosa'}">Santa Rosa</option>
-                        <option th:value="${'Santiago de Surco'}">Santiago de Surco</option>
-                        <option th:value="${'Surquillo'}">Surquillo</option>
-                        <option th:value="${'Villa el Salvador'}">Villa El Salvador</option>
-                        <option th:value="${'Villa Maria del Triunfo'}">Villa María del Triunfo</option>
+                    <select class="form-select" name="distrito" th:field="*{distrito}">
+                        <option th:each="distrito : ${listaDistritos}" th:value="${distrito.id}"
+                                th:text="${distrito.getNombre()}"></option>
                     </select>
                 </div>
                 <div class="text-center">

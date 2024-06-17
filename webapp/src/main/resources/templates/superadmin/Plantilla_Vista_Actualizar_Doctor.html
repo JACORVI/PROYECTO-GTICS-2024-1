@@ -70,15 +70,15 @@
             <form class="row g-3" method="post" th:action="@{'/superadmin/Guardar_Usuario'}" th:object="${usuario}">
                 <input th:value="${usuario.getId()}" name="id" type="hidden" />
                 <input th:value="${usuario.getCuenta_activada()}" name="cuenta_activada" type="hidden" />
-                <input th:value="${usuario.getDistrito()}" name="distrito" type="hidden" />
-                <input th:value="${usuario.getSeguro()}" name="seguro" type="hidden" />
+                <input th:value="${1}" name="distrito.id" type="hidden" />
                 <input th:value="${usuario.getEstado()}" name="estado" type="hidden" />
                 <input th:value="${5}" name="rol.id" type="hidden" />
-
+                <input th:value="${6}" name="seguro.id" type="hidden" />
                 <input th:value="${usuario.getContrasena()}" name="contrasena" type="hidden" />
                 <input th:value="${usuario.getEstado_solicitud()}" name="estado_solicitud" type="hidden" />
                 <input th:value="${usuario.getMotivo_rechazo()}" name="motivo_rechazo" type="hidden" />
                 <input th:value="${usuario.getBorrado_logico()}" name="borrado_logico" type="hidden" />
+                <input th:value="${'No necesaria para un Doctor'}" name="direccion" type="hidden" />
                 <div class="col-md-6">
                     <label class="form-label">Nombres</label>
                     <input type="text" class="form-control" th:field="*{nombres}"

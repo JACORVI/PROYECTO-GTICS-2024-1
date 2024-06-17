@@ -39,6 +39,9 @@ public class SuperadminController {
     UsuarioHasSedeRepository usuarioHasSedeRepository;
     SedeRepository sedeRepository;
     SedeHasMedicamentosRepository sedeHasMedicamentosRepository;
+    DistritoRepository distritoRepository;
+
+    SeguroRepository seguroRepository;
     private static final Logger logger = LoggerFactory.getLogger(SuperadminController.class);
 
     public SuperadminController(MedicamentosRepository medicamentosRepository,
@@ -46,7 +49,9 @@ public class SuperadminController {
                                 PedidosReposicionRepository pedidosReposicionRepository,
                                 UsuarioHasSedeRepository usuarioHasSedeRepository,
                                 SedeRepository sedeRepository,
-                                SedeHasMedicamentosRepository sedeHasMedicamentosRepository) {
+                                SedeHasMedicamentosRepository sedeHasMedicamentosRepository,
+                                DistritoRepository distritoRepository,
+                                SeguroRepository seguroRepository) {
 
         this.medicamentosRepository = medicamentosRepository;
 
@@ -58,7 +63,11 @@ public class SuperadminController {
 
         this.sedeRepository = sedeRepository;
 
+        this.distritoRepository = distritoRepository;
+
         this.sedeHasMedicamentosRepository = sedeHasMedicamentosRepository;
+
+        this.seguroRepository = seguroRepository;
     }
     @Autowired
     private Correo correo;
@@ -630,6 +639,8 @@ public class SuperadminController {
                 if (usuario.getRol().getId() == 5) {
                     return "superadmin/Plantilla_Vista_Registro_Doctor";
                 } else if (usuario.getRol().getId() == 2) {
+                    List<Distrito> listaDistrito = distritoRepository.findAll();
+                    model.addAttribute("listaDistritos",listaDistrito);
                     return "superadmin/Plantilla_Vista_Registro_Administrador";
                 }
             } else {
@@ -773,6 +784,8 @@ public class SuperadminController {
                         }
                     }
                     System.out.println(listaIndicador);
+                    List<Distrito> listaDistrito = distritoRepository.findAll();
+                    model.addAttribute("listaDistritos",listaDistrito);
                     model.addAttribute("usuario", usuario);
                     model.addAttribute("ListaIndicador", listaIndicador);
                     model.addAttribute("ListaSedes", list1);
@@ -809,15 +822,21 @@ public class SuperadminController {
 
                     }
                     System.out.println(listaIndicador);
+                    List<Distrito> listaDistrito = distritoRepository.findAll();
+                    model.addAttribute("listaDistritos",listaDistrito);
                     model.addAttribute("usuario", usuario);
                     model.addAttribute("ListaIndicador", listaIndicador);
                     model.addAttribute("ListaSedes", list1);
                     return "superadmin/Plantilla_Vista_Actualizar_Farmacista";
 
-                }// else if (usuario.getRol().equals("Paciente")){
-                //  model.addAttribute("usuario", usuario);
-                //  return "superadmin/Plantilla_Vista_Actualizar_Paciente";
-                //} else if (usuario.getRol().equals("Superadmin")){
+                } else if (usuario.getRol().equals("Paciente")) {
+                    List<Distrito> listaDistrito = distritoRepository.findAll();
+                    List<Seguro> listaSeguro = seguroRepository.findAll();
+                    model.addAttribute("listaDistritos",listaDistrito);
+                    model.addAttribute("listaSeguros",listaSeguro);
+                    model.addAttribute("usuario", usuario);
+                    return "superadmin/Plantilla_Vista_Actualizar_Paciente";
+                } //else if (usuario.getRol().equals("Superadmin")){
                 //    model.addAttribute("usuario", usuario);
                 //    return "superadmin/Perfil";
                 //}
@@ -929,6 +948,10 @@ public class SuperadminController {
                 }
                 if (usuario.getRol().getId() == 4) {
                     model.addAttribute("usuario", usuario);
+                    List<Distrito> listaDistrito = distritoRepository.findAll();
+                    List<Seguro> listaSeguro = seguroRepository.findAll();
+                    model.addAttribute("listaDistritos",listaDistrito);
+                    model.addAttribute("listaSeguros",listaSeguro);
                     return "superadmin/Plantilla_Vista_Ver_Paciente";
                 }
                 if (usuario.getRol().getId() == 1) {
@@ -947,7 +970,9 @@ public class SuperadminController {
         return "superadmin/Perfil";
     }
     @GetMapping("/Registro_Administrador")
-    public String Registro_Administrador(@ModelAttribute ("usuario") Usuario usuario) {
+    public String Registro_Administrador(@ModelAttribute ("usuario") Usuario usuario, Model model) {
+        List<Distrito> listaDistrito = distritoRepository.findAll();
+        model.addAttribute("listaDistritos",listaDistrito);
         return "superadmin/Plantilla_Vista_Registro_Administrador";
     }
 
@@ -981,6 +1006,7 @@ public class SuperadminController {
             Usuario usuario2 = optusuario.get();
             List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
             List<Sede> list1 = sedeRepository.findAll();
+            List<Distrito> listaDistrito = distritoRepository.findAll();
 
             List<String> listaIndicador = new ArrayList<>();
 
@@ -1003,6 +1029,7 @@ public class SuperadminController {
             model.addAttribute("usuario", usuario2);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
+            model.addAttribute("listaDistritos",listaDistrito);
             return "superadmin/Plantilla_Vista_Actualizar_Doctor";
         }
         if(usuario1.getRol().getNombre().equals("Admin")) {
@@ -1013,6 +1040,7 @@ public class SuperadminController {
             List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
             List<Sede> list1 = sedeRepository.findAll();
             List<String> listaIndicador = new ArrayList<>();
+            List<Distrito> listaDistrito = distritoRepository.findAll();
 
             for (Sede sede : list1) {
                 int i = 0;
@@ -1041,6 +1069,7 @@ public class SuperadminController {
             model.addAttribute("usuario", usuario2);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
+            model.addAttribute("listaDistritos",listaDistrito);
             return "superadmin/Plantilla_Vista_Actualizar_Administrador";
         }
         if(usuario1.getRol().getNombre().equals("Farmacista")) {
@@ -1050,6 +1079,7 @@ public class SuperadminController {
             Usuario usuario2 = optusuario.get();
             List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
             List<Sede> list1 = sedeRepository.findAll();
+            List<Distrito> listaDistrito = distritoRepository.findAll();
 
             List<String> listaIndicador = new ArrayList<>();
 
@@ -1081,6 +1111,7 @@ public class SuperadminController {
             model.addAttribute("usuario", usuario2);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
+            model.addAttribute("listaDistritos",listaDistrito);
             return "superadmin/Plantilla_Vista_Actualizar_Farmacista";
         }
         if(usuario1.getRol().getNombre().equals("Paciente")) {
@@ -1103,6 +1134,7 @@ public class SuperadminController {
         if(usuario1.getRol().getNombre().equals("Doctor")) {
             List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
             List<Sede> list1 = sedeRepository.findAll();
+            List<Distrito> listaDistrito = distritoRepository.findAll();
 
             List<String> listaIndicador = new ArrayList<>();
 
@@ -1125,12 +1157,14 @@ public class SuperadminController {
             model.addAttribute("usuario", usuario1);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
+            model.addAttribute("listaDistritos",listaDistrito);
             return "superadmin/Plantilla_Vista_Actualizar_Doctor";
         }
         if(usuario1.getRol().getNombre().equals("Admin")) {
             List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
             List<Sede> list1 = sedeRepository.findAll();
             List<String> listaIndicador = new ArrayList<>();
+            List<Distrito> listaDistrito = distritoRepository.findAll();
 
             for (Sede sede : list1) {
                 int i = 0;
@@ -1159,11 +1193,13 @@ public class SuperadminController {
             model.addAttribute("usuario", usuario1);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
+            model.addAttribute("listaDistritos",listaDistrito);
             return "superadmin/Plantilla_Vista_Actualizar_Administrador";
         }
         if(usuario1.getRol().getNombre().equals("Farmacista")) {
             List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
             List<Sede> list1 = sedeRepository.findAll();
+            List<Distrito> listaDistrito = distritoRepository.findAll();
 
             List<String> listaIndicador = new ArrayList<>();
 
@@ -1195,6 +1231,7 @@ public class SuperadminController {
             model.addAttribute("usuario", usuario1);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
+            model.addAttribute("listaDistritos",listaDistrito);
             return "superadmin/Plantilla_Vista_Actualizar_Farmacista";
         }
         if(usuario1.getRol().getNombre().equals("Paciente")) {
@@ -1234,6 +1271,8 @@ public class SuperadminController {
                 }
             }
             System.out.println(listaIndicador);
+            List<Distrito> listaDistrito = distritoRepository.findAll();
+            model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario1);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1268,6 +1307,8 @@ public class SuperadminController {
                 }
             }
             System.out.println(listaIndicador);
+            List<Distrito> listaDistrito = distritoRepository.findAll();
+            model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario1);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1304,6 +1345,8 @@ public class SuperadminController {
 
             }
             System.out.println(listaIndicador);
+            List<Distrito> listaDistrito = distritoRepository.findAll();
+            model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario1);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1311,6 +1354,10 @@ public class SuperadminController {
         }
         if(usuario1.getRol().getNombre().equals("Paciente")) {
             model.addAttribute("usuario", usuario1);
+            List<Distrito> listaDistrito = distritoRepository.findAll();
+            List<Seguro> listaSeguro = seguroRepository.findAll();
+            model.addAttribute("listaDistritos",listaDistrito);
+            model.addAttribute("listaSeguros",listaSeguro);
             return "superadmin/Plantilla_Vista_Actualizar_Paciente";
         }
         return  "superadmin/Vista_Principal";
@@ -1345,6 +1392,8 @@ public class SuperadminController {
                 }
             }
             System.out.println(listaIndicador);
+            List<Distrito> listaDistrito = distritoRepository.findAll();
+            model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario1);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1379,6 +1428,8 @@ public class SuperadminController {
                 }
             }
             System.out.println(listaIndicador);
+            List<Distrito> listaDistrito = distritoRepository.findAll();
+            model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario1);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1415,6 +1466,8 @@ public class SuperadminController {
 
             }
             System.out.println(listaIndicador);
+            List<Distrito> listaDistrito = distritoRepository.findAll();
+            model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario1);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1422,6 +1475,10 @@ public class SuperadminController {
         }
         if(usuario1.getRol().getNombre().equals("Paciente")) {
             model.addAttribute("usuario", usuario1);
+            List<Distrito> listaDistrito = distritoRepository.findAll();
+            List<Seguro> listaSeguro = seguroRepository.findAll();
+            model.addAttribute("listaDistritos",listaDistrito);
+            model.addAttribute("listaSeguros",listaSeguro);
             return "superadmin/Plantilla_Vista_Actualizar_Paciente";
         }
         return  "superadmin/Vista_Principal";
@@ -1559,6 +1616,7 @@ public class SuperadminController {
         if (optUsuario.isPresent()) {
             usuario = optUsuario.get();
             List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
+            List<Distrito> listaDistritos = distritoRepository.findAll();
             List<Sede> list1 = sedeRepository.findAll();
 
             List<String> listaIndicador = new ArrayList<>();
@@ -1590,6 +1648,7 @@ public class SuperadminController {
             model.addAttribute("usuario", usuario);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
+            model.addAttribute("listaDistritos",listaDistritos);
             return "superadmin/Plantilla_Vista_Actualizar_Administrador";
 
         } else {
@@ -1696,6 +1755,8 @@ public class SuperadminController {
 
             }
             System.out.println(listaIndicador);
+            List<Distrito> listaDistrito = distritoRepository.findAll();
+            model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1729,6 +1790,10 @@ public class SuperadminController {
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         if (optionalUsuario.isPresent()) {
             usuario = optionalUsuario.get();
+            List<Distrito> listaDistrito = distritoRepository.findAll();
+            List<Seguro> listaSeguro = seguroRepository.findAll();
+            model.addAttribute("listaDistritos",listaDistrito);
+            model.addAttribute("listaSeguros",listaSeguro);
             model.addAttribute("usuario", usuario);
             return "superadmin/Plantilla_Vista_Actualizar_Paciente";
         } else {
