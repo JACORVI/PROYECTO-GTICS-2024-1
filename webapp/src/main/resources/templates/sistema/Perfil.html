@@ -115,13 +115,18 @@
         </style>
     </head>
     <body class="sb-nav-fixed">
-        <div th:if="${session.usuario.rol == 'farmacista'}">
+        <div th:if="${session.usuario.rol.getNombre == 'Farmacista'}">
             <div th:replace="layout/PlantillaFarmacista :: navegacion"></div>
         </div>
-        <div th:if="${session.usuario.rol == 'superadmin'}">
+        <div th:if="${session.usuario.rol.getNombre == 'Superadmin'}">
             <div th:replace="layout/PlantillaSuperAdmin :: navegacion"></div>
         </div>
-
+        <div th:if="${session.usuario.rol.getNombre == 'Admin'}">
+            <div th:replace="layout/generaladmin :: navegacion"></div>
+        </div>
+        <div th:if="${session.usuario.rol.getNombre == 'Paciente'}">
+            <div th:replace="layout/NavbarPaciente :: navegacion"></div>
+        </div>
         <div th:replace="layout/MensajesTemplate :: mensajes"></div>
 
         <!-- TRABAJAR AQUI -->
