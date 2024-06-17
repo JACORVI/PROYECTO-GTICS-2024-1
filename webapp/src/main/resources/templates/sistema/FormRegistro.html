@@ -46,6 +46,7 @@
                 <input type="text" placeholder="Ingresa tu correo..." th:field="*{correo}" th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}">
                 <div class="error" id="email-registro-error"></div>
             </div>
+            <div th:if="${correoExistenteError != null}" th:text="${correoExistenteError}" style="color: red"></div>
             <div class="input-field-select">
                 <i class="fas fa-user-shield"></i>
                 <select class="form-select" aria-label="Default select example" th:field="*{seguro}">

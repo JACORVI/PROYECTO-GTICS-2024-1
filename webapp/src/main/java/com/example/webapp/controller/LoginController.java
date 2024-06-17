@@ -9,7 +9,6 @@ import com.example.webapp.repository.SeguroRepository;
 import com.example.webapp.repository.UsuarioRepository;
 import com.example.webapp.util.Correo;
 import com.example.webapp.util.Utileria;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,18 +19,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
+
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -163,14 +161,40 @@ public class LoginController {
                                                RedirectAttributes attributes, Model model) {
         Map<String, String> response = new HashMap<>();
         try {
+            int result = 0;
+            int longitud = 0;
+            String mensajeDeValidacion = "Su nueva contraseña debe tener al menos 6 caracteres con 1 mayuscula, 1 minuscula y 1 numero.";
             String passwordcopia = password;
-            password = encoder.encode(password);
-            int result = usuarioRepository.actualizarPassword(password,passwordcopia, id);
 
+            if (passwordcopia.length() >= 6) {
+                longitud = 1;
+            }
+
+            boolean hasUpper = false;
+            boolean hasLower = false;
+            boolean hasDigit = false;
+
+            if(longitud == 1) {
+                for (char c : password.toCharArray()) {
+                    if (Character.isUpperCase(c)) {
+                        hasUpper = true;
+                    } else if (Character.isLowerCase(c)) {
+                        hasLower = true;
+                    } else if (Character.isDigit(c)) {
+                        hasDigit = true;
+                    }
+
+                    // Si todas las condiciones se cumplen, no necesitamos seguir verificando
+                    if (hasUpper && hasLower && hasDigit) {
+                        password = encoder.encode(password);
+                        result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
+                    }
+                }
+            }
             if (result > 0) {
                 response.put("response", "OK");
             } else {
-                response.put("response", "No se pudo reestablecer contraseña");
+                response.put("response", mensajeDeValidacion);
             }
 
         } catch (Exception ex) {
@@ -209,8 +233,8 @@ public class LoginController {
         return "sistema/Index";
     }
 
-    @PostMapping("/validarDNI")
-    public String validarPersona(@ModelAttribute("dni") String dni, RedirectAttributes redirectAttributes) {
+    @PostMapping("/registro")
+    public String validarPersona(@ModelAttribute("dni") String dni, RedirectAttributes redirectAttributes, Model model) {
         try {
             Data data = dataDao.buscarPorDni(dni);
             Integer dniInt = Integer.valueOf(dni);
@@ -223,7 +247,42 @@ public class LoginController {
                 }
             }
             if (!encontrado) {
-                return "redirect:/registro?dni=" + dni;
+                try {
+                    //NOMBRES -> Nombres
+                    String nombreCompleto = data.getNombres();
+                    String[] palabras1 = nombreCompleto.split(" ");
+                    StringBuilder nombreFormateado = new StringBuilder();
+                    for (String palabra : palabras1) {
+                        if (!nombreFormateado.toString().isEmpty()) {
+                            nombreFormateado.append(" ");
+                        }
+                        nombreFormateado.append(palabra.substring(0, 1).toUpperCase())
+                                .append(palabra.substring(1).toLowerCase());
+                    }
+
+                    //APELLIDOS -> Apellidos
+                    String apellidoCompleto = data.getApellido_paterno() + " " + data.getApellido_materno();
+                    String[] palabras2 = apellidoCompleto.split(" ");
+                    StringBuilder apellidoFormateado = new StringBuilder();
+                    for (String palabra : palabras2) {
+                        if (!apellidoFormateado.toString().isEmpty()) {
+                            apellidoFormateado.append(" ");
+                        }
+                        apellidoFormateado.append(palabra.substring(0, 1).toUpperCase())
+                                .append(palabra.substring(1).toLowerCase());
+                    }
+
+                    model.addAttribute("nombresValidados", nombreFormateado.toString());
+                    model.addAttribute("apellidosValidados", apellidoFormateado.toString());
+                    model.addAttribute("dniValidado", data.getDni());
+                    model.addAttribute("listaSeguros", seguroRepository.findAll());
+                    model.addAttribute("listaDistritos", distritoRepository.findAll());
+                    return "sistema/FormRegistro";
+                }
+                catch (Exception e) {
+                    redirectAttributes.addFlashAttribute("error", "El DNI ingresado no es valido.");
+                    return "redirect:/login";
+                }
             }
             else{
                 redirectAttributes.addFlashAttribute("error", "El DNI ingresado ya esta registrado en el sistema.");
@@ -236,73 +295,34 @@ public class LoginController {
         }
     }
 
+    @PostMapping("/registro/usuario")
+    public String registrarUsuario(@ModelAttribute("usuario") @Valid Usuario usuario,
+                                   BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
-    @GetMapping("/registro")
-    public String registerWindow(@RequestParam("dni") String dni, RedirectAttributes redirectAttributes, Model model) {
-        try {
-            Data data = dataDao.buscarPorDni(dni);
+        boolean encontrado = false;
 
-            Integer dniInt = Integer.valueOf(dni);
-            List<Integer> listaDNI = usuarioRepository.listaDniExistentes();
-            boolean encontrado = false;
-            for (Integer dni1 : listaDNI) {
-                if (dni1.equals(dniInt)) {
+        if (usuario.getCorreo() != null){
+            String correo = usuario.getCorreo();
+            List<String> listaCorreos = usuarioRepository.listaCorreosExistentes();
+            for (String correo1 : listaCorreos) {
+                if (correo1.equals(correo)) {
                     encontrado = true;
                     break;
                 }
             }
-            if (encontrado) {
-                redirectAttributes.addFlashAttribute("error", "El DNI ingresado ya esta registrado en el sistema.");
-                return "redirect:/login";
-            }
-
-            //NOMBRES -> Nombres
-            String nombreCompleto = data.getNombres();
-            String[] palabras1 = nombreCompleto.split(" ");
-            StringBuilder nombreFormateado = new StringBuilder();
-            for (String palabra : palabras1) {
-                if (!nombreFormateado.toString().isEmpty()) {
-                    nombreFormateado.append(" ");
-                }
-                nombreFormateado.append(palabra.substring(0, 1).toUpperCase())
-                        .append(palabra.substring(1).toLowerCase());
-            }
-
-            //APELLIDOS -> Apellidos
-            String apellidoCompleto = data.getApellido_paterno() + " " + data.getApellido_materno();
-            String[] palabras2 = apellidoCompleto.split(" ");
-            StringBuilder apellidoFormateado = new StringBuilder();
-            for (String palabra : palabras2) {
-                if (!apellidoFormateado.toString().isEmpty()) {
-                    apellidoFormateado.append(" ");
-                }
-                apellidoFormateado.append(palabra.substring(0, 1).toUpperCase())
-                        .append(palabra.substring(1).toLowerCase());
-            }
-
-            model.addAttribute("nombresValidados", nombreFormateado.toString());
-            model.addAttribute("apellidosValidados", apellidoFormateado.toString());
-            model.addAttribute("dniValidado", data.getDni());
-            model.addAttribute("listaSeguros", seguroRepository.findAll());
-            model.addAttribute("listaDistritos", distritoRepository.findAll());
-            return "sistema/FormRegistro";
         }
-        catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "El DNI ingresado no es valido.");
-            return "redirect:/login";
-        }
-    }
 
-    @PostMapping("/registro/usuario")
-    public String registrarUsuario(@ModelAttribute("usuario") @Valid Usuario usuario,
-                                   BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
-        if (bindingResult.hasErrors() || usuario.getDistrito() == null || usuario.getSeguro() == null) {
+        if (bindingResult.hasErrors() || usuario.getDistrito() == null || usuario.getSeguro() == null || encontrado) {
             if (usuario.getDistrito() == null){
                 model.addAttribute("distritoError", "Debe seleccionar un distrito");
             }
             if (usuario.getSeguro() == null){
                 model.addAttribute("seguroError", "Debe seleccionar un seguro");
             }
+            if (encontrado) {
+                model.addAttribute("correoExistenteError", "El correo ingresado ya ha sido registrado.");
+            }
+
             int dni = usuario.getDni();
             String dniString = String.valueOf(dni);
             Data data = dataDao.buscarPorDni(dniString);
@@ -359,7 +379,7 @@ public class LoginController {
             } catch (Exception e) {
                 logger.error("Error al registrar el usuario", e);
                 redirectAttributes.addFlashAttribute("usuario", usuario);
-                redirectAttributes.addFlashAttribute("error", "Hubo un problema al registrar el usuario. Verifique que el correo sea real.");
+                redirectAttributes.addFlashAttribute("error", "Hubo un problema al registrar el usuario. Por favor, Intentelo de nuevo.");
             }
 
             return "redirect:/login";
@@ -384,7 +404,6 @@ public class LoginController {
             attributes.addFlashAttribute("error", "Su cuenta ya se encuentra activada!");
             return "redirect:/login";
         }
-
         model.addAttribute("usuario", objUsu);
 
         return "sistema/ActivarNuevoPassword";
@@ -397,14 +416,40 @@ public class LoginController {
                                                       RedirectAttributes attributes, Model model) {
         Map<String, String> response = new HashMap<>();
         try {
+            int result = 0;
+            int longitud = 0;
+            String mensajeDeValidacion = "Su contraseña debe tener al menos 6 caracteres con 1 mayuscula, 1 minuscula y 1 numero.";
             String passwordcopia = password;
-            password = encoder.encode(password);
-            int result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
 
+            if (passwordcopia.length() >= 6) {
+                longitud = 1;
+            }
+
+            boolean hasUpper = false;
+            boolean hasLower = false;
+            boolean hasDigit = false;
+
+            if(longitud == 1) {
+                for (char c : password.toCharArray()) {
+                    if (Character.isUpperCase(c)) {
+                        hasUpper = true;
+                    } else if (Character.isLowerCase(c)) {
+                        hasLower = true;
+                    } else if (Character.isDigit(c)) {
+                        hasDigit = true;
+                    }
+
+                    // Si todas las condiciones se cumplen, no necesitamos seguir verificando
+                    if (hasUpper && hasLower && hasDigit) {
+                        password = encoder.encode(password);
+                        result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
+                    }
+                }
+            }
             if (result > 0) {
                 response.put("response", "OK");
             } else {
-                response.put("response", "No se pudo activar cuenta");
+                response.put("response", mensajeDeValidacion);
             }
 
         } catch (Exception ex) {
