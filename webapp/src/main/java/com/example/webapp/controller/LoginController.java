@@ -9,6 +9,9 @@ import com.example.webapp.repository.SeguroRepository;
 import com.example.webapp.repository.UsuarioRepository;
 import com.example.webapp.util.Correo;
 import com.example.webapp.util.Utileria;
+import com.example.webapp.util.Utils;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,7 +61,11 @@ public class LoginController {
     @Autowired
     private Utileria util;
     @Autowired
+    private Utils utils;
+    @Autowired
     private PasswordEncoder encoder;
+    @Autowired
+    private HttpSession session;
 
     @GetMapping(value = {"/acceso"})
     public String Login(Model model, Authentication auth) {
@@ -465,4 +472,64 @@ public class LoginController {
     }
 
 
+    @GetMapping("/perfil")
+    public String Ver_Perfil(Model model, Authentication auth) {
+        String username = utils.obtenerUsername(auth);
+        List<Usuario> listUsu = usuarioRepository.buscarPorCorreo(username);
+        Usuario obj = listUsu.get(0);
+
+        if (obj == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("usuario", obj);
+        return "sistema/Perfil";
+    }
+
+    @PostMapping("/perfil/guardar")
+    public String GuardarPerfil(Model model, Usuario obj,
+                                RedirectAttributes attributes,
+                                @RequestParam("accion") String accion
+    ) {
+        Usuario data = null;
+        try {
+            data = usuarioRepository.findById(obj.getId()).orElse(null);
+
+            if (accion.equalsIgnoreCase("perfil")) {
+                data.setNombres(obj.getNombres().trim());
+                data.setApellidos(obj.getApellidos().trim());
+                data.setTelefono(obj.getTelefono().trim());
+                data.setDni(obj.getDni());
+                data.setCorreo(obj.getCorreo().trim());
+
+                if (obj.getContrasena() != null && obj.getContrasena().trim().length() > 0) {
+                    data.setContrasena(obj.getContrasena().trim());
+                }
+            }
+
+            if (accion.equalsIgnoreCase("avatar")) {
+                data.setImagen(obj.getImagen().trim());
+            }
+
+            if (accion.equalsIgnoreCase("direccion")) {
+                data.setReferencia(obj.getReferencia().trim());
+                //data.setDistrito(obj.getDistrito().trim());
+                data.setDireccion(obj.getDireccion().trim());
+            }
+
+            usuarioRepository.save(data);
+
+            if (obj.getId() > 0) {
+                attributes.addFlashAttribute("success", "Datos actualizados!!");
+                session.setAttribute("avatar", data.getImagen());
+                return "redirect:/perfil";
+            }
+            model.addAttribute("error", "No se pudo actualizar datos!");
+        } catch (Exception ex) {
+            model.addAttribute("error", ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        model.addAttribute("usuario", data);
+        return "sistema/Perfil";
+    }
 }

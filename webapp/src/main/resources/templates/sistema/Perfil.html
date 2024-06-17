@@ -147,11 +147,9 @@
                                     <!-- Contenido del perfil aquí -->
 
                                     <h2 class="mb-4">Editar Perfil</h2>
-                                    <form class="row g-3"
-                                          action="/perfil/guardar"    
-                                          th:object="${usuario}" method="post"
-                                          >
-                                        <div class="col-md-6">
+                                    <form class="row g-3" th:action="@{/perfil/guardar}" th:object="${usuario}" method="post">
+
+                                    <div class="col-md-6">
                                             <label for="inputNombre" class="form-label">Nombres</label>
                                             <input type="text" class="form-control"  th:field="*{nombres}" required="">
                                         </div>
