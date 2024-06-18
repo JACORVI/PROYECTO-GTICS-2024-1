@@ -15,7 +15,33 @@
             font-weight: bold;
             font-size: 18px;
         }
+        .disabled-input:disabled {
+            background-color: #d3d3d3; /* Color gris */
+            color: #6c757d; /* Color del texto, opcional */
 
+            cursor: not-allowed; /* Cambia el cursor para indicar que está deshabilitado */
+        }
+        /* Estilo para eliminar el borde azul en el select cuando está enfocado */
+        .form-select:focus {
+            outline: none; /* Elimina el contorno predeterminado */
+            box-shadow: none; /* Elimina la sombra predeterminada */
+            border-color: #ccc; /* Opcional: puedes establecer un color de borde específico cuando está enfocado */
+        }
+        .form-select option {
+            color: #555;
+            background-color: #fff;
+            padding: 10px;
+        }
+
+        /* Opcional: Estilo al seleccionar una opción */
+        .form-select option:checked {
+            background-color: #eee;
+        }
+
+        /* Opcional: Deshabilitar opción seleccionada al abrir el select */
+        .form-select option:disabled {
+            color: #999;
+        }
     </style>
 </head>
 <body>
@@ -26,21 +52,22 @@
     <div class="signin-signup">
         <form id="formReg" th:action="@{/registro/usuario}" class="sign-in-form" th:object="${usuario}" method="post">
             <h2 class="title">Registro</h2>
-            <div class="input-field-select">
+            <div class="input-field-select-disabled">
                 <i class="fas fa-user"></i>
-                <input type="text" name="nombresRegister" th:value="${nombresValidados}" disabled>
+                <input type="text" name="nombresRegister" th:value="${nombresValidados}" disabled class="disabled-input">
                 <input type="hidden" name="nombres" th:value="${nombresValidados}">
             </div>
-            <div class="input-field-select">
+            <div class="input-field-select-disabled">
                 <i class="fas fa-user-plus"></i>
-                <input type="text" name="apellidosRegister" th:value="${apellidosValidados}" disabled>
+                <input type="text" name="apellidosRegister" th:value="${apellidosValidados}" disabled class="disabled-input">
                 <input type="hidden" name="apellidos" th:value="${apellidosValidados}">
             </div>
-            <div class="input-field-select">
+            <div class="input-field-select-disabled">
                 <i class="fas fa-hashtag"></i>
-                <input type="text" name="dniRegister" th:value="${dniValidado}" disabled>
+                <input type="text" name="dniRegister" th:value="${dniValidado}" disabled class="disabled-input">
                 <input type="hidden" name="dni" th:value="${dniValidado}">
             </div>
+
             <div class="input-field-select">
                 <i class="fas fa-envelope"></i>
                 <input type="text" placeholder="Ingresa tu correo..." th:field="*{correo}" th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}">
