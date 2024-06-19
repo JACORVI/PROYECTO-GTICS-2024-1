@@ -56,12 +56,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true,value = "update usuario set estado_solicitud = ?1 , estado = 1 where id_usuario = ?2")
+    @Query(nativeQuery = true,value = "update usuario set estado_solicitud = ?1 , estado = 1, cuenta_activada = 1, borrado_logico = 0 where id_usuario = ?2")
     void aceptarAdministrador(String valor, int id);
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true,value = "update usuario set estado_solicitud = ?1, motivo_rechazo = ?2 where id_usuario = ?3")
+    @Query(nativeQuery = true,value = "update usuario set estado_solicitud = ?1, estado = 0, cuenta_activada = 0, borrado_logico = 0, motivo_rechazo = ?2 where id_usuario = ?3")
     void rechazarAdministrador(String valor, String motivo_rechazo, int id);
 
     @Query(value = "select * from usuario where rol = ?1 and borrado_logico = ?2 order by fecha_creacion", nativeQuery = true)

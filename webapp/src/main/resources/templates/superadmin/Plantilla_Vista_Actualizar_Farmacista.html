@@ -78,6 +78,7 @@
                             <input th:value="${usuario.getBorrado_logico()}" name="borrado_logico" type="hidden" />
                             <input th:value="${'No necesaria para un Farmacista'}" name="direccion" type="hidden" />
                             <input th:value="${6}" name="seguro.id" type="hidden" />
+                            <input th:value="${usuario.getPunto()}" name="punto" type="hidden" />
                             <div class="col-md-6">
                                 <label class="form-label">Nombres</label>
                                 <input type="text" class="form-control" th:field="*{nombres}"

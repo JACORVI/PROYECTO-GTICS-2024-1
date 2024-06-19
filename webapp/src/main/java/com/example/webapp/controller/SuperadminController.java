@@ -1656,8 +1656,8 @@ public class SuperadminController {
         }
     }
 
-    @GetMapping("/Aceptar_Administrador")
-    public String Aceptar_Administrador(@RequestParam("id") int id) {
+    @PostMapping("/Aceptar_Administrador")
+    public String Aceptar_Administrador(@RequestParam("id_usuario") int id) {
         usuarioRepository.aceptarAdministrador("Aceptado",id);
 
         return "redirect:/superadmin/Estado_Solicitudes_Farmacistas";
