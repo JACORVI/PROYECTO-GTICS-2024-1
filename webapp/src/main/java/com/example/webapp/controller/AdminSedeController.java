@@ -29,6 +29,8 @@ public class AdminSedeController {
     SedeRepository sedeRepository;
     SedeHasMedicamentosRepository sedeHasMedicamentosRepository;
     CarritoRepository carritoRepository;
+    DistritoRepository distritoRepository;
+    ProveedorRepository proveedorRepository;
 
     public AdminSedeController(MedicamentosRepository medicamentosRepository,
                                UsuarioRepository usuarioRepository,
@@ -36,7 +38,9 @@ public class AdminSedeController {
                                UsuarioHasSedeRepository usuarioHasSedeRepository,
                                SedeRepository sedeRepository,
                                SedeHasMedicamentosRepository sedeHasMedicamentosRepository,
-                               CarritoRepository carritoRepository) {
+                               CarritoRepository carritoRepository,
+                               DistritoRepository distritoRepository,
+                               ProveedorRepository proveedorRepository) {
 
         this.medicamentosRepository = medicamentosRepository;
 
@@ -51,6 +55,11 @@ public class AdminSedeController {
         this.sedeHasMedicamentosRepository = sedeHasMedicamentosRepository;
 
         this.carritoRepository = carritoRepository;
+
+        this.distritoRepository = distritoRepository;
+
+        this.proveedorRepository = proveedorRepository;
+
     }
 
 
@@ -125,7 +134,7 @@ public class AdminSedeController {
 
     /*Vista para crear nuevo farmacista*/
     @GetMapping(value="/admin/registrar_farmacista")
-    public String adminsedeFarmacistas(HttpSession session, RedirectAttributes attr, @ModelAttribute("usuario") Usuario usuario){
+    public String adminsedeFarmacistas(Model model, HttpSession session, RedirectAttributes attr, @ModelAttribute("usuario") Usuario usuario){
 
         Usuario admin = (Usuario) session.getAttribute("usuario");
         int idSede = usuarioHasSedeRepository.buscarSedeDeUsuario(admin.getId());
@@ -136,6 +145,8 @@ public class AdminSedeController {
             return "redirect:/admin/farmacistas";
         }
         else {
+            List<Distrito> listaDistrito = distritoRepository.findAll();
+            model.addAttribute("listaDistritos",listaDistrito);
             return "admin/nuevo_farmacista";
         }
     }
@@ -179,6 +190,8 @@ public class AdminSedeController {
         if (optUsuario.isPresent()) {
             usuario = optUsuario.get();
             model.addAttribute("usuario", usuario);
+            List<Distrito> listaDistrito = distritoRepository.findAll();
+            model.addAttribute("listaDistritos",listaDistrito);
             return "admin/nuevo_farmacista";
         } else {
             return "redirect:/admin/farmacistas";

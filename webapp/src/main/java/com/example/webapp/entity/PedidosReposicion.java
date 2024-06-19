@@ -24,5 +24,8 @@ public class PedidosReposicion {
     private double costo_total;
     private String fecha_entrega;
     private String estado_de_reposicion;
+    @ManyToOne
+    @JoinColumn(name="proveedor_id_proveedor")
+    private Proveedor proveedor;
 }
 

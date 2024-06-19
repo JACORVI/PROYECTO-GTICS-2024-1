@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div data-mdb-input-init class="form-outline mb-4">
-                            <label class="form-label">Proovedor: P1 </label>
+                            <label class="form-label" th:text="${'Proveedor: ' + pedRep.proveedor.nombre}"></label>
                         </div>
                         <div class="text-center text-md-start">
                             <a th:href="@{'/admin/editar_orden' + '?id=' + ${pedRep.id}}" class="btn btn-warning">
