@@ -11,25 +11,38 @@ import java.util.List;
 
 @Repository
 public interface PedidosPacienteRepository extends JpaRepository<PedidosPaciente, Integer> {
-    List<PedidosPaciente> findByUsuario(Usuario usuario);
 
     @Query(value = "select * from pedidos_paciente where tipo_de_pedido = ?1", nativeQuery = true)
     List<PedidosPaciente> buscarPedidosPorTipo(String tipo_de_pedido);
 
     @Query(value = "SELECT * \n" +
             "FROM gticsbd.pedidos_paciente \n" +
-            "WHERE usuario_id_usuario = ?1 AND estado_del_pedido != 'Registrando';", nativeQuery = true)
-    List<String> pedidosDelivery(int usuid);
+            "WHERE usuario_id_usuario = ?1 AND tipo_de_pedido = 'Web - Delivery'" +
+            "order by idpedidos_paciente desc;", nativeQuery = true)
+    List<PedidosPaciente> pedidosDelivery(int usuid);
+
+    @Query(value = "SELECT * \n" +
+            "FROM gticsbd.pedidos_paciente \n" +
+            "WHERE usuario_id_usuario = ?1 AND tipo_de_pedido = 'Web - Delivery' AND numero_tracking like ?2" +
+            "order by idpedidos_paciente desc;", nativeQuery = true)
+    List<PedidosPaciente> buscarPedidosDelivery(int usuid, String numtrack);
+
+    @Query(value = "SELECT * \n" +
+            "FROM gticsbd.pedidos_paciente \n" +
+            "WHERE usuario_id_usuario = ?1 AND tipo_de_pedido = 'Pre-orden'" +
+            "order by idpedidos_paciente desc;", nativeQuery = true)
+    List<PedidosPaciente> pedidosPreorden(int usuid);
+
+    @Query(value = "SELECT * \n" +
+            "FROM gticsbd.pedidos_paciente \n" +
+            "WHERE usuario_id_usuario = ?1 AND tipo_de_pedido = 'Pre-orden' AND numero_tracking like ?2" +
+            "order by idpedidos_paciente desc;", nativeQuery = true)
+    List<PedidosPaciente> buscarPedidosPreorden(int usuid, String numtrack);
 
     @Query(value = "SELECT * \n" +
             "FROM gticsbd.pedidos_paciente_recojo \n" +
             "WHERE usuario_id_usuario = ?1 AND estado_del_pedido != 'Registrando';", nativeQuery = true)
     List<String> pedidosRecojo(int usuid);
-
-    @Query(value = "SELECT * \n" +
-            "FROM gticsbd.pedidos_paciente \n" +
-            "WHERE usuario_id_usuario = ?1 AND estado_del_pedido != 'Registrando' AND tipo_de_pedido = 'Pre-orden';", nativeQuery = true)
-    List<String> pedidosPreorden(int usuid);
 
     @Query(value = "SELECT numero_tracking\n" +
             "FROM gticsbd.pedidos_paciente;", nativeQuery = true)

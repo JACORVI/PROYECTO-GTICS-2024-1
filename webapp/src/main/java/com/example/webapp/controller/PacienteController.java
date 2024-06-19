@@ -71,12 +71,13 @@ public class PacienteController {
         }
         carritoRepository.cancelarPedidoReco(usuid);
 
-        model.addAttribute("listaPedidosPreorden", pedidosPacienteRepository.findByUsuario(usuario));
-        List<String> tamanolista = pedidosPacienteRepository.pedidosPreorden(usuid);
-        model.addAttribute("tamanolistaPreOrden", tamanolista.size());
+        List<PedidosPaciente> listaPedidosPreorden = pedidosPacienteRepository.pedidosPreorden(usuid);
+
+        model.addAttribute("listaPedidosPreorden", listaPedidosPreorden);
+        model.addAttribute("tamanolistaPreOrden", listaPedidosPreorden.size());
         model.addAttribute("ultimosMedicamentos", medicamentosRepository.ultimosMedicamentos());
         int lleno = 1;
-        if (tamanolista.isEmpty()) {
+        if (listaPedidosPreorden.isEmpty()) {
             lleno = 0;
         }
         model.addAttribute("lleno", lleno);
@@ -868,11 +869,19 @@ public class PacienteController {
     public String listaPedidos(Model model, Authentication authentication){
         Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
         int usuid = usuario.getId();
-        model.addAttribute("listaPedidosDely", pedidosPacienteRepository.findByUsuario(usuario));
-        List <String> tamanolistadely = pedidosPacienteRepository.pedidosDelivery(usuid);
-        model.addAttribute("tamanolistaPedidosDely", tamanolistadely.size());
+        Integer idpedido = carritoRepository.idPedidoRegistrando(usuid);
+        if(idpedido != null){
+            carritoRepository.borrarMedicamentosAlCancelar(usuid, idpedido);
+            carritoRepository.cancelarPedidoDely(usuid);
+        }
+
+        List<PedidosPaciente> listaPedidosDely = pedidosPacienteRepository.pedidosDelivery(usuid);
+
+        model.addAttribute("listaPedidosDely", listaPedidosDely);
+        model.addAttribute("tamanolistaPedidosDely", listaPedidosDely.size());
         int llenodely = 1;
-        if(tamanolistadely.isEmpty()){
+        int sinResultadosDely = 0;
+        if(listaPedidosDely.isEmpty()){
             llenodely = 0;
         }
         model.addAttribute("llenodely", llenodely);
@@ -880,10 +889,86 @@ public class PacienteController {
         model.addAttribute("tamanolistaPedidosReco", pedidosPacienteRecojoRepository.findByUsuario(usuario).size());
         List <String> tamanolistareco = pedidosPacienteRepository.pedidosRecojo(usuid);
         int llenoreco = 1;
+        int sinResultadosReco = 0;
         if(tamanolistareco.isEmpty()){
             llenoreco = 0;
         }
         model.addAttribute("llenoreco", llenoreco);
+        model.addAttribute("sinResultadosDely", sinResultadosDely);
+        model.addAttribute("sinResultadosReco", sinResultadosReco);
+
+        return "paciente/mispedidos";
+    }
+    @PostMapping("/paciente/mispedidos/buscadorDely")
+    public String buscarPedidoDely(@RequestParam("searchFieldDely") String searchFieldDely,
+                                   Model model, Authentication authentication){
+        Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
+        int usuid = usuario.getId();
+        Integer idpedido = carritoRepository.idPedidoRegistrando(usuid);
+        if(idpedido != null){
+            carritoRepository.borrarMedicamentosAlCancelar(usuid, idpedido);
+            carritoRepository.cancelarPedidoDely(usuid);
+        }
+
+        List<PedidosPaciente> listaPedidosDely = pedidosPacienteRepository.buscarPedidosDelivery(usuid, searchFieldDely);
+
+        model.addAttribute("listaPedidosDely", listaPedidosDely);
+        model.addAttribute("tamanolistaPedidosDely", listaPedidosDely.size());
+        int llenodely = 1;
+        int sinResultadosDely = 0;
+        if(listaPedidosDely.isEmpty()){
+            sinResultadosDely = 1;
+        }
+        model.addAttribute("llenodely", llenodely);
+        model.addAttribute("listaPedidosReco", pedidosPacienteRecojoRepository.findByUsuario(usuario));
+        model.addAttribute("tamanolistaPedidosReco", pedidosPacienteRecojoRepository.findByUsuario(usuario).size());
+        List <String> tamanolistareco = pedidosPacienteRepository.pedidosRecojo(usuid);
+        int llenoreco = 1;
+        int sinResultadosReco = 0;
+        if(tamanolistareco.isEmpty()){
+            llenoreco = 0;
+        }
+        model.addAttribute("llenoreco", llenoreco);
+        model.addAttribute("sinResultadosDely", sinResultadosDely);
+        model.addAttribute("sinResultadosReco", sinResultadosReco);
+        model.addAttribute("listacompletaDely", 1);
+        return "paciente/mispedidos";
+    }
+    @PostMapping("/paciente/mispedidos/buscadorReco")
+    public String buscarPedidoReco(@RequestParam("searchFieldReco") String searchFieldReco,
+                                   Model model, Authentication authentication){
+        Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
+        int usuid = usuario.getId();
+        Integer idpedido = carritoRepository.idPedidoRegistrando(usuid);
+        if(idpedido != null){
+            carritoRepository.borrarMedicamentosAlCancelar(usuid, idpedido);
+            carritoRepository.cancelarPedidoDely(usuid);
+        }
+
+        List<PedidosPaciente> listaPedidosDely = pedidosPacienteRepository.pedidosDelivery(usuid);
+
+        model.addAttribute("listaPedidosDely", listaPedidosDely);
+        model.addAttribute("tamanolistaPedidosDely", listaPedidosDely.size());
+        int llenodely = 1;
+        int sinResultadosDely = 0;
+        if(listaPedidosDely.isEmpty()){
+            llenodely = 0;
+        }
+
+        List<PedidosPacienteRecojo> listaPedidosReco = pedidosPacienteRecojoRepository.buscarPedidosReco(usuid, searchFieldReco);
+
+        model.addAttribute("llenodely", llenodely);
+        model.addAttribute("listaPedidosReco", listaPedidosReco);
+        model.addAttribute("tamanolistaPedidosReco", listaPedidosReco.size());
+        int llenoreco = 1;
+        int sinResultadosReco = 0;
+        if(listaPedidosReco.isEmpty()){
+            sinResultadosReco = 1;
+        }
+        model.addAttribute("llenoreco", llenoreco);
+        model.addAttribute("sinResultadosDely", sinResultadosDely);
+        model.addAttribute("sinResultadosReco", sinResultadosReco);
+        model.addAttribute("listacompletaReco", 1);
         return "paciente/mispedidos";
     }
     /*---------------------------------------*/

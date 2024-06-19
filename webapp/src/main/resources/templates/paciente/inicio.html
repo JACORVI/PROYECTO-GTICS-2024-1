@@ -227,25 +227,22 @@
                     Ver medicamentos
                 </a>
             </div><!--/.section-header-->
-            <div class="contenido">
-                <table class="table table-hover" style="background-color: #D9D9D9; border-radius: 10px; text-align: center;" th:if="${lleno == 1}">
-                    <tr>
-                        <th colspan="0" style="text-align: center;">Orden de compra</th>
-                        <th style="text-align: center;">Fecha de Registro</th>
-                        <th style="text-align: center;">Estado de la compra</th>
-                        <th style="text-align: center;"></th>
-                    </tr>
-                    <tr th:each="preorden : ${listaPedidosPreorden}" th:if="${preorden.tipo_de_pedido == 'Pre-orden'}">
-                        <td class="align-middle" style="font-size: large;" th:text="${preorden.numero_tracking}"></td>
-                        <td class="align-middle" style="font-size: large;" th:text="${preorden.fecha_solicitud}"></td>
-                        <td class="align-middle" style="font-size: x-large; color: #0072BA;" th:text="${preorden.estado_del_pedido}" th:if="${preorden.estado_del_pedido == 'Pendiente'}"></td>
-                        <td class="align-middle" style="font-size: x-large; color: green" th:text="${preorden.estado_del_pedido}" th:if="${preorden.estado_del_pedido != 'Pendiente'}"></td>
-                        <td class="align-middle"> <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoPreorden?id=' + ${preorden.id}}" class="btn btn-info" th:if="${preorden.estado_del_pedido != 'Pendiente'}">Ver tracking</a> </td>
-                    </tr>
-                </table>
-            </div>
-            <!-- Paginacion Dely-->
-            <div class="pagination  d-flex justify-content-center" th:if="${tamanolistaPreOrden > 10}" style="padding: 50px; font-size: xxx-large;">
+            <table class="table table-hover" style="background-color: #D9D9D9; border-radius: 10px; text-align: center;" th:if="${lleno == 1}">
+                <tr>
+                    <th colspan="0" style="text-align: center;">Orden de compra</th>
+                    <th style="text-align: center;">Fecha de Registro</th>
+                    <th style="text-align: center;">Estado de la compra</th>
+                    <th style="text-align: center;"></th>
+                </tr>
+                <tr th:each="preorden : ${listaPedidosPreorden}" th:if="${preorden.tipo_de_pedido == 'Pre-orden'}">
+                    <td class="align-middle" style="font-size: large;" th:text="${preorden.numero_tracking}"></td>
+                    <td class="align-middle" style="font-size: large;" th:text="${preorden.fecha_solicitud}"></td>
+                    <td class="align-middle" style="font-size: x-large; color: #0072BA;" th:text="${preorden.estado_del_pedido}" th:if="${preorden.estado_del_pedido == 'Pendiente'}"></td>
+                    <td class="align-middle" style="font-size: x-large; color: green" th:text="${preorden.estado_del_pedido}" th:if="${preorden.estado_del_pedido != 'Pendiente'}"></td>
+                    <td class="align-middle"> <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoPreorden?id=' + ${preorden.id}}" class="btn btn-info" th:if="${preorden.estado_del_pedido != 'Pendiente'}">Ver tracking</a> </td>
+                </tr>
+            </table>
+            <div class="pagination  d-flex justify-content-center" style="padding: 50px; font-size: xxx-large">
             </div>
         </div><!--/.containernav-->
 
@@ -410,13 +407,14 @@
 
         $(function () {
             var numberOfItems = $(".contenido").length;
-            var limitPerPage = 12; //How many card items visible per a page
+            var limitPerPage = 5; //How many card items visible per a page
             var totalPages = Math.ceil(numberOfItems / limitPerPage);
-            var paginationSize = 6; //How many page elements visible in the pagination
+            var paginationSize = 5; //How many page elements visible in the pagination
             var currentPage;
 
             function showPage(whichPage) {
-                if (whichPage < 1 || whichPage > totalPages) return false;
+                if (whichPage < 1 || whichPage > totalPages)
+                    return false;
 
                 currentPage = whichPage;
 
