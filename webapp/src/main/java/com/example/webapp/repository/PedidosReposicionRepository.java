@@ -24,4 +24,12 @@ public interface PedidosReposicionRepository extends JpaRepository<PedidosReposi
     @Modifying
     @Query(value = "DELETE FROM gticsbd.pedidos_reposicion_has_medicamentos WHERE pedidos_reposicion_id_pedidos_reposicion = ?1", nativeQuery = true)
     void eliminarTodo(int id);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value = "UPDATE gticsbd.pedidos_reposicion \n" +
+            "SET proveedor_id_proveedor = ?1\n" +
+            "WHERE id_pedidos_reposicion = ?2 ")
+    void actualizarProovedor(int idProve, int idPedRep);
+
 }

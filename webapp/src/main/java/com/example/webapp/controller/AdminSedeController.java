@@ -435,7 +435,8 @@ public class AdminSedeController {
         pedidosReposicion.setFecha_entrega("2024-09-25");
         pedidosReposicion.setEstado_de_reposicion(estadopedido);
         model.addAttribute("pedRep",pedidosReposicion );
-
+        List<Proveedor> listaProovedor = proveedorRepository.findAll();
+        model.addAttribute("listaProovedores",listaProovedor);
 
         return "admin/formCompra";
 
@@ -449,9 +450,12 @@ public class AdminSedeController {
         Usuario admin = (Usuario) session.getAttribute("usuario");
         int idAdmin = admin.getId();
 
+        pedidosReposicionRepository.actualizarProovedor(pedidosReposicion.getProveedor().getId(),pedidosReposicion.getId());
+
         List<Carrito> carritoxusId = carritoRepository.listarCarritoxUsuario(idAdmin);
         for (Carrito producto : carritoxusId) {
-            carritoRepository.registrarPedidoRepo3(pedidosReposicion.getId(), idAdmin,1,producto.getMedicamentos_id_medicamentos().getId(),50);
+            carritoRepository.registrarPedidoRepo3(pedidosReposicion.getId(), idAdmin,pedidosReposicion.getProveedor().getId(),producto.getMedicamentos_id_medicamentos().getId(),50);
+
         }
 
         attr.addFlashAttribute("msg", "Orden creada exitosamente");

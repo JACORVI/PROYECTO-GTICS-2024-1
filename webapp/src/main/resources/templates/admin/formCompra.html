@@ -23,6 +23,15 @@
                 <label class="form-label">Costo total</label>
                 <input class="form-control" readonly th:value="*{costo_total}"/>
             </div>
+            <br>
+            <div class="col-md-6">
+                <label class="form-label">Proveedor</label>
+                <select class="form-select" name="proveedor" th:field="*{proveedor}">
+                    <option th:each="proveedor : ${listaProovedores}" th:value="${proveedor.id}"
+                            th:text="${proveedor.getNombre()}"></option>
+                </select>
+            </div>
+            <br>
             <button type="submit" class="btn btn-secondary" style="font-size: large;">Enviar solicitud de orden</button>
             <a th:href="@{'/admin/cancelarRegistro?id=' + *{id}}" class="btn btn-danger" style="font-size: large;">Cancelar solicitud de orden</a>
             <br>
