@@ -46,9 +46,53 @@
     <section class="py-8">
         <div class="container px-4 px-lg-5 mt-5">
             <div class="section-header">
-                <h2>Lista de Medicamentos</h2>
+                <h2 th:if="${categoria==null and orden==null}">Lista de Medicamentos</h2>
+                <h2 th:if="${categoria!=null or orden!=null}" style="margin-bottom: 2vh;">Lista de Medicamentos</h2>
+                <h3 th:if="${categoria!=null and orden!=null}" th:text="${categoria + ' de ' + orden}" style="margin-bottom: 1vh;"></h3>
+                <h3 th:if="${categoria!=null and orden==null}" th:text="${categoria}" style="margin-bottom: 1vh;"></h3>
+                <h3 th:if="${categoria==null and orden!=null}" th:text="${orden}" style="margin-bottom: 1vh;"></h3>
             </div><!--/.section-header-->
-            <br><br><br>
+            <br><br>
+            <div style="display: flex">
+                <form th:if="${principal == 1}" class="d-flex" th:action="@{/paciente/medicamentos/buscador}" method="post" role="search" style="width: 45%;">
+                    <input name="searchField" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar medicamento..." aria-label="Search">
+                    <button class="btn btn-outline-warning" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                    </svg></button>
+                </form>
+                <form th:if="${principal == 0}" class="d-flex" th:action="@{/paciente/medicamentos/buscador}" method="post" role="search" style="width: 35%; margin-right: 1vh">
+                    <input name="searchField" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar medicamento..." aria-label="Search">
+                    <button class="btn btn-outline-warning" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                    </svg></button>
+                </form>
+                <a th:if="${principal == 0}" th:href="@{/paciente/medicamentos}" class="btn btn-outline-warning" type="button">Ver lista completa</a>
+                <form class="d-flex" th:action="@{/paciente/medicamentos/filtrar}" method="post" role="search" style="width: 40%; margin-left: 10vh">
+                    <select name="filtroCategoria" style="margin-left: 2vh; width: 45%; font-size: large" class="form-select" aria-label="Default select example">
+                        <option value=""><-- categorias --></option>
+                        <option th:each="categoria : ${listaCategorias}" th:value="${categoria}" th:text="${categoria}"></option>
+                    </select>
+                    <select name="filtroOrden" style="margin-left: 1vh; width: 50%; font-size: large" class="form-select" aria-label="Default select example">
+                        <option value=""><-- ordenar por --></option>
+                        <option value="1">mayor a menor precio</option>
+                        <option value="2">menor a mayor precio</option>
+                        <option value="3">antiguo a nuevo</option>
+                        <option value="4">A -> Z</option>
+                        <option value="5">Z -> A</option>
+                    </select>
+                    <button style="margin-left: 1vh; font-size: large" class="btn btn-outline-warning" type="submit">Filtrar</button>
+                </form>
+            </div>
+            <br><br>
+            <div th:if="${listaMedicamentos.isEmpty()}">
+                <br>
+                <br>
+                <br>
+                <h3 style="align-content: center; justify-content: center; justify-self: center; align-self: center">Disculpe, el medicamento buscado no se encuentra en nuestro catálogo.</h3>
+                <br>
+                <br>
+                <br>
+            </div>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" >
                 <div class="contenido" th:each="medicamentos : ${listaMedicamentos}" >
                     <div class="single-new-arrival" th:if="${medicamentos.inventario != 0}">

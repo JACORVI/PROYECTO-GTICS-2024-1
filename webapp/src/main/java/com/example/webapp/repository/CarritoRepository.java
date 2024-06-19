@@ -2,6 +2,7 @@ package com.example.webapp.repository;
 
 import com.example.webapp.entity.Carrito;
 import com.example.webapp.entity.CarritoId;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -67,10 +68,20 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
             "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
     List<Integer> idpedidoPorUsuIdDely(int id);
 
+    @Query(value = "SELECT numero_tracking\n" +
+            "FROM gticsbd.pedidos_paciente\n" +
+            "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
+    List<String> idNumTrackPorUsuIdDely(int id);
+
     @Query(value = "SELECT idpedidos_paciente_recojo\n" +
             "FROM gticsbd.pedidos_paciente_recojo\n" +
             "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
     List<Integer> idpedidoPorUsuIdReco(int id);
+
+    @Query(value = "SELECT numero_tracking\n" +
+            "FROM gticsbd.pedidos_paciente_recojo\n" +
+            "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
+    List<String> idnumTrackPorUsuIdReco(int id);
 
     @Transactional
     @Modifying
@@ -132,6 +143,11 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
             "WHERE usuario_id_usuario = ?1\n" +
             "AND estado_del_pedido = 'Registrando';", nativeQuery = true)
     void cancelarPedidoReco(int usuid);
+
+    @Query(value = "SELECT idpedidos_paciente\n" +
+            "FROM gticsbd.pedidos_paciente\n" +
+            "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
+    Integer idPedidoRegistrando(int id);
 
     @Transactional
     @Modifying

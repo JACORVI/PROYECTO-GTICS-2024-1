@@ -17,27 +17,10 @@ public class PedidosPaciente {
     @Column(nullable = false)
     private String nombre_paciente;
     private String apellido_paciente;
-    private String medico_que_atiende;
-
-    @NotNull(message = "Debe seleccionar una opción")
-    private String seguro;
-
-    @NotBlank(message = "La dirección no puede quedar vacia")
-    @Size(max = 90, message = "La dirección no puede tener más de 90 caracteres")
-    private String direccion;
-
-    @NotNull(message = "Debe seleccionar una opción")
-    private String distrito;
-
-    @Positive(message = "El número de celular debe ser positivo")
-    @Max(value = 1000000000, message = "El número de celular debe tener 9 dígitos")
-    @Min(value = 899999999, message = "El número de celular debe empezar con el dígito 9")
-    private int telefono;
-
     private int dni;
-
-    @NotBlank(message = "La hora de entrega no puede quedar vacia")
-    private String hora_de_entrega;
+    private String medico_que_atiende;
+    private String seguro;
+    private String distrito;
     private Double costo_total;
     private String tipo_de_pedido;
     private String fecha_solicitud;
@@ -49,6 +32,18 @@ public class PedidosPaciente {
     private String numero_tracking;
     private String aviso_vencimiento;
     private String metodo_pago;
+
+    @NotBlank(message = "La dirección no puede quedar vacia")
+    @Size(max = 90, message = "La dirección no puede tener más de 90 caracteres")
+    private String direccion;
+
+    @Positive(message = "El número de celular debe ser positivo")
+    @Max(value = 1000000000, message = "El número de celular debe tener 9 dígitos")
+    @Min(value = 899999999, message = "El número de celular debe empezar con el dígito 9")
+    private int telefono;
+
+    @NotBlank(message = "La hora de entrega no puede quedar vacia")
+    private String hora_de_entrega;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id_usuario")

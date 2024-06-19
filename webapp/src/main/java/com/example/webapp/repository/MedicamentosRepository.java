@@ -18,6 +18,52 @@ public interface MedicamentosRepository extends JpaRepository<Medicamentos, Inte
     @Query(value = "select * from medicamentos where nombre like %?1%" , nativeQuery = true)
     List<Medicamentos> buscarMedicamento(String nombreMedicamento);
 
+    @Query(value = "select categoria from gticsbd.medicamentos" , nativeQuery = true)
+    List<String> listaCategorias();
+
+    @Query(value = "select * from gticsbd.medicamentos where categoria = ?1" , nativeQuery = true)
+    List<Medicamentos> listaMedicamentosPorCategoria(String categoria);
+
+    @Query(value = "select * from gticsbd.medicamentos where categoria = ?1\n" +
+            "order by precio_unidad desc;" , nativeQuery = true)
+    List<Medicamentos> listaMedicamentosCategoriaFiltro1(String categoria);
+
+    @Query(value = "select * from gticsbd.medicamentos where categoria = ?1\n" +
+            "order by precio_unidad asc" , nativeQuery = true)
+    List<Medicamentos> listaMedicamentosCategoriaFiltro2(String categoria);
+
+    @Query(value = "select * from gticsbd.medicamentos where categoria = ?1\n" +
+            "order by id_medicamentos desc" , nativeQuery = true)
+    List<Medicamentos> listaMedicamentosCategoriaFiltro3(String categoria);
+
+    @Query(value = "select * from gticsbd.medicamentos where categoria = ?1\n" +
+            "order by nombre asc" , nativeQuery = true)
+    List<Medicamentos> listaMedicamentosCategoriaFiltro4(String categoria);
+
+    @Query(value = "select * from gticsbd.medicamentos where categoria = ?1\n" +
+            "order by nombre desc" , nativeQuery = true)
+    List<Medicamentos> listaMedicamentosCategoriaFiltro5(String categoria);
+
+    @Query(value = "select * from gticsbd.medicamentos\n" +
+            "order by precio_unidad desc" , nativeQuery = true)
+    List<Medicamentos> listaMedicamentosFiltro1();
+
+    @Query(value = "select * from gticsbd.medicamentos\n" +
+            "order by precio_unidad asc" , nativeQuery = true)
+    List<Medicamentos> listaMedicamentosFiltro2();
+
+    @Query(value = "select * from gticsbd.medicamentos\n" +
+            "order by id_medicamentos desc" , nativeQuery = true)
+    List<Medicamentos> listaMedicamentosFiltro3();
+
+    @Query(value = "select * from gticsbd.medicamentos\n" +
+            "order by nombre asc" , nativeQuery = true)
+    List<Medicamentos> listaMedicamentosFiltro4();
+
+    @Query(value = "select * from gticsbd.medicamentos\n" +
+            "order by nombre desc" , nativeQuery = true)
+    List<Medicamentos> listaMedicamentosFiltro5();
+
     @Query(value = "SELECT *\n" +
             "FROM gticsbd.medicamentos\n" +
             "ORDER BY id_medicamentos DESC\n" +

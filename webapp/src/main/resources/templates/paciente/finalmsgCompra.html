@@ -22,21 +22,40 @@
             </div>
             <div class="px-sm-5 px-2 active">FORMULARIO
                 <span class="fas fa-check"></span></div>
-            <div class="px-sm-5 px-2">PEDIDO FINALIZADO</div>
+            <div class="px-sm-5 px-2 active">PEDIDO FINALIZADO
+                <span class="fas fa-check"></span></div>
         </div>
         <div class="progress">
         </div>
     </header>
     <div class="row">
-        <div class="container px-4 px-lg-5 mt-5">
-            <h1>HAS FINALIZADO EL REGISTRO DE TU COMPRA</h1>
+        <div class="container px-4 px-lg-5 mt-5" th:if="${preorden == null}">
+            <div class="text-center">
+            <h2>HAS FINALIZADO EL REGISTRO DE TU COMPRA</h2>
             <br>
-            <h3>En las siguientes 24h uno de nuestros farmacistas verificará la información<br>registrada por usted y le dará el visto bueno a su compra.<br>
-                Esto podrá verlo en su estado del pedido identificandolo con el siguiente número de tracking.</h3>
+                <img th:src="@{/assets/paciente/img/finalmsg.jpg}" alt="image" style="width: 30vh; height: 30vh;" >
+            <br><br>
+            <h4 th:text="${'Número de tracking de su pedido: ' + numTracking}"></h4>
             <br>
-
-
-            <div class="back-to-shop"><a style="font-size: x-large; font-weight: bold" th:href="@{/paciente/cancelarRegistroPedidoReco}">&leftarrow;<span class="text-muted">Ir a mi estado del pedido</span></a></div>
+            <h5>En las siguientes 24h uno de nuestros farmacistas verificará <br> la información registrada por usted y le dará el visto bueno a su compra.<br>
+                Esto podrá verlo en su estado del pedido identificandolo con su número de tracking.</h5>
+            </div>
+            <div class="back-to-shop"><a style="font-size: x-large; font-weight: bold" th:href="@{/paciente/mispedidos}">&leftarrow;<span class="text-muted">Ir a mi estado del pedido</span></a></div>
+            <br><br>
+        </div>
+        <div class="container px-4 px-lg-5 mt-5" th:if="${preorden != null}">
+            <div class="text-center">
+                <h2>HAS FINALIZADO EL REGISTRO DE TU PRE-COMPRA</h2>
+                <br>
+                <img th:src="@{/assets/paciente/img/finalmsg.jpg}" alt="image" style="width: 30vh; height: 30vh;" >
+                <br><br>
+                <h4 th:text="${'Número de tracking de su pedido: ' + numTracking}"></h4>
+                <br>
+                <h5>En las siguientes 24h uno de nuestros farmacistas verificará <br> la información registrada por usted y le dará el visto bueno a su compra.<br>
+                    Esto podrá verlo en su estado del pedido identificandolo con su número de tracking.</h5>
+            </div>
+            <div class="back-to-shop"><a style="font-size: x-large; font-weight: bold" th:href="@{/paciente/inicio#populer-products}">&leftarrow;<span class="text-muted">Ir a mi estado del pedido</span></a></div>
+            <br><br>
         </div>
     </div>
 </div>

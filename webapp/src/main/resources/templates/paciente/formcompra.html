@@ -45,49 +45,43 @@
                     <input class="form-control" type="text" th:value="${dni}" disabled>
                 </div>
                 <div class="mb-3">
+                    <label class="form-label">Seguro</label>
+                    <input class="form-control" type="text" th:value="${seguro}" disabled>
+                </div>
+                <div class="mb-3">
                     <label class="form-label">Numero de celular</label>
-                    <input class="form-control" type="text" th:field="*{telefono}" th:classappend="${#fields.hasErrors('telefono')?'is-invalid':''}">
+                    <input class="form-control" type="text" th:field="*{telefono}" th:classappend="${#fields.hasErrors('telefono')?'is-invalid':''}" style="margin-bottom: 0">
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Seguro</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{seguro}">
-                        <option th:value="${null}">--Seleccione una opción--</option>
-                        <option th:value="${'No tiene'}">No tengo seguro</option>
-                        <option th:value="${'Pacifico'}">Pacifico</option>
-                        <option th:value="${'Rimac'}">Rimac</option>
-                        <option th:value="${'Mapfre'}">Mapfre</option>
-                        <option th:value="${'La positiva'}">La positiva</option>
-                    </select>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('seguro')}" th:errors="*{seguro}"></div>
-                </div>
-                <div class="mb-3">
                     <label class="form-label">Doctor que lo/la atendió</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{medico_que_atiende}">
-                        <option th:value="${null}">--Seleccione una Opcion--</option>
+                    <select class="form-select" aria-label="Default select example" th:field="*{medico_que_atiende}" style="margin-bottom: 0">
+                        <option value="">-- Seleccione una Opcion --</option>
                         <option th:value="${'Sin medico'}">No me atendi con un medico</option>
                         <option th:each="usuario : ${listausuarios}" th:if="${usuario.rol} == 'Doctor'" th:value="${usuario.nombres + ' ' + usuario.apellidos}"  th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></option>
                     </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">¿Desea recibir un aviso entre 5 y 10 dias antes acerca del vencimiento de sus medicamentos?</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{aviso_vencimiento}">
-                        <option th:value="${null}">--Seleccione una opción--</option>
-                        <option th:value="${'No'}">No</option>
-                        <option th:value="${'No'}">Si</option>
-                    </select>
+                    <div th:if="${medicoError != null}" th:text="${medicoError}" style="color: red; font-size: small"></div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Sede en la que desea recoger su pedido</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{sede_de_recojo}">
-                        <option th:value="${null}">--Seleccione una opción--</option>
+                    <select class="form-select" aria-label="Default select example" th:field="*{sede_de_recojo}" style="margin-bottom: 0">
+                        <option value="">-- Seleccione una opción --</option>
                         <option th:each="sede : ${listasedes}" th:value="${sede.nombre}"  th:text="${sede.nombre}"></option>
                     </select>
+                    <div th:if="${sedeError != null}" th:text="${sedeError}" style="color: red; font-size: small"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">¿Desea recibir un aviso entre 5 y 10 dias antes acerca del vencimiento de sus medicamentos?</label>
+                    <select class="form-select" aria-label="Default select example" th:field="*{aviso_vencimiento}" style="margin-bottom: 0">
+                        <option value="">-- Seleccione una opción --</option>
+                        <option th:value="${'No'}">No</option>
+                        <option th:value="${'Si'}">Si</option>
+                    </select>
+                    <div th:if="${avisoError != null}" th:text="${avisoError}" style="color: red; font-size: small"></div>
                 </div>
                 <button type="submit" class="btn btn-secondary" style="font-size: large; margin: 0">Finalizar la solicitud de compra</button>
                 <div class="back-to-shop"><a style="font-size: x-large; font-weight: bold" th:href="@{/paciente/cancelarRegistroPedidoReco}">&leftarrow;<span class="text-muted"> Volver a la pagina</span></a></div>
             </form>
-
         </div>
     </div>
 </div>

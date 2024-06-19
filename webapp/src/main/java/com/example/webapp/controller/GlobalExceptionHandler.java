@@ -17,4 +17,5 @@ public class GlobalExceptionHandler {
     public String handle404() {
         return "error";
     }
+
 }

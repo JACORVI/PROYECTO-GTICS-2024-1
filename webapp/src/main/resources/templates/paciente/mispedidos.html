@@ -53,26 +53,21 @@
         <a th:if="${llenodely == 0}" class="btn-cart welcome-add-cart sofa-collection-btn" th:href="@{/paciente/medicamentos}">
           Ver medicamentos
         </a>
-        <div class="contenido">
-          <table class="table table-hover" th:if="${llenodely == 1}">
-            <tr>
-              <th colspan="0" style="text-align: center;">Orden de compra</th>
-              <th style="text-align: center;">Fecha de Registro</th>
-              <th style="text-align: center;">Estado de la compra</th>
-              <th style="text-align: center;"></th>
-            </tr>
-            <tr th:each="pedidodely : ${listaPedidosDely}" th:if="${pedidodely.tipo_de_pedido == 'Web - Delivery'}">
-              <td class="align-middle" style="font-size: large;" th:text="${pedidodely.numero_tracking}"></td>
-              <td class="align-middle" style="font-size: large;" th:text="${pedidodely.fecha_solicitud}"></td>
-              <td class="align-middle" style="font-size: x-large; color: #0072BA;" th:text="${pedidodely.estado_del_pedido}" th:if="${pedidodely.estado_del_pedido == 'Pendiente'}"></td>
-              <td class="align-middle" style="font-size: x-large; color: green" th:text="${pedidodely.estado_del_pedido}" th:if="${pedidodely.estado_del_pedido != 'Pendiente'}"></td>
-              <td class="align-middle"> <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoDely?id=' + ${pedidodely.id}}" class="btn btn-info" th:if="${pedidodely.estado_del_pedido != 'Pendiente'}">Ver tracking</a> </td>
-            </tr>
-          </table>
-        </div>
-        <!-- Paginacion Dely-->
-        <div class="pagination  d-flex justify-content-center" th:if="${tamanolistaPedidosDely > 10}" style="padding: 50px; font-size: xxx-large;">
-        </div>
+        <table class="table table-hover" th:if="${llenodely == 1}">
+          <tr>
+            <th colspan="0" style="text-align: center;">Orden de compra</th>
+            <th style="text-align: center;">Fecha de Registro</th>
+            <th style="text-align: center;">Estado de la compra</th>
+            <th style="text-align: center;"></th>
+          </tr>
+          <tr th:each="pedidodely : ${listaPedidosDely}" th:if="${pedidodely.tipo_de_pedido == 'Web - Delivery'}">
+            <td class="align-middle" style="font-size: large;" th:text="${pedidodely.numero_tracking}"></td>
+            <td class="align-middle" style="font-size: large;" th:text="${pedidodely.fecha_solicitud}"></td>
+            <td class="align-middle" style="font-size: x-large; color: #0072BA;" th:text="${pedidodely.estado_del_pedido}" th:if="${pedidodely.estado_del_pedido == 'Pendiente'}"></td>
+            <td class="align-middle" style="font-size: x-large; color: green" th:text="${pedidodely.estado_del_pedido}" th:if="${pedidodely.estado_del_pedido != 'Pendiente'}"></td>
+            <td class="align-middle"> <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoDely?id=' + ${pedidodely.id}}" class="btn btn-info" th:if="${pedidodely.estado_del_pedido != 'Pendiente'}">Ver tracking</a> </td>
+          </tr>
+        </table>
         <br>
         <br>
         <br>
@@ -84,21 +79,26 @@
         <a th:if="${llenoreco == 0}" class="btn-cart welcome-add-cart sofa-collection-btn" th:href="@{/paciente/medicamentos}">
           Ver medicamentos
         </a>
-        <table class="table table-hover" th:if="${llenoreco == 1}">
-          <tr>
-            <th colspan="0" style="text-align: center;">Orden de compra</th>
-            <th style="text-align: center;">Fecha de Registro</th>
-            <th style="text-align: center;">Estado de la compra</th>
-            <th style="text-align: center;"></th>
-          </tr>
-          <tr th:each="pedidoreco : ${listaPedidosReco}">
-            <td class="align-middle" style="font-size: large;" th:text="${pedidoreco.numero_tracking}"></td>
-            <td class="align-middle" style="font-size: large;" th:text="${pedidoreco.fecha_solicitud}"></td>
-            <td class="align-middle" style="font-size: x-large; color: #0072BA;" th:text="${pedidoreco.estado_del_pedido}" th:if="${pedidoreco.estado_del_pedido == 'Pendiente'}"></td>
-            <td class="align-middle" style="font-size: x-large; color: green" th:text="${pedidoreco.estado_del_pedido}" th:if="${pedidoreco.estado_del_pedido != 'Pendiente'}"></td>
-            <td class="align-middle"> <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoReco?id=' + ${pedidoreco.id}}" class="btn btn-info" th:if="${pedidoreco.estado_del_pedido != 'Pendiente'}">Ver tracking</a> </td>
-          </tr>
-        </table>
+        <div class="contenido">
+          <table class="table table-hover" th:if="${llenoreco == 1}">
+            <tr>
+              <th colspan="0" style="text-align: center;">Orden de compra</th>
+              <th style="text-align: center;">Fecha de Registro</th>
+              <th style="text-align: center;">Estado de la compra</th>
+              <th style="text-align: center;"></th>
+            </tr>
+            <tr th:each="pedidoreco : ${listaPedidosReco}">
+              <td class="align-middle" style="font-size: large;" th:text="${pedidoreco.numero_tracking}"></td>
+              <td class="align-middle" style="font-size: large;" th:text="${pedidoreco.fecha_solicitud}"></td>
+              <td class="align-middle" style="font-size: x-large; color: #0072BA;" th:text="${pedidoreco.estado_del_pedido}" th:if="${pedidoreco.estado_del_pedido == 'Pendiente'}"></td>
+              <td class="align-middle" style="font-size: x-large; color: green" th:text="${pedidoreco.estado_del_pedido}" th:if="${pedidoreco.estado_del_pedido != 'Pendiente'}"></td>
+              <td class="align-middle"> <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoReco?id=' + ${pedidoreco.id}}" class="btn btn-info" th:if="${pedidoreco.estado_del_pedido != 'Pendiente'}">Ver tracking</a> </td>
+            </tr>
+          </table>
+        </div>
+        <!-- Paginacion Recojo-->
+        <div class="pagination  d-flex justify-content-center" th:if="${tamanolistaPedidosReco > 10}" style="padding: 50px; font-size: xxx-large;">
+        </div>
         <br>
       </div><!--/.containernav-->
     </div><!--/.section-header-->
@@ -221,7 +221,7 @@
 
   $(function () {
     var numberOfItems = $(".contenido").length;
-    var limitPerPage = 10; //How many card items visible per a page
+    var limitPerPage = 5; //How many card items visible per a page
     var totalPages = Math.ceil(numberOfItems / limitPerPage);
     var paginationSize = 6; //How many page elements visible in the pagination
     var currentPage;

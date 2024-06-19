@@ -45,100 +45,55 @@
                     <input class="form-control" type="text" th:value="${dni}" disabled>
                 </div>
                 <div class="mb-3">
+                    <label class="form-label">Seguro</label>
+                    <input class="form-control" type="text" th:value="${seguro}" disabled>
+                </div>
+                <div class="mb-3">
                     <label class="form-label">Numero de celular</label>
-                    <input class="form-control" type="text" th:field="*{telefono}" th:classappend="${#fields.hasErrors('telefono')?'is-invalid':''}">
+                    <input class="form-control" type="number" th:field="*{telefono}" th:classappend="${#fields.hasErrors('telefono')?'is-invalid':''}" style="margin-bottom: 0">
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Seguro</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{seguro}">
-                        <option th:value="${null}">--Seleccione una opción--</option>
-                        <option th:value="${'No tiene'}">No tengo seguro</option>
-                        <option th:value="${'Pacifico'}">Pacifico</option>
-                        <option th:value="${'Rimac'}">Rimac</option>
-                        <option th:value="${'Mapfre'}">Mapfre</option>
-                        <option th:value="${'La positiva'}">La positiva</option>
-                    </select>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('seguro')}" th:errors="*{seguro}"></div>
-                </div>
-                <div class="mb-3">
                     <label class="form-label">Doctor que lo/la atendió</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{medico_que_atiende}">
-                        <option th:value="${null}">--Seleccione una Opcion--</option>
+                    <select class="form-select" aria-label="Default select example" th:field="*{medico_que_atiende}" style="margin-bottom: 0">
+                        <option value="">-- Seleccione una Opcion --</option>
                         <option th:value="${'Sin medico'}">No me atendi con un medico</option>
                         <option th:each="usuario : ${listausuarios}" th:if="${usuario.rol} == 'Doctor'" th:value="${usuario.nombres + ' ' + usuario.apellidos}"  th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></option>
                     </select>
+                    <div th:if="${medicoError != null}" th:text="${medicoError}" style="color: red; font-size: small"></div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">¿Desea recibir un aviso entre 5 y 10 dias antes acerca del vencimiento de sus medicamentos?</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{aviso_vencimiento}">
-                        <option th:value="${null}">--Seleccione una opción--</option>
-                        <option th:value="${'No'}">No</option>
-                        <option th:value="${'No'}">Si</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Dirección de Entrega</label>
-                    <input class="form-control" type="text" th:field="*{direccion}" th:classappend="${#fields.hasErrors('direccion')?'is-invalid':''}">
+                    <label class="form-label">Dirección de la entrega</label>
+                    <input class="form-control" type="text" th:field="*{direccion}" th:classappend="${#fields.hasErrors('direccion')?'is-invalid':''}" style="margin-bottom: 0">
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Distrito de la entrega</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{distrito}">
-                        <option th:value="${null}">--Seleccione una opción--</option>
-                        <option th:value="${'Ancón'}">Ancón</option>
-                        <option th:value="${'Ate'}">Ate</option>
-                        <option th:value="${'Barranco'}">Barranco</option>
-                        <option th:value="${'Breña'}">Breña</option>
-                        <option th:value="${'Carabayllo'}">Carabayllo</option>
-                        <option th:value="${'Chaclacayo'}">Chaclacayo</option>
-                        <option th:value="${'Chorrillos'}">Chorrillos</option>
-                        <option th:value="${'Cieneguilla'}">Cieneguilla</option>
-                        <option th:value="${'Comas'}">Comas</option>
-                        <option th:value="${'El Agustino'}">El Agustino</option>
-                        <option th:value="${'Independencia'}">Independencia</option>
-                        <option th:value="${'Jesús María'}">Jesús María</option>
-                        <option th:value="${'La Molina'}">La Molina</option>
-                        <option th:value="${'La Victoria'}">La Victoria</option>
-                        <option th:value="${'Lince'}">Lince</option>
-                        <option th:value="${'Los Olivos'}">Los Olivos</option>
-                        <option th:value="${'Lurigancho'}">Lurigancho</option>
-                        <option th:value="${'Lurín'}">Lurín</option>
-                        <option th:value="${'Magdalena del Mar'}">Magdalena del Mar</option>
-                        <option th:value="${'Miraflores'}">Miraflores</option>
-                        <option th:value="${'Pachacamac'}">Pachacamac</option>
-                        <option th:value="${'Pucusana'}">Pucusana</option>
-                        <option th:value="${'Pueblo Libre'}">Pueblo Libre</option>
-                        <option th:value="${'Puente Piedra'}">Puente Piedra</option>
-                        <option th:value="${'Punta Hermosa'}">Punta Hermosa</option>
-                        <option th:value="${'Punta Negra'}">Punta Negra</option>
-                        <option th:value="${'Rímac'}">Rímac</option>
-                        <option th:value="${'San Bartolo'}">San Bartolo</option>
-                        <option th:value="${'San Borja'}">San Borja</option>
-                        <option th:value="${'San Isidro'}">San Isidro</option>
-                        <option th:value="${'San Juan de Lurigancho'}">San Juan de Lurigancho</option>
-                        <option th:value="${'San Juan de Miraflores'}">San Juan de Miraflores</option>
-                        <option th:value="${'San Luis'}">San Luis</option>
-                        <option th:value="${'San Martín de Porres'}">San Martín de Porres</option>
-                        <option th:value="${'San Miguel'}">San Miguel</option>
-                        <option th:value="${'Santa Anita'}">Santa Anita</option>
-                        <option th:value="${'Santa María del Mar'}">Santa María del Mar</option>
-                        <option th:value="${'Santa Rosa'}">Santa Rosa</option>
-                        <option th:value="${'Santiago de Surco'}">Santiago de Surco</option>
-                        <option th:value="${'Surquillo'}">Surquillo</option>
-                        <option th:value="${'Villa El Salvador'}">Villa El Salvador</option>
-                        <option th:value="${'Villa María del Triunfo'}">Villa María del Triunfo</option>
+                    <select class="form-select" aria-label="Default select example" th:field="*{distrito}" style="margin-bottom: 0">
+                        <option value="">-- Seleccione una opción --</option>
+                        <option th:each="distrito : ${listaDistritos}" th:value="${distrito.nombre}"  th:text="${distrito.nombre}"></option>
                     </select>
+                    <div th:if="${distritoError != null}" th:text="${distritoError}" style="color: red; font-size: small"></div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Hora de Entrega</label>
-                    <input class="form-control" type="time" th:field="*{hora_de_entrega}" th:classappend="${#fields.hasErrors('hora_de_entrega')?'is-invalid':''}">
+                    <input class="form-control" type="time" th:field="*{hora_de_entrega}" th:classappend="${#fields.hasErrors('hora_de_entrega')?'is-invalid':''}" style="margin-bottom: 0">
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('hora_de_entrega')}" th:errors="*{hora_de_entrega}"></div>
                 </div>
+                <div class="mb-3">
+                    <label class="form-label">¿Desea recibir un aviso entre 5 y 10 dias antes acerca del vencimiento de sus medicamentos?</label>
+                    <select class="form-select" aria-label="Default select example" th:field="*{aviso_vencimiento}" style="margin-bottom: 0">
+                        <option value="">-- Seleccione una opción --</option>
+                        <option th:value="${'No'}">No</option>
+                        <option th:value="${'Si'}">Si</option>
+                    </select>
+                    <div th:if="${avisoError != null}" th:text="${avisoError}" style="color: red; font-size: small"></div>
+                </div>
+                <br>
                 <button type="submit" class="btn btn-secondary" style="font-size: large; margin: 0">Finalizar la solicitud de compra</button>
                 <div class="back-to-shop"><a style="font-size: x-large; font-weight: bold" th:href="@{/paciente/cancelarRegistroPedidoDely}">&leftarrow;<span class="text-muted"> Volver a la pagina</span></a></div>
             </form>
-
+            <br><br>
         </div>
     </div>
 </div>
