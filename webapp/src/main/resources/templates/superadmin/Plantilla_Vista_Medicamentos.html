@@ -75,6 +75,11 @@
                         <tbody>
                         <tr class=contenido th:each="Medicamentos, info : ${listTransportation}">
                             <td class=><p style="font-size: 18px;" th:text="${Medicamentos.getNombre()}">Panadol</p></td>
+                            <td class=>
+                                <div class="bg-light rounded h-100 p-4">
+                                    <h4><p style="text-align:center"><img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="..." style="width: 100px; height: 100px;"/></p></h4>
+                                </div>
+                            </td>
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">

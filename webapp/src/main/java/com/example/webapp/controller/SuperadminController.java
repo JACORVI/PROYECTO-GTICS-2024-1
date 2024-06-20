@@ -97,7 +97,17 @@ public class SuperadminController {
     @GetMapping("/Medicamentos")
     public String Medicamentos(Model model) {
         List<Medicamentos> lista = medicamentosRepository.buscarMedicamentoGeneral(0);
+        List<String> listafotos = new ArrayList<>();
+
+        for (int i = 0; i < lista.size(); i++) {
+            byte[] fotoBytes = lista.get(i).getFoto();
+            String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+            listafotos.add(fotoBase64);
+            System.out.println(listafotos.get(i));
+        }
+
         model.addAttribute("listTransportation", lista);
+        model.addAttribute("listaFotos", listafotos);
         return "superadmin/Plantilla_Vista_Medicamentos";
     }
 
