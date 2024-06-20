@@ -209,6 +209,11 @@ public class PacienteController {
             return "paciente/finalmsgCompra";
         }
     }
+    @GetMapping("/paciente/medicamentos/info")
+    public String informacionDelMedicamento(){
+        return "paciente/infomedicamento";
+    }
+
     @GetMapping("/paciente/cancelarRegistroPedidoPreorden")
     public String cancelarRegistroDePedidoPreorden(Authentication authentication){
         Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
@@ -528,11 +533,6 @@ public class PacienteController {
         model.addAttribute("listaCategorias", listaSinDuplicados);
 
         return "paciente/medicamentos";
-    }
-
-    @GetMapping("/paciente/medicamentos/info")
-    public String informacionDelMedicamento(){
-        return "paciente/infomedicamento";
     }
 
     @GetMapping("/paciente/añadirCarrito1")

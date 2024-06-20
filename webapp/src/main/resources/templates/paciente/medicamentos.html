@@ -101,9 +101,11 @@
                             <div class="single-new-arrival-bg-overlay"></div>
                             <div class="new-arrival-cart">
                                 <p>
-                                    <span class="lnr lnr-cart"></span>
-                                    <a th:if="${numPedido != ''}" th:href="@{'/paciente/añadirCarrito1?id=' + ${medicamentos.id}  + '&numpedido=' + ${numPedido}}">Añadir <span>al </span> carrito</a>
-                                    <a th:if="${numPedido == ''}" th:href="@{'/paciente/añadirCarrito2?id=' + ${medicamentos.id}}">Añadir <span>al </span> carrito</a>
+                                    <a th:if="${numPedido != ''}" th:href="@{'/paciente/añadirCarrito1?id=' + ${medicamentos.id}  + '&numpedido=' + ${numPedido}}"><span class="lnr lnr-cart" style="margin-right: 0"></span> Añadir <span>al </span> carrito</a>
+                                    <a th:if="${numPedido == ''}" th:href="@{'/paciente/añadirCarrito2?id=' + ${medicamentos.id}}"><span class="lnr lnr-cart" style="margin-right: 0"></span> Añadir <span>al </span> carrito</a>
+                                </p>
+                                <p>
+                                    <a th:href="@{'/paciente/medicamentos/info?id=' + ${medicamentos.id}}"><span class="lnr lnr-book"></span> <span>info</span></a>
                                 </p>
                                 <p class="arrival-review pull-right">
                                     <a href="#"><span class="lnr lnr-frame-expand"></span></a>
@@ -123,8 +125,8 @@
                             </div>
                             <div class="new-arrival-cart">
                                 <p>
-                                    <span class="lnr-file-add"></span>
-                                    <a th:href="@{'/paciente/generarPreorden?id=' + ${medicamentos.id}}">Realizar <span>una </span> pre-orden</a>
+                                    <a th:href="@{'/paciente/generarPreorden?id=' + ${medicamentos.id}}"><span class="lnr-file-add"></span> <span>pre-ordenar</span></a>
+                                    <a th:href="@{'/paciente/medicamentos/info?id=' + ${medicamentos.id}}"><span class="lnr lnr-book" style="margin-left: 15px"></span> <span>info</span></a>
                                 </p>
                                 <p class="arrival-review pull-right">
                                     <a href="#"><span class="lnr lnr-frame-expand"></span></a>
@@ -231,6 +233,7 @@
 
     </footer><!--/.footer-->
     <!--footer end-->
+
 
     <!-- Script de paginacion-->
     <script type="text/javascript">
