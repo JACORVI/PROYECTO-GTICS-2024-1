@@ -22,7 +22,7 @@ public class PedidosPacienteRecojo {
     private String apellido_paciente;
     private String medico_que_atiende;
     private String seguro;
-    private int dni;
+    private Integer dni;
     private Double costo_total;
     private String tipo_de_pedido;
     private String fecha_solicitud;
@@ -34,11 +34,9 @@ public class PedidosPacienteRecojo {
     private String numero_tracking;
     private String aviso_vencimiento;
     private String sede_de_recojo;
+    private Integer telefono;
 
-    @Positive(message = "El número de celular debe ser positivo")
-    @Max(value = 1000000000, message = "El número de celular debe tener 9 dígitos")
-    @Min(value = 899999999, message = "El número de celular debe empezar con el dígito 9")
-    private int telefono;
+    private byte[] receta_foto;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id_usuario")

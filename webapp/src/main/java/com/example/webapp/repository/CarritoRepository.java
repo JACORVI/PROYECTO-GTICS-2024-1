@@ -71,17 +71,12 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
             "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
     List<Integer> idpedidoPorUsuIdDely(int id);
 
-    @Query(value = "SELECT *\n" +
-            "FROM gticsbd.pedidos_paciente\n" +
-            "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
-    List<PedidosPaciente> pedidoPorUsuIdDely(int id);
-
     @Query(value = "SELECT numero_tracking\n" +
             "FROM gticsbd.pedidos_paciente\n" +
             "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
     List<String> idNumTrackPorUsuIdDely(int id);
 
-    @Query(value = "SELECT idpedidos_paciente_recojo\n" +
+    @Query(value = "SELECT *\n" +
             "FROM gticsbd.pedidos_paciente_recojo\n" +
             "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
     List<Integer> idpedidoPorUsuIdReco(int id);
@@ -156,6 +151,11 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
             "FROM gticsbd.pedidos_paciente\n" +
             "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
     Integer idPedidoRegistrando(int id);
+
+    @Query(value = "SELECT idpedidos_paciente_recojo\n" +
+            "FROM gticsbd.pedidos_paciente_recojo\n" +
+            "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
+    Integer idPedidoRegistrandoReco(int id);
 
     @Transactional
     @Modifying
