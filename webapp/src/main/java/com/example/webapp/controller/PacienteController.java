@@ -2,6 +2,7 @@ package com.example.webapp.controller;
 
 import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
+import jakarta.servlet.http.Part;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -243,11 +246,19 @@ public class PacienteController {
         String banco = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         String numpedido = "";
 
-        List<Carrito> carrito = carritoRepository.carritoPorId(usuid);
+        List<Medicamentos> lista = medicamentosRepository.buscarMedicamentoGeneral(0);
+        List<String> listafotos = new ArrayList<>();
 
-        model.addAttribute("listaMedicamentos",medicamentosRepository.findAll());
-        model.addAttribute("cantidadMedicamentos",medicamentosRepository.findAll().size());
-        model.addAttribute("carrito", carrito.size());
+        for (int i = 0; i < lista.size(); i++) {
+            byte[] fotoBytes = lista.get(i).getFoto();
+            String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+            listafotos.add(fotoBase64);
+        }
+
+        model.addAttribute("listaMedicamentos",lista);
+        model.addAttribute("listaFotos", listafotos);
+        model.addAttribute("cantidadMedicamentos",lista.size());
+
 
         //generador de numero de pedidos
         List<String> estadosdecompraporId = carritoRepository.estadosDeCompraPorUsuarioId(usuid);
@@ -739,10 +750,26 @@ public class PacienteController {
     }
 
     @PostMapping("/paciente/guardarDely")
-    public String guardarPedidoDely(@ModelAttribute("pedidosPaciente") @Valid PedidosPaciente pedidosPaciente, BindingResult bindingResult,
+    public String guardarPedidoDely(@RequestParam("foto1") Part foto1,
+                                    @ModelAttribute("pedidosPaciente") @Valid PedidosPaciente pedidosPaciente, BindingResult bindingResult,
                                     Model model, Authentication authentication) {
         Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
-        if (bindingResult.hasErrors() || pedidosPaciente.getDistrito().equals("") || pedidosPaciente.getMedico_que_atiende().equals("") || pedidosPaciente.getAviso_vencimiento().equals("")){
+        boolean telefonoErrors = pedidosPaciente.getTelefono() == null || pedidosPaciente.getTelefono()<900000000 || pedidosPaciente.getTelefono()>999999999;
+        boolean imagenValida = foto1.getContentType().contains("application/octet-stream") || foto1.getContentType().contains("image/jpeg") || foto1.getContentType().contains("image/png") || foto1.getContentType().contains("image/jpeg"); ;
+        boolean evitaAtaquesLFI = foto1.getSubmittedFileName().contains("..");
+
+        if (bindingResult.hasErrors() || pedidosPaciente.getDistrito().equals("") || pedidosPaciente.getMedico_que_atiende().equals("") || pedidosPaciente.getAviso_vencimiento().equals("") || telefonoErrors || !imagenValida || evitaAtaquesLFI){
+            if (pedidosPaciente.getTelefono() == null){
+                model.addAttribute("telefonoError", "El número de celular no puede quedar vacio.");
+            }
+            else{
+                if(pedidosPaciente.getTelefono()<900000000 || pedidosPaciente.getTelefono()>999999999){
+                    model.addAttribute("telefonoError", "El número de celular tiene que tener 9 dígitos.");
+                }
+            }
+            if(!imagenValida || evitaAtaquesLFI){
+                model.addAttribute("fotoError", "Solo se aceptan archivos de tipo JPG, JPEG y PNG");
+            }
             if (pedidosPaciente.getDistrito().equals("")){
                 model.addAttribute("distritoError", "Debe seleccionar el distrito del lugar de la entrega");
             }
@@ -761,33 +788,101 @@ public class PacienteController {
             return "paciente/formcompradely";
         }
         else{
-            String nombre = usuario.getNombres();
-            String apellido = usuario.getApellidos();
-            int dni = usuario.getDni();
-            String seguro = usuario.getSeguro().getNombre();
-            int telefono = pedidosPaciente.getTelefono();
-            String medico = pedidosPaciente.getMedico_que_atiende();
-            String vencimiento = pedidosPaciente.getAviso_vencimiento();
+            if(foto1.getContentType().equals("application/octet-stream")){
+                int usuid = usuario.getId();
 
-            LocalDate fechaActual = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String fechasoli = fechaActual.format(formatter);
+                List<Integer> ids = carritoRepository.idpedidoPorUsuIdDely(usuid);
+                Integer idped = ids.get(0);
+                Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(idped);
 
-            String direccion = pedidosPaciente.getDireccion();
-            String distrito = pedidosPaciente.getDistrito();
-            String horaentrega = pedidosPaciente.getHora_de_entrega();
-            String estadopedido = "Pendiente";
-            int usuid = usuario.getId();
-            List<Integer> listidpedidodely = carritoRepository.idpedidoPorUsuIdDely(usuid);
-            int idpedido = listidpedidodely.get(0);
-            List<String> listidNumtrack = carritoRepository.idNumTrackPorUsuIdDely(usuid);
-            String numTrack = listidNumtrack.get(0);
+                if (optionalPedidosPaciente.isPresent()){
+                    PedidosPaciente pedidodely = optionalPedidosPaciente.get();
 
-            carritoRepository.registrarMedicamentosPedidoDely(idpedido, usuid);
-            carritoRepository.finalizarPedido1(nombre,apellido,dni,telefono,seguro,medico,vencimiento,fechasoli,direccion,distrito,horaentrega,estadopedido,usuid);
-            carritoRepository.borrarCarritoPorId(usuid);
+                    pedidosPaciente.setCosto_total(pedidodely.getCosto_total());
+                    pedidosPaciente.setTipo_de_pedido(pedidodely.getTipo_de_pedido());
+                    pedidosPaciente.setValidacion_del_pedido("Pendiente");
+                    pedidosPaciente.setEstado_del_pedido("Pendiente");
 
-            model.addAttribute("numTracking", numTrack);
+                    String numTrack = pedidodely.getNumero_tracking();
+                    pedidosPaciente.setNumero_tracking(pedidodely.getNumero_tracking());
+
+                    pedidosPaciente.setUsuario(usuario);
+                    pedidosPaciente.setNombre_paciente(usuario.getNombres());
+                    pedidosPaciente.setApellido_paciente(usuario.getApellidos());
+                    pedidosPaciente.setDni(usuario.getDni());
+                    pedidosPaciente.setSeguro(usuario.getSeguro().getNombre());
+
+                    LocalDate fechaActual = LocalDate.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    String fechasoli = fechaActual.format(formatter);
+                    pedidosPaciente.setFecha_solicitud(fechasoli);
+
+                    Integer idpedido = carritoRepository.idPedidoRegistrando(usuid);
+                    if(idpedido != null){
+                        carritoRepository.borrarMedicamentosAlCancelar(usuid, idpedido);
+                        carritoRepository.cancelarPedidoDely(usuid);
+                    }
+                    pedidosPacienteRepository.save(pedidosPaciente);
+                    carritoRepository.borrarCarritoPorId(usuid);
+
+                    model.addAttribute("numTracking", numTrack);
+                }
+            }
+            else{
+                int usuid = usuario.getId();
+
+                List<Integer> ids = carritoRepository.idpedidoPorUsuIdDely(usuid);
+                Integer idped = ids.get(0);
+                Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(idped);
+
+                if (optionalPedidosPaciente.isPresent()){
+                    PedidosPaciente pedidodely = optionalPedidosPaciente.get();
+
+                    pedidosPaciente.setCosto_total(pedidodely.getCosto_total());
+                    pedidosPaciente.setTipo_de_pedido(pedidodely.getTipo_de_pedido());
+                    pedidosPaciente.setValidacion_del_pedido("Pendiente");
+                    pedidosPaciente.setEstado_del_pedido("Pendiente");
+
+                    String numTrack = pedidodely.getNumero_tracking();
+                    pedidosPaciente.setNumero_tracking(pedidodely.getNumero_tracking());
+
+                    pedidosPaciente.setUsuario(usuario);
+                    pedidosPaciente.setNombre_paciente(usuario.getNombres());
+                    pedidosPaciente.setApellido_paciente(usuario.getApellidos());
+                    pedidosPaciente.setDni(usuario.getDni());
+                    pedidosPaciente.setSeguro(usuario.getSeguro().getNombre());
+
+                    LocalDate fechaActual = LocalDate.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    String fechasoli = fechaActual.format(formatter);
+                    pedidosPaciente.setFecha_solicitud(fechasoli);
+
+                    try {
+                        InputStream fotoStream=foto1.getInputStream();
+                        byte[] fotoBytes=fotoStream.readAllBytes();
+                        pedidosPaciente.setReceta_foto(fotoBytes);
+                        Integer idpedido = carritoRepository.idPedidoRegistrando(usuid);
+                        if(idpedido != null){
+                            carritoRepository.borrarMedicamentosAlCancelar(usuid, idpedido);
+                            carritoRepository.cancelarPedidoDely(usuid);
+                        }
+                        pedidosPacienteRepository.save(pedidosPaciente);
+                    } catch (IOException e) {
+                        model.addAttribute("nombres", usuario.getNombres());
+                        model.addAttribute("apellidos", usuario.getApellidos());
+                        model.addAttribute("dni", usuario.getDni());
+                        model.addAttribute("seguro", usuario.getSeguro().getNombre());
+                        model.addAttribute("listausuarios", usuarioRepository.findAll());
+                        model.addAttribute("listaDistritos", distritoRepository.findAll());
+                        model.addAttribute("fotoError", "Ocurrió un error al subir la imagen, vuelva a intentarlo");
+                        return "paciente/formcompradely";
+                    }
+
+                    carritoRepository.borrarCarritoPorId(usuid);
+
+                    model.addAttribute("numTracking", numTrack);
+                }
+            }
 
             return "paciente/finalmsgCompra";
         }
@@ -911,7 +1006,7 @@ public class PacienteController {
         }
 
         List<PedidosPaciente> listaPedidosDely = pedidosPacienteRepository.buscarPedidosDelivery(usuid, searchFieldDely);
-
+        System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 3");
         model.addAttribute("listaPedidosDely", listaPedidosDely);
         model.addAttribute("tamanolistaPedidosDely", listaPedidosDely.size());
         int llenodely = 1;
@@ -919,6 +1014,7 @@ public class PacienteController {
         if(listaPedidosDely.isEmpty()){
             sinResultadosDely = 1;
         }
+        System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 4");
         model.addAttribute("llenodely", llenodely);
         model.addAttribute("listaPedidosReco", pedidosPacienteRecojoRepository.findByUsuario(usuario));
         model.addAttribute("tamanolistaPedidosReco", pedidosPacienteRecojoRepository.findByUsuario(usuario).size());

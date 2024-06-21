@@ -2,6 +2,7 @@ package com.example.webapp.repository;
 
 
 import com.example.webapp.entity.PedidosPaciente;
+import com.example.webapp.entity.PedidosPacienteRecojo;
 import com.example.webapp.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,9 +22,8 @@ public interface PedidosPacienteRepository extends JpaRepository<PedidosPaciente
             "order by idpedidos_paciente desc;", nativeQuery = true)
     List<PedidosPaciente> pedidosDelivery(int usuid);
 
-    @Query(value = "SELECT * \n" +
-            "FROM gticsbd.pedidos_paciente \n" +
-            "WHERE usuario_id_usuario = ?1 AND tipo_de_pedido = 'Web - Delivery' AND numero_tracking like ?2" +
+    @Query(value = "SELECT * FROM gticsbd.pedidos_paciente\n" +
+            "WHERE tipo_de_pedido = 'Web - Delivery' AND usuario_id_usuario = ?1 AND numero_tracking like ?2\n" +
             "order by idpedidos_paciente desc;", nativeQuery = true)
     List<PedidosPaciente> buscarPedidosDelivery(int usuid, String numtrack);
 

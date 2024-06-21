@@ -17,7 +17,7 @@ public class PedidosPaciente {
     @Column(nullable = false)
     private String nombre_paciente;
     private String apellido_paciente;
-    private int dni;
+    private Integer dni;
     private String medico_que_atiende;
     private String seguro;
     private String distrito;
@@ -33,14 +33,13 @@ public class PedidosPaciente {
     private String aviso_vencimiento;
     private String metodo_pago;
 
+    private byte[] receta_foto;
+
     @NotBlank(message = "La dirección no puede quedar vacia")
     @Size(max = 90, message = "La dirección no puede tener más de 90 caracteres")
     private String direccion;
 
-    @Positive(message = "El número de celular debe ser positivo")
-    @Max(value = 1000000000, message = "El número de celular debe tener 9 dígitos")
-    @Min(value = 899999999, message = "El número de celular debe empezar con el dígito 9")
-    private int telefono;
+    private Integer telefono;
 
     @NotBlank(message = "La hora de entrega no puede quedar vacia")
     private String hora_de_entrega;

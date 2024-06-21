@@ -94,10 +94,10 @@
                 <br>
             </div>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" >
-                <div class="contenido" th:each="medicamentos : ${listaMedicamentos}" >
+                <div class="contenido" th:each="medicamentos, info : ${listaMedicamentos}" >
                     <div class="single-new-arrival" th:if="${medicamentos.inventario != 0}">
                         <div class="single-new-arrival-bg">
-                            <img th:src="@{/assets/paciente/img/medicamento.avif}" alt="new-arrivals images">
+                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images">
                             <div class="single-new-arrival-bg-overlay"></div>
                             <div class="new-arrival-cart">
                                 <p>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="single-new-arrival" th:if="${medicamentos.inventario == 0}">
                         <div class="single-new-arrival-bg">
-                            <img th:src="@{/assets/paciente/img/medicamento.avif}" alt="new-arrivals images">
+                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images">
                             <div class="single-new-arrival-bg-overlay"></div>
                             <div class="sale bg-1">
                                 <p>no stock</p>

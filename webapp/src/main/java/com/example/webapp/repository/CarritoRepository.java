@@ -2,6 +2,8 @@ package com.example.webapp.repository;
 
 import com.example.webapp.entity.Carrito;
 import com.example.webapp.entity.CarritoId;
+import com.example.webapp.entity.Medicamentos;
+import com.example.webapp.entity.PedidosPaciente;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @Repository
 public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
+
     @Query(value = "SELECT *\n" +
             "FROM gticsbd.carrito\n" +
             "WHERE estado_de_compra != 'Registrado';", nativeQuery = true)
@@ -63,10 +66,15 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
             "WHERE gticsbd.carrito.usuario_id_usuario = ?1", nativeQuery = true)
     List<String> numPedidoPorUsuarioId(int id);
 
-    @Query(value = "SELECT idpedidos_paciente\n" +
+    @Query(value = "SELECT *\n" +
             "FROM gticsbd.pedidos_paciente\n" +
             "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
     List<Integer> idpedidoPorUsuIdDely(int id);
+
+    @Query(value = "SELECT *\n" +
+            "FROM gticsbd.pedidos_paciente\n" +
+            "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
+    List<PedidosPaciente> pedidoPorUsuIdDely(int id);
 
     @Query(value = "SELECT numero_tracking\n" +
             "FROM gticsbd.pedidos_paciente\n" +

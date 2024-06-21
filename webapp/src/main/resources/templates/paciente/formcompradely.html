@@ -31,7 +31,7 @@
         <div class="container px-4 px-lg-5 mt-5">
             <h1>Formulario Registro - Delivery</h1>
             <br>
-            <form method="post" style="font-size: large; font-weight: bold;" th:action="@{'/paciente/guardarDely'}" th:object="${pedidosPaciente}">
+            <form method="post" style="font-size: large; font-weight: bold;" th:action="@{'/paciente/guardarDely'}" th:object="${pedidosPaciente}" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class="form-label">Nombres del paciente</label>
                     <input class="form-control" type="text" th:value="${nombres}" disabled>
@@ -50,8 +50,8 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Numero de celular</label>
-                    <input class="form-control" type="number" th:field="*{telefono}" th:classappend="${#fields.hasErrors('telefono')?'is-invalid':''}" style="margin-bottom: 0">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></div>
+                    <input class="form-control" type="number" th:field="*{telefono}" style="margin-bottom: 0">
+                    <div th:if="${telefonoError != null}" th:text="${telefonoError}" style="color: red; font-size: small"></div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Doctor que lo/la atendió</label>
@@ -61,6 +61,11 @@
                         <option th:each="usuario : ${listausuarios}" th:if="${usuario.rol} == 'Doctor'" th:value="${usuario.nombres + ' ' + usuario.apellidos}"  th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></option>
                     </select>
                     <div th:if="${medicoError != null}" th:text="${medicoError}" style="color: red; font-size: small"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Foto de la receta en dado caso tenga una</label>
+                    <input class="form-control" type="file" id="formFile" name="foto1" style="margin-bottom: 0" accept="image/*">
+                    <div th:if="${fotoError != null}" th:text="${fotoError}" style="color: red; font-size: small"></div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Dirección de la entrega</label>
