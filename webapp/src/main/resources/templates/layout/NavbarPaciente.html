@@ -12,51 +12,9 @@
                     <!-- Start Atribute Navigation -->
                     <div class="attr-nav">
                         <ul>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" >
-                                    <span class="lnr lnr-cart"></span>
-                                    <span class="badge badge-bg-1">2</span>
-                                </a>
-                                <ul class="dropdown-menu cart-list s-cate">
-                                    <li class="single-cart-list">
-                                        <a href="#" class="photo"><img th:src="@{/assets/paciente/images/collection/arrivals1.png}" class="cart-thumb" alt="image" /></a>
-                                        <div class="cart-list-txt">
-                                            <h6><a href="#">arm <br> chair</a></h6>
-                                            <p>1 x - <span class="price">$180.00</span></p>
-                                        </div><!--/.cart-list-txt-->
-                                        <div class="cart-close">
-                                            <span class="lnr lnr-cross"></span>
-                                        </div><!--/.cart-close-->
-                                    </li><!--/.single-cart-list -->
-                                    <li class="single-cart-list">
-                                        <a href="#" class="photo"><img src="assets/images/collection/arrivals2.png" class="cart-thumb" alt="image" /></a>
-                                        <div class="cart-list-txt">
-                                            <h6><a href="#">single <br> armchair</a></h6>
-                                            <p>1 x - <span class="price">$180.00</span></p>
-                                        </div><!--/.cart-list-txt-->
-                                        <div class="cart-close">
-                                            <span class="lnr lnr-cross"></span>
-                                        </div><!--/.cart-close-->
-                                    </li><!--/.single-cart-list -->
-                                    <li class="single-cart-list">
-                                        <a href="#" class="photo"><img src="assets/images/collection/arrivals3.png" class="cart-thumb" alt="image" /></a>
-                                        <div class="cart-list-txt">
-                                            <h6><a href="#">wooden arn <br> chair</a></h6>
-                                            <p>1 x - <span class="price">$180.00</span></p>
-                                        </div><!--/.cart-list-txt-->
-                                        <div class="cart-close">
-                                            <span class="lnr lnr-cross"></span>
-                                        </div><!--/.cart-close-->
-                                    </li><!--/.single-cart-list -->
-                                    <li class="total">
-                                        <span>Total: $0.00</span>
-                                        <a th:href="@{/paciente/carrito}" class="btn btn-warning" style="margin-left: 7px;">Ir al carrito</a>
-                                    </li>
-                                </ul>
-                            </li><!--/.dropdown-->
                             <li class="dropdown" sec:authorize="isAuthenticated()">
                                 <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px; display: flex;" >
-                                    <a class="text-decoration-none" style="margin-right: 5px; margin-top: 20px;" href="#"><img th:src="@{/assets/paciente/img/usuario.png}" width="25vw" height="25vh" alt="Avatar" class="avatar"></a><div style="display: flex; flex-direction: column;"><h6 style="margin: 0%; margin-top: 20px;" th:text="${session.usuario.nombres}"></h6><h8 th:text="${session.usuario.rol.nombre}"></h8></div>
+                                    <a class="text-decoration-none" style="margin-right: 5px; margin-top: 20px;"><img th:src="@{/assets/paciente/img/usuario.png}" width="25vw" height="25vh" alt="Avatar" class="avatar"></a><div style="display: flex; flex-direction: column;"><h6 style="margin: 0%; margin-top: 20px;" th:text="${session.usuario.nombres}"></h6><h8 th:text="${session.usuario.rol.nombre}"></h8></div>
                                 </button>
                                 <ul class="dropdown-menu cart-list s-cate">
                                     <li><a class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
@@ -81,7 +39,7 @@
 
                     <!-- Start Header Navigation -->
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="#"><span>PildoPharm</span></a>
+                        <a class="navbar-brand" th:href="@{/paciente/inicio}"><span>PildoPharm</span></a>
                     </div>
                     <!--/.navbar-header-->
                     <!-- End Header Navigation -->
@@ -94,6 +52,12 @@
                             <li><a th:href="@{/paciente/inicio#populer-products}">Pre-Ordenes</a></li>
                             <li><a th:href="@{/paciente/medicamentos}">Medicamentos</a></li>
                             <li><a href="">Mensajes</a></li>
+                            <li>
+                                <a th:href="@{/paciente/carrito}">
+                                    <span class="lnr lnr-cart"></span>
+                                    <span class="badge badge-bg-1">+</span>
+                                </a>
+                            </li>
                         </ul><!--/.nav -->
                     </div><!-- /.navbar-collapse -->
                 </div><!--/.containernav-->

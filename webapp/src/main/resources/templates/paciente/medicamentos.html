@@ -6,6 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Pildo Pharm</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
         <link rel="icon" type="image/x-icon" th:href="@{/assets/paciente/img/logo.png}" />
 
@@ -97,28 +98,25 @@
                 <div class="contenido" th:each="medicamentos, info : ${listaMedicamentos}" >
                     <div class="single-new-arrival" th:if="${medicamentos.inventario != 0}">
                         <div class="single-new-arrival-bg">
-                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images">
+                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images" style="height: 350px; width: 300px">
                             <div class="single-new-arrival-bg-overlay"></div>
                             <div class="new-arrival-cart">
                                 <p>
                                     <a th:if="${numPedido != ''}" th:href="@{'/paciente/añadirCarrito1?id=' + ${medicamentos.id}  + '&numpedido=' + ${numPedido}}"><span class="lnr lnr-cart" style="margin-right: 0"></span> Añadir <span>al </span> carrito</a>
                                     <a th:if="${numPedido == ''}" th:href="@{'/paciente/añadirCarrito2?id=' + ${medicamentos.id}}"><span class="lnr lnr-cart" style="margin-right: 0"></span> Añadir <span>al </span> carrito</a>
                                 </p>
-                                <p>
-                                    <a th:href="@{'/paciente/medicamentos/info?id=' + ${medicamentos.id}}"><span class="lnr lnr-book"></span> <span>info</span></a>
-                                </p>
                                 <p class="arrival-review pull-right">
-                                    <a href="#"><span class="lnr lnr-frame-expand"></span></a>
+                                    <a th:href="@{'/paciente/medicamentos/info?id=' + ${medicamentos.id}}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>
                                 </p>
                             </div>
                         </div>
-                        <h4><a href="#" th:text="${medicamentos.nombre}"></a></h4>
+                        <h4><a href="" th:text="${medicamentos.nombre}"></a></h4>
                         <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
                         <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
                     </div>
                     <div class="single-new-arrival" th:if="${medicamentos.inventario == 0}">
                         <div class="single-new-arrival-bg">
-                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images">
+                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images" style="height: 350px; width: 300px">
                             <div class="single-new-arrival-bg-overlay"></div>
                             <div class="sale bg-1">
                                 <p>no stock</p>
@@ -126,14 +124,13 @@
                             <div class="new-arrival-cart">
                                 <p>
                                     <a th:href="@{'/paciente/generarPreorden?id=' + ${medicamentos.id}}"><span class="lnr-file-add"></span> <span>pre-ordenar</span></a>
-                                    <a th:href="@{'/paciente/medicamentos/info?id=' + ${medicamentos.id}}"><span class="lnr lnr-book" style="margin-left: 15px"></span> <span>info</span></a>
                                 </p>
                                 <p class="arrival-review pull-right">
-                                    <a href="#"><span class="lnr lnr-frame-expand"></span></a>
+                                    <a th:href="@{'/paciente/medicamentos/info?id=' + ${medicamentos.id}}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>
                                 </p>
                             </div>
                         </div>
-                        <h4><a href="#" th:text="${medicamentos.nombre}"></a></h4>
+                        <h4><a href="" th:text="${medicamentos.nombre}"></a></h4>
                         <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
                         <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
                     </div>

@@ -8,10 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -698,6 +695,14 @@ public class PacienteController {
 
 
     /*QRUD y vista del CARRITO*/
+    @ResponseBody
+    @GetMapping("/tamañocarrito")
+    public Integer listarProductosCarritoRT(Authentication authentication) {
+        Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
+        int usuid = usuario.getId();
+        List<Carrito> carritoPorId = carritoRepository.carritoPorId(usuid);
+        return carritoPorId.size();
+    }
     @GetMapping("/paciente/carrito")
     public String listarProductosCarritoRT(Model model, Authentication authentication) {
         Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
@@ -985,7 +990,9 @@ public class PacienteController {
         boolean imagenValida = foto1.getContentType().contains("application/octet-stream") || foto1.getContentType().contains("image/jpeg") || foto1.getContentType().contains("image/png") || foto1.getContentType().contains("image/jpeg");
         boolean evitaAtaquesLFI = foto1.getSubmittedFileName().contains("..");
 
-        if (pedidosPacienteRecojo.getSede_de_recojo().equals("") || pedidosPacienteRecojo.getMedico_que_atiende().equals("") || pedidosPacienteRecojo.getAviso_vencimiento().equals("") || telefonoErrors || imagenValida || evitaAtaquesLFI){
+        System.out.println("HOLAAAAAA " + foto1.getSubmittedFileName() + " " + foto1.getContentType());
+
+        if (pedidosPacienteRecojo.getSede_de_recojo().equals("") || pedidosPacienteRecojo.getMedico_que_atiende().equals("") || pedidosPacienteRecojo.getAviso_vencimiento().equals("") || telefonoErrors || !imagenValida || evitaAtaquesLFI){
             if (pedidosPacienteRecojo.getTelefono() == null){
                 model.addAttribute("telefonoError", "El número de celular no puede quedar vacio.");
             }
@@ -1174,7 +1181,7 @@ public class PacienteController {
         }
 
         List<PedidosPaciente> listaPedidosDely = pedidosPacienteRepository.buscarPedidosDelivery(usuid, searchFieldDely);
-        System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 3");
+
         model.addAttribute("listaPedidosDely", listaPedidosDely);
         model.addAttribute("tamanolistaPedidosDely", listaPedidosDely.size());
         int llenodely = 1;
@@ -1182,7 +1189,7 @@ public class PacienteController {
         if(listaPedidosDely.isEmpty()){
             sinResultadosDely = 1;
         }
-        System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 4");
+
         model.addAttribute("llenodely", llenodely);
         model.addAttribute("listaPedidosReco", pedidosPacienteRecojoRepository.findByUsuario(usuario));
         model.addAttribute("tamanolistaPedidosReco", pedidosPacienteRecojoRepository.findByUsuario(usuario).size());
