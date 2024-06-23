@@ -67,24 +67,27 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
     List<String> numPedidoPorUsuarioId(int id);
 
     @Query(value = "SELECT *\n" +
-            "FROM gticsbd.pedidos_paciente\n" +
-            "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
+                "FROM gticsbd.pedidos_paciente\n" +
+                "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
     List<Integer> idpedidoPorUsuIdDely(int id);
 
-    @Query(value = "SELECT numero_tracking\n" +
-            "FROM gticsbd.pedidos_paciente\n" +
-            "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
-    List<String> idNumTrackPorUsuIdDely(int id);
+    @Query(value = "SELECT * FROM gticsbd.pedidos_paciente\n" +
+            "WHERE estado_del_pedido = 'Pendiente' AND usuario_id_usuario = ?\n" +
+            "ORDER by idpedidos_paciente desc\n" +
+            "LIMIT 1", nativeQuery = true)
+    List<Integer> idpedidoPorUsuIdDelyMedicamentos(int id);
+
 
     @Query(value = "SELECT *\n" +
             "FROM gticsbd.pedidos_paciente_recojo\n" +
             "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
     List<Integer> idpedidoPorUsuIdReco(int id);
 
-    @Query(value = "SELECT numero_tracking\n" +
-            "FROM gticsbd.pedidos_paciente_recojo\n" +
-            "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
-    List<String> idnumTrackPorUsuIdReco(int id);
+    @Query(value = "SELECT * FROM gticsbd.pedidos_paciente_recojo\n" +
+            "WHERE estado_del_pedido = 'Pendiente' AND usuario_id_usuario = ?\n" +
+            "ORDER by idpedidos_paciente_recojo desc\n" +
+            "LIMIT 1", nativeQuery = true)
+    List<Integer> idpedidoPorUsuIdRecoMedicamentos(int id);
 
     @Transactional
     @Modifying
@@ -199,6 +202,14 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
 
     @Transactional
     @Modifying
+    @Query(value = "UPDATE gticsbd.medicamentos_del_pedido\n" +
+            "SET pedidos_paciente_idpedidos_paciente = ?1\n" +
+            "WHERE pedidos_paciente_idpedidos_paciente = ?2\n" +
+            "AND pedidos_paciente_usuario_id_usuario = ?3", nativeQuery = true)
+    void registrarMedicamentosPedidoPreorden2(int idpedidodesp, int idpedidoant, int usuid);
+
+    @Transactional
+    @Modifying
     @Query(value = "INSERT INTO gticsbd.medicamentos_recojo (nombre_medicamento, costo_medicamento, cantidad, pedidos_paciente_recojo_idpedidos_paciente_recojo, pedidos_paciente_recojo_usuario_id_usuario)\n" +
             "SELECT m.nombre AS nombre_medicamento, m.precio_unidad AS costo_medicamento, c.cantidad, ?1, ?2\n" +
             "FROM gticsbd.carrito c\n" +
@@ -208,7 +219,7 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
     @Query(value = "SELECT precio_unidad\n" +
             "FROM gticsbd.medicamentos\n" +
             "WHERE id_medicamentos = ?1", nativeQuery = true)
-    List<Integer> precioDelMedicamento(int id);
+    List<Double> precioDelMedicamento(int id);
 
     @Query(value = "SELECT nombre\n" +
             "FROM gticsbd.medicamentos\n" +

@@ -96,7 +96,7 @@
             </div>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" >
                 <div class="contenido" th:each="medicamentos, info : ${listaMedicamentos}" >
-                    <div class="single-new-arrival" th:if="${medicamentos.inventario != 0}">
+                    <div class="single-new-arrival" th:if="${medicamentos.inventario > 25}">
                         <div class="single-new-arrival-bg">
                             <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images" style="height: 350px; width: 300px">
                             <div class="single-new-arrival-bg-overlay"></div>
@@ -114,16 +114,36 @@
                         <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
                         <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
                     </div>
+                    <div class="single-new-arrival" th:if="${medicamentos.inventario > 0 and medicamentos.inventario < 25}">
+                        <div class="single-new-arrival-bg">
+                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images" style="height: 350px; width: 300px">
+                            <div class="single-new-arrival-bg-overlay"></div>
+                            <div class="sale bg-2" style="width: auto">
+                                <p>poco stock</p>
+                            </div>
+                            <div class="new-arrival-cart">
+                                <p>
+                                    <a th:href="@{'/paciente/generarPreorden?id=' + ${medicamentos.id}}"><span class="lnr lnr-pencil"></span> <span>Generar una pre-orden</span></a>
+                                </p>
+                                <p class="arrival-review pull-right">
+                                    <a th:href="@{'/paciente/medicamentos/info?id=' + ${medicamentos.id}}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>
+                                </p>
+                            </div>
+                        </div>
+                        <h4><a href="" th:text="${medicamentos.nombre}"></a></h4>
+                        <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
+                        <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
+                    </div>
                     <div class="single-new-arrival" th:if="${medicamentos.inventario == 0}">
                         <div class="single-new-arrival-bg">
                             <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images" style="height: 350px; width: 300px">
                             <div class="single-new-arrival-bg-overlay"></div>
-                            <div class="sale bg-1">
-                                <p>no stock</p>
+                            <div class="sale bg-1" style="width: auto">
+                                <p>sin stock</p>
                             </div>
                             <div class="new-arrival-cart">
                                 <p>
-                                    <a th:href="@{'/paciente/generarPreorden?id=' + ${medicamentos.id}}"><span class="lnr-file-add"></span> <span>pre-ordenar</span></a>
+                                    <a th:href="@{/paciente/mensajeria}"><span class="lnr lnr-chevron-right-circle"></span> <span>Contactarse con un farmacista</span></a>
                                 </p>
                                 <p class="arrival-review pull-right">
                                     <a th:href="@{'/paciente/medicamentos/info?id=' + ${medicamentos.id}}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>

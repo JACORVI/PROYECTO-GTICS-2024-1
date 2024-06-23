@@ -48,14 +48,19 @@
                     <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
                         <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
                             <li><a th:href="@{/paciente/inicio}">Inicio</a></li>
-                            <li><a th:href="@{/paciente/inicio#new-arrivals}">Novedades</a></li>
-                            <li><a th:href="@{/paciente/inicio#populer-products}">Pre-Ordenes</a></li>
+                            <li><a th:href="@{/paciente/inicio#pre-ordenes}">Pre-Ordenes</a></li>
                             <li><a th:href="@{/paciente/medicamentos}">Medicamentos</a></li>
                             <li><a href="">Mensajes</a></li>
                             <li>
                                 <a th:href="@{/paciente/carrito}">
                                     <span class="lnr lnr-cart"></span>
                                     <span class="badge badge-bg-1">+</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/paciente/carrito}">
+                                    <span class="lnr lnr-earth"></span>
+                                    <span class="badge badge-bg-1"></span>
                                 </a>
                             </li>
                         </ul><!--/.nav -->

@@ -191,11 +191,14 @@
             <div class="new-arrivals-content">
                 <div class="row">
                     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" >
-                        <div class="contenido" th:each="medicamentos : ${ultimosMedicamentos}" >
+                        <div class="contenido" th:each="medicamentos, info : ${ultimosMedicamentos}" >
                             <div class="single-new-arrival">
                                 <div class="single-new-arrival-bg">
-                                    <img th:src="@{/assets/paciente/img/medicamento.avif}" alt="new-arrivals images">
+                                    <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images" style="height: 350px; width: 300px">
                                     <div class="single-new-arrival-bg-overlay"></div>
+                                    <div class="sale bg-2" style="width: auto">
+                                        <p>¡nuevo!</p>
+                                    </div>
                                     <div class="new-arrival-cart">
                                         <p class="arrival-review pull-right">
                                             <a href="#"><span class="lnr lnr-frame-expand"></span></a>
@@ -215,7 +218,7 @@
     <!--new-arrivals end -->
 
     <!--populer-products start -->
-    <section id="populer-products" class="populer-products">
+    <section id="pre-ordenes" class="populer-products">
         <div class="containernav">
             <div class="section-header">
                 <h2>Mis Pre-Ordenes de Compra</h2>
