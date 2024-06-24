@@ -1,9 +1,11 @@
 package com.example.webapp.controller;
 
 import com.example.webapp.dao.DataDao;
+import com.example.webapp.entity.CodigoColegio;
 import com.example.webapp.entity.Data;
 import com.example.webapp.entity.Roles;
 import com.example.webapp.entity.Usuario;
+import com.example.webapp.repository.CodigoColegioRepository;
 import com.example.webapp.repository.DistritoRepository;
 import com.example.webapp.repository.SeguroRepository;
 import com.example.webapp.repository.UsuarioRepository;
@@ -24,10 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.validation.Valid;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -44,10 +44,14 @@ public class LoginController {
     SeguroRepository seguroRepository;
     DistritoRepository distritoRepository;
 
-    public LoginController(DataDao dataDao, SeguroRepository seguroRepository, DistritoRepository distritoRepository) {
+    CodigoColegioRepository codigoColegioRepository;
+
+    public LoginController(DataDao dataDao, SeguroRepository seguroRepository, DistritoRepository distritoRepository,
+                           CodigoColegioRepository codigoColegioRepository) {
         this.dataDao = dataDao;
         this.seguroRepository = seguroRepository;
         this.distritoRepository = distritoRepository;
+        this.codigoColegioRepository = codigoColegioRepository;
     }
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -241,7 +245,10 @@ public class LoginController {
     }
 
     @PostMapping("/registro")
-    public String validarPersona(@ModelAttribute("dni") String dni, RedirectAttributes redirectAttributes, Model model) {
+    public String validarPersona(@ModelAttribute("nuevoRol") String nuevoRol,@ModelAttribute("dni") String dni, RedirectAttributes redirectAttributes, Model model) {
+        int rol = Integer.parseInt(nuevoRol);
+        System.out.println("Este es el rol enviado ###########################################");
+        System.out.println(rol);
         try {
             Data data = dataDao.buscarPorDni(dni);
             Integer dniInt = Integer.valueOf(dni);
@@ -279,12 +286,24 @@ public class LoginController {
                                 .append(palabra.substring(1).toLowerCase());
                     }
 
-                    model.addAttribute("nombresValidados", nombreFormateado.toString());
-                    model.addAttribute("apellidosValidados", apellidoFormateado.toString());
-                    model.addAttribute("dniValidado", data.getDni());
-                    model.addAttribute("listaSeguros", seguroRepository.findAll());
-                    model.addAttribute("listaDistritos", distritoRepository.findAll());
-                    return "sistema/FormRegistro";
+
+                    if(rol == 4){
+                        model.addAttribute("nombresValidados", nombreFormateado.toString());
+                        model.addAttribute("apellidosValidados", apellidoFormateado.toString());
+                        model.addAttribute("dniValidado", data.getDni());
+                        model.addAttribute("listaSeguros", seguroRepository.findAll());
+                        model.addAttribute("listaDistritos", distritoRepository.findAll());
+                        return "sistema/FormRegistro";
+                    }else if(rol == 5){
+                        model.addAttribute("nombresValidados", nombreFormateado.toString());
+                        model.addAttribute("apellidosValidados", apellidoFormateado.toString());
+                        model.addAttribute("dniValidado", data.getDni());
+                        model.addAttribute("listaCodigosColegio", codigoColegioRepository.findAll());
+                        //model.addAttribute("listaSeguros", seguroRepository.findAll());
+                        //model.addAttribute("listaDistritos", distritoRepository.findAll());
+                        return "superadmin/FormRegistroDoctor";
+                    }
+
                 }
                 catch (Exception e) {
                     redirectAttributes.addFlashAttribute("error", "El DNI ingresado no es valido.");
@@ -300,11 +319,15 @@ public class LoginController {
             redirectAttributes.addFlashAttribute("error", "El DNI ingresado no es valido.");
             return "redirect:/login";
         }
+        return "redirect:/login";
     }
 
     @PostMapping("/registro/usuario")
-    public String registrarUsuario(@ModelAttribute("usuario") @Valid Usuario usuario,
+    public String registrarUsuario(@ModelAttribute("nuevoRol") String nuevoRol,@ModelAttribute("usuario") @Valid Usuario usuario,
                                    BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        int rolNuevo = Integer.parseInt(nuevoRol);
+        System.out.println("Este es el rol enviado desde el formulario ###########################################");
+        System.out.println(rolNuevo);
 
         boolean encontrado = false;
 
@@ -319,78 +342,171 @@ public class LoginController {
             }
         }
 
-        if (bindingResult.hasErrors() || usuario.getDistrito() == null || usuario.getSeguro() == null || encontrado) {
-            if (usuario.getDistrito() == null){
-                model.addAttribute("distritoError", "Debe seleccionar un distrito");
-            }
-            if (usuario.getSeguro() == null){
-                model.addAttribute("seguroError", "Debe seleccionar un seguro");
-            }
-            if (encontrado) {
-                model.addAttribute("correoExistenteError", "El correo ingresado ya ha sido registrado.");
-            }
+        boolean encontrado1 = false;
 
-            int dni = usuario.getDni();
-            String dniString = String.valueOf(dni);
-            Data data = dataDao.buscarPorDni(dniString);
-
-            //NOMBRES -> Nombres
-            String nombreCompleto = data.getNombres();
-            String[] palabras1 = nombreCompleto.split(" ");
-            StringBuilder nombreFormateado = new StringBuilder();
-            for (String palabra : palabras1) {
-                if (!nombreFormateado.toString().isEmpty()) {
-                    nombreFormateado.append(" ");
-                }
-                nombreFormateado.append(palabra.substring(0, 1).toUpperCase())
-                        .append(palabra.substring(1).toLowerCase());
+        if (usuario.getCodigo_colegio() != null){
+            int codigo = usuario.getCodigo_colegio().getId();
+            List<Usuario> listaCodigos = usuarioRepository.findAll();
+            for (int i = 0; i < listaCodigos.size(); i++) {
+                if (codigo == listaCodigos.get(i).getCodigo_colegio().getId()) {
+                    encontrado1 = true;
+                    break;}
             }
-
-            //APELLIDOS -> Apellidos
-            String apellidoCompleto = data.getApellido_paterno() + " " + data.getApellido_materno();
-            String[] palabras2 = apellidoCompleto.split(" ");
-            StringBuilder apellidoFormateado = new StringBuilder();
-            for (String palabra : palabras2) {
-                if (!apellidoFormateado.toString().isEmpty()) {
-                    apellidoFormateado.append(" ");
-                }
-                apellidoFormateado.append(palabra.substring(0, 1).toUpperCase())
-                        .append(palabra.substring(1).toLowerCase());
-            }
-
-            model.addAttribute("nombresValidados", nombreFormateado.toString());
-            model.addAttribute("apellidosValidados", apellidoFormateado.toString());
-            model.addAttribute("dniValidado", data.getDni());
-            model.addAttribute("listaSeguros", seguroRepository.findAll());
-            model.addAttribute("listaDistritos", distritoRepository.findAll());
-            return "sistema/FormRegistro";
         }
-        else{
-            Roles rol = new Roles();
-            rol.setId(4); // ROL PACIENTE
 
-            usuario.setFecha_creacion(new Date());
-            usuario.setCodigo_colegiatura("Sin-Codigo");
-            usuario.setRol(rol);
-            usuario.setContrasena("");
+        if (rolNuevo == 4){
+            if (bindingResult.hasErrors() || usuario.getDistrito() == null || usuario.getSeguro() == null || encontrado) {
+                if (usuario.getDistrito() == null){
+                    model.addAttribute("distritoError", "Debe seleccionar un distrito");
+                }
+                if (usuario.getSeguro() == null){
+                    model.addAttribute("seguroError", "Debe seleccionar un seguro");
+                }
+                if (encontrado) {
+                    model.addAttribute("correoExistenteError", "El correo ingresado ya ha sido registrado.");
+                }
 
-            try {
-                usuario.setToken_recuperacion(util.GenerarToken()); // Token de ACTIVACION
-                usuario.setCuenta_activada(0);
-                usuarioRepository.save(usuario);
+                int dni = usuario.getDni();
+                String dniString = String.valueOf(dni);
+                Data data = dataDao.buscarPorDni(dniString);
 
-                String cuerpo = this.correo.construirCuerpoActivarCuenta(usuario);
-                boolean envio = this.correo.EnviarCorreo("Activar cuenta", cuerpo, usuario);
+                //NOMBRES -> Nombres
+                String nombreCompleto = data.getNombres();
+                String[] palabras1 = nombreCompleto.split(" ");
+                StringBuilder nombreFormateado = new StringBuilder();
+                for (String palabra : palabras1) {
+                    if (!nombreFormateado.toString().isEmpty()) {
+                        nombreFormateado.append(" ");
+                    }
+                    nombreFormateado.append(palabra.substring(0, 1).toUpperCase())
+                            .append(palabra.substring(1).toLowerCase());
+                }
 
-                redirectAttributes.addFlashAttribute("success", "Registro exitoso. Se te ha enviado un correo de notificación sobre el estado de tu registro para su activación.");
-            } catch (Exception e) {
-                logger.error("Error al registrar el usuario", e);
-                redirectAttributes.addFlashAttribute("usuario", usuario);
-                redirectAttributes.addFlashAttribute("error", "Hubo un problema al registrar el usuario. Por favor, Intentelo de nuevo.");
+                //APELLIDOS -> Apellidos
+                String apellidoCompleto = data.getApellido_paterno() + " " + data.getApellido_materno();
+                String[] palabras2 = apellidoCompleto.split(" ");
+                StringBuilder apellidoFormateado = new StringBuilder();
+                for (String palabra : palabras2) {
+                    if (!apellidoFormateado.toString().isEmpty()) {
+                        apellidoFormateado.append(" ");
+                    }
+                    apellidoFormateado.append(palabra.substring(0, 1).toUpperCase())
+                            .append(palabra.substring(1).toLowerCase());
+                }
+
+                model.addAttribute("nombresValidados", nombreFormateado.toString());
+                model.addAttribute("apellidosValidados", apellidoFormateado.toString());
+                model.addAttribute("dniValidado", data.getDni());
+                model.addAttribute("listaSeguros", seguroRepository.findAll());
+                model.addAttribute("listaDistritos", distritoRepository.findAll());
+                return "sistema/FormRegistro";
+            }else{
+                Roles rol = new Roles();
+                rol.setId(4); // ROL PACIENTE
+
+                usuario.setFecha_creacion(new Date());
+                usuario.setCodigo_colegiatura("Sin-Codigo");
+                usuario.setRol(rol);
+                usuario.setContrasena("");
+
+                try {
+                    usuario.setToken_recuperacion(util.GenerarToken()); // Token de ACTIVACION
+                    usuario.setCuenta_activada(0);
+                    usuarioRepository.save(usuario);
+
+                    String cuerpo = this.correo.construirCuerpoActivarCuenta(usuario);
+                    boolean envio = this.correo.EnviarCorreo("Activar cuenta", cuerpo, usuario);
+
+                    redirectAttributes.addFlashAttribute("success", "Registro exitoso. Se te ha enviado un correo de notificación sobre el estado de tu registro para su activación.");
+                } catch (Exception e) {
+                    logger.error("Error al registrar el usuario", e);
+                    redirectAttributes.addFlashAttribute("usuario", usuario);
+                    redirectAttributes.addFlashAttribute("error", "Hubo un problema al registrar el usuario. Por favor, Intentelo de nuevo.");
+                }
+
+                return "redirect:/login";
+            }
+        }else if(rolNuevo == 5){
+            System.out.println("Codigo de Colegiatura////////////////////////////////////////////////////");
+            System.out.println(usuario.getCodigo_colegio().getId());
+            if (bindingResult.hasErrors() ||  usuario.getCodigo_colegio() == null || encontrado || encontrado1) {
+                if (usuario.getCodigo_colegio() == null){
+                    model.addAttribute("codigoError", "Debe seleccionar un codigo de colegiatura");
+                }
+                if (encontrado1){
+                    model.addAttribute("codigoError", "El codigo de colegiatura ya ha sido registrado en el sistema");
+                }
+
+                if (encontrado) {
+                    model.addAttribute("correoExistenteError", "El correo ingresado ya ha sido registrado.");
+                }
+
+
+
+                int dni = usuario.getDni();
+                String dniString = String.valueOf(dni);
+                Data data = dataDao.buscarPorDni(dniString);
+
+                //NOMBRES -> Nombres
+                String nombreCompleto = data.getNombres();
+                String[] palabras1 = nombreCompleto.split(" ");
+                StringBuilder nombreFormateado = new StringBuilder();
+                for (String palabra : palabras1) {
+                    if (!nombreFormateado.toString().isEmpty()) {
+                        nombreFormateado.append(" ");
+                    }
+                    nombreFormateado.append(palabra.substring(0, 1).toUpperCase())
+                            .append(palabra.substring(1).toLowerCase());
+                }
+
+                //APELLIDOS -> Apellidos
+                String apellidoCompleto = data.getApellido_paterno() + " " + data.getApellido_materno();
+                String[] palabras2 = apellidoCompleto.split(" ");
+                StringBuilder apellidoFormateado = new StringBuilder();
+                for (String palabra : palabras2) {
+                    if (!apellidoFormateado.toString().isEmpty()) {
+                        apellidoFormateado.append(" ");
+                    }
+                    apellidoFormateado.append(palabra.substring(0, 1).toUpperCase())
+                            .append(palabra.substring(1).toLowerCase());
+                }
+
+                model.addAttribute("nombresValidados", nombreFormateado.toString());
+                model.addAttribute("apellidosValidados", apellidoFormateado.toString());
+                model.addAttribute("dniValidado", data.getDni());
+                model.addAttribute("listaCodigosColegio", codigoColegioRepository.findAll());
+                //model.addAttribute("listaSeguros", seguroRepository.findAll());
+                //model.addAttribute("listaDistritos", distritoRepository.findAll());
+                return "superadmin/FormRegistroDoctor";
+            }else{
+                Roles rol = new Roles();
+                rol.setId(5); // ROL DOCTOR
+
+                usuario.setFecha_creacion(new Date());
+                usuario.setCodigo_colegiatura("Sin-Codigo");
+                usuario.setRol(rol);
+                usuario.setContrasena("");
+
+                try {
+                    usuario.setToken_recuperacion(util.GenerarToken()); // Token de ACTIVACION
+                    usuario.setCuenta_activada(0);
+                    usuarioRepository.save(usuario);
+
+                    String cuerpo = this.correo.construirCuerpoActivarCuenta(usuario);
+                    boolean envio = this.correo.EnviarCorreo("Activar cuenta", cuerpo, usuario);
+
+                    redirectAttributes.addFlashAttribute("success", "Registro exitoso. Se te ha enviado un correo de notificación sobre el estado de tu registro para su activación.");
+                } catch (Exception e) {
+                    logger.error("Error al registrar el usuario", e);
+                    redirectAttributes.addFlashAttribute("usuario", usuario);
+                    redirectAttributes.addFlashAttribute("error", "Hubo un problema al registrar el usuario. Por favor, Intentelo de nuevo.");
+                }
+
+                return "redirect:/login";
             }
 
-            return "redirect:/login";
         }
+        return "redirect:/login";
     }
 
     @GetMapping("/reestablecer/activar")

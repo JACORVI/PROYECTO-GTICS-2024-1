@@ -5,22 +5,16 @@ import com.example.webapp.repository.*;
 import com.example.webapp.util.Correo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import lombok.SneakyThrows;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +36,8 @@ public class SuperadminController {
     DistritoRepository distritoRepository;
 
     SeguroRepository seguroRepository;
+
+    CodigoColegioRepository codigoColegioRepository;
     private static final Logger logger = LoggerFactory.getLogger(SuperadminController.class);
 
     public SuperadminController(MedicamentosRepository medicamentosRepository,
@@ -51,7 +47,8 @@ public class SuperadminController {
                                 SedeRepository sedeRepository,
                                 SedeHasMedicamentosRepository sedeHasMedicamentosRepository,
                                 DistritoRepository distritoRepository,
-                                SeguroRepository seguroRepository) {
+                                SeguroRepository seguroRepository,
+                                CodigoColegioRepository codigoColegioRepository) {
 
         this.medicamentosRepository = medicamentosRepository;
 
@@ -68,6 +65,8 @@ public class SuperadminController {
         this.sedeHasMedicamentosRepository = sedeHasMedicamentosRepository;
 
         this.seguroRepository = seguroRepository;
+
+        this.codigoColegioRepository = codigoColegioRepository;
     }
     @Autowired
     private Correo correo;
@@ -88,7 +87,7 @@ public class SuperadminController {
 
     @GetMapping("/Cerrar_Cuenta")
     public String Cerrar_Cuenta() {
-        return "superadmin/Index";
+        return "IndexDoctor";
     }
 
 
@@ -989,6 +988,11 @@ public class SuperadminController {
     @GetMapping("/Registro_Doctor")
     public String Registro_Doctor(@ModelAttribute ("usuario") Usuario usuario) {
         return "superadmin/Plantilla_Vista_Registro_Doctor";
+    }
+
+    @GetMapping("/Doctor")
+    public String RegistroDoctor() {
+        return "superadmin/IndexDoctor";
     }
 
 

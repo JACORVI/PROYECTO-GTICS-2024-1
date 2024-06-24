@@ -61,4 +61,8 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "id_seguro")
     private Seguro seguro;
 
+    @OneToOne
+    @JoinColumn(name = "id_codigo_colegio")
+    private CodigoColegio codigo_colegio;
+
 }
