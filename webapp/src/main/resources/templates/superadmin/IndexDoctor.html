@@ -53,16 +53,16 @@
 <div class="container">
     <div class="signin-signup">
         <form id="formReg" th:action="@{/registro}" class="sign-in-form" method="post">
-            <h2 class="title">REGISTRAR DOCTOR</h2>
+            <h2 class="title">Nuevo Doctor</h2>
             <input th:value="${'5'}" name="nuevoRol" type="hidden" />
             <div class="input-field">
                 <i class="fas fa-user-shield"></i>
-                <input type="text" placeholder="Ingresa tu DNI" id="dni" name="dni">
+                <input type="text" placeholder="DNI del nuevo doctor" id="dni" name="dni">
                 <div class="error" id="dni-error"></div>
             </div>
 
             <input type="submit" value="Registrar" class="btn" id="registro-button" style="margin-top: 1vh">
-            <p class="account-text">¿Ya posees una cuenta?<a href="#" id="sign-in-btn2"> Ingresar</a></p>
+            <a th:href="@{/superadmin/Vista_Principal}" class="btn">Regresar</a>
         </form>
 
     </div>

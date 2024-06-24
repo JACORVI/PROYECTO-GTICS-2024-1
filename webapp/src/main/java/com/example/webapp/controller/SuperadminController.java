@@ -994,6 +994,10 @@ public class SuperadminController {
     public String RegistroDoctor() {
         return "superadmin/IndexDoctor";
     }
+    @GetMapping("/Administrador")
+    public String RegistroAdministrador() {
+        return "superadmin/IndexAdministrador";
+    }
 
 
     @PostMapping("/Eliminar_Usuario")

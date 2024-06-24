@@ -79,6 +79,31 @@
                 <input th:value="${usuario.getMotivo_rechazo()}" name="motivo_rechazo" type="hidden" />
                 <input th:value="${usuario.getBorrado_logico()}" name="borrado_logico" type="hidden" />
                 <input th:value="${'No necesaria para un Doctor'}" name="direccion" type="hidden" />
+
+                <div class="col-md-6">
+                    <label class="form-label">Nombres</label>
+                    <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getNombres()}">hola</span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Apellido</label>
+                    <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getApellidos()}">hola</span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Correo Electrónico</label>
+                    <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getCorreo()}">hola</span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">DNI</label>
+                    <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getDni}">hola</span>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Código de Colegiatura</label>
+                    <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getCodigo_colegio().getNombre()}">hola</span>
+                </div>
+
+
+
+                <!--
                 <div class="col-md-6">
                     <label class="form-label">Nombres</label>
                     <input type="text" class="form-control" th:field="*{nombres}"
@@ -121,12 +146,13 @@
                         <option th:value="${'DOD008'}">DOD008</option>
                         <option th:value="${'DOD009'}">DOD009</option>
                         <option th:value="${'DOD010'}">DOD010</option>
-                        <!-- Agrega más opciones según sea necesario -->
+
                     </select>
                 </div>
+
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary boton-primario">EDITAR</button>
-                </div>
+                </div>  -->
             </form>
         </div>
     </div>

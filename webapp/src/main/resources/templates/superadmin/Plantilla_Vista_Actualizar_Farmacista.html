@@ -79,6 +79,32 @@
                             <input th:value="${'No necesaria para un Farmacista'}" name="direccion" type="hidden" />
                             <input th:value="${6}" name="seguro.id" type="hidden" />
                             <input th:value="${usuario.getPunto()}" name="punto" type="hidden" />
+
+                            <div class="col-md-6">
+                                <label class="form-label">Nombres</label>
+                                <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getNombres()}">hola</span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Apellidos</label>
+                                <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getApellidos()}">hola</span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Correo Electrónico</label>
+                                <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getCorreo()}">hola</span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">DNI</label>
+                                <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getDni}">hola</span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Código de Colegiatura</label>
+                                <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getCodigo_colegio().getNombre()}">hola</span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Distrito</label>
+                                <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getDistrito().getNombre()}">hola</span>
+                            </div>
+                            <!--
                             <div class="col-md-6">
                                 <label class="form-label">Nombres</label>
                                 <input type="text" class="form-control" th:field="*{nombres}"
@@ -121,7 +147,7 @@
                                     <option th:value="${'MED008'}">MED008</option>
                                     <option th:value="${'MED009'}">MED009</option>
                                     <option th:value="${'MED010'}">MED010</option>
-                                    <!-- Agrega más opciones según sea necesario -->
+                                    Agrega más opciones según sea necesario
                                 </select>
                             </div>
                             <div class="col-6">
@@ -133,7 +159,7 @@
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary boton-primario">EDITAR</button>
-                            </div>
+                            </div>-->
                         </form>
                     </div>
                 </div>
