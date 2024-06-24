@@ -233,14 +233,22 @@
                         <h3 style="align-content: flex-start">MEDICAMENTOS DE LA PRE-ORDEN</h3>
                         <br>
                         <ul class="row" style="margin: 1vh;">
-                            <li class="col-md-4" th:each="medicamento : ${listamedicamentopreorden}">
+                            <li class="col-md-4" th:each="medicamento, info : ${listamedicamentopreorden}">
                                 <figure class="itemside mb-3">
-                                    <div class="aside"><img th:src="@{/assets/paciente/img/medicamento.avif}" class="img-sm border"></div>
+                                    <div class="aside">
+                                        <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" class="img-sm border">
+                                    </div>
                                     <figcaption class="info align-self-center" style="display: flex; flex-direction: column; text-align: center">
                                         <p class="title" th:text="${medicamento.nombre_medicamento}" style="margin-bottom: 0"></p> <span class="text-muted" th:text="${'S/ ' + medicamento.costo_medicamento}"></span><p style="font-size: small; margin-top: 0; color: black" th:text="${'Cantidad: ' + medicamento.cantidad}">
                                     </figcaption>
                                 </figure>
                             </li>
+                        </ul>
+                        <br th:if="${pedido.estado_del_pedido == 'En ruta'}">
+                        <h3 style="align-content: flex-start" th:if="${pedido.estado_del_pedido == 'En ruta'}">MAPA DE LA RUTA DE ENTREGA</h3>
+                        <br th:if="${pedido.estado_del_pedido == 'En ruta'}">
+                        <ul class="row" style="margin: 1vh;" th:if="${pedido.estado_del_pedido == 'En ruta'}">
+                            <iframe th:src="${pedido.mapa_tracking}" width="auto" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </ul>
                         <hr>
                     </div>

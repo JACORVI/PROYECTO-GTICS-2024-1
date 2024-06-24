@@ -11,6 +11,6 @@ import java.util.List;
 public interface MedicamentosRecojoRepository extends JpaRepository<MedicamentoRecojo, Integer> {
     @Query(value = "SELECT * \n" +
             "FROM gticsbd.medicamentos_recojo \n" +
-            "WHERE pedidos_paciente_recojo_idpedidos_paciente_recojo = ?1 AND pedidos_paciente_recojo_usuario_id_usuario = 29", nativeQuery = true)
+            "WHERE pedidos_paciente_recojo_idpedidos_paciente_recojo = ?1", nativeQuery = true)
     List<MedicamentoRecojo> listaMedicamentosReco(int idpedido);
 }

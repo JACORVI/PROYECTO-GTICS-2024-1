@@ -19,6 +19,10 @@ public interface MedicamentosRepository extends JpaRepository<Medicamentos, Inte
     @Query(value = "select * from medicamentos where borrado_logico = 0 and nombre like %?1%" , nativeQuery = true)
     List<Medicamentos> buscarMedicamento(String nombreMedicamento);
 
+    @Query(value = "SELECT * FROM gticsbd.medicamentos\n" +
+            "WHERE nombre = ?1", nativeQuery = true)
+    Medicamentos medicamentoPorNombre(String nombre);
+
     @Query(value = "select categoria from gticsbd.medicamentos" , nativeQuery = true)
     List<String> listaCategorias();
 

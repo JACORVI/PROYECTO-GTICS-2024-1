@@ -35,6 +35,7 @@ public class PedidosPacienteRecojo {
     private String aviso_vencimiento;
     private String sede_de_recojo;
     private Integer telefono;
+    private String mapa_tracking;
 
     private byte[] receta_foto;
 

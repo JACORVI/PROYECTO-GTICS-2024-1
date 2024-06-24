@@ -32,6 +32,7 @@ public class PedidosPaciente {
     private String numero_tracking;
     private String aviso_vencimiento;
     private String metodo_pago;
+    private String mapa_tracking;
 
     private byte[] receta_foto;
 

@@ -309,8 +309,27 @@ public class PacienteController {
         }
     }
     @GetMapping("/paciente/medicamentos/info")
-    public String informacionDelMedicamento(){
-        return "paciente/infomedicamento";
+    @ResponseBody
+    public List<String> informacionDelMedicamento(@RequestParam("id") String strId){
+        Integer id = Integer.parseInt(strId);
+        Optional<Medicamentos> medicamentos = medicamentosRepository.findById(id);
+        List<String> infoMedicamentos = new ArrayList<>();
+        if (medicamentos.isPresent()){
+            Medicamentos medicamento = medicamentos.get();
+
+            String idStr = Integer.toString(medicamento.getId());
+            infoMedicamentos.add(idStr);
+            infoMedicamentos.add(medicamento.getNombre());
+            infoMedicamentos.add(medicamento.getCategoria());
+            infoMedicamentos.add(medicamento.getDescripcion());
+            byte[] fotoBytes1 = medicamento.getFoto();
+            String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
+            infoMedicamentos.add(fotoBase64);
+            return infoMedicamentos;
+        }
+        else{
+            return null;
+        }
     }
 
     @GetMapping("/paciente/cancelarRegistroPedidoPreorden")
@@ -1045,6 +1064,7 @@ public class PacienteController {
                     carritoRepository.borrarCarritoPorId(usuid);
 
                     model.addAttribute("numTracking", numTrack);
+                    model.addAttribute("delivery", 1);
                 }
             }
             else{
@@ -1103,6 +1123,7 @@ public class PacienteController {
                     carritoRepository.borrarCarritoPorId(usuid);
 
                     model.addAttribute("numTracking", numTrack);
+                    model.addAttribute("delivery", 1);
                 }
             }
 
@@ -1188,6 +1209,7 @@ public class PacienteController {
                     carritoRepository.borrarCarritoPorId(usuid);
 
                     model.addAttribute("numTracking", numTrack);
+                    model.addAttribute("recojo", 1);
                 }
             }
             else{
@@ -1242,6 +1264,7 @@ public class PacienteController {
                     carritoRepository.borrarCarritoPorId(usuid);
 
                     model.addAttribute("numTracking", numTrack);
+                    model.addAttribute("recojo", 1);
                 }
             }
 
@@ -1388,6 +1411,16 @@ public class PacienteController {
         if(optionalPedidosPaciente.isPresent()){
             PedidosPaciente pedidosPaciente = optionalPedidosPaciente.get();
             List<MedicamentosDelPedido> listaMedicamentosDely = medicamentosDelPedidoRepository.listaMedicamentosDely(id);
+            List<String> listafotos = new ArrayList<>();
+
+            for (int i = 0; i < listaMedicamentosDely.size(); i++) {
+                Medicamentos medicamento = medicamentosRepository.medicamentoPorNombre(listaMedicamentosDely.get(i).getNombre_medicamento());
+                byte[] fotoBytes = medicamento.getFoto();
+                String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+                listafotos.add(fotoBase64);
+            }
+
+            model.addAttribute("listaFotos", listafotos);
             model.addAttribute("listamedicamentodely", listaMedicamentosDely);
             model.addAttribute("pedido", pedidosPaciente);
             return "paciente/estadotrckdely";
@@ -1403,7 +1436,17 @@ public class PacienteController {
         if(optionalPedidosPacienteRecojo.isPresent()){
             PedidosPacienteRecojo pedidosPacienteRecojo = optionalPedidosPacienteRecojo.get();
             List<MedicamentoRecojo> listaMedicamentosReco = medicamentosRecojoRepository.listaMedicamentosReco(id);
-            model.addAttribute("listamedicamento", listaMedicamentosReco);
+            List<String> listafotos = new ArrayList<>();
+
+            for (int i = 0; i < listaMedicamentosReco.size(); i++) {
+                Medicamentos medicamento = medicamentosRepository.medicamentoPorNombre(listaMedicamentosReco.get(i).getNombre_medicamento());
+                byte[] fotoBytes = medicamento.getFoto();
+                String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+                listafotos.add(fotoBase64);
+            }
+
+            model.addAttribute("listaFotos", listafotos);
+            model.addAttribute("listamedicamentoreco", listaMedicamentosReco);
             model.addAttribute("pedido", pedidosPacienteRecojo);
             return "paciente/estadotrckreco";
         }
@@ -1418,6 +1461,16 @@ public class PacienteController {
         if(optionalPedidosPaciente.isPresent()){
             PedidosPaciente pedidosPaciente = optionalPedidosPaciente.get();
             List<MedicamentosDelPedido> listaMedicamentosDely = medicamentosDelPedidoRepository.listaMedicamentosDely(id);
+            List<String> listafotos = new ArrayList<>();
+
+            for (int i = 0; i < listaMedicamentosDely.size(); i++) {
+                Medicamentos medicamento = medicamentosRepository.medicamentoPorNombre(listaMedicamentosDely.get(i).getNombre_medicamento());
+                byte[] fotoBytes = medicamento.getFoto();
+                String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+                listafotos.add(fotoBase64);
+            }
+
+            model.addAttribute("listaFotos", listafotos);
             model.addAttribute("listamedicamentopreorden", listaMedicamentosDely);
             model.addAttribute("pedido", pedidosPaciente);
             return "paciente/estadotrckpreorden";
