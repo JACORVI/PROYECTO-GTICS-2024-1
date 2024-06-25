@@ -51,7 +51,7 @@
 <div class="container">
     <div class="signin-signup">
         <form id="formReg" th:action="@{/registro/usuario}" class="sign-in-form" th:object="${usuario}" method="post">
-            <h2 class="title">Registro Paciente</h2>
+            <h2 class="title">Registro Doctor</h2>
             <div class="input-field-select-disabled">
                 <i class="fas fa-user"></i>
                 <input type="text" name="nombresRegister" th:value="${nombresValidados}" disabled class="disabled-input">
@@ -74,33 +74,24 @@
                 <div class="error" id="email-registro-error"></div>
             </div>
             <div th:if="${correoExistenteError != null}" th:text="${correoExistenteError}" style="color: red"></div>
+
             <div class="input-field-select">
                 <i class="fas fa-user-shield"></i>
-                <select class="form-select" aria-label="Default select example" th:field="*{seguro}">
-                    <option value="">↓↓↓ Seleccione el seguro que tiene ↓↓↓</option>
-                    <option th:each="seguro : ${listaSeguros}" th:value="${seguro.id}" th:text="${seguro.nombre}"></option>
+                <select class="form-select" aria-label="Default select example" th:field="*{codigo_colegio}">
+                    <option value="">↓↓↓ Seleccione el codigo de colegiatura del Doctor ↓↓↓</option>
+                    <option th:each="codigo_colegio : ${listaCodigosColegio}" th:value="${codigo_colegio.id}" th:text="${codigo_colegio.nombre}"></option>
                 </select>
             </div>
-            <div th:if="${seguroError != null}" th:text="${seguroError}" style="color: red"></div>
-            <div class="input-field-select">
-                <i class="fas fa-location"></i>
-                <select class="form-select" aria-label="Default select example" th:field="*{distrito}">
-                    <option value="">↓↓↓ Seleccione su distrito de residencia ↓↓↓</option>
-                    <option th:each="distrito : ${listaDistritos}" th:value="${distrito.id}" th:text="${distrito.nombre}"></option>
-                </select>
-            </div>
-            <div th:if="${distritoError != null}" th:text="${distritoError}" style="color: red"></div>
-            <div class="input-field-select">
-                <i class="fas fa-street-view"></i>
-                <input type="text" placeholder="Ingresa tu dirección..."  th:field="*{direccion}" th:classappend="${#fields.hasErrors('direccion')?'is-invalid':''}">
-                <div class="error" id="direccion-registro-error"></div>
-            </div>
+            <div th:if="${codigoError != null}" th:text="${codigoError}" style="color: red"></div>
             <input type="hidden"  th:field="*{id}">
             <input type="hidden"  th:field="*{codigo_colegiatura}">
+            <input th:value="${'No necesaria para un Doctor'}" name="direccion" type="hidden" />
             <input th:value="${'5'}" name="nuevoRol" type="hidden" />
+            <input th:value="${1}" name="distrito.id" type="hidden" />
+            <input th:value="${6}" name="seguro.id" type="hidden" />
             <div>
                 <input type="submit" value="Registrar" class="btn" id="registro-button" style="margin-top: 1vh; margin-bottom: 1vh; margin-right: 1vh;">
-                <a th:href="@{/login}" class="btn">Regresar al login</a>
+                <a th:href="@{/superadmin/Vista_Principal}" class="btn">Regresar</a>
             </div>
         </form>
 
