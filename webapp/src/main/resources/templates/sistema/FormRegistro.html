@@ -97,7 +97,8 @@
             </div>
             <input type="hidden"  th:field="*{id}">
             <input type="hidden"  th:field="*{codigo_colegiatura}">
-            <input th:value="${'5'}" name="nuevoRol" type="hidden" />
+            <input th:value="${'4'}" name="nuevoRol" type="hidden" />
+            <input th:value="${12}" name="codigo_colegio.id" type="hidden" />
             <div>
                 <input type="submit" value="Registrar" class="btn" id="registro-button" style="margin-top: 1vh; margin-bottom: 1vh; margin-right: 1vh;">
                 <a th:href="@{/login}" class="btn">Regresar al login</a>

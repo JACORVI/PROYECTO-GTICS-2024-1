@@ -20,7 +20,7 @@ public class DataDao {
         String url = "https://api.verifica.id/v2/consulta/personas?dni=" + dni;
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer Completar");
+        headers.set("Authorization", "Bearer sk-JzyvYwkGUyFpJI+/PO7lOuOyj22HgDth12R6hNvorOw==");
 
         HttpEntity<String> entity = new HttpEntity<>("", headers);
 
