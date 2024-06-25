@@ -178,7 +178,10 @@
                                 <div class="col-12">
                                     <input type="hidden" name="accion" value="avatar">
                                     <input type="hidden" th:field="*{id}">
-                                    <button type="submit" class="btn btn-success">Guardar cambios</button>
+                                    <button type="submit" class="btn-cart welcome-add-cart" style="text-align: center">
+                                        <span class="lnr lnr-exit-up"></span>
+                                        Guardar cambios
+                                    </button>
                                 </div>
 
                             </form>
@@ -189,7 +192,7 @@
             </div>
         </div>
         
-        <a th:href="@{/paciente/perfil}" class="btn-cart welcome-add-cart" style="text-align: center">
+        <a th:href="@{/paciente/miPerfil}" class="btn-cart welcome-add-cart" style="text-align: center">
             <span class="lnr lnr-arrow-left-circle"></span>
             Regresar
         </a>
