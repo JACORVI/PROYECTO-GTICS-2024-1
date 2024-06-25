@@ -2,6 +2,7 @@ package com.example.webapp.controller;
 
 import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
@@ -58,6 +59,135 @@ public class PacienteController {
     }
     /*---------------------------------------*/
 
+    /*QRUD y vista del PERFIL */
+    @GetMapping("/paciente/miPerfil")
+    public String miPerfil(Model model, Authentication authentication) {
+        Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
+        int usuid = usuario.getId();
+        model.addAttribute("id", usuid);
+        String nombres = usuario.getNombres();
+        model.addAttribute("nombres", nombres);
+        String apellidos = usuario.getApellidos();
+        model.addAttribute("apellidos", apellidos);
+        String correo = usuario.getCorreo();
+        model.addAttribute("correo", correo);
+        int dni = usuario.getDni();
+        model.addAttribute("dni", dni);
+
+        String distrito = usuario.getDistrito().getNombre();
+        model.addAttribute("distrito", distrito);
+        String direccion = usuario.getDireccion();
+        model.addAttribute("direccion", direccion);
+
+        String telefono = "";
+        if (usuario.getTelefono() != null){
+            if(usuario.getTelefono().equals("")){
+                model.addAttribute("telefono", "---");
+            }
+            else {
+                telefono = usuario.getTelefono();
+                model.addAttribute("telefono", telefono);
+            }
+
+        }
+        else{
+            model.addAttribute("telefono", "---");
+        }
+        String referencia = "";
+        if (usuario.getReferencia() != null){
+            if(usuario.getReferencia().equals("")){
+                model.addAttribute("referencia", "---");
+            }
+            else{
+                referencia = usuario.getReferencia();
+                model.addAttribute("referencia", referencia);
+            }
+        }
+        else {
+            model.addAttribute("referencia", "---");
+        }
+
+        return "paciente/miperfil";
+    }
+    @GetMapping("/paciente/perfil/editar")
+    public String perfilEditar(Model model, Authentication authentication) {
+        Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
+        model.addAttribute("usuario", usuario);
+        String nombres = usuario.getNombres();
+        model.addAttribute("nombres", nombres);
+        String apellidos = usuario.getApellidos();
+        model.addAttribute("apellidos", apellidos);
+        String correo = usuario.getCorreo();
+        model.addAttribute("correo", correo);
+        int dni = usuario.getDni();
+        model.addAttribute("dni", dni);
+        model.addAttribute("listaDistritos", distritoRepository.findAll());
+
+        return "paciente/editarPerfil";
+    }
+    @PostMapping("/paciente/perfil/guardar")
+    public String GuardarPerfil(@RequestParam("accion") String accion,
+                                Model model, Usuario obj,
+                                RedirectAttributes attributes, HttpSession session) {
+        Usuario data = null;
+        data = usuarioRepository.findById(obj.getId()).orElse(null);
+        if (accion.equalsIgnoreCase("avatar")) {
+            try {
+                data.setImagen(obj.getImagen().trim());
+                usuarioRepository.save(data);
+
+                if (obj.getId() > 0) {
+                    attributes.addFlashAttribute("msgValido", "Datos actualizados!!");
+                    session.setAttribute("avatar", data.getImagen());
+                    return "redirect:/paciente/miPerfil";
+                }
+                attributes.addFlashAttribute("msgError", "No se pudo actualizar datos!");
+            }
+            catch (Exception ex) {
+                model.addAttribute("error", ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+        if (accion.equalsIgnoreCase("perfil")) {
+            try {
+                if(obj.getDireccion().trim().equals("")){
+                    attributes.addFlashAttribute("msgError", "La dirección no puede quedar vacia.");
+                    return "redirect:/paciente/perfil/editar";
+                }
+
+                if(obj.getDireccion().trim().length() > 90){
+                    attributes.addFlashAttribute("msgError", "La dirección no puede tener mas de 90 caracteres.");
+                    return "redirect:/paciente/perfil/editar";
+                }
+                else{
+                    if (accion.equalsIgnoreCase("perfil")) {
+                        System.out.println(obj.getTelefono().trim() + obj.getDistrito() + obj.getDireccion().trim() + obj.getReferencia().trim());
+                        data.setTelefono(obj.getTelefono().trim());
+                        data.setReferencia(obj.getReferencia().trim());
+                        data.setDistrito(obj.getDistrito());
+                        data.setDireccion(obj.getDireccion().trim());
+
+                    }
+
+                    usuarioRepository.save(data);
+
+                    if (obj.getId() > 0) {
+                        attributes.addFlashAttribute("msgValido", "Datos actualizados!!");
+                        session.setAttribute("avatar", data.getImagen());
+                        return "redirect:/paciente/miPerfil";
+                    }
+                    attributes.addFlashAttribute("msgError", "No se pudo actualizar datos!");
+                }
+            } catch (Exception ex) {
+                model.addAttribute("error", ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+
+        model.addAttribute("usuario", data);
+        return "redirect:/paciente/miPerfil";
+    }
+    /*---------------------------------------*/
 
     /*QRUD y vista de PREORDENES*/
     @GetMapping(value = {"/paciente/inicio", "/paciente/", "/paciente"})
