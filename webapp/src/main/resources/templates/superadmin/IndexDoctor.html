@@ -52,7 +52,7 @@
 
 <div class="container">
     <div class="signin-signup">
-        <form id="formReg" th:action="@{/registro}" class="sign-in-form" method="post">
+        <form id="formReg" th:action="@{/registroDoctorAdministrador}" class="sign-in-form" method="post">
             <h2 class="title">Nuevo Doctor</h2>
             <input th:value="${'5'}" name="nuevoRol" type="hidden" />
             <div class="input-field">
@@ -60,9 +60,12 @@
                 <input type="text" placeholder="DNI del nuevo doctor" id="dni" name="dni">
                 <div class="error" id="dni-error"></div>
             </div>
-
+            <div th:if="${dniInvalido != null}" th:text="${dniInvalido}" style="color: red"></div>
+            <div th:if="${dniRepetido != null}" th:text="${dniRepetido}" style="color: red"></div>
+            <div>
             <input type="submit" value="Registrar" class="btn" id="registro-button" style="margin-top: 1vh">
             <a th:href="@{/superadmin/Vista_Principal}" class="btn">Regresar</a>
+            </div>
         </form>
 
     </div>

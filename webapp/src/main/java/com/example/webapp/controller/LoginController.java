@@ -328,6 +328,97 @@ public class LoginController {
         return "redirect:/login";
     }
 
+    @PostMapping("/registroDoctorAdministrador")
+    public String validarDoctorAdministrador(@ModelAttribute("nuevoRol") String nuevoRol,@ModelAttribute("dni") String dni,
+                                             RedirectAttributes redirectAttributes, Model model) {
+        int rol = Integer.parseInt(nuevoRol);
+        System.out.println("Este es el rol enviado ###########################################");
+        System.out.println(rol);
+        try {
+            Data data = dataDao.buscarPorDni(dni);
+            Integer dniInt = Integer.valueOf(dni);
+            List<Integer> listaDNI = usuarioRepository.listaDniExistentes();
+            boolean encontrado = false;
+            for (Integer dni1 : listaDNI) {
+                if (dni1.equals(dniInt)) {
+                    encontrado = true;
+                    break;
+                }
+            }
+            if (!encontrado) {
+                try {
+                    //NOMBRES -> Nombres
+                    String nombreCompleto = data.getNombres();
+                    String[] palabras1 = nombreCompleto.split(" ");
+                    StringBuilder nombreFormateado = new StringBuilder();
+                    for (String palabra : palabras1) {
+                        if (!nombreFormateado.toString().isEmpty()) {
+                            nombreFormateado.append(" ");
+                        }
+                        nombreFormateado.append(palabra.substring(0, 1).toUpperCase())
+                                .append(palabra.substring(1).toLowerCase());
+                    }
+
+                    //APELLIDOS -> Apellidos
+                    String apellidoCompleto = data.getApellido_paterno() + " " + data.getApellido_materno();
+                    String[] palabras2 = apellidoCompleto.split(" ");
+                    StringBuilder apellidoFormateado = new StringBuilder();
+                    for (String palabra : palabras2) {
+                        if (!apellidoFormateado.toString().isEmpty()) {
+                            apellidoFormateado.append(" ");
+                        }
+                        apellidoFormateado.append(palabra.substring(0, 1).toUpperCase())
+                                .append(palabra.substring(1).toLowerCase());
+                    }
+
+
+                    if(rol == 5){
+                        model.addAttribute("nombresValidados", nombreFormateado.toString());
+                        model.addAttribute("apellidosValidados", apellidoFormateado.toString());
+                        model.addAttribute("dniValidado", data.getDni());
+                        model.addAttribute("listaCodigosColegio", codigoColegioRepository.findAll());
+                        //model.addAttribute("listaSeguros", seguroRepository.findAll());
+                        //model.addAttribute("listaDistritos", distritoRepository.findAll());
+                        return "superadmin/FormRegistroDoctor";
+                    }else if(rol == 2) {
+                        model.addAttribute("nombresValidados", nombreFormateado.toString());
+                        model.addAttribute("apellidosValidados", apellidoFormateado.toString());
+                        model.addAttribute("dniValidado", data.getDni());
+                        //model.addAttribute("listaSeguros", seguroRepository.findAll());
+                        //model.addAttribute("listaDistritos", distritoRepository.findAll());
+                        return "superadmin/FormRegistroAdministrador";
+                    }
+                }
+                catch (Exception e) {
+                    model.addAttribute("dniInvalido", "El DNI ingresado no es valido");
+                    System.out.println("Esta es la validacion más interna");
+                    if(rol == 5){
+                        return "superadmin/IndexDoctor";
+                    }else if(rol == 2){
+                        return "superadmin/IndexAdministrador";
+                    }
+                }
+            }
+            else{
+                model.addAttribute("dniRepetido", "El DNI ingresado ya esta registrado en el sistema.");
+                if(rol == 5){
+                    return "superadmin/IndexDoctor";
+                }else if(rol == 2){
+                    return "superadmin/IndexAdministrador";
+                }
+            }
+        }
+        catch (Exception e) {
+            model.addAttribute("dniInvalido", "El DNI ingresado no es valido");
+            if(rol == 5){
+                return "superadmin/IndexDoctor";
+            }else if(rol == 2){
+                return "superadmin/IndexAdministrador";
+            }
+        }
+        return "redirect:/login";
+    }
+
     @PostMapping("/registro/usuario")
     public String registrarUsuario(@ModelAttribute("nuevoRol") String nuevoRol,@ModelAttribute("usuario") @Valid Usuario usuario,
                                    BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
@@ -434,10 +525,9 @@ public class LoginController {
             }
         }else if(rolNuevo == 5){
             System.out.println("Codigo de Colegiatura////////////////////////////////////////////////////");
-            System.out.println(usuario.getCodigo_colegio().getId());
             if (bindingResult.hasErrors() ||  usuario.getCodigo_colegio() == null || encontrado || encontrado1) {
                 if (usuario.getCodigo_colegio() == null){
-                    model.addAttribute("codigoError", "Debe seleccionar un codigo de colegiatura");
+                    model.addAttribute("codigoError1", "Debe seleccionar un codigo de colegiatura");
                 }
                 if (encontrado1){
                     model.addAttribute("codigoError", "El codigo de colegiatura ya ha sido registrado en el sistema");
