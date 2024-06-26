@@ -226,71 +226,63 @@
             <div class="tab-pane" id="list-avatar" role="tabpanel">
               <!-- Contenido del avatar aquí -->
 
-              <h2 class="mb-4">Reportes Personalizados</h2>
-              <form class="row g-3" method="post">
+              <h2 class="mb-4">Reportes Personalizados Sede</h2>
 
-                <div class="col-md-6">
-                  <label class="form-label">Lista de Medicamentos</label>
-                  <a th:href="@{'/pdf_medicamentos'}" class="btn btn-danger">
-                    <i class=""></i> Descargar en Formato PDF
-                  </a>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Lista de Doctores</label>
-                  <a th:href="@{'/pdf_doctores'}" class="btn btn-danger">
-                    <i class=""></i> Descargar en Formato PDF
-                  </a>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Lista de Administradores</label>
-                  <a th:href="@{'/pdf_administradores'}" class="btn btn-danger">
-                    <i class=""></i> Descargar en Formato PDF
-                  </a>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Lista de Farmacistas</label>
-                  <a th:href="@{'/pdf_farmacistas'}" class="btn btn-danger">
-                    <i class=""></i> Descargar en Formato PDF
-                  </a>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Lista de Pacientes</label>
-                  <a th:href="@{'/pdf_pacientes'}" class="btn btn-danger">
-                    <i class=""></i> Descargar en Formato PDF
-                  </a>
-                </div>
+              <!-- CSS para mejorar la separación y alineación -->
+              <style>
+                .custom-form {
+                  width: 80%;
+                  margin-left: 10vh;
+                  margin-bottom: 1.5rem; /* Espacio entre formularios */
+                }
+                .custom-select {
+                  width: 30%;
+                  font-size: large;
+                  margin-left: 1vh;
+                }
+                .custom-label {
+                  flex: 1;
+                }
+              </style>
 
-                <!--
-                <div class="col-md-6">
-                    <label for="inputNombre" class="form-label">Nombres</label>
-                    <input type="text" class="form-control"  th:field="*{nombres}" required="">
-                </div>
-                <div class="col-md-6">
-                    <label for="inputApellido" class="form-label">Apellidos</label>
-                    <input type="text" class="form-control" th:field="*{apellidos}" required="">
-                </div>
-                <div class="col-md-6">
-                    <label for="inputTelefono" class="form-label">Teléfono</label>
-                    <input type="text" class="form-control" th:field="*{telefono}" >
-                </div>
-                <div class="col-md-6">
-                    <label for="inputDni" class="form-label">DNI</label>
-                    <input type="text" class="form-control" th:field="*{dni}" required="">
-                </div>
-                <div class="col-12">
-                    <label for="inputCorreo" class="form-label">Correo electrónico</label>
-                    <input type="email" class="form-control"th:field="*{correo}" required="" placeholder="">
-                </div>
-                <div class="col-md-6">
-                    <label for="inputContrasena" class="form-label">Cambiar contraseña</label>
-                    <input type="password" class="form-control" th:field="*{contrasena}" >
-                </div>
+              <form class="d-flex align-items-center justify-content-between custom-form" th:action="@{/filtrarSede}" method="post">
+                <label class="form-label mb-0 custom-label">1) Doctores</label>
+                <select name="filtroSede" class="form-select mx-3 custom-select" aria-label="Default select example">
+                  <option value="">Elige una Sede</option>
+                  <option th:each="sede : ${listaSedes}" th:value="${sede.id}" th:text="${sede.nombre}"></option>
+                </select>
+                <input th:value="${'5'}" name="nuevoRol" type="hidden" />
+                <button class="btn btn-outline-success" style="font-size: large" type="submit">Filtrar</button>
+              </form>
 
-                <div class="col-12">
-                    <input type="hidden" name="accion" value="perfil">
-                    <input type="hidden" th:field="*{id}">
-                    <button type="submit" class="btn btn-success">Guardar cambios</button>
-                </div>-->
+              <form class="d-flex align-items-center justify-content-between custom-form" th:action="@{/filtrarSede}" method="post">
+                <label class="form-label mb-0 custom-label">2) Administradores</label>
+                <select name="filtroSede" class="form-select mx-3 custom-select" aria-label="Default select example">
+                  <option value="">Elige una Sede</option>
+                  <option th:each="sede : ${listaSedes}" th:value="${sede.id}" th:text="${sede.nombre}"></option>
+                </select>
+                <input th:value="${'2'}" name="nuevoRol" type="hidden" />
+                <button class="btn btn-outline-success" style="font-size: large" type="submit">Filtrar</button>
+              </form>
+
+              <form class="d-flex align-items-center justify-content-between custom-form" th:action="@{/filtrarSede}" method="post">
+                <label class="form-label mb-0 custom-label">3) Farmacistas</label>
+                <select name="filtroSede" class="form-select mx-3 custom-select" aria-label="Default select example">
+                  <option value="">Elige una Sede</option>
+                  <option th:each="sede : ${listaSedes}" th:value="${sede.id}" th:text="${sede.nombre}"></option>
+                </select>
+                <input th:value="${'3'}" name="nuevoRol" type="hidden" />
+                <button class="btn btn-outline-success" style="font-size: large" type="submit">Filtrar</button>
+              </form>
+
+              <form class="d-flex align-items-center justify-content-between custom-form" th:action="@{/filtrarSede}" method="post">
+                <label class="form-label mb-0 custom-label">4) Medicamentos</label>
+                <select name="filtroSede" class="form-select mx-3 custom-select" aria-label="Default select example">
+                  <option value="">Elige una Sede</option>
+                  <option th:each="sede : ${listaSedes}" th:value="${sede.id}" th:text="${sede.nombre}"></option>
+                </select>
+                <input th:value="${'1'}" name="nuevoRol" type="hidden" />
+                <button class="btn btn-outline-success" style="font-size: large" type="submit">Filtrar</button>
               </form>
             </div>
           </div>

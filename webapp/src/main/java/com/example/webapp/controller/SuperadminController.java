@@ -81,7 +81,9 @@ public class SuperadminController {
     }
 
     @GetMapping("/Reportes")
-    public String Reportes() {
+    public String Reportes(Model model) {
+        List<Sede> listaSedes= sedeRepository.findAll();
+        model.addAttribute("listaSedes", listaSedes);
         return "superadmin/Plantilla_Vista_GenerarReportes";
     }
     @GetMapping("/Registrar_Medicamento")
