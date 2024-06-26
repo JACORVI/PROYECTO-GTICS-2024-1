@@ -583,7 +583,7 @@ public class LoginController {
                 usuario.setRol(rol);
                 usuario.setContrasena("");
                 usuario.setCuenta_activada(0);
-                usuario.setEstado(0);
+                usuario.setEstado(1);
                 usuarioRepository.save(usuario);
 
                 return "redirect:/superadmin/Vista_Principal";

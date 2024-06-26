@@ -33,10 +33,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 ", nativeQuery = true)
     List<Usuario> buscarDoctor(int rol,int borrado_logico);
 
-    @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 ", nativeQuery = true)
+    @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 and cuenta_activada = 1 ", nativeQuery = true)
     List<Usuario> buscarAdministrador(int rol,int borrado_logico);
 
-    @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 ", nativeQuery = true)
+    @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 and cuenta_activada = 1 ", nativeQuery = true)
     List<Usuario> buscarPaciente(int rol,int borrado_logico);
 
     @Transactional
