@@ -11,7 +11,6 @@
         <link rel="icon" type="image/x-icon" th:href="@{/assets/paciente/img/logo.png}" />
 
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" th:href="@{/assets/paciente/css/modal.css}">
         <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/font-awesome.min.css}">
         <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/linearicons.css}">
@@ -22,6 +21,7 @@
         <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootsnav.css}">
         <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/style.css}">
         <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/responsive.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/medicamentos.css}">
 
 
         <!--Para la paginacion-->
@@ -83,11 +83,11 @@
     </header><!--/.welcome-hero-->
     <!--welcome-hero end -->
 
-    <br><br><br><br><br>
+    <br><br><br><br><br><br><br>
 
     <!--new-arrivals start -->
     <section class="py-8">
-        <div class="container px-4 px-lg-5 mt-5">
+        <div class="containernav px-4 px-lg-5 mt-5">
             <div class="section-header">
                 <h2 th:if="${categoria==null and orden==null}">Lista de Medicamentos</h2>
                 <h2 th:if="${categoria!=null or orden!=null}" style="margin-bottom: 2vh;">Lista de Medicamentos</h2>
@@ -99,13 +99,13 @@
             <div style="display: flex">
                 <form th:if="${principal == 1}" class="d-flex" th:action="@{/paciente/medicamentos/buscador}" method="post" role="search" style="width: 45%;">
                     <input name="searchField" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar medicamento..." aria-label="Search">
-                    <button class="btn btn-outline-warning" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <button class="btn btn-outline-warning" style="border: none" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                     </svg></button>
                 </form>
                 <form th:if="${principal == 0}" class="d-flex" th:action="@{/paciente/medicamentos/buscador}" method="post" role="search" style="width: 35%; margin-right: 1vh">
                     <input name="searchField" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar medicamento..." aria-label="Search">
-                    <button class="btn btn-outline-warning" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <button class="btn btn-outline-warning" style="border: none" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                     </svg></button>
                 </form>
@@ -136,9 +136,10 @@
                 <br>
                 <br>
             </div>
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" >
-                <div class="contenido" th:each="medicamentos, info : ${listaMedicamentos}" >
-                    <div class="single-new-arrival" th:if="${medicamentos.inventario > 25}">
+            <div class="new-arrivals-content">
+                <div class="row">
+                <div class="col-md-3 col-sm-4" id="contenidopag" th:each="medicamentos, info : ${listaMedicamentos}" >
+                    <div class="single-new-arrival" th:if="${medicamentos.inventario > 25}" style="margin-right: 7px">
                         <div class="single-new-arrival-bg">
                             <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images" style="height: 350px; width: 300px">
                             <div class="single-new-arrival-bg-overlay"></div>
@@ -156,7 +157,7 @@
                         <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
                         <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
                     </div>
-                    <div class="single-new-arrival" th:if="${medicamentos.inventario > 0 and medicamentos.inventario < 25}">
+                    <div class="single-new-arrival" style="margin-right: 7px" th:if="${medicamentos.inventario > 0 and medicamentos.inventario < 25}">
                         <div class="single-new-arrival-bg">
                             <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images" style="height: 350px; width: 300px">
                             <div class="single-new-arrival-bg-overlay"></div>
@@ -176,7 +177,7 @@
                         <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
                         <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
                     </div>
-                    <div class="single-new-arrival" th:if="${medicamentos.inventario == 0}">
+                    <div class="single-new-arrival" style="margin-right: 7px" th:if="${medicamentos.inventario == 0}">
                         <div class="single-new-arrival-bg">
                             <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images" style="height: 350px; width: 300px">
                             <div class="single-new-arrival-bg-overlay"></div>
@@ -196,6 +197,7 @@
                         <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
                         <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
                     </div>
+                </div>
                 </div>
             </div>
             <!-- Paginacion-->
@@ -236,12 +238,9 @@
                 <div class="footer-social">
                     <a href="#"><i class="fa fa-facebook"></i></a>
                     <a href="#"><i class="fa fa-instagram"></i></a>
-                    <a href="#"><i class="fa fa-linkedin"></i></a>
-                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                    <a href="#"><i class="fa fa-behance"></i></a>
                 </div>
                 <p>
-                    &copy;copyright. designed and developed by <a href="https://www.themesine.com/">themesine</a>
+                    &copy;copyright. designed and developed by <a href="https://www.themesine.com/">pildopharm</a>
                 </p><!--/p-->
             </div><!--/.text-center-->
         </div><!--/.containernav-->
@@ -283,7 +282,7 @@
         }
 
         $(function () {
-            var numberOfItems = $(".contenido").length;
+            var numberOfItems = $("#contenido").length;
             var limitPerPage = 12; //How many card items visible per a page
             var totalPages = Math.ceil(numberOfItems / limitPerPage);
             var paginationSize = 6; //How many page elements visible in the pagination
@@ -294,7 +293,7 @@
 
                 currentPage = whichPage;
 
-                $(".contenido").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+                $("#contenido").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
 
                 $(".pagination li").slice(1, -1).remove();
 
@@ -314,7 +313,7 @@
                 $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
             );
 
-            $(".contenido").show();
+            $("#contenido").show();
             showPage(1);
 
             $(document).on("click", ".pagination li.current-page:not(.active)", function () {

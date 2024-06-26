@@ -304,17 +304,17 @@ public class PacienteController {
                                    @ModelAttribute("pedidosPaciente") @Valid PedidosPaciente pedidosPaciente, BindingResult bindingResult,
                                    Model model, Authentication authentication) {
         Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
-        boolean telefonoErrors = pedidosPaciente.getTelefono() == null || pedidosPaciente.getTelefono()<900000000 || pedidosPaciente.getTelefono()>999999999;
+        boolean telefonoErrors = pedidosPaciente.getTelefono() == null || pedidosPaciente.getTelefono().equals("") || pedidosPaciente.getTelefono()<900000000 || pedidosPaciente.getTelefono()>999999999;
         boolean imagenValida = foto1.getContentType().contains("application/octet-stream") || foto1.getContentType().contains("image/jpeg") || foto1.getContentType().contains("image/png") || foto1.getContentType().contains("image/jpeg"); ;
         boolean evitaAtaquesLFI = foto1.getSubmittedFileName().contains("..");
 
         if (bindingResult.hasErrors() || pedidosPaciente.getDistrito().equals("") || pedidosPaciente.getMedico_que_atiende().equals("") || pedidosPaciente.getAviso_vencimiento().equals("") || telefonoErrors || !imagenValida || evitaAtaquesLFI){
-            if (pedidosPaciente.getTelefono() == null){
+            if (pedidosPaciente.getTelefono() == null || pedidosPaciente.getTelefono().equals("")){
                 model.addAttribute("telefonoError", "El número de celular no puede quedar vacio.");
             }
             else{
                 if(pedidosPaciente.getTelefono()<900000000 || pedidosPaciente.getTelefono()>999999999){
-                    model.addAttribute("telefonoError", "El número de celular tiene que tener 9 dígitos.");
+                    model.addAttribute("telefonoError", "El número de celular tiene que tener 9 dígitos y empezar con 9.");
                 }
             }
             if (pedidosPaciente.getDistrito().equals("")){
@@ -1117,17 +1117,17 @@ public class PacienteController {
                                     @ModelAttribute("pedidosPaciente") @Valid PedidosPaciente pedidosPaciente, BindingResult bindingResult,
                                     Model model, Authentication authentication) {
         Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
-        boolean telefonoErrors = pedidosPaciente.getTelefono() == null || pedidosPaciente.getTelefono()<900000000 || pedidosPaciente.getTelefono()>999999999;
+        boolean telefonoErrors = pedidosPaciente.getTelefono() == null || pedidosPaciente.getTelefono().equals("") || pedidosPaciente.getTelefono()<900000000 || pedidosPaciente.getTelefono()>999999999;
         boolean imagenValida = foto1.getContentType().contains("application/octet-stream") || foto1.getContentType().contains("image/jpeg") || foto1.getContentType().contains("image/png") || foto1.getContentType().contains("image/jpeg"); ;
         boolean evitaAtaquesLFI = foto1.getSubmittedFileName().contains("..");
 
         if (bindingResult.hasErrors() || pedidosPaciente.getDistrito().equals("") || pedidosPaciente.getMedico_que_atiende().equals("") || pedidosPaciente.getAviso_vencimiento().equals("") || telefonoErrors || !imagenValida || evitaAtaquesLFI){
-            if (pedidosPaciente.getTelefono() == null){
+            if (pedidosPaciente.getTelefono() == null || pedidosPaciente.getTelefono().equals("")){
                 model.addAttribute("telefonoError", "El número de celular no puede quedar vacio.");
             }
             else{
                 if(pedidosPaciente.getTelefono()<900000000 || pedidosPaciente.getTelefono()>999999999){
-                    model.addAttribute("telefonoError", "El número de celular tiene que tener 9 dígitos.");
+                    model.addAttribute("telefonoError", "El número de celular tiene que tener 9 dígitos y empezar con 9.");
                 }
             }
             if(!imagenValida || evitaAtaquesLFI){
@@ -1266,19 +1266,19 @@ public class PacienteController {
                                     @ModelAttribute("pedidosPacienteRecojo") PedidosPacienteRecojo pedidosPacienteRecojo,
                                     Model model, Authentication authentication) {
         Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
-        boolean telefonoErrors = pedidosPacienteRecojo.getTelefono() == null || pedidosPacienteRecojo.getTelefono()<900000000 || pedidosPacienteRecojo.getTelefono()>999999999;
+        boolean telefonoErrors = pedidosPacienteRecojo.getTelefono() == null || pedidosPacienteRecojo.getTelefono().equals("") || pedidosPacienteRecojo.getTelefono()<900000000 || pedidosPacienteRecojo.getTelefono()>999999999;
         boolean imagenValida = foto1.getContentType().contains("application/octet-stream") || foto1.getContentType().contains("image/jpeg") || foto1.getContentType().contains("image/png") || foto1.getContentType().contains("image/jpeg");
         boolean evitaAtaquesLFI = foto1.getSubmittedFileName().contains("..");
 
         System.out.println("HOLAAAAAA " + foto1.getSubmittedFileName() + " " + foto1.getContentType());
 
         if (pedidosPacienteRecojo.getSede_de_recojo().equals("") || pedidosPacienteRecojo.getMedico_que_atiende().equals("") || pedidosPacienteRecojo.getAviso_vencimiento().equals("") || telefonoErrors || !imagenValida || evitaAtaquesLFI){
-            if (pedidosPacienteRecojo.getTelefono() == null){
+            if (pedidosPacienteRecojo.getTelefono() == null || pedidosPacienteRecojo.getTelefono().equals("")){
                 model.addAttribute("telefonoError", "El número de celular no puede quedar vacio.");
             }
             else{
                 if(pedidosPacienteRecojo.getTelefono()<900000000 || pedidosPacienteRecojo.getTelefono()>999999999){
-                    model.addAttribute("telefonoError", "El número de celular tiene que tener 9 dígitos.");
+                    model.addAttribute("telefonoError", "El número de celular tiene que tener 9 dígitos y empezar con 9.");
                 }
             }
             if(!imagenValida || evitaAtaquesLFI){

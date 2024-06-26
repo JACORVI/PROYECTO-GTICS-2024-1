@@ -10,7 +10,6 @@
   <link rel="icon" type="image/x-icon" th:href="@{/assets/paciente/img/logo.png}" />
 
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/font-awesome.min.css}">
   <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/linearicons.css}">
   <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/animate.css}">
@@ -20,6 +19,7 @@
   <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootsnav.css}">
   <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/style.css}">
   <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/responsive.css}">
+  <link rel="stylesheet" th:href="@{/assets/paciente/css/estilospersonalizados.css}">
 
   <!--Para la paginacion-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" charset="utf-8"></script>
@@ -40,17 +40,17 @@
 </header><!--/.welcome-hero-->
 <!--welcome-hero end -->
 
-<br><br><br><br><br>
+<br><br><br><br><br><br><br>
 
   <!--populer-products start -->
   <section class="py-8">
-    <div class="container px-4 px-lg-5 mt-5">
+    <div class="containernav px-4 px-lg-5 mt-5">
       <div class="section-header">
         <h2>Mis Pedidos con Delivery</h2>
         <br><br>
         <form th:if="${tamanolistaPedidosDely > 5 or sinResultadosDely == 1 or sinResultadosDely == 0}" class="d-flex" th:action="@{/paciente/mispedidos/buscadorDely}" method="post" role="search" style="width: 50%">
           <input name="searchFieldDely" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar por numero de tracking..." aria-label="Search">
-          <button class="btn btn-outline-warning" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+          <button class="btn btn-outline-warning" style="border: 0" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
           </svg></button>
           <a class="btn btn-outline-warning" style="margin-left: 1vh" th:if="${listacompletaDely == 1}" type="submit" th:href="@{/paciente/mispedidos}" >Ver lista completa</a>
@@ -90,7 +90,7 @@
         <br><br>
         <form th:if="${tamanolistaPedidosReco > 5 or sinResultadosReco == 1 or sinResultadosReco == 0}" class="d-flex" th:action="@{/paciente/mispedidos/buscadorReco}" method="post" role="search" style="width: 50%">
           <input name="searchFieldReco" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar por numero de tracking..." aria-label="Search">
-          <button class="btn btn-outline-warning" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+          <button class="btn btn-outline-warning" style="border: 0" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
           </svg></button>
           <a class="btn btn-outline-warning" style="margin-left: 1vh" th:if="${listacompletaReco == 1}" type="submit" th:href="@{/paciente/mispedidos}" >Ver lista completa</a>
@@ -137,12 +137,9 @@
           <div class="footer-social">
             <a href="#"><i class="fa fa-facebook"></i></a>
             <a href="#"><i class="fa fa-instagram"></i></a>
-            <a href="#"><i class="fa fa-linkedin"></i></a>
-            <a href="#"><i class="fa fa-pinterest"></i></a>
-            <a href="#"><i class="fa fa-behance"></i></a>
           </div>
           <p>
-            &copy;copyright. designed and developed by <a href="https://www.themesine.com/">themesine</a>
+            &copy;copyright. designed and developed by <a href="https://www.themesine.com/">pildopharm</a>
           </p><!--/p-->
         </div><!--/.text-center-->
   </div><!--/.containernav-->

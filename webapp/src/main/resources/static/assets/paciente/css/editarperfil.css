@@ -1,0 +1,83 @@
+/*ROW*/
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -0.75rem;
+    margin-left: -0.75rem;
+}
+.custom-shadow-border {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+}
+.with-padding {
+    padding: 1rem;
+}
+.row > * {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+}
+
+.g-3, .gx-3 {
+    --bs-gutter-x: 1rem;
+}
+
+.g-3 > :not(:last-child) {
+    --bs-gutter-x: 1.5rem;
+}
+/*LISTAS*/
+.list-group {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.list-group-item-action {
+    width: 100%;
+    color: #495057;
+    text-align: inherit;
+}
+
+.rounded-0 {
+    border-radius: 0 !important;
+}
+.m-lg-3 {
+    margin: 1rem !important;
+}
+
+/*TAB*/
+.tab-content {
+    padding: 1.5rem 0;
+}
+.tab-pane {
+    display: none;
+    visibility: hidden;
+    padding: 1.5rem;
+    border: 1px solid #dee2e6;
+}
+
+.tab-pane.active {
+    display: block;
+    visibility: visible;
+}
+.form-label {
+    margin-bottom: 0.5rem;
+}
+@media (min-width: 768px) {
+    .col-md-12 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}

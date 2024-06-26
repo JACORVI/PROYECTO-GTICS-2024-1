@@ -50,8 +50,8 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Numero de celular</label>
-                    <input class="form-control" type="number" th:field="*{telefono}" th:classappend="${#fields.hasErrors('telefono')?'is-invalid':''}" style="margin-bottom: 0">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></div>
+                    <input class="form-control" type="number" th:field="*{telefono}" style="margin-bottom: 0">
+                    <div th:if="${telefonoError != null}" th:text="${telefonoError}" style="color: red; font-size: small"></div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Doctor que lo/la atendió</label>
