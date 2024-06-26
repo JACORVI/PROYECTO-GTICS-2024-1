@@ -151,10 +151,28 @@
                                 <div class="tab-pane" id="list-profile" role="tabpanel">
                                     <!-- Contenido del perfil aquí -->
 
-                                    <h2 class="mb-4">Editar Perfil</h2>
+                                    <h2 class="mb-4">Perfil</h2>
                                     <form class="row g-3" th:action="@{/perfil/guardar}" th:object="${usuario}" method="post">
 
-                                    <div class="col-md-6">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Nombres</label>
+                                            <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getNombres()}">hola</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Apellidos</label>
+                                            <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getApellidos()}">hola</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">DNI</label>
+                                            <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getDni()}">hola</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Correo</label>
+                                            <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getCorreo()}">hola</span>
+                                        </div>
+
+                                        <!--
+                                        <div class="col-md-6">
                                             <label for="inputNombre" class="form-label">Nombres</label>
                                             <input type="text" class="form-control"  th:field="*{nombres}" required="">
                                         </div>
@@ -183,7 +201,7 @@
                                             <input type="hidden" name="accion" value="perfil">
                                             <input type="hidden" th:field="*{id}">
                                             <button type="submit" class="btn btn-success">Guardar cambios</button>
-                                        </div>
+                                        </div>-->
                                     </form>
                                 </div>
                                 <div class="tab-pane" id="list-avatar" role="tabpanel">

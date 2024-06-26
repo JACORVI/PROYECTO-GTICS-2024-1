@@ -145,7 +145,7 @@ public class PdfController {
             table.addCell(new Cell().add(new Paragraph(usuario.getNombres()+' '+usuario.getApellidos())));
             table.addCell(new Cell().add(new Paragraph(usuario.getCorreo())));
             table.addCell(new Cell().add(new Paragraph(String.valueOf(usuario.getDni()))));
-            table.addCell(new Cell().add(new Paragraph(String.valueOf(usuario.getCodigo_colegiatura())))); // Nueva columna
+            table.addCell(new Cell().add(new Paragraph(String.valueOf(usuario.getCodigo_colegio().getNombre())))); // Nueva columna
             table.addCell(new Cell().add(new Paragraph(String.valueOf(usuario.getFecha_creacion())))); // Nueva columna
         }
 

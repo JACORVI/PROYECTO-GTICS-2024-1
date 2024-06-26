@@ -80,6 +80,10 @@ public class SuperadminController {
         return "redirect:/superadmin/Vista_Principal";
     }
 
+    @GetMapping("/Reportes")
+    public String Reportes() {
+        return "superadmin/Plantilla_Vista_GenerarReportes";
+    }
     @GetMapping("/Registrar_Medicamento")
     public String Registrar_Medicamento(@ModelAttribute ("medicamento") Medicamentos medicamentos) {
         return "superadmin/Plantilla_Vista_Registrar_Medicamento";
