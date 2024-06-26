@@ -13,12 +13,13 @@
                     <div class="attr-nav">
                         <ul>
                             <li class="dropdown" sec:authorize="isAuthenticated()">
-                                <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px; display: flex;" >
-                                    <a class="text-decoration-none" style="margin-right: 5px; margin-top: 20px;">
-                                        <img th:if="${session['avatar'] != null}" th:src="'/assets/paciente/img/'+ ${session['avatar']}" width="25vw" height="25vh" alt="Avatar" class="avatar">
-                                        <img th:unless="${session['avatar'] != null}" th:src="@{/assets/superadmin/img/usuario.png}" width="25vw" height="25vh" alt="Avatar" class="avatar">
-                                    </a><div style="display: flex; flex-direction: column;"><h6 style="margin: 0%; margin-top: 20px;" th:text="${session.usuario.nombres}"></h6><h6 th:text="${session.usuario.rol.nombre}" style="font-size: medium"></h6></div>
-                                </button>
+                                <a class="dropdown-toggle" data-toggle="dropdown" style=" display: flex; padding: 20px">
+                                    <img th:if="${session['avatar'] != null}" th:src="'/assets/paciente/img/'+ ${session['avatar']}" width="40" height="40" alt="Avatar" class="avatar">
+                                    <img th:unless="${session['avatar'] != null}" th:src="@{/assets/superadmin/img/usuario.png}" width="40" height="40" alt="Avatar" class="avatar">
+                                    <div style="display: flex; flex-direction: column; margin-left: 5px">
+                                        <h6 style="margin: 0;" th:text="${session.usuario.nombres}"></h6><h6 th:text="${session.usuario.rol.nombre}" style="font-size: medium"></h6>
+                                    </div>
+                                </a>
                                 <ul class="dropdown-menu cart-list s-cate">
                                     <li><a th:href="@{/paciente/miPerfil}" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                                         <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>

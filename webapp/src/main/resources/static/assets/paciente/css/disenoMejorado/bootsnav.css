@@ -1015,6 +1015,7 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
     nav.navbar.bootsnav .navbar-collapse {
         border: none;
         margin-bottom: 0;
+        background-color: white;
     }
 
     nav.navbar.bootsnav.no-full .navbar-collapse{
