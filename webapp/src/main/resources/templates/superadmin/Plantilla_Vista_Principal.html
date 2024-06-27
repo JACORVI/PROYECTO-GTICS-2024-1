@@ -319,7 +319,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class=nueva_contenido1 th:each="Usuarios, info : ${listTransportation2}">
+                        <tr class=contenido2 th:each="Usuarios, info : ${listTransportation2}">
                             <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}">Panadol</p></td>
                             <td class=><p style="font-size: 18px;" th:text="${Usuarios.getCorreo()}">Panadol</p></td>
                             <td>
@@ -392,6 +392,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <!--suppress LanguageDetectionInspection -->
                                                     <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}">Eliminar</button>
                                                 </div>
                                             </div>
@@ -437,7 +438,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div class="nueva_pagination1  d-flex justify-content-center" style="padding: 50px">
+                    <div class="pagination2  d-flex justify-content-center" style="padding: 50px">
                     </div>
                 </div>
             </div>
@@ -457,7 +458,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class=nueva_contenido2 th:each="Usuarios, info : ${listTransportation3}">
+                        <tr class=contenido3 th:each="Usuarios, info : ${listTransportation3}">
                             <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}">Panadol</p></td>
                             <td class=><p style="font-size: 18px;" th:text="${Usuarios.getCorreo()}">Panadol</p></td>
                             <td>
@@ -582,7 +583,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div class="nueva_pagination2  d-flex justify-content-center" style="padding: 50px">
+                    <div class="pagination3  d-flex justify-content-center" style="padding: 50px">
                     </div>
                 </div>
             </div>
@@ -738,152 +739,151 @@
         </script>
 
         <script type="text/javascript">
-            function getPageList(totalPages, page, maxLength) {
-                function range(start, end) {
-                    return Array.from(Array(end - start + 1), (_, i) => i + start);
+            function getPageList2(totalPages2, page2, maxLength2) {
+                function range(start2, end2) {
+                    return Array.from(Array(end2 - start2 + 1), (_, i) => i + start2);
                 }
 
-                var sideWidth = maxLength < 9 ? 1 : 2;
-                var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
-                var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+                var sideWidth2 = maxLength2 < 9 ? 1 : 2;
+                var leftWidth2 = (maxLength2 - sideWidth2 * 2 - 3) >> 1;
+                var rightWidth2 = (maxLength2 - sideWidth2 * 2 - 3) >> 1;
 
-                if (totalPages <= maxLength) {
-                    return range(1, totalPages);
+                if (totalPages2 <= maxLength2) {
+                    return range(1, totalPages2);
                 }
 
-                if (page <= maxLength - sideWidth - 1 - rightWidth) {
-                    return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+                if (page2 <= maxLength2 - sideWidth2 - 1 - rightWidth2) {
+                    return range(1, maxLength2 - sideWidth2 - 1).concat(0, range(totalPages2 - sideWidth2 + 1, totalPages2));
                 }
 
-                if (page >= totalPages - sideWidth - 1 - rightWidth) {
-                    return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+                if (page2 >= totalPages2 - sideWidth2 - 1 - rightWidth2) {
+                    return range(1, sideWidth2).concat(0, range(totalPages2 - sideWidth2 - 1 - rightWidth2 - leftWidth2, totalPages2));
                 }
-                return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+                return range(1, sideWidth2).concat(0, range(page2 - leftWidth2, page2 + rightWidth2), 0, range(totalPages2 - sideWidth2 + 1, totalPages2));
             }
 
             $(function () {
-                var numberOfItems = $(".nueva_contenido1").length;
-                var limitPerPage = 5; //How many card items visible per a page
-                var totalPages = Math.ceil(numberOfItems / limitPerPage);
-                var paginationSize = 5; //How many page elements visible in the pagination
-                var currentPage;
+                var numberOfItems2 = $(".contenido2").length;
+                var limitPerPage2 = 5; //How many card items visible per a page
+                var totalPages2 = Math.ceil(numberOfItems2 / limitPerPage2);
+                var paginationSize2 = 5; //How many page elements visible in the pagination
+                var currentPage2;
 
-                function showPage(whichPage) {
-                    if (whichPage < 1 || whichPage > totalPages)
+                function showPage2(whichPage2) {
+                    if (whichPage2 < 1 || whichPage2 > totalPages2)
                         return false;
 
-                    currentPage = whichPage;
+                    currentPage2 = whichPage2;
 
-                    $(".nueva_contenido1").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+                    $(".contenido2").hide().slice((currentPage2 - 1) * limitPerPage2, currentPage2 * limitPerPage2).show();
 
-                    $(".nueva_pagination1 li").slice(1, -1).remove();
+                    $(".pagination2 li").slice(1, -1).remove();
 
-                    getPageList(totalPages, currentPage, paginationSize).forEach(item => {
-                        $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
-                                .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
-                                .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".nueva-next-page1");
+                    getPageList2(totalPages2, currentPage2, paginationSize2).forEach(item2 => {
+                        $("<li>").addClass("page2-item2").addClass(item2 ? "current2-page2" : "dots")
+                            .toggleClass("active", item2 === currentPage2).append($("<a>").addClass("page2-link2")
+                            .attr({href: "javascript:void(0)"}).text(item2 || "...")).insertBefore(".next2-page2");
                     });
 
-                    $(".nueva-previous-page1").toggleClass("disable", currentPage === 1);
-                    $(".nueva-next-page1").toggleClass("disable", currentPage === totalPages);
+                    $(".previous2-page2").toggleClass("disable", currentPage2 === 1);
+                    $(".next2-page2").toggleClass("disable", currentPage2 === totalPages2);
                     return true;
                 }
 
-                $(".nueva_pagination1").append(
-                        $("<li>").addClass("page-item").addClass("nueva-previous-page1").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
-                        $("<li>").addClass("page-item").addClass("nueva-next-page1").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
-                        );
+                $(".pagination2").append(
+                    $("<li>").addClass("page2-item2").addClass("previous2-page2").append($("<a>").addClass("page2-link2").attr({href: "javascript:void(0)"}).text("Prev")),
+                    $("<li>").addClass("page2-item2").addClass("next2-page2").append($("<a>").addClass("page2-link2").attr({href: "javascript:void(0)"}).text("Next"))
+                );
 
-                $(".nueva_contenido1").show();
-                showPage(1);
+                $(".contenido2").show();
+                showPage2(1);
 
-                $(document).on("click", ".nueva_pagination1 li.current-page:not(.active)", function () {
-                    return showPage(+$(this).text());
+                $(document).on("click", ".pagination2 li.current-page2:not(.active)", function () {
+                    return showPage2(+$(this).text());
                 });
 
-                $(".nueva-next-page1").on("click", function () {
-                    return showPage(currentPage + 1);
+                $(".next2-page2").on("click", function () {
+                    return showPage2(currentPage2 + 1);
                 });
 
-                $(".nueva-previous-page1").on("click", function () {
-                    return showPage(currentPage - 1);
+                $(".previous2-page2").on("click", function () {
+                    return showPage2(currentPage2 - 1);
                 });
             });
         </script>
 
 
 
-
         <script type="text/javascript">
-            function getPageList(totalPages, page, maxLength) {
-                function range(start, end) {
-                    return Array.from(Array(end - start + 1), (_, i) => i + start);
+            function getPageList3(totalPages3, page3, maxLength3) {
+                function range(start3, end3) {
+                    return Array.from(Array(end3 - start3 + 1), (_, i) => i + start3);
                 }
 
-                var sideWidth = maxLength < 9 ? 1 : 2;
-                var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
-                var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+                var sideWidth3 = maxLength3 < 9 ? 1 : 2;
+                var leftWidth3 = (maxLength3 - sideWidth3 * 2 - 3) >> 1;
+                var rightWidth3 = (maxLength3 - sideWidth3 * 2 - 3) >> 1;
 
-                if (totalPages <= maxLength) {
-                    return range(1, totalPages);
+                if (totalPages3 <= maxLength3) {
+                    return range(1, totalPages3);
                 }
 
-                if (page <= maxLength - sideWidth - 1 - rightWidth) {
-                    return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+                if (page3 <= maxLength3 - sideWidth3 - 1 - rightWidth3) {
+                    return range(1, maxLength3 - sideWidth3 - 1).concat(0, range(totalPages3 - sideWidth3 + 1, totalPages3));
                 }
 
-                if (page >= totalPages - sideWidth - 1 - rightWidth) {
-                    return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+                if (page3 >= totalPages3 - sideWidth3 - 1 - rightWidth3) {
+                    return range(1, sideWidth3).concat(0, range(totalPages3 - sideWidth3 - 1 - rightWidth3 - leftWidth3, totalPages3));
                 }
-                return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+                return range(1, sideWidth3).concat(0, range(page3 - leftWidth3, page3 + rightWidth3), 0, range(totalPages3 - sideWidth3 + 1, totalPages3));
             }
 
             $(function () {
-                var numberOfItems = $(".nueva_contenido2").length;
-                var limitPerPage = 5; //How many card items visible per a page
-                var totalPages = Math.ceil(numberOfItems / limitPerPage);
-                var paginationSize = 5; //How many page elements visible in the pagination
-                var currentPage;
+                var numberOfItems3 = $(".contenido3").length;
+                var limitPerPage3 = 5; //How many card items visible per a page
+                var totalPages3 = Math.ceil(numberOfItems3 / limitPerPage3);
+                var paginationSize3 = 5; //How many page elements visible in the pagination
+                var currentPage3;
 
-                function showPage(whichPage) {
-                    if (whichPage < 1 || whichPage > totalPages)
+                function showPage3(whichPage3) {
+                    if (whichPage3 < 1 || whichPage3 > totalPages3)
                         return false;
 
-                    currentPage = whichPage;
+                    currentPage3 = whichPage3;
 
-                    $(".nueva_contenido2").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+                    $(".contenido3").hide().slice((currentPage3 - 1) * limitPerPage3, currentPage3 * limitPerPage3).show();
 
-                    $(".nueva_pagination2 li").slice(1, -1).remove();
+                    $(".pagination3 li").slice(1, -1).remove();
 
-                    getPageList(totalPages, currentPage, paginationSize).forEach(item => {
-                        $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
-                                .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
-                                .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".nueva-next-page2");
+                    getPageList3(totalPages3, currentPage3, paginationSize3).forEach(item3 => {
+                        $("<li>").addClass("page3-item3").addClass(item3 ? "current3-page3" : "dots")
+                            .toggleClass("active", item3 === currentPage3).append($("<a>").addClass("page3-link3")
+                            .attr({href: "javascript:void(0)"}).text(item3 || "...")).insertBefore(".next3-page3");
                     });
 
-                    $(".nueva-previous-page2").toggleClass("disable", currentPage === 1);
-                    $(".nueva-next-page2").toggleClass("disable", currentPage === totalPages);
+                    $(".previous3-page3").toggleClass("disable", currentPage3 === 1);
+                    $(".next3-page3").toggleClass("disable", currentPage3 === totalPages3);
                     return true;
                 }
 
-                $(".nueva_pagination2").append(
-                        $("<li>").addClass("page-item").addClass("nueva-previous-page2").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
-                        $("<li>").addClass("page-item").addClass("nueva-next-page2").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
-                        );
+                $(".pagination3").append(
+                    $("<li>").addClass("page3-item3").addClass("previous3-page3").append($("<a>").addClass("page3-link3").attr({href: "javascript:void(0)"}).text("Prev")),
+                    $("<li>").addClass("page3-item3").addClass("next3-page3").append($("<a>").addClass("page3-link3").attr({href: "javascript:void(0)"}).text("Next"))
+                );
 
-                $(".nueva_contenido2").show();
-                showPage(1);
+                $(".contenido3").show();
+                showPage3(1);
 
-                $(document).on("click", ".nueva_pagination2 li.current-page:not(.active)", function () {
-                    return showPage(+$(this).text());
+                $(document).on("click", ".pagination3 li.current-page3:not(.active)", function () {
+                    return showPage3(+$(this).text());
                 });
 
-                $(".nueva-next-page2").on("click", function () {
-                    return showPage(currentPage + 1);
+                $(".next3-page3").on("click", function () {
+                    return showPage3(currentPage3 + 1);
                 });
 
-                $(".nueva-previous-page2").on("click", function () {
-                    return showPage(currentPage - 1);
+                $(".previous3-page3").on("click", function () {
+                    return showPage3(currentPage3 - 1);
                 });
             });
         </script>
