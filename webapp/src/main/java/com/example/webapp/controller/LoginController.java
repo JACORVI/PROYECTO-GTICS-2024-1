@@ -463,37 +463,9 @@ public class LoginController {
                     model.addAttribute("correoExistenteError", "El correo ingresado ya ha sido registrado.");
                 }
 
-                int dni = usuario.getDni();
-                String dniString = String.valueOf(dni);
-                Data data = dataDao.buscarPorDni(dniString);
-
-                //NOMBRES -> Nombres
-                String nombreCompleto = data.getNombres();
-                String[] palabras1 = nombreCompleto.split(" ");
-                StringBuilder nombreFormateado = new StringBuilder();
-                for (String palabra : palabras1) {
-                    if (!nombreFormateado.toString().isEmpty()) {
-                        nombreFormateado.append(" ");
-                    }
-                    nombreFormateado.append(palabra.substring(0, 1).toUpperCase())
-                            .append(palabra.substring(1).toLowerCase());
-                }
-
-                //APELLIDOS -> Apellidos
-                String apellidoCompleto = data.getApellido_paterno() + " " + data.getApellido_materno();
-                String[] palabras2 = apellidoCompleto.split(" ");
-                StringBuilder apellidoFormateado = new StringBuilder();
-                for (String palabra : palabras2) {
-                    if (!apellidoFormateado.toString().isEmpty()) {
-                        apellidoFormateado.append(" ");
-                    }
-                    apellidoFormateado.append(palabra.substring(0, 1).toUpperCase())
-                            .append(palabra.substring(1).toLowerCase());
-                }
-
-                model.addAttribute("nombresValidados", nombreFormateado.toString());
-                model.addAttribute("apellidosValidados", apellidoFormateado.toString());
-                model.addAttribute("dniValidado", data.getDni());
+                model.addAttribute("nombresValidados", usuario.getNombres());
+                model.addAttribute("apellidosValidados", usuario.getApellidos());
+                model.addAttribute("dniValidado", usuario.getDni());
                 model.addAttribute("listaSeguros", seguroRepository.findAll());
                 model.addAttribute("listaDistritos", distritoRepository.findAll());
                 return "sistema/FormRegistro";

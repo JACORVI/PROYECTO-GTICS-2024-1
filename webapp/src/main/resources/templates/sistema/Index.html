@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<div th:replace="layout/MensajesTemplate :: mensajes"></div>
+<div th:replace="~{layout/MensajesTemplate :: mensajes}"></div>
 
 <div class="container">
     <div class="signin-signup">
@@ -35,6 +35,7 @@
                 <i class="fas fa-lock"></i>
                 <input  type="password" placeholder="Ingresa tu contraseña..." name="password">
             </div>
+
             <input type="submit" value="Login" class="btn" id="login-button" style="margin-top: 1vh">
             <button type="button" class="forgot-pass">¿Olvidaste tu contraseña?</button>
             <br>

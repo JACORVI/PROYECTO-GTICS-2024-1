@@ -72,6 +72,11 @@ public class WebSecurityConfig {
                             response.sendRedirect("/admin/paginainicio");
                         }
                     }
+                })
+
+                .failureHandler((request, response, exception) -> {
+                    request.getSession().setAttribute("error", "Credenciales incorrectas. Inténtalo de nuevo.");
+                    response.sendRedirect("/login");
                 });
 
         http.authorizeHttpRequests()
