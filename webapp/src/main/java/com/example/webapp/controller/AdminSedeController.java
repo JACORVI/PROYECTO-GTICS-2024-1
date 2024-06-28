@@ -4,6 +4,8 @@ import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -31,6 +34,7 @@ public class AdminSedeController {
     CarritoRepository carritoRepository;
     DistritoRepository distritoRepository;
     ProveedorRepository proveedorRepository;
+    CodigoColegioRepository codigoColegioRepository;
 
     public AdminSedeController(MedicamentosRepository medicamentosRepository,
                                UsuarioRepository usuarioRepository,
@@ -40,7 +44,8 @@ public class AdminSedeController {
                                SedeHasMedicamentosRepository sedeHasMedicamentosRepository,
                                CarritoRepository carritoRepository,
                                DistritoRepository distritoRepository,
-                               ProveedorRepository proveedorRepository) {
+                               ProveedorRepository proveedorRepository,
+                               CodigoColegioRepository codigoColegioRepository) {
 
         this.medicamentosRepository = medicamentosRepository;
 
@@ -60,7 +65,12 @@ public class AdminSedeController {
 
         this.proveedorRepository = proveedorRepository;
 
+        this.codigoColegioRepository = codigoColegioRepository;
+
     }
+
+    @Autowired
+    private PasswordEncoder encoder;
 
 
     /*Vista de inicio (dashboard)*/
@@ -147,6 +157,8 @@ public class AdminSedeController {
         else {
             List<Distrito> listaDistrito = distritoRepository.findAll();
             model.addAttribute("listaDistritos",listaDistrito);
+            List<CodigoColegio> listaCodigo = codigoColegioRepository.findAll();
+            model.addAttribute("listaColegio",listaCodigo);
             return "admin/nuevo_farmacista";
         }
     }
@@ -166,8 +178,13 @@ public class AdminSedeController {
         else{
             if (usuario.getId() == 0) {
                 attr.addFlashAttribute("msg", "Farmacista creado exitosamente");
+                usuario.setCuenta_activada(1);
+                usuario.setFecha_creacion(new Date());
+                usuario.setContrasena(encoder.encode("" + usuario.getDni()));
+                usuario.setPunto("" + usuario.getDni());
                 usuarioRepository.save(usuario);
                 usuarioHasSedeRepository.AsignarSede(usuario.getId(), idSede);
+
             } else {
                 usuarioRepository.save(usuario);
                 attr.addFlashAttribute("msg", "Farmacista actualizado exitosamente");
@@ -192,6 +209,8 @@ public class AdminSedeController {
             model.addAttribute("usuario", usuario);
             List<Distrito> listaDistrito = distritoRepository.findAll();
             model.addAttribute("listaDistritos",listaDistrito);
+            List<CodigoColegio> listaCodigo = codigoColegioRepository.findAll();
+            model.addAttribute("listaColegio",listaCodigo);
             return "admin/nuevo_farmacista";
         } else {
             return "redirect:/admin/farmacistas";

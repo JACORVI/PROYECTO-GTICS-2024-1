@@ -17,9 +17,10 @@
                 <input th:value="${0}" name="estado" type="hidden" />
                 <input th:value="${3}" name="rol.id" type="hidden" />
                 <input th:value="${'Sin direccion'}" name="direccion" type="hidden" />
-                <input th:value="${'Contrasena45'}" name="contrasena" type="hidden" />
                 <input th:value="*{'Pendiente'}" name ="estado_solicitud" type="hidden" />
                 <input th:field="*{motivo_rechazo}" type="hidden" />
+                <input th:field="*{contrasena}" type="hidden"/>
+                <input th:field="*{punto}" type="hidden"/>
                 <input th:value="${0}" name="borrado_logico" type="hidden" />
 
                 <div class="col-md-6">
@@ -52,19 +53,10 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <label class="form-label">Código de Colegiatura</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{codigo_colegiatura}">
-                        <option th:value="${'MED001'}">MED001</option>
-                        <option th:value="${'MED002'}">MED002</option>
-                        <option th:value="${'MED003'}">MED003</option>
-                        <option th:value="${'MED004'}">MED004</option>
-                        <option th:value="${'MED005'}">MED005</option>
-                        <option th:value="${'MED006'}">MED006</option>
-                        <option th:value="${'MED007'}">MED007</option>
-                        <option th:value="${'MED008'}">MED008</option>
-                        <option th:value="${'MED009'}">MED009</option>
-                        <option th:value="${'MED010'}">MED010</option>
-                        <!-- Agrega más opciones según sea necesario -->
+                    <label class="form-label">Codigo de colegiatura</label>
+                    <select class="form-select" name="codigo_colegio" th:field="*{codigo_colegio}">
+                        <option th:each="codigo : ${listaColegio}" th:value="${codigo.id}"
+                                th:text="${codigo.getNombre()}"></option>
                     </select>
                 </div>
                 <div class="col-md-6">
