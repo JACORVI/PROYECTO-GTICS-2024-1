@@ -5,42 +5,50 @@
 <div th:insert="~{layout/generaladmin.html :: navar1}"></div>
 <div th:insert="~{layout/generaladmin.html :: navar2}"></div>
 
-<br>
+<br><br>
 
-<form method="post" th:action="@{'/admin/BuscarMedicamentos'}">
-    <input name="searchField" class="form-control mb-4 mt-4" type="text" style="width:50%; margin-left: 30px" placeholder="Search"/>
-</form>
+<div class="container">
+    <div class="row">
 
-<div class="card shadow mb-4 mt-4" style="margin-right:30px">
-    <div class="table-responsive" style="padding:10px">
-        <table class="table table-bordered" id="dataTable">
-            <thead>
-            <h3 class="mt-4">Lista de Medicamentos</h3>
-            <tr>
-                <th class="columna-imagen">#</th>
-                <th class="columna-imagen">MEDICAMENTO</th>
-                <th class="columna-imagen">DESCRIPCION</th>
-                <th class="columna-imagen">FECHA DE INGRESO</th>
-                <th class="columna-imagen">CATEGORIA</th>
-                <th class="columna-imagen">STOCK</th>
-                <th class="columna-imagen">PRECIO</th>
 
-            </tr>
-            </thead>
-            <tbody>
-            <tr class=contenido th:each="medicamento, info: ${listMed}">
-                <td class=<%=color%><p style="font-size: 18px;" th:text="${info.index} + 1"></p></td>
-                <td class=<%=color%><p style="font-size: 18px;" th:text="${medicamento.nombre}"></p></td>
-                <td class=<%=color%><p style="font-size: 18px;" th:text="${medicamento.descripcion}"></p></td>
-                <td class=<%=color%><p style="font-size: 18px;" th:text="${medicamento.fecha_ingreso}"></p></td>
-                <td class=<%=color%><p style="font-size: 18px;" th:text="${medicamento.categoria}"></p></td>
-                <td class=<%=color%><p style="font-size: 18px;" th:text="${medicamento.inventario}"></p></td>
-                <td class=<%=color%><p style="font-size: 18px;" th:text="${medicamento.precio_unidad}"></p></td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="col-md-12">
+            <h3>Lista de Medicamentos</h3>
+            <br>
+            <div class="table-responsive">
+
+
+                <table id="mytable" class="table table-bordred table-striped">
+
+                    <thead>
+                    <th>#</th>
+                    <th>Medicamento</th>
+                    <th>Descripción</th>
+                    <th>Fecha de ingreso</th>
+                    <th>Categoría</th>
+                    <th>Stock</th>
+                    <th>Precio</th>
+                    </thead>
+                    <tbody>
+
+                    <tr th:each="medicamento, info: ${listMed}">
+                        <td class=<%=color%><p style="font-size: 18px;" th:text="${info.index} + 1"></p></td>
+                        <td class=<%=color%><p style="font-size: 18px;" th:text="${medicamento.nombre}"></p></td>
+                        <td class=<%=color%><p style="font-size: 18px;" th:text="${medicamento.descripcion}"></p></td>
+                        <td class=<%=color%><p style="font-size: 18px;" th:text="${medicamento.fecha_ingreso}"></p></td>
+                        <td class=<%=color%><p style="font-size: 18px;" th:text="${medicamento.categoria}"></p></td>
+                        <td class=<%=color%><p style="font-size: 18px;" th:text="${medicamento.inventario}"></p></td>
+                        <td class=<%=color%><p style="font-size: 18px;" th:text="${medicamento.precio_unidad}"></p></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
     </div>
 </div>
+
+<br><br><br>
 <div class="fixed-bottom">
     <footer style="background-color: rgb(58, 65, 73); width: 100%;">
         <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">

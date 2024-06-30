@@ -5,29 +5,41 @@
 <div th:insert="~{layout/generaladmin.html :: navar1}"></div>
 <div th:insert="~{layout/generaladmin.html :: navar2}"></div>
 
-<div class="card shadow mb-4 mt-4" style="margin-right:30px">
-    <div class="table-responsive" style="padding:10px">
-        <table class="table table-bordered" id="dataTable">
-            <thead>
-            <h3 class="mt-4">Lista de Doctores</h3>
-            <tr>
-                <th class="columna-imagen">DOCTOR</th>
-                <th class="columna-imagen">DNI</th>
-                <th class="columna-imagen">CORREO</th>
-                <th class="columna-imagen">DISTRITO</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class=contenido th:each="doctor: ${listaDoctor}">
-                <td class=<%=color%><p style="font-size: 18px;" th:text="${doctor.nombres + ' ' + doctor.apellidos}"></p></td>
-                <td class=<%=color%><p style="font-size: 18px;" th:text="${doctor.dni}"></p></td>
-                <td class=<%=color%><p style="font-size: 18px;" th:text="${doctor.correo}"></p></td>
-                <td class=<%=color%><p style="font-size: 18px;" th:text="${doctor.distrito.nombre}"></p></td>
-            </tr>
-            </tbody>
-        </table>
+<br><br>
+<div class="container">
+    <div class="row">
+
+
+        <div class="col-md-12">
+            <h3>Lista de Doctores</h3>
+            <div class="table-responsive">
+
+
+                <table id="mytable" class="table table-bordred table-striped">
+
+                    <thead>
+                    <th>Doctor</th>
+                    <th>DNI</th>
+                    <th>Correo</th>
+                    <th>Distrito</th>
+                    </thead>
+                    <tbody>
+
+                    <tr th:each="doctor: ${listaDoctor}">
+                        <td class=<%=color%><p style="font-size: 18px;" th:text="${doctor.nombres + ' ' + doctor.apellidos}"></p></td>
+                        <td class=<%=color%><p style="font-size: 18px;" th:text="${doctor.dni}"></p></td>
+                        <td class=<%=color%><p style="font-size: 18px;" th:text="${doctor.correo}"></p></td>
+                        <td class=<%=color%><p style="font-size: 18px;" th:text="${doctor.distrito.nombre}"></p></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
     </div>
 </div>
+<br><br><br>
 <div class="fixed-bottom">
     <footer style="background-color: rgb(58, 65, 73); width: 100%;">
         <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">

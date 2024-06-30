@@ -2,287 +2,259 @@
 <html lang="en">
 <head th:insert="~{layout/generaladmin.html :: header (title = 'Inicio')}">
 </head>
+<style>
+    .statistics .box i {
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+    }
+</style>
 <body>
 <div th:insert="~{layout/generaladmin.html :: navar1}"></div>
 <div th:insert="~{layout/generaladmin.html :: navar2}"></div>
 
-<h3 style="margin: 40px">Sedes con mayor cantidad de transacciones de medicamentos</h3>
+<section id="wrapper">
 
-<div class="text-center" style="width: 100%; padding: 40px">
-    <table class="table table-bordered border-dark">
-        <thead class="table-dark">
-        <tr>
-            <th scope="col">Puesto</th>
-            <th scope="col">Sede</th>
-            <th scope="col">Cantidad de Transacciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="sede,info: ${listaSedes}">
-            <th scope="row" th:text="${info.index+1}"></th>
-            <td th:text="${sede.sede}"></td>
-            <td th:text="${sede.cantidadTransacciones}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<h3 style="margin: 40px">Medicamentos más solicitados</h3>
-
-<div class="contenido">
-    <div class="card shadow mb-4" style="margin-right:30px; max-width: 900px;">
-        <div class="card-body">
-
-            <canvas id="myChart1"></canvas>
-
-            <script th:inline="javascript">
-                var listaMedSoli7 = /*[[${listaMedSoli7}]]*/ [];
-                /* Crear arrays para xValues y yValues */
-                var xValues = [];
-                var yValues = [];
-                var barColors = ["red", "green","blue","orange","brown"];
-
-                /* Recorrer la listaMedSoli7 y agregar los valores a los arrays */
-                listaMedSoli7.forEach(function(element) {
-                    xValues.push(element.medicamento);
-                    yValues.push(element.cantidadSolicitada);
-                });
-
-
-                new Chart("myChart1", {
-                    type: "bar",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                            backgroundColor: barColors,
-                            data: yValues
-                        }]
-                    },
-                    options: {
-                        legend: {display: false},
-                        title: {
-                            display: true,
-                            text: "En los ultimos 7 días",
-                            fontSize: 20
-                        },
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true,
-                                    min: 0 // Establecer el valor mínimo explícitamente
-                                }
-                            }]
-                        }
-                    }
-                });
-            </script>
+    <div class="p-4">
+        <div class="welcome">
+            <div class="content rounded-3 p-3">
+                <h1>Bienvenido</h1>
+                <p class="mb-0">Hola Administrador(a), bienvenid@ a tu asombroso dashboard!</p>
+            </div>
         </div>
-    </div>
-</div>
-<div class="contenido">
-    <div class="card shadow mb-4" style="margin-right:30px; max-width: 900px">
-        <div class="card-body">
 
-            <canvas id="myChart2"></canvas>
+        <br>
 
-            <script th:inline="javascript">
-                var listaMedSoli15 = /*[[${listaMedSoli15}]]*/ [];
-                /* Crear arrays para xValues y yValues */
-                var xValues = [];
-                var yValues = [];
-                var barColors = ["red", "green","blue","orange","brown"];
+        <h3>Sedes con mayor cantidad de transacciones de medicamentos</h3>
 
-                /* Recorrer la listaMedSoli15 y agregar los valores a los arrays */
-                listaMedSoli15.forEach(function(element) {
-                    xValues.push(element.medicamento);
-                    yValues.push(element.cantidadSolicitada);
-                });
+        <br>
+
+        <h4 th:if="${listaSedes.size() <= 2}" style="color: gray">Aún no existen datos</h4>
+
+        <section class="statistics mt-4" th:if="${listaSedes.size() > 2}">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
+                        <i class="uil-users-alt fs-2 text-center bg-primary rounded-circle"></i>
+                        <div class="ms-3">
+                            <div class="d-flex align-items-center">
+                                <h3 class="mb-0" th:text="${listaSedes[0].cantidadTransacciones}"></h3> <span class="d-block ms-2">Transacciones</span>
+                            </div>
+                            <p class="fs-normal mb-0" th:text="${'Sede: ' +listaSedes[0].sede}"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
+                        <i class="uil-users-alt fs-2 text-center bg-secondary rounded-circle"></i>
+                        <div class="ms-3">
+                            <div class="d-flex align-items-center">
+                                <h3 class="mb-0" th:text="${listaSedes[1].cantidadTransacciones}"></h3> <span class="d-block ms-2">Transacciones</span>
+                            </div>
+                            <p class="fs-normal mb-0" th:text="${'Sede: ' +listaSedes[1].sede}"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="box d-flex rounded-2 align-items-center p-3">
+                        <i class="uil-users-alt fs-2 text-center bg-success rounded-circle"></i>
+                        <div class="ms-3">
+                            <div class="d-flex align-items-center">
+                                <h3 class="mb-0" th:text="${listaSedes[2].cantidadTransacciones}"></h3> <span class="d-block ms-2">Transacciones</span>
+                            </div>
+                            <p class="fs-normal mb-0" th:text="${'Sede: ' +listaSedes[2].sede}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <br>
+
+        <h3>Medicamentos más solicitados</h3>
+
+        <section class="charts mt-4">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="chart-container rounded-2 p-3">
+                        <canvas id="myChart1"></canvas>
+                        <script th:inline="javascript">
+                            var listaMedSoli7 = /*[[${listaMedSoli7}]]*/ [];
+                            /* Crear arrays para xValues y yValues */
+                            var xValues = [];
+                            var yValues = [];
+                            var barColors = ["red", "green","blue","orange","brown"];
+
+                            /* Recorrer la listaMedSoli7 y agregar los valores a los arrays */
+                            listaMedSoli7.forEach(function(element) {
+                                xValues.push(element.medicamento);
+                                yValues.push(element.cantidadSolicitada);
+                            });
 
 
-                new Chart("myChart2", {
-                    type: "bar",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                            backgroundColor: barColors,
-                            data: yValues
-                        }]
-                    },
-                    options: {
-                        legend: {display: false},
-                        title: {
-                            display: true,
-                            text: "En los ultimos 15 días",
-                            fontSize: 20
-                        },
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true,
-                                    min: 0 // Establecer el valor mínimo explícitamente
+                            new Chart("myChart1", {
+                                type: "bar",
+                                data: {
+                                    labels: xValues,
+                                    datasets: [{
+                                        backgroundColor: barColors,
+                                        data: yValues
+                                    }]
+                                },
+                                options: {
+                                    legend: {display: false},
+                                    title: {
+                                        display: true,
+                                        text: "En los ultimos 7 días",
+                                        fontSize: 20
+                                    },
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true,
+                                                min: 0 // Establecer el valor mínimo explícitamente
+                                            }
+                                        }]
+                                    }
                                 }
-                            }]
-                        }
-                    }
-                });
-            </script>
-        </div>
-    </div>
-</div>
-<div class="contenido">
-    <div class="card shadow mb-4" style="margin-right:30px; max-width: 900px">
-        <div class="card-body">
+                            });
+                        </script>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="chart-container rounded-2 p-3">
+                        <canvas id="myChart2"></canvas>
+                        <script th:inline="javascript">
+                            var listaMedSoli15 = /*[[${listaMedSoli15}]]*/ [];
+                            /* Crear arrays para xValues y yValues */
+                            var xValues = [];
+                            var yValues = [];
+                            var barColors = ["red", "green","blue","orange","brown"];
 
-            <canvas id="myChart3"></canvas>
-
-            <script th:inline="javascript">
-                var listaMedSoli3 = /*[[${listaMedSoli3}]]*/ [];
-                /* Crear arrays para xValues y yValues */
-                var xValues = [];
-                var yValues = [];
-                var barColors = ["red", "green","blue","orange","brown"];
-
-                /* Recorrer la listaMedSoli15 y agregar los valores a los arrays */
-                listaMedSoli3.forEach(function(element) {
-                    xValues.push(element.medicamento);
-                    yValues.push(element.cantidadSolicitada);
-                });
+                            /* Recorrer la listaMedSoli15 y agregar los valores a los arrays */
+                            listaMedSoli15.forEach(function(element) {
+                                xValues.push(element.medicamento);
+                                yValues.push(element.cantidadSolicitada);
+                            });
 
 
-                new Chart("myChart3", {
-                    type: "bar",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                            backgroundColor: barColors,
-                            data: yValues
-                        }]
-                    },
-                    options: {
-                        legend: {display: false},
-                        title: {
-                            display: true,
-                            text: "En los ultimos 3 meses",
-                            fontSize: 20
-                        },
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true,
-                                    min: 0 // Establecer el valor mínimo explícitamente
+                            new Chart("myChart2", {
+                                type: "bar",
+                                data: {
+                                    labels: xValues,
+                                    datasets: [{
+                                        backgroundColor: barColors,
+                                        data: yValues
+                                    }]
+                                },
+                                options: {
+                                    legend: {display: false},
+                                    title: {
+                                        display: true,
+                                        text: "En los ultimos 15 días",
+                                        fontSize: 20
+                                    },
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true,
+                                                min: 0 // Establecer el valor mínimo explícitamente
+                                            }
+                                        }]
+                                    }
                                 }
-                            }]
-                        }
-                    }
-                });
-            </script>
-        </div>
-    </div>
-</div>
-<!-- Paginacion-->
-<div class="pagination d-flex justify-content-center" style="padding: 50px">
-</div>
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<!-- Script de paginacion-->
-<script type="text/javascript">
-    function getPageList(totalPages, page, maxLength) {
-        function range(start, end) {
-            return Array.from(Array(end - start + 1), (_, i) => i + start);
-        }
+        <section class="charts mt-4">
 
-        var sideWidth = maxLength < 9 ? 1 : 2;
-        var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
-        var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="chart-container rounded-2 p-3">
+                        <canvas id="myChart3"></canvas>
+                        <script th:inline="javascript">
+                            var listaMedSoli3 = /*[[${listaMedSoli3}]]*/ [];
+                            /* Crear arrays para xValues y yValues */
+                            var xValues = [];
+                            var yValues = [];
+                            var barColors = ["red", "green","blue","orange","brown"];
 
-        if (totalPages <= maxLength) {
-            return range(1, totalPages);
-        }
+                            /* Recorrer la listaMedSoli15 y agregar los valores a los arrays */
+                            listaMedSoli3.forEach(function(element) {
+                                xValues.push(element.medicamento);
+                                yValues.push(element.cantidadSolicitada);
+                            });
 
-        if (page <= maxLength - sideWidth - 1 - rightWidth) {
-            return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
-        }
 
-        if (page >= totalPages - sideWidth - 1 - rightWidth) {
-            return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
-        }
-        return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
-    }
+                            new Chart("myChart3", {
+                                type: "bar",
+                                data: {
+                                    labels: xValues,
+                                    datasets: [{
+                                        backgroundColor: barColors,
+                                        data: yValues
+                                    }]
+                                },
+                                options: {
+                                    legend: {display: false},
+                                    title: {
+                                        display: true,
+                                        text: "En los ultimos 3 meses",
+                                        fontSize: 20
+                                    },
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true,
+                                                min: 0 // Establecer el valor mínimo explícitamente
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    $(function () {
-        var numberOfItems = $(".contenido").length;
-        var limitPerPage = 1; //How many card items visible per a page
-        var totalPages = Math.ceil(numberOfItems / limitPerPage);
-        var paginationSize = 6; //How many page elements visible in the pagination
-        var currentPage;
-
-        function showPage(whichPage) {
-            if (whichPage < 1 || whichPage > totalPages) return false;
-
-            currentPage = whichPage;
-
-            $(".contenido").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
-
-            $(".pagination li").slice(1, -1).remove();
-
-            getPageList(totalPages, currentPage, paginationSize).forEach(item => {
-                $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
-                    .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
-                    .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
-            });
-
-            $(".previous-page").toggleClass("disable", currentPage === 1);
-            $(".next-page").toggleClass("disable", currentPage === totalPages);
-            return true;
-        }
-
-        $(".pagination").append(
-            $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("<")),
-            $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text(">"))
-        );
-
-        $(".contenido").show();
-        showPage(1);
-
-        $(document).on("click", ".pagination li.current-page:not(.active)", function () {
-            return showPage(+$(this).text());
-        });
-
-        $(".next-page").on("click", function () {
-            return showPage(currentPage + 1);
-        });
-
-        $(".previous-page").on("click", function () {
-            return showPage(currentPage - 1);
-        });
-    });
-</script>
-
-<!-- Project Card Example -->
-<h3 style="margin: 40px">Medicamentos con Poco Inventario</h3>
-<div class="card border-secondary mb-3" style="border-radius: 10px;margin: 100px; margin-top: 10px">
-    <div class="card-header bg-secondary border-secondary py-3">
-        <h6 class="m-0 font-weight-bold text-light">Medicamentos que necesitan reposición</h6>
-    </div>
-    <div class="card-body">
-        <div th:each="medPocoInvet: ${listaMedConPocoInvent}">
-            <h4 class="small font-weight-bold" th:text="${medPocoInvet.medicamento}"></h4>
-            <p class="float-right" th:text="${'Cantidad: ' + medPocoInvet.inventario}"></p>
-            <div class="progress mb-4">
-                <div class="progress-bar bg-danger" role="progressbar" th:style="'width: ' + ${medPocoInvet.inventario} + '%'"
-                     th:attr="aria-valuenow=${medPocoInvet.inventario}"
-                     aria-valuemin="0" aria-valuemax="100"></div>
+        <h3>Medicamentos con Poco Inventario</h3>
+        <br>
+        <h4 th:if="${listaMedConPocoInvent.isEmpty()}" style="color: gray">Todos los medicamentos se encuentran en stock</h4>
+        <div th:if="${!listaMedConPocoInvent.isEmpty()}" class="card border-secondary mb-3" style="border-radius: 10px;margin: 100px; margin-top: 10px">
+            <div class="card-header bg-secondary border-secondary py-3">
+                <h6 class="m-0 font-weight-bold text-light">Medicamentos que necesitan reposición</h6>
+            </div>
+            <div class="card-body">
+                <div th:each="medPocoInvet: ${listaMedConPocoInvent}">
+                    <h4 class="small font-weight-bold" th:text="${medPocoInvet.medicamento}"></h4>
+                    <p class="float-right" th:text="${'Cantidad: ' + medPocoInvet.inventario}"></p>
+                    <div class="progress mb-4">
+                        <div class="progress-bar bg-danger" role="progressbar" th:style="'width: ' + ${medPocoInvet.inventario} + '%'"
+                             th:attr="aria-valuenow=${medPocoInvet.inventario}"
+                             aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<footer style="background-color: rgb(58, 65, 73); width: 100%;">
-    <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
-        <div style="font-family: Arial; margin-left: 10px; color: white;">
-            <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
+</section>
+<br><br><br>
+<!--footer start-->
+<div class="fixed-bottom">
+    <footer style="background-color: rgb(58, 65, 73); width: 100%;">
+        <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
+            <div style="font-family: Arial; margin-left: 10px; color: white;">
+                <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
