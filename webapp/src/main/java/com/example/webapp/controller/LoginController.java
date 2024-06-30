@@ -221,7 +221,13 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String loginWindow(Authentication auth) {
+    public String loginWindow(Authentication auth, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        String errorMessage = (String) session.getAttribute("error");
+        if (errorMessage != null) {
+            model.addAttribute("error", errorMessage);
+            session.removeAttribute("error");
+        }
         try {
             Usuario usuario = usuarioRepository.findByCorreo(auth.getName());
             String rol = usuario.getRol().getNombre();
