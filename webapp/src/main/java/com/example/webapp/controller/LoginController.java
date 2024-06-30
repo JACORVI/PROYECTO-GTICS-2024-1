@@ -517,7 +517,7 @@ public class LoginController {
 
 
 
-                int dni = usuario.getDni();
+                String dni = usuario.getDni();
                 String dniString = String.valueOf(dni);
                 Data data = dataDao.buscarPorDni(dniString);
 
@@ -577,7 +577,7 @@ public class LoginController {
                 if (encontrado) {
                     model.addAttribute("correoExistenteError", "El correo ingresado ya ha sido registrado.");
                 }
-                int dni = usuario.getDni();
+                String dni = usuario.getDni();
                 String dniString = String.valueOf(dni);
                 Data data = dataDao.buscarPorDni(dniString);
 
@@ -661,6 +661,7 @@ public class LoginController {
             return "redirect:/login";
         }
         model.addAttribute("usuario", objUsu);
+        System.out.println("HOLAAAAAAAAAAAAA ID " + objUsu.getId());
 
         return "sistema/ActivarNuevoPassword";
     }
@@ -670,6 +671,7 @@ public class LoginController {
     public Map<String, String> GuardarActivarPassword(@RequestParam(name = "password", required = true) String password,
                                                       int id,
                                                       RedirectAttributes attributes, Model model) {
+        System.out.println("HOLAAAAAAAAAAAAA CONTRASEÑA " + password);
         Map<String, String> response = new HashMap<>();
         try {
             int result = 0;
@@ -694,12 +696,14 @@ public class LoginController {
                     } else if (Character.isDigit(c)) {
                         hasDigit = true;
                     }
-
-                    // Si todas las condiciones se cumplen, no necesitamos seguir verificando
-                    if (hasUpper && hasLower && hasDigit) {
-                        password = encoder.encode(password);
-                        result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
-                    }
+                }
+                // Si todas las condiciones se cumplen, no necesitamos seguir verificando
+                if (hasUpper && hasLower && hasDigit) {
+                    System.out.println("HOLAAAAA CONTRASEÑA VALIDA " + password);
+                    password = encoder.encode(password);
+                    System.out.println("HOLAAAAA CONTRASEÑA HASHEADA " + password);
+                    result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
+                    System.out.println("HOLAAAAA CONFIRMACION " + result);
                 }
             }
             if (result > 0) {

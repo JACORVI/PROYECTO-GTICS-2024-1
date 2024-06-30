@@ -28,7 +28,7 @@ public class Usuario implements Serializable {
     @Size(max = 45, message = "El correo no puede tener más de 45 caracteres")
     private String correo;
 
-    private int dni;
+    private String dni;
     private String codigo_colegiatura;
     private int estado;
     private String contrasena;

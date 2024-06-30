@@ -22,7 +22,7 @@ public class PedidosPacienteRecojo {
     private String apellido_paciente;
     private String medico_que_atiende;
     private String seguro;
-    private Integer dni;
+    private String dni;
     private Double costo_total;
     private String tipo_de_pedido;
     private String fecha_solicitud;

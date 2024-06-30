@@ -17,7 +17,7 @@ public class PedidosPaciente {
     @Column(nullable = false)
     private String nombre_paciente;
     private String apellido_paciente;
-    private Integer dni;
+    private String dni;
     private String medico_que_atiende;
     private String seguro;
     private String distrito;

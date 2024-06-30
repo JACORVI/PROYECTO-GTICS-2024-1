@@ -71,7 +71,7 @@ public class PacienteController {
         model.addAttribute("apellidos", apellidos);
         String correo = usuario.getCorreo();
         model.addAttribute("correo", correo);
-        int dni = usuario.getDni();
+        String dni = usuario.getDni();
         model.addAttribute("dni", dni);
 
         String distrito = usuario.getDistrito().getNombre();
@@ -119,7 +119,7 @@ public class PacienteController {
         model.addAttribute("apellidos", apellidos);
         String correo = usuario.getCorreo();
         model.addAttribute("correo", correo);
-        int dni = usuario.getDni();
+        String dni = usuario.getDni();
         model.addAttribute("dni", dni);
         model.addAttribute("listaDistritos", distritoRepository.findAll());
 
