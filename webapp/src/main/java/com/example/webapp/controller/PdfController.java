@@ -120,28 +120,28 @@ public class PdfController {
 
         if(rolInt == 5) {
             // Añadir título
-            Paragraph title = new Paragraph("Clínica Pildo Pharmacy S.A." + " Doctores de la Sede " + sede)
+            Paragraph title = new Paragraph("Clínica PildoPharm S.A." + " Doctores de la Sede " + sede)
                     .setFontSize(20)
                     .setBold()
                     .setTextAlignment(TextAlignment.CENTER);
             document.add(title);
         }else if(rolInt == 2){
             // Añadir título
-            Paragraph title = new Paragraph("Clínica Pildo Pharmacy S.A." + " Administrador de la Sede " + sede)
+            Paragraph title = new Paragraph("Clínica PildoPharm S.A." + " Administrador de la Sede " + sede)
                     .setFontSize(20)
                     .setBold()
                     .setTextAlignment(TextAlignment.CENTER);
             document.add(title);
         }else if(rolInt == 3) {
             // Añadir título
-            Paragraph title = new Paragraph("Clínica Pildo Pharmacy S.A." + " Farmacistas de la Sede " + sede)
+            Paragraph title = new Paragraph("Clínica PildoPharm S.A." + " Farmacistas de la Sede " + sede)
                     .setFontSize(20)
                     .setBold()
                     .setTextAlignment(TextAlignment.CENTER);
             document.add(title);
         }else if(rolInt == 1){
             // Añadir título
-            Paragraph title = new Paragraph("Clínica Pildo Pharmacy S.A." + " Medicamentos de la Sede " + sede)
+            Paragraph title = new Paragraph("Clínica PildoPharm S.A." + " Medicamentos de la Sede " + sede)
                     .setFontSize(20)
                     .setBold()
                     .setTextAlignment(TextAlignment.CENTER);
@@ -200,7 +200,7 @@ public class PdfController {
                 table.addCell(new Cell().add(new Paragraph(usuario.getNombres()+' '+usuario.getApellidos())));
                 table.addCell(new Cell().add(new Paragraph(usuario.getCorreo())));
                 table.addCell(new Cell().add(new Paragraph(String.valueOf(usuario.getDni()))));
-                table.addCell(new Cell().add(new Paragraph(String.valueOf(usuario.getCodigo_colegiatura())))); // Nueva columna
+                table.addCell(new Cell().add(new Paragraph(String.valueOf(usuario.getCodigo_colegio().getNombre())))); // Nueva columna
                 table.addCell(new Cell().add(new Paragraph(String.valueOf(usuario.getFecha_creacion())))); // Nueva columna
             }
         }else if(rolInt == 1){
@@ -271,7 +271,7 @@ public class PdfController {
         Document document = new Document(pdfDocument);
 
         // Añadir título
-        Paragraph title = new Paragraph("Clínica Pildo Pharmacy S.A.")
+        Paragraph title = new Paragraph("Clínica PildoPharm S.A.")
                 .setFontSize(20)
                 .setBold()
                 .setTextAlignment(TextAlignment.CENTER);
@@ -341,7 +341,7 @@ public class PdfController {
         Document document = new Document(pdfDocument);
 
         // Añadir título
-        Paragraph title = new Paragraph("Clínica Pildo Pharmacy S.A.")
+        Paragraph title = new Paragraph("Clínica PildoPharm S.A.")
                 .setFontSize(20)
                 .setBold()
                 .setTextAlignment(TextAlignment.CENTER);
@@ -411,7 +411,7 @@ public class PdfController {
         Document document = new Document(pdfDocument);
 
         // Añadir título
-        Paragraph title = new Paragraph("Clínica Pildo Pharmacy S.A.")
+        Paragraph title = new Paragraph("Clínica PildoPharm S.A.")
                 .setFontSize(20)
                 .setBold()
                 .setTextAlignment(TextAlignment.CENTER);
@@ -481,7 +481,7 @@ public class PdfController {
         Document document = new Document(pdfDocument);
 
         // Añadir título
-        Paragraph title = new Paragraph("Clínica Pildo Pharmacy S.A.")
+        Paragraph title = new Paragraph("Clínica PildoPharm S.A.")
                 .setFontSize(20)
                 .setBold()
                 .setTextAlignment(TextAlignment.CENTER);
@@ -507,7 +507,7 @@ public class PdfController {
             table.addCell(new Cell().add(new Paragraph(usuario.getNombres()+' '+usuario.getApellidos())));
             table.addCell(new Cell().add(new Paragraph(usuario.getCorreo())));
             table.addCell(new Cell().add(new Paragraph(String.valueOf(usuario.getDni()))));
-            table.addCell(new Cell().add(new Paragraph(String.valueOf(usuario.getCodigo_colegiatura())))); // Nueva columna
+            table.addCell(new Cell().add(new Paragraph(String.valueOf(usuario.getCodigo_colegio().getNombre())))); // Nueva columna
             table.addCell(new Cell().add(new Paragraph(String.valueOf(usuario.getFecha_creacion())))); // Nueva columna
         }
 
@@ -551,7 +551,7 @@ public class PdfController {
         Document document = new Document(pdfDocument);
 
         // Añadir título
-        Paragraph title = new Paragraph("Clínica Pildo Pharmacy S.A.")
+        Paragraph title = new Paragraph("Clínica PildoPharm S.A.")
                 .setFontSize(20)
                 .setBold()
                 .setTextAlignment(TextAlignment.CENTER);

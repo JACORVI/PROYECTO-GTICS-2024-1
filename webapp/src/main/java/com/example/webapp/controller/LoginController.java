@@ -584,6 +584,7 @@ public class LoginController {
                 usuario.setContrasena("");
                 usuario.setCuenta_activada(0);
                 usuario.setEstado(1);
+                redirectAttributes.addFlashAttribute("msg", "Doctor creado exitosamente");
                 usuarioRepository.save(usuario);
 
                 return "redirect:/superadmin/Vista_Principal";
@@ -642,6 +643,7 @@ public class LoginController {
                 usuario.setCodigo_colegiatura("Sin-Codigo");
                 usuario.setRol(rol);
                 usuario.setContrasena("");
+                redirectAttributes.addFlashAttribute("msg", "Administrador creado exitosamente");
 
                 try {
                     usuario.setToken_recuperacion(util.GenerarToken()); // Token de ACTIVACION
@@ -658,7 +660,7 @@ public class LoginController {
                     redirectAttributes.addFlashAttribute("error", "Hubo un problema al registrar el usuario. Por favor, Intentelo de nuevo.");
                 }
 
-                return "redirect:/login";
+                return "redirect:/superadmin/Vista_Principal";
             }
         }
         return "redirect:/login";

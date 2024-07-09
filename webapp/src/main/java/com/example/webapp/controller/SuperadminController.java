@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/superadmin")
@@ -223,7 +224,7 @@ public class SuperadminController {
     @PostMapping("/Guardar_Medicamento")
     public String guardarNuevoMedicamento(@RequestParam("foto1") Part foto1,
                                           @ModelAttribute ("medicamento") @Valid Medicamentos medicamentos, BindingResult bindingResult,
-                                          Model model) {
+                                          Model model, RedirectAttributes redirectAttributes) {
 
         if(medicamentos.getId() == 0){
             if (bindingResult.hasErrors()) {
@@ -270,6 +271,7 @@ public class SuperadminController {
                 model.addAttribute("medicamento", medicamentos);
                 model.addAttribute("ListaIndicador", listaIndicador);
                 model.addAttribute("ListaSedes",list1);
+                redirectAttributes.addFlashAttribute("msg", "Medicamento creado exitosamente");
 
 
                 return "superadmin/Plantilla_Vista_Ver_Medicamento";
