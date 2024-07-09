@@ -2,9 +2,6 @@ package com.example.webapp.repository;
 
 import com.example.webapp.entity.Carrito;
 import com.example.webapp.entity.CarritoId;
-import com.example.webapp.entity.Medicamentos;
-import com.example.webapp.entity.PedidosPaciente;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,8 +15,8 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
 
     @Query(value = "SELECT *\n" +
             "FROM gticsbd.carrito\n" +
-            "WHERE estado_de_compra != 'Registrado';", nativeQuery = true)
-    List<Carrito> listarCarrito();
+            "WHERE estado_de_compra != 'Registrado' and usuario_id_usuario = ?1", nativeQuery = true)
+    List<Carrito> listarCarrito(Integer usuid);
 
     @Query(value = "SELECT *\n" +
             "FROM gticsbd.carrito\n" +
@@ -94,8 +91,9 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
     @Query(value = "SELECT gticsbd.carrito.cantidad * gticsbd.medicamentos.precio_unidad AS total\n" +
             "FROM gticsbd.carrito\n" +
             "JOIN \n" +
-            "    gticsbd.medicamentos ON gticsbd.carrito.medicamentos_id_medicamentos = gticsbd.medicamentos.id_medicamentos;", nativeQuery = true)
-    List<Double> CantidadxPrecioUnitario();
+            "    gticsbd.medicamentos ON gticsbd.carrito.medicamentos_id_medicamentos = gticsbd.medicamentos.id_medicamentos " +
+            "WHERE gticsbd.carrito.usuario_id_usuario = ?1", nativeQuery = true)
+    List<Double> CantidadxPrecioUnitario(Integer usuario);
 
     @Transactional
     @Modifying
