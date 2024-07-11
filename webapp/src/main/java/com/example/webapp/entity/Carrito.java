@@ -17,7 +17,7 @@ public class Carrito {
     @MapsId("usuario_id_usuario")
     @OneToOne
     @JoinColumn(name="usuario_id_usuario")
-    private Usuario usuario_id_usario;
+    private Usuario usuario_id_usuario;
 
     @MapsId("medicamentos_id_medicamentos")
     @ManyToOne

@@ -20,6 +20,7 @@
         <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/style.css}">
         <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/responsive.css}">
         <link rel="stylesheet" th:href="@{/assets/paciente/css/estilospersonalizados.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/medicamentos.css}">
 
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -41,6 +42,10 @@
     <br>
 
     <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
+        <div th:if="${msg != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <p th:text="${msg}" style="color: black;"></p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <!--/.carousel-indicator -->
         <ol class="carousel-indicators">
             <li data-target="#header-carousel" data-slide-to="0" class="active"><span class="small-circle"></span></li>
@@ -203,6 +208,10 @@
                     Ver medicamentos
                 </a>
             </div><!--/.section-header-->
+            <div th:if="${msg1 != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <p th:text="${msg1}" style="color: black;"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             <table class="table table-hover" style="border-radius: 10px; text-align: center;" th:if="${lleno == 1}">
                 <tr>
                     <th colspan="0" style="text-align: center;">Orden de compra</th>
@@ -214,8 +223,12 @@
                     <td class="align-middle" style="font-size: large;" th:text="${preorden.numero_tracking}"></td>
                     <td class="align-middle" style="font-size: large;" th:text="${preorden.fecha_solicitud}"></td>
                     <td class="align-middle" style="font-size: x-large; color: #0072BA;" th:text="${preorden.estado_del_pedido}" th:if="${preorden.estado_del_pedido == 'Pendiente'}"></td>
-                    <td class="align-middle" style="font-size: x-large; color: green" th:text="${preorden.estado_del_pedido}" th:if="${preorden.estado_del_pedido != 'Pendiente'}"></td>
-                    <td class="align-middle"> <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoPreorden?id=' + ${preorden.id}}" class="btn btn-info" th:if="${preorden.estado_del_pedido != 'Pendiente'}">Ver tracking</a> </td>
+                    <td class="align-middle" style="font-size: x-large; color: yellowgreen;" th:text="${preorden.estado_del_pedido}" th:if="${preorden.estado_del_pedido == 'Por cancelar'}"></td>
+                    <td class="align-middle" style="font-size: x-large; color: green" th:text="${preorden.estado_del_pedido}" th:if="${preorden.estado_del_pedido != 'Pendiente' and preorden.estado_del_pedido != 'Por cancelar'}"></td>
+                    <td class="align-middle">
+                        <a type="button" th:href="@{'/paciente/pagoSeguro?id=' + ${preorden.id} + '&tipo=' + ${1}}" class="btn btn-warning" th:if="${preorden.estado_del_pedido == 'Por cancelar'}">Realizar el pago</a>
+                        <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoPreorden?id=' + ${preorden.id}}" class="btn btn-success" th:if="${preorden.estado_del_pedido != 'Pendiente' and preorden.estado_del_pedido != 'Por cancelar'}">Ver tracking</a>
+                    </td>
                 </tr>
             </table>
             <div class="pagination  d-flex justify-content-center" style="padding: 50px; font-size: xxx-large">
@@ -292,6 +305,8 @@
 
     </footer><!--/.footer-->
     <!--footer end-->
+
+    <script src="/assets/paciente/js/alert.js"></script>
 
     <!-- Script de paginacion-->
     <script type="text/javascript">

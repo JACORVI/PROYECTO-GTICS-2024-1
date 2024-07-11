@@ -53,7 +53,7 @@
           <button class="btn btn-outline-warning" style="border: 0" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
           </svg></button>
-          <a class="btn btn-outline-warning" style="margin-left: 1vh" th:if="${listacompletaDely == 1}" type="submit" th:href="@{/paciente/mispedidos}" >Ver lista completa</a>
+          <a class="btn btn-outline-warning" style="margin-left: 1vh; font-size: medium" th:if="${listacompletaDely == 1}" type="submit" th:href="@{/paciente/mispedidos}" >Ver lista completa</a>
         </form>
         <br th:if="${sinResultadosDely == 0}"><br th:if="${sinResultadosDely == 0}">
         <h5 th:if="${llenodely == 0}">Usted aun no ha realizado ningun pedido con delivery incluido</h5>
@@ -63,7 +63,11 @@
         </a>
         <br th:if="${sinResultadosDely == 1}"><br th:if="${sinResultadosDely == 1}">
         <h5 th:if="${sinResultadosDely == 1}">No se ha encontrado ningun pedido relacionado al numero de tracking ingresado.</h5>
-        <table id="tabla1" class="table table-hover" th:if="${llenodely == 1}">
+        <div th:if="${msg1 != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+          <p th:text="${msg1}" style="color: black;"></p>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <table id="tabla1" class="table table-hover" th:if="${llenodely == 1 and sinResultadosDely == 0}">
           <tr>
             <th colspan="0" style="text-align: center;">Orden de compra</th>
             <th style="text-align: center;">Fecha de Registro</th>
@@ -74,8 +78,12 @@
             <td class="align-middle" style="font-size: large;" th:text="${pedidodely.numero_tracking}"></td>
             <td class="align-middle" style="font-size: large;" th:text="${pedidodely.fecha_solicitud}"></td>
             <td class="align-middle" style="font-size: x-large; color: #0072BA;" th:text="${pedidodely.estado_del_pedido}" th:if="${pedidodely.estado_del_pedido == 'Pendiente'}"></td>
-            <td class="align-middle" style="font-size: x-large; color: green" th:text="${pedidodely.estado_del_pedido}" th:if="${pedidodely.estado_del_pedido != 'Pendiente'}"></td>
-            <td class="align-middle"> <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoDely?id=' + ${pedidodely.id}}" class="btn btn-info" th:if="${pedidodely.estado_del_pedido != 'Pendiente'}">Ver tracking</a> </td>
+            <td class="align-middle" style="font-size: x-large; color: yellowgreen;" th:text="${pedidodely.estado_del_pedido}" th:if="${pedidodely.estado_del_pedido == 'Por cancelar'}"></td>
+            <td class="align-middle" style="font-size: x-large; color: green" th:text="${pedidodely.estado_del_pedido}" th:if="${pedidodely.estado_del_pedido != 'Pendiente' and pedidodely.estado_del_pedido != 'Por cancelar'}"></td>
+            <td class="align-middle">
+              <a type="button" th:href="@{'/paciente/pagoSeguro?id=' + ${pedidodely.id} + '&tipo=' + ${1}}" class="btn btn-warning" th:if="${pedidodely.estado_del_pedido == 'Por cancelar'}">Realizar el pago</a>
+              <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoDely?id=' + ${pedidodely.id}}" class="btn btn-success" th:if="${pedidodely.estado_del_pedido != 'Pendiente' and pedidodely.estado_del_pedido != 'Por cancelar'}">Ver tracking</a>
+            </td>
           </tr>
         </table>
         <!-- Paginacion Dely-->
@@ -93,7 +101,7 @@
           <button class="btn btn-outline-warning" style="border: 0" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
           </svg></button>
-          <a class="btn btn-outline-warning" style="margin-left: 1vh" th:if="${listacompletaReco == 1}" type="submit" th:href="@{/paciente/mispedidos}" >Ver lista completa</a>
+          <a class="btn btn-outline-warning" style="margin-left: 1vh; font-size: medium" th:if="${listacompletaReco == 1}" type="submit" th:href="@{/paciente/mispedidos}" >Ver lista completa</a>
         </form>
         <br th:if="${sinResultadosReco == 0}"><br th:if="${sinResultadosReco == 0}">
         <h5 th:if="${llenoreco == 0}">Usted aun no ha realizado ningun pedido para recoger en sede</h5>
@@ -103,6 +111,10 @@
         </a>
         <br th:if="${sinResultadosReco == 1}"><br th:if="${sinResultadosReco == 1}">
         <h5 th:if="${sinResultadosReco == 1}">No se ha encontrado ningun pedido relacionado al numero de tracking ingresado.</h5>
+          <div th:if="${msg2 != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <p th:text="${msg2}" style="color: black;"></p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
         <table id="tabla2" class="table table-hover" th:if="${llenoreco == 1 and sinResultadosReco == 0}">
           <tr>
             <th colspan="0" style="text-align: center;">Orden de compra</th>
@@ -114,8 +126,12 @@
             <td class="align-middle" style="font-size: large;" th:text="${pedidoreco.numero_tracking}"></td>
             <td class="align-middle" style="font-size: large;" th:text="${pedidoreco.fecha_solicitud}"></td>
             <td class="align-middle" style="font-size: x-large; color: #0072BA;" th:text="${pedidoreco.estado_del_pedido}" th:if="${pedidoreco.estado_del_pedido == 'Pendiente'}"></td>
-            <td class="align-middle" style="font-size: x-large; color: green" th:text="${pedidoreco.estado_del_pedido}" th:if="${pedidoreco.estado_del_pedido != 'Pendiente'}"></td>
-            <td class="align-middle"> <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoReco?id=' + ${pedidoreco.id}}" class="btn btn-info" th:if="${pedidoreco.estado_del_pedido != 'Pendiente'}">Ver tracking</a> </td>
+            <td class="align-middle" style="font-size: x-large; color: yellowgreen;" th:text="${pedidoreco.estado_del_pedido}" th:if="${pedidoreco.estado_del_pedido == 'Por cancelar'}"></td>
+            <td class="align-middle" style="font-size: x-large; color: green" th:text="${pedidoreco.estado_del_pedido}" th:if="${pedidoreco.estado_del_pedido != 'Pendiente' and pedidoreco.estado_del_pedido != 'Por cancelar'}"></td>
+            <td class="align-middle">
+              <a type="button" th:href="@{'/paciente/pagoSeguro?id=' + ${pedidoreco.id} + '&tipo=' + ${2}}" class="btn btn-warning" th:if="${pedidoreco.estado_del_pedido == 'Por cancelar'}">Realizar el pago</a>
+              <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoReco?id=' + ${pedidoreco.id}}" class="btn btn-success" th:if="${pedidoreco.estado_del_pedido != 'Pendiente' and pedidoreco.estado_del_pedido != 'Por cancelar'}">Ver tracking</a>
+            </td>
           </tr>
         </table>
         <!-- Paginacion Recojo-->
@@ -153,6 +169,8 @@
 
 </footer><!--/.footer-->
 <!--footer end-->
+
+<script src="/assets/paciente/js/alert.js"></script>
 
 <!-- Script de paginacion1 -->
 <script type="text/javascript">

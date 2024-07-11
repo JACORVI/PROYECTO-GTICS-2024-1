@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -34,6 +35,7 @@ public class PacienteController {
     MedicamentosDelPedidoRepository medicamentosDelPedidoRepository;
     SeguroRepository seguroRepository;
     DistritoRepository distritoRepository;
+    TarjetaRepository tarjetaRepository;
 
     public PacienteController(MedicamentosRepository medicamentosRepository,
                               UsuarioRepository usuarioRepository,
@@ -44,7 +46,7 @@ public class PacienteController {
                               MedicamentosRecojoRepository medicamentosRecojoRepository,
                               MedicamentosDelPedidoRepository medicamentosDelPedidoRepository,
                               SeguroRepository seguroRepository,
-                              DistritoRepository distritoRepository) {
+                              DistritoRepository distritoRepository, TarjetaRepository tarjetaRepository) {
 
         this.medicamentosRepository = medicamentosRepository;
         this.sedeRepository = sedeRepository;
@@ -56,6 +58,7 @@ public class PacienteController {
         this.medicamentosDelPedidoRepository = medicamentosDelPedidoRepository;
         this.seguroRepository = seguroRepository;
         this.distritoRepository = distritoRepository;
+        this.tarjetaRepository = tarjetaRepository;
     }
     /*---------------------------------------*/
 
@@ -150,34 +153,51 @@ public class PacienteController {
         }
         if (accion.equalsIgnoreCase("perfil")) {
             try {
+                if (!obj.getTelefono().equals("") ){
+                    Integer telefono = Integer.valueOf(obj.getTelefono());
+                    if(telefono < 900000000 || telefono > 999999999){
+                        attributes.addFlashAttribute("msgError", "El número de celular debe tener 9 digitos.");
+                        return "redirect:/paciente/perfil/editar";
+                    }
+                }
                 if(obj.getDireccion().trim().equals("")){
                     attributes.addFlashAttribute("msgError", "La dirección no puede quedar vacia.");
                     return "redirect:/paciente/perfil/editar";
                 }
-
+                if(obj.getDireccion().trim().length() < 5){
+                    attributes.addFlashAttribute("msgError", "La dirección no puede tener menos de 5 caracteres.");
+                    return "redirect:/paciente/perfil/editar";
+                }
                 if(obj.getDireccion().trim().length() > 90){
                     attributes.addFlashAttribute("msgError", "La dirección no puede tener mas de 90 caracteres.");
                     return "redirect:/paciente/perfil/editar";
                 }
-                else{
-                    if (accion.equalsIgnoreCase("perfil")) {
-                        System.out.println(obj.getTelefono().trim() + obj.getDistrito() + obj.getDireccion().trim() + obj.getReferencia().trim());
-                        data.setTelefono(obj.getTelefono().trim());
-                        data.setReferencia(obj.getReferencia().trim());
-                        data.setDistrito(obj.getDistrito());
-                        data.setDireccion(obj.getDireccion().trim());
-
+                if (!obj.getReferencia().equals("")){
+                    if(obj.getReferencia().trim().length() < 5){
+                        attributes.addFlashAttribute("msgError", "La referencia no puede tener menos de 5 caracteres.");
+                        return "redirect:/paciente/perfil/editar";
                     }
-
-                    usuarioRepository.save(data);
-
-                    if (obj.getId() > 0) {
-                        attributes.addFlashAttribute("msgValido", "Datos actualizados!!");
-                        session.setAttribute("avatar", data.getImagen());
-                        return "redirect:/paciente/miPerfil";
+                    if(obj.getReferencia().trim().length() > 255){
+                        attributes.addFlashAttribute("msgError", "La referencia no puede tener mas de 255 caracteres.");
+                        return "redirect:/paciente/perfil/editar";
                     }
-                    attributes.addFlashAttribute("msgError", "No se pudo actualizar datos!");
                 }
+                if (accion.equalsIgnoreCase("perfil")) {
+                    data.setTelefono(obj.getTelefono().trim());
+                    data.setReferencia(obj.getReferencia().trim());
+                    data.setDistrito(obj.getDistrito());
+                    data.setDireccion(obj.getDireccion().trim());
+
+                }
+
+                usuarioRepository.save(data);
+
+                if (obj.getId() > 0) {
+                    attributes.addFlashAttribute("msgValido", "Datos actualizados!!");
+                    session.setAttribute("avatar", data.getImagen());
+                    return "redirect:/paciente/miPerfil";
+                }
+                attributes.addFlashAttribute("msgError", "No se pudo actualizar datos!");
             } catch (Exception ex) {
                 model.addAttribute("error", ex.getMessage());
                 ex.printStackTrace();
@@ -225,7 +245,7 @@ public class PacienteController {
         return "paciente/inicio";
     }
     @GetMapping("/paciente/generarPreorden")
-    public String registrarPreorden(@RequestParam("id") int id, Model model, Authentication authentication){
+    public String registrarPreorden(@RequestParam("id") int id, Model model, Authentication authentication, RedirectAttributes redirectAttributes){
         Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
         int usuid = usuario.getId();
         Integer idped = carritoRepository.idPedidoRegistrando(usuid);
@@ -233,6 +253,13 @@ public class PacienteController {
             carritoRepository.borrarMedicamentosAlCancelar(usuid, idped);
             carritoRepository.cancelarPedidoDely(usuid);
         }
+
+        List<Integer> lista = carritoRepository.listaPedidosPorCancelar2(usuid);
+        if(!lista.isEmpty()){
+            redirectAttributes.addFlashAttribute("msg1", "Tienes un pago pendiente.");
+            return "redirect:/paciente/inicio#pre-ordenes";
+        }
+
         carritoRepository.cancelarPedidoReco(usuid);
         String estadopedido = "Registrando";
         List<Double> precioDelMedicamento = carritoRepository.precioDelMedicamento(id);
@@ -351,7 +378,7 @@ public class PacienteController {
                     pedidosPaciente.setCosto_total(pedidodely.getCosto_total());
                     pedidosPaciente.setTipo_de_pedido(pedidodely.getTipo_de_pedido());
                     pedidosPaciente.setValidacion_del_pedido("Pendiente");
-                    pedidosPaciente.setEstado_del_pedido("Pendiente");
+                    pedidosPaciente.setEstado_del_pedido("Por cancelar");
 
                     String numTrack = pedidodely.getNumero_tracking();
                     pedidosPaciente.setNumero_tracking(pedidodely.getNumero_tracking());
@@ -392,7 +419,7 @@ public class PacienteController {
                     pedidosPaciente.setCosto_total(pedidodely.getCosto_total());
                     pedidosPaciente.setTipo_de_pedido(pedidodely.getTipo_de_pedido());
                     pedidosPaciente.setValidacion_del_pedido("Pendiente");
-                    pedidosPaciente.setEstado_del_pedido("Pendiente");
+                    pedidosPaciente.setEstado_del_pedido("Por cancelar");
 
                     String numTrack = pedidodely.getNumero_tracking();
                     pedidosPaciente.setNumero_tracking(pedidodely.getNumero_tracking());
@@ -982,7 +1009,7 @@ public class PacienteController {
             String numpedido = numeropedidoporId.get(0);
             model.addAttribute("numpedido", numpedido);
         }
-        List<Carrito> listadodelcarritort = carritoRepository.findAll();
+        List<Carrito> listadodelcarritort = carritoRepository.listarCarrito(usuid);
         int car = 0;
         if (listadodelcarritort.isEmpty()){
             String msg1 = "Su carrito esta vacio.";
@@ -994,7 +1021,7 @@ public class PacienteController {
         }
         else{
             model.addAttribute("listadoDelCarrito",listadodelcarritort);
-            List<Double> listaPrecioxCantidad = carritoRepository.CantidadxPrecioUnitario();
+            List<Double> listaPrecioxCantidad = carritoRepository.CantidadxPrecioUnitario(usuid);
             double sumaTotal = 0.0;
             for (Double valor : listaPrecioxCantidad) {
                 sumaTotal += valor;
@@ -1016,7 +1043,7 @@ public class PacienteController {
             String numpedido = numeropedidoporId.get(0);
             model.addAttribute("numpedido", numpedido);
         }
-        List<Carrito> listadodelcarritodl = carritoRepository.listarCarrito();
+        List<Carrito> listadodelcarritodl = carritoRepository.listarCarrito(usuid);
         int car = 0;
         if (listadodelcarritodl.isEmpty()){
             String msg1 = "Su carrito esta vacio.";
@@ -1028,7 +1055,7 @@ public class PacienteController {
         }
         else{
             model.addAttribute("listadoDelCarrito",listadodelcarritodl);
-            List<Double> listaPrecioxCantidad = carritoRepository.CantidadxPrecioUnitario();
+            List<Double> listaPrecioxCantidad = carritoRepository.CantidadxPrecioUnitario(usuid);
             double sumaTotal = 0.0;
             for (Double valor : listaPrecioxCantidad) {
                 sumaTotal += valor;
@@ -1055,18 +1082,25 @@ public class PacienteController {
     }
 
     @GetMapping("/paciente/carrito/registrarPedido")
-    public String registrarPedido(Model model, Authentication authentication,
+    public String registrarPedido(Model model, RedirectAttributes redirectAttributes, Authentication authentication,
                                   @RequestParam("costototal") double costototal, @RequestParam("tipopedido") int tipo, @RequestParam("numtrack") String numtrack){
         Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
         int usuid = usuario.getId();
+
         Integer idpedido = carritoRepository.idPedidoRegistrando(usuid);
         if(idpedido != null){
             carritoRepository.borrarMedicamentosAlCancelar(usuid, idpedido);
             carritoRepository.cancelarPedidoDely(usuid);
         }
         carritoRepository.cancelarPedidoReco(usuid);
+
         String tipopedido = "Web - Recojo en tienda";
         if(tipo == 1){
+            List<Integer> lista = carritoRepository.listaPedidosPorCancelar1(usuid);
+            if(!lista.isEmpty()){
+                redirectAttributes.addFlashAttribute("msg1", "Tienes un pago pendiente.");
+                return "redirect:/paciente/mispedidos";
+            }
             tipopedido = "Web - Delivery";
             String validacionpedido = "Pendiente";
             String estadopedido = "Registrando";
@@ -1074,6 +1108,11 @@ public class PacienteController {
             return "redirect:/paciente/carrito/nuevoPedidoDelivery";
         }
         else{
+            List<Integer> lista = carritoRepository.listaPedidosPorCancelar3(usuid);
+            if(!lista.isEmpty()){
+                redirectAttributes.addFlashAttribute("msg2", "Tienes un pago pendiente.");
+                return "redirect:/paciente/mispedidos#pedidosReco";
+            }
             String validacionpedido = "Pendiente";
             String estadopedido = "Registrando";
             carritoRepository.registrarPedidoReco(costototal, tipopedido, validacionpedido, estadopedido, numtrack, usuid);
@@ -1164,7 +1203,7 @@ public class PacienteController {
                     pedidosPaciente.setCosto_total(pedidodely.getCosto_total());
                     pedidosPaciente.setTipo_de_pedido(pedidodely.getTipo_de_pedido());
                     pedidosPaciente.setValidacion_del_pedido("Pendiente");
-                    pedidosPaciente.setEstado_del_pedido("Pendiente");
+                    pedidosPaciente.setEstado_del_pedido("Por cancelar");
 
                     String numTrack = pedidodely.getNumero_tracking();
                     pedidosPaciente.setNumero_tracking(pedidodely.getNumero_tracking());
@@ -1187,9 +1226,7 @@ public class PacienteController {
                     }
                     pedidosPacienteRepository.save(pedidosPaciente);
                     List<Integer> listidpedidodely = carritoRepository.idpedidoPorUsuIdDelyMedicamentos(usuid);
-                    System.out.println("HOLAAAA LSITA " + listidpedidodely);
                     int idpedidomed = listidpedidodely.get(0);
-                    System.out.println("HOLAAAA LSITA " + idpedidomed);
                     carritoRepository.registrarMedicamentosPedidoDely(idpedidomed, usuid);
                     carritoRepository.borrarCarritoPorId(usuid);
 
@@ -1210,7 +1247,7 @@ public class PacienteController {
                     pedidosPaciente.setCosto_total(pedidodely.getCosto_total());
                     pedidosPaciente.setTipo_de_pedido(pedidodely.getTipo_de_pedido());
                     pedidosPaciente.setValidacion_del_pedido("Pendiente");
-                    pedidosPaciente.setEstado_del_pedido("Pendiente");
+                    pedidosPaciente.setEstado_del_pedido("Por cancelar");
 
                     String numTrack = pedidodely.getNumero_tracking();
                     pedidosPaciente.setNumero_tracking(pedidodely.getNumero_tracking());
@@ -1270,8 +1307,6 @@ public class PacienteController {
         boolean imagenValida = foto1.getContentType().contains("application/octet-stream") || foto1.getContentType().contains("image/jpeg") || foto1.getContentType().contains("image/png") || foto1.getContentType().contains("image/jpeg");
         boolean evitaAtaquesLFI = foto1.getSubmittedFileName().contains("..");
 
-        System.out.println("HOLAAAAAA " + foto1.getSubmittedFileName() + " " + foto1.getContentType());
-
         if (pedidosPacienteRecojo.getSede_de_recojo().equals("") || pedidosPacienteRecojo.getMedico_que_atiende().equals("") || pedidosPacienteRecojo.getAviso_vencimiento().equals("") || telefonoErrors || !imagenValida || evitaAtaquesLFI){
             if (pedidosPacienteRecojo.getTelefono() == null || pedidosPacienteRecojo.getTelefono().equals("")){
                 model.addAttribute("telefonoError", "El número de celular no puede quedar vacio.");
@@ -1315,7 +1350,7 @@ public class PacienteController {
                     pedidosPacienteRecojo.setCosto_total(pedidoreco.getCosto_total());
                     pedidosPacienteRecojo.setTipo_de_pedido(pedidoreco.getTipo_de_pedido());
                     pedidosPacienteRecojo.setValidacion_del_pedido("Pendiente");
-                    pedidosPacienteRecojo.setEstado_del_pedido("Pendiente");
+                    pedidosPacienteRecojo.setEstado_del_pedido("Por cancelar");
 
                     String numTrack = pedidoreco.getNumero_tracking();
                     pedidosPacienteRecojo.setNumero_tracking(pedidoreco.getNumero_tracking());
@@ -1355,7 +1390,7 @@ public class PacienteController {
                     pedidosPacienteRecojo.setCosto_total(pedidoreco.getCosto_total());
                     pedidosPacienteRecojo.setTipo_de_pedido(pedidoreco.getTipo_de_pedido());
                     pedidosPacienteRecojo.setValidacion_del_pedido("Pendiente");
-                    pedidosPacienteRecojo.setEstado_del_pedido("Pendiente");
+                    pedidosPacienteRecojo.setEstado_del_pedido("Por cancelar");
 
                     String numTrack = pedidoreco.getNumero_tracking();
                     pedidosPacienteRecojo.setNumero_tracking(pedidoreco.getNumero_tracking());
@@ -1420,6 +1455,137 @@ public class PacienteController {
     /*---------------------------------------*/
 
 
+    /*QRUD y vista del PAGO DEL PEDIDO*/
+    @GetMapping("/paciente/pagoSeguro")
+    public String pagoSeguro(@RequestParam("id") String idstr,
+                             @RequestParam("tipo") String tipostr, Model model, RedirectAttributes redirectAttributes, Authentication authentication){
+
+        Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
+        Integer tipo = Integer.parseInt(tipostr);
+
+        if(tipo < 3 && tipo > 0){
+            Integer id = Integer.parseInt(idstr);
+            if(id > 0){
+                if (tipo == 1){
+                    Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(id);
+                    if(optionalPedidosPaciente.isPresent()){
+                        PedidosPaciente pedidosPaciente = optionalPedidosPaciente.get();
+                        Usuario usuarioPedido = pedidosPaciente.getUsuario();
+
+                        if(!pedidosPaciente.getEstado_del_pedido().equals("Por cancelar") || usuarioPedido != usuario){
+                            if(pedidosPaciente.getTipo_de_pedido().equals("Web - Delivery")){
+                                return "redirect:/paciente/mispedidos";
+                            }
+                            else{
+                                return "redirect:/paciente/inicio";
+                            }
+                        }
+
+                        model.addAttribute("id", pedidosPaciente.getId());
+                        model.addAttribute("preciototal", pedidosPaciente.getCosto_total());
+                        model.addAttribute("tipopedido", pedidosPaciente.getTipo_de_pedido());
+                        model.addAttribute("numtrack", pedidosPaciente.getNumero_tracking());
+                    }
+                    else{
+                        return "redirect:/paciente/inicio";
+                    }
+                }
+                if (tipo == 2){
+                    Optional<PedidosPacienteRecojo> optionalPedidosPacienteRecojo = pedidosPacienteRecojoRepository.findById(id);
+                    if(optionalPedidosPacienteRecojo.isPresent()){
+                        PedidosPacienteRecojo pedidosPacienteRecojo = optionalPedidosPacienteRecojo.get();
+                        Usuario usuarioPedido = pedidosPacienteRecojo.getUsuario();
+
+                        if(!pedidosPacienteRecojo.getEstado_del_pedido().equals("Por cancelar") || usuarioPedido != usuario){
+                            return "redirect:/paciente/mispedidos";
+                        }
+
+                        model.addAttribute("id", pedidosPacienteRecojo.getId());
+                        model.addAttribute("preciototal", pedidosPacienteRecojo.getCosto_total());
+                        model.addAttribute("tipopedido", pedidosPacienteRecojo.getTipo_de_pedido());
+                        model.addAttribute("numtrack", pedidosPacienteRecojo.getNumero_tracking());
+                    }
+                    else{
+                        return "redirect:/paciente/inicio";
+                    }
+                }
+            }
+            else{
+                return "redirect:/paciente/inicio";
+            }
+        }
+        else{
+            return "redirect:/paciente/inicio";
+        }
+        return "paciente/pagoDelPedido";
+    }
+    @GetMapping("/paciente/validarPago")
+    @ResponseBody
+    public Map<String, String> validarElPago(@RequestParam("numero") String numero_tarjeta1,
+                                @RequestParam("cvv") Integer cvv,
+                                @RequestParam("mes") String mes, @RequestParam("anhio") String anhio,
+                                @RequestParam("preciototal") String preciototalStr, @RequestParam("id") String idstr,
+                                             @RequestParam("tipopedido") String tipopedidostr){
+        Map<String, String> response = new HashMap<>();
+
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < numero_tarjeta1.length(); i++) {
+            if (numero_tarjeta1.charAt(i) != ' ') {
+                if(numero_tarjeta1.charAt(i) != '-'){
+                    result.append(numero_tarjeta1.charAt(i));
+                }
+            }
+        }
+        String numero_tarjetaStr = result.toString();
+        BigInteger numero_tarjeta = new BigInteger(numero_tarjetaStr);
+
+        Tarjeta tarjeta = tarjetaRepository.validarTarjeta(numero_tarjeta,mes,anhio,cvv);
+
+        if (tarjeta != null) {
+            double preciototal = Double.valueOf(preciototalStr);
+            double ahorros = tarjeta.getAhorros();
+            if((ahorros - preciototal) > 0){
+                double ahorros2 = ahorros - preciototal;
+                tarjeta.setAhorros(ahorros2);
+                tarjetaRepository.save(tarjeta);
+
+                Integer id = Integer.parseInt(idstr);
+
+                if (tipopedidostr.equals("Web - Delivery") || tipopedidostr.equals("Pre-orden")){
+                    Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(id);
+                    if(optionalPedidosPaciente.isPresent()){
+                        PedidosPaciente pedidosPaciente = optionalPedidosPaciente.get();
+                        pedidosPaciente.setEstado_del_pedido("Pendiente");
+                        pedidosPacienteRepository.save(pedidosPaciente);
+                        response.put("response", "OK");
+                    }
+                    else{
+                        response.put("response", "NO ENCONTRADO");
+                    }
+                }
+                if (tipopedidostr.equals("Web - Recojo en tienda")){
+                    Optional<PedidosPacienteRecojo> optionalPedidosPacienteRecojo = pedidosPacienteRecojoRepository.findById(id);
+                    if(optionalPedidosPacienteRecojo.isPresent()){
+                        PedidosPacienteRecojo pedidosPacienteRecojo = optionalPedidosPacienteRecojo.get();
+                        pedidosPacienteRecojo.setEstado_del_pedido("Pendiente");
+                        pedidosPacienteRecojoRepository.save(pedidosPacienteRecojo);
+                        response.put("response", "OK");
+                    }
+                    else{
+                        response.put("response", "NO ENCONTRADO");
+                    }
+                }
+            }
+            else {
+                response.put("response", "FONDOS INSUFICIENTES");
+            }
+        } else {
+            response.put("response", "NO ENCONTRADO");
+        }
+        return response;
+    }
+    /*---------------------------------------*/
+
 
     /*QRUD y vista de MIS PEDIDOS*/
     @GetMapping("/paciente/mispedidos")
@@ -1442,7 +1608,9 @@ public class PacienteController {
             llenodely = 0;
         }
         model.addAttribute("llenodely", llenodely);
-        model.addAttribute("listaPedidosReco", pedidosPacienteRecojoRepository.findByUsuario(usuario));
+        List<PedidosPacienteRecojo> listapedidosReco = pedidosPacienteRecojoRepository.findByUsuario(usuario);
+        Collections.reverse(listapedidosReco);
+        model.addAttribute("listaPedidosReco", listapedidosReco);
         model.addAttribute("tamanolistaPedidosReco", pedidosPacienteRecojoRepository.findByUsuario(usuario).size());
         List <String> tamanolistareco = pedidosPacienteRepository.pedidosRecojo(usuid);
         int llenoreco = 1;
@@ -1478,7 +1646,9 @@ public class PacienteController {
         }
 
         model.addAttribute("llenodely", llenodely);
-        model.addAttribute("listaPedidosReco", pedidosPacienteRecojoRepository.findByUsuario(usuario));
+        List<PedidosPacienteRecojo> listapedidosReco = pedidosPacienteRecojoRepository.findByUsuario(usuario);
+        Collections.reverse(listapedidosReco);
+        model.addAttribute("listaPedidosReco", listapedidosReco);
         model.addAttribute("tamanolistaPedidosReco", pedidosPacienteRecojoRepository.findByUsuario(usuario).size());
         List <String> tamanolistareco = pedidosPacienteRepository.pedidosRecojo(usuid);
         int llenoreco = 1;
@@ -1514,7 +1684,7 @@ public class PacienteController {
         }
 
         List<PedidosPacienteRecojo> listaPedidosReco = pedidosPacienteRecojoRepository.buscarPedidosReco(usuid, searchFieldReco);
-
+        Collections.reverse(listaPedidosReco);
         model.addAttribute("llenodely", llenodely);
         model.addAttribute("listaPedidosReco", listaPedidosReco);
         model.addAttribute("tamanolistaPedidosReco", listaPedidosReco.size());
@@ -1535,11 +1705,22 @@ public class PacienteController {
 
     /*QRUD y vista de ESTADO DEL PEDIDO*/
     @GetMapping("/paciente/mispedidos/estadopedidoDely")
-    public String estadoTrackDely(Model model, @RequestParam("id") int id){
+    public String estadoTrackDely(Model model, @RequestParam("id") int id, Authentication authentication){
+
+        Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
         Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(id);
 
         if(optionalPedidosPaciente.isPresent()){
             PedidosPaciente pedidosPaciente = optionalPedidosPaciente.get();
+
+            Usuario usuarioPedido = pedidosPaciente.getUsuario();
+
+
+
+            if(usuarioPedido != usuario || !pedidosPaciente.getTipo_de_pedido().equals("Web - Delivery") || pedidosPaciente.getEstado_del_pedido().equals("Pendiente") || pedidosPaciente.getEstado_del_pedido().equals("Por cancelar")){
+                return "redirect:/paciente/mispedidos";
+            }
+
             List<MedicamentosDelPedido> listaMedicamentosDely = medicamentosDelPedidoRepository.listaMedicamentosDely(id);
             List<String> listafotos = new ArrayList<>();
 
@@ -1560,11 +1741,20 @@ public class PacienteController {
         }
     }
     @GetMapping("/paciente/mispedidos/estadopedidoReco")
-    public String estadoTrackReco(Model model, @RequestParam("id") int id){
+    public String estadoTrackReco(Model model, @RequestParam("id") int id, Authentication authentication){
+
+        Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
         Optional<PedidosPacienteRecojo> optionalPedidosPacienteRecojo = pedidosPacienteRecojoRepository.findById(id);
 
         if(optionalPedidosPacienteRecojo.isPresent()){
             PedidosPacienteRecojo pedidosPacienteRecojo = optionalPedidosPacienteRecojo.get();
+
+            Usuario usuarioPedido = pedidosPacienteRecojo.getUsuario();
+
+            if(usuarioPedido != usuario || pedidosPacienteRecojo.getEstado_del_pedido().equals("Pendiente") || pedidosPacienteRecojo.getEstado_del_pedido().equals("Por cancelar")){
+                return "redirect:/paciente/mispedidos";
+            }
+
             List<MedicamentoRecojo> listaMedicamentosReco = medicamentosRecojoRepository.listaMedicamentosReco(id);
             List<String> listafotos = new ArrayList<>();
 
@@ -1585,11 +1775,20 @@ public class PacienteController {
         }
     }
     @GetMapping("/paciente/mispedidos/estadopedidoPreorden")
-    public String estadoTrackPreorden(Model model, @RequestParam("id") int id){
+    public String estadoTrackPreorden(Model model, @RequestParam("id") int id, Authentication authentication){
+
+        Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
         Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(id);
 
         if(optionalPedidosPaciente.isPresent()){
             PedidosPaciente pedidosPaciente = optionalPedidosPaciente.get();
+
+            Usuario usuarioPedido = pedidosPaciente.getUsuario();
+
+            if(usuarioPedido != usuario || !pedidosPaciente.getTipo_de_pedido().equals("Pre-orden") || pedidosPaciente.getEstado_del_pedido().equals("Pendiente") || pedidosPaciente.getEstado_del_pedido().equals("Por cancelar")){
+                return "redirect:/paciente/inicio#pre-ordenes";
+            }
+
             List<MedicamentosDelPedido> listaMedicamentosDely = medicamentosDelPedidoRepository.listaMedicamentosDely(id);
             List<String> listafotos = new ArrayList<>();
 

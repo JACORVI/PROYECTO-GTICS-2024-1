@@ -194,12 +194,11 @@ public class LoginController {
                     } else if (Character.isDigit(c)) {
                         hasDigit = true;
                     }
-
-                    // Si todas las condiciones se cumplen, no necesitamos seguir verificando
-                    if (hasUpper && hasLower && hasDigit) {
-                        password = encoder.encode(password);
-                        result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
-                    }
+                }
+                // Si todas las condiciones se cumplen, no necesitamos seguir verificando
+                if (hasUpper && hasLower && hasDigit) {
+                    password = encoder.encode(password);
+                    result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
                 }
             }
             if (result > 0) {
@@ -562,6 +561,7 @@ public class LoginController {
                 usuario.setContrasena("");
                 usuario.setCuenta_activada(0);
                 usuario.setEstado(1);
+                redirectAttributes.addFlashAttribute("msg", "Doctor creado exitosamente");
                 usuarioRepository.save(usuario);
 
                 return "redirect:/superadmin/Vista_Principal";
@@ -620,6 +620,7 @@ public class LoginController {
                 usuario.setCodigo_colegiatura("Sin-Codigo");
                 usuario.setRol(rol);
                 usuario.setContrasena("");
+                redirectAttributes.addFlashAttribute("msg", "Administrador creado exitosamente");
 
                 try {
                     usuario.setToken_recuperacion(util.GenerarToken()); // Token de ACTIVACION
@@ -636,7 +637,7 @@ public class LoginController {
                     redirectAttributes.addFlashAttribute("error", "Hubo un problema al registrar el usuario. Por favor, Intentelo de nuevo.");
                 }
 
-                return "redirect:/login";
+                return "redirect:/superadmin/Vista_Principal";
             }
         }
         return "redirect:/login";
@@ -699,11 +700,16 @@ public class LoginController {
                 }
                 // Si todas las condiciones se cumplen, no necesitamos seguir verificando
                 if (hasUpper && hasLower && hasDigit) {
+<<<<<<< HEAD
                     System.out.println("HOLAAAAA CONTRASEÑA VALIDA " + password);
                     password = encoder.encode(password);
                     System.out.println("HOLAAAAA CONTRASEÑA HASHEADA " + password);
                     result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
                     System.out.println("HOLAAAAA CONFIRMACION " + result);
+=======
+                    password = encoder.encode(password);
+                    result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
+>>>>>>> 3d5ea3bb59bc1141d7d95ec4c076f2f4621fba04
                 }
             }
             if (result > 0) {

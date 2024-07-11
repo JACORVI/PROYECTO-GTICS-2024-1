@@ -2,9 +2,6 @@ package com.example.webapp.repository;
 
 import com.example.webapp.entity.Carrito;
 import com.example.webapp.entity.CarritoId;
-import com.example.webapp.entity.Medicamentos;
-import com.example.webapp.entity.PedidosPaciente;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,8 +15,8 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
 
     @Query(value = "SELECT *\n" +
             "FROM gticsbd.carrito\n" +
-            "WHERE estado_de_compra != 'Registrado';", nativeQuery = true)
-    List<Carrito> listarCarrito();
+            "WHERE estado_de_compra != 'Registrado' and usuario_id_usuario = ?1", nativeQuery = true)
+    List<Carrito> listarCarrito(Integer usuid);
 
     @Query(value = "SELECT *\n" +
             "FROM gticsbd.carrito\n" +
@@ -72,7 +69,7 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
     List<Integer> idpedidoPorUsuIdDely(int id);
 
     @Query(value = "SELECT * FROM gticsbd.pedidos_paciente\n" +
-            "WHERE estado_del_pedido = 'Pendiente' AND usuario_id_usuario = ?\n" +
+            "WHERE estado_del_pedido = 'Por cancelar' AND usuario_id_usuario = ?\n" +
             "ORDER by idpedidos_paciente desc\n" +
             "LIMIT 1", nativeQuery = true)
     List<Integer> idpedidoPorUsuIdDelyMedicamentos(int id);
@@ -84,7 +81,7 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
     List<Integer> idpedidoPorUsuIdReco(int id);
 
     @Query(value = "SELECT * FROM gticsbd.pedidos_paciente_recojo\n" +
-            "WHERE estado_del_pedido = 'Pendiente' AND usuario_id_usuario = ?\n" +
+            "WHERE estado_del_pedido = 'Por cancelar' AND usuario_id_usuario = ?\n" +
             "ORDER by idpedidos_paciente_recojo desc\n" +
             "LIMIT 1", nativeQuery = true)
     List<Integer> idpedidoPorUsuIdRecoMedicamentos(int id);
@@ -94,8 +91,9 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
     @Query(value = "SELECT gticsbd.carrito.cantidad * gticsbd.medicamentos.precio_unidad AS total\n" +
             "FROM gticsbd.carrito\n" +
             "JOIN \n" +
-            "    gticsbd.medicamentos ON gticsbd.carrito.medicamentos_id_medicamentos = gticsbd.medicamentos.id_medicamentos;", nativeQuery = true)
-    List<Double> CantidadxPrecioUnitario();
+            "    gticsbd.medicamentos ON gticsbd.carrito.medicamentos_id_medicamentos = gticsbd.medicamentos.id_medicamentos " +
+            "WHERE gticsbd.carrito.usuario_id_usuario = ?1", nativeQuery = true)
+    List<Double> CantidadxPrecioUnitario(Integer usuario);
 
     @Transactional
     @Modifying
@@ -155,10 +153,20 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
             "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
     Integer idPedidoRegistrando(int id);
 
-    @Query(value = "SELECT idpedidos_paciente_recojo\n" +
+    @Query(value = "SELECT idpedidos_paciente\n" +
+            "FROM gticsbd.pedidos_paciente\n" +
+            "WHERE tipo_de_pedido = 'Web - Delivery' AND estado_del_pedido = 'Por cancelar' AND usuario_id_usuario = ?", nativeQuery = true)
+    List<Integer> listaPedidosPorCancelar1(int id);
+
+    @Query(value = "SELECT idpedidos_paciente\n" +
+            "FROM gticsbd.pedidos_paciente\n" +
+            "WHERE tipo_de_pedido = 'Pre-orden' AND estado_del_pedido = 'Por cancelar' AND usuario_id_usuario = ?", nativeQuery = true)
+    List<Integer> listaPedidosPorCancelar2(int id);
+
+    @Query(value = "SELECT idpedidos_paciente_recojo    \n" +
             "FROM gticsbd.pedidos_paciente_recojo\n" +
-            "WHERE estado_del_pedido = 'Registrando' AND usuario_id_usuario = ?", nativeQuery = true)
-    Integer idPedidoRegistrandoReco(int id);
+            "WHERE estado_del_pedido = 'Por cancelar' AND usuario_id_usuario = ?", nativeQuery = true)
+    List<Integer> listaPedidosPorCancelar3(int id);
 
     @Transactional
     @Modifying

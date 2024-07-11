@@ -49,8 +49,10 @@
         <br><br><br>
         <div class="main-content">
 
-            <div th:if="${msgError != null}" th:text="${msgError}" class="alert alert-danger" role="alert"></div>
-            <div th:if="${msgValido != null}" th:text="${msgValido}" class="alert alert-success" role="alert"></div>
+            <div th:if="${msgError != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <p th:text="${msgError}"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
 
             <div class="row custom-shadow-border with-padding">
                 <div class="col-lg-4">
@@ -244,6 +246,7 @@
     });
 </script>
 
+<script src="/assets/paciente/js/alert.js"></script>
 
 <!-- Include all js compiled plugins (below), or include individual files as needed -->
 
