@@ -1,38 +1,51 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-        <!-- meta data -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Pildo Pharm</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- meta data -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pildo Pharm</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-        <link rel="icon" type="image/x-icon" th:href="@{/assets/paciente/img/logo.png}" />
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/paciente/img/logo.png}" />
 
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
-        <link rel="stylesheet" th:href="@{/assets/paciente/css/modal.css}">
-        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/font-awesome.min.css}">
-        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/linearicons.css}">
-        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/animate.css}">
-        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.carousel.min.css}">
-        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.theme.default.min.css}">
-        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootstrap.min.css}">
-        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootsnav.css}">
-        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/style.css}">
-        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/responsive.css}">
-        <link rel="stylesheet" th:href="@{/assets/paciente/css/medicamentos.css}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/modal.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/linearicons.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/animate.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.theme.default.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootsnav.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/responsive.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/medicamentos.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/style.css}">
 
 
-        <!--Para la paginacion-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" charset="utf-8"></script>
+    <!--Para la paginacion-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" charset="utf-8"></script>
 
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCSkZALDDeauhgE9WHeS52ssPOo5xRLZoY&libraries=places"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.7.2/css/all.css"></script>
     <script th:inline="javascript">
         $(document).ready(function() {
             // Función para manejar el click del enlace y hacer la solicitud AJAX
@@ -73,71 +86,71 @@
     </script>
 </head>
 <body>
-    -<!--[if lte IE 9]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-    <![endif]-->
+-<!--[if lte IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
 
-    <!--welcome-hero start -->
-    <header id="home" class="welcome-hero">
-        <div th:replace="~{layout/NavbarPaciente :: navegacion}"></div>
-    </header><!--/.welcome-hero-->
-    <!--welcome-hero end -->
+<!--welcome-hero start -->
+<header id="home" class="welcome-hero">
+    <div th:replace="~{layout/NavbarPaciente :: navegacion}"></div>
+</header><!--/.welcome-hero-->
+<!--welcome-hero end -->
 
-    <br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br>
 
-    <!--new-arrivals start -->
-    <section class="py-8">
-        <div class="containernav px-4 px-lg-5 mt-5">
-            <div class="section-header">
-                <h2 th:if="${categoria==null and orden==null}">Lista de Medicamentos</h2>
-                <h2 th:if="${categoria!=null or orden!=null}" style="margin-bottom: 2vh;">Lista de Medicamentos</h2>
-                <h3 th:if="${categoria!=null and orden!=null}" th:text="${categoria + ' de ' + orden}" style="margin-bottom: 1vh;"></h3>
-                <h3 th:if="${categoria!=null and orden==null}" th:text="${categoria}" style="margin-bottom: 1vh;"></h3>
-                <h3 th:if="${categoria==null and orden!=null}" th:text="${orden}" style="margin-bottom: 1vh;"></h3>
-            </div><!--/.section-header-->
-            <br><br>
-            <div style="display: flex">
-                <form th:if="${principal == 1}" class="d-flex" th:action="@{/paciente/medicamentos/buscador}" method="post" role="search" style="width: 45%;">
-                    <input name="searchField" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar medicamento..." aria-label="Search">
-                    <button class="btn btn-outline-warning" style="border: none" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                    </svg></button>
-                </form>
-                <form th:if="${principal == 0}" class="d-flex" th:action="@{/paciente/medicamentos/buscador}" method="post" role="search" style="width: 35%; margin-right: 1vh">
-                    <input name="searchField" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar medicamento..." aria-label="Search">
-                    <button class="btn btn-outline-warning" style="border: none" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                    </svg></button>
-                </form>
-                <a th:if="${principal == 0}" th:href="@{/paciente/medicamentos}" class="btn btn-outline-warning" type="button">Ver lista completa</a>
-                <form class="d-flex" th:action="@{/paciente/medicamentos/filtrar}" method="post" role="search" style="width: 40%; margin-left: 10vh">
-                    <select name="filtroCategoria" style="margin-left: 2vh; width: 45%; font-size: large" class="form-select" aria-label="Default select example">
-                        <option value=""><-- categorias --></option>
-                        <option th:each="categoria : ${listaCategorias}" th:value="${categoria}" th:text="${categoria}"></option>
-                    </select>
-                    <select name="filtroOrden" style="margin-left: 1vh; width: 50%; font-size: large" class="form-select" aria-label="Default select example">
-                        <option value=""><-- ordenar por --></option>
-                        <option value="1">mayor a menor precio</option>
-                        <option value="2">menor a mayor precio</option>
-                        <option value="3">antiguo a nuevo</option>
-                        <option value="4">A -> Z</option>
-                        <option value="5">Z -> A</option>
-                    </select>
-                    <button style="margin-left: 1vh; font-size: large" class="btn btn-outline-warning" type="submit">Filtrar</button>
-                </form>
-            </div>
-            <br><br>
-            <div th:if="${listaMedicamentos.isEmpty()}">
-                <br>
-                <br>
-                <br>
-                <h3 style="align-content: center; justify-content: center; justify-self: center; align-self: center">Disculpe, el medicamento buscado no se encuentra en nuestro catálogo.</h3>
-                <br>
-                <br>
-                <br>
-            </div>
-            <div class="new-arrivals-content">
-                <div class="row">
+<!--new-arrivals start -->
+<section class="py-8">
+    <div class="containernav px-4 px-lg-5 mt-5">
+        <div class="section-header">
+            <h2 th:if="${categoria==null and orden==null}">Lista de Medicamentos</h2>
+            <h2 th:if="${categoria!=null or orden!=null}" style="margin-bottom: 2vh;">Lista de Medicamentos</h2>
+            <h3 th:if="${categoria!=null and orden!=null}" th:text="${categoria + ' de ' + orden}" style="margin-bottom: 1vh;"></h3>
+            <h3 th:if="${categoria!=null and orden==null}" th:text="${categoria}" style="margin-bottom: 1vh;"></h3>
+            <h3 th:if="${categoria==null and orden!=null}" th:text="${orden}" style="margin-bottom: 1vh;"></h3>
+        </div><!--/.section-header-->
+        <br><br>
+        <div style="display: flex">
+            <form th:if="${principal == 1}" class="d-flex" th:action="@{/paciente/medicamentos/buscador}" method="post" role="search" style="width: 45%;">
+                <input name="searchField" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar medicamento..." aria-label="Search">
+                <button class="btn btn-outline-warning" style="border: none" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg></button>
+            </form>
+            <form th:if="${principal == 0}" class="d-flex" th:action="@{/paciente/medicamentos/buscador}" method="post" role="search" style="width: 35%; margin-right: 1vh">
+                <input name="searchField" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar medicamento..." aria-label="Search">
+                <button class="btn btn-outline-warning" style="border: none" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg></button>
+            </form>
+            <a th:if="${principal == 0}" th:href="@{/paciente/medicamentos}" class="btn btn-outline-warning" type="button">Ver lista completa</a>
+            <form class="d-flex" th:action="@{/paciente/medicamentos/filtrar}" method="post" role="search" style="width: 40%; margin-left: 10vh">
+                <select name="filtroCategoria" style="margin-left: 2vh; width: 45%; font-size: large" class="form-select" aria-label="Default select example">
+                    <option value=""><-- categorias --></option>
+                    <option th:each="categoria : ${listaCategorias}" th:value="${categoria}" th:text="${categoria}"></option>
+                </select>
+                <select name="filtroOrden" style="margin-left: 1vh; width: 50%; font-size: large" class="form-select" aria-label="Default select example">
+                    <option value=""><-- ordenar por --></option>
+                    <option value="1">mayor a menor precio</option>
+                    <option value="2">menor a mayor precio</option>
+                    <option value="3">antiguo a nuevo</option>
+                    <option value="4">A -> Z</option>
+                    <option value="5">Z -> A</option>
+                </select>
+                <button style="margin-left: 1vh; font-size: large" class="btn btn-outline-warning" type="submit">Filtrar</button>
+            </form>
+        </div>
+        <br><br>
+        <div th:if="${listaMedicamentos.isEmpty()}">
+            <br>
+            <br>
+            <br>
+            <h3 style="align-content: center; justify-content: center; justify-self: center; align-self: center">Disculpe, el medicamento buscado no se encuentra en nuestro catálogo.</h3>
+            <br>
+            <br>
+            <br>
+        </div>
+        <div class="new-arrivals-content">
+            <div class="row">
                 <div class="col-md-3 col-sm-4" id="contenidopag" th:each="medicamentos, info : ${listaMedicamentos}" >
                     <div class="single-new-arrival" th:if="${medicamentos.inventario > 25}" style="margin-right: 7px">
                         <div class="single-new-arrival-bg">
@@ -198,161 +211,339 @@
                         <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
                     </div>
                 </div>
-                </div>
             </div>
-            <!-- Paginacion-->
-            <div th:if="${cantidadMedicamentos > 12}" class="pagination  d-flex justify-content-center" style="padding: 50px; font-size: xxx-large;">
+        </div>
+        <!-- Paginacion-->
+        <div th:if="${cantidadMedicamentos > 12}" class="pagination  d-flex justify-content-center" style="padding: 50px; font-size: xxx-large;">
+        </div>
+    </div><!--/.containernav-->
+
+</section><!--/.new-arrivals-->
+<!--new-arrivals end -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 700px">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información del Medicamento</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div><!--/.containernav-->
-
-    </section><!--/.new-arrivals-->
-    <!--new-arrivals end -->
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" style="width: 700px">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Información del Medicamento</h5>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-body" id="modalBody" style="display: flex">
+                <div style="width: 65%" id="imagen-medicamento">
                 </div>
-                <div class="modal-body" id="modalBody" style="display: flex">
-                    <div style="width: 65%" id="imagen-medicamento">
-                    </div>
-                    <div style="width: 50%; display: flex; flex-direction: column">
-                        <h2 style="margin-bottom: 10px; font-size: xxx-large" id="nombre-medicamento"></h2>
-                        <h3 style="font-weight: bolder; font-size: x-large" id="precio-medicamento"></h3>
-                        <br>
-                        <br>
-                        <p style="opacity: 0.8; font-size: large" id="descripcion-medicamento"></p>
-                    </div>
+                <div style="width: 50%; display: flex; flex-direction: column">
+                    <h2 style="margin-bottom: 10px; font-size: xxx-large" id="nombre-medicamento"></h2>
+                    <h3 style="font-weight: bolder; font-size: x-large" id="precio-medicamento"></h3>
+                    <br>
+                    <br>
+                    <p style="opacity: 0.8; font-size: large" id="descripcion-medicamento"></p>
                 </div>
             </div>
         </div>
     </div>
-    <br><br><br><br><br><br><br>
-    <!--footer start-->
-    <footer id="footer"  class="footer">
-        <div class="containernav">
-            <div class="hm-footer-copyright text-center">
-                <div class="footer-social">
-                    <a href="#"><i class="fa fa-facebook"></i></a>
-                    <a href="#"><i class="fa fa-instagram"></i></a>
-                </div>
-                <p>
-                    &copy;copyright. designed and developed by <a href="https://www.themesine.com/">pildopharm</a>
-                </p><!--/p-->
-            </div><!--/.text-center-->
-        </div><!--/.containernav-->
-
-        <div id="scroll-Top">
-            <div class="return-to-top">
-                <i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+</div>
+<br><br><br><br><br><br><br>
+<!--footer start-->
+<footer id="footer"  class="footer">
+    <div class="containernav">
+        <div class="hm-footer-copyright text-center">
+            <div class="footer-social">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
             </div>
+            <p>
+                &copy;copyright. designed and developed by <a href="https://www.themesine.com/">pildopharm</a>
+            </p><!--/p-->
+        </div><!--/.text-center-->
+    </div><!--/.containernav-->
 
-        </div><!--/.scroll-Top-->
 
-    </footer><!--/.footer-->
-    <!--footer end-->
 
-    <script th:src="@{/assets/paciente/js/modal.js}"></script>
-    <!-- Script de paginacion-->
-    <script type="text/javascript">
-        function getPageList(totalPages, page, maxLength) {
-            function range(start, end) {
-                return Array.from(Array(end - start + 1), (_, i) => i + start);
-            }
 
-            var sideWidth = maxLength < 9 ? 1 : 2;
-            var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
-            var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+    <button class="chatbot-toggler">
+        <span class="material-symbols-rounded">mode_comment</span>
+        <span class="material-symbols-outlined">close</span>
+    </button>
+    <div class="chatbot">
+        <header>
+            <h2>Chatbot</h2>
+            <span class="close-btn material-symbols-outlined">close</span>
+        </header>
+        <ul class="chatbox">
+            <li class="chat incoming">
+                <img th:src="@{/assets/paciente/img/logo.png}" alt="Logo">
+                <p>Hola paciente 👋<br>¿Cómo puedo ayudarte?</p>
+            </li>
+            <li class="chat outgoing">
+                <p>Quiero generar un pedido</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>¿Qué producto está buscando?</p>
+            </li>
+            <li class="chat outgoing">
+                <p>Panadol antigripal</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Mira estos productos relacionados con tu búsqueda <br><br> <button type="button" class="btn btn-secondary">Ver lista</button></p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>¿Deseas más información sobre alguno de los productos de la lista?</p>
+            </li>
+            <li class="chat outgoing">
+                <p>Si</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>¿Sobre qué producto? Seleccione el producto que esta interesad@</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p><button type="button" class="btn btn-secondary">Producto 1</button></p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p><button type="button" class="btn btn-secondary">Producto 2</button></p>
+            </li>
+            <li class="chat outgoing">
+                <p>Producto 2</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>El producto 2 es ...</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>¿Desea comprar el producto?</p>
+            </li>
+            <li class="chat outgoing">
+                <p>Si</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>El producto se encuentra en stock. Indicame la cantidad que desee comprar</p>
+            </li>
+            <li class="chat outgoing">
+                <p>2</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>A continuación le pedire algunos datos para seguir con la compra</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Escribame su nombre completo</p>
+            </li>
+            <li class="chat outgoing">
+                <p>Javier</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Escribame su apellido</p>
+            </li>
+            <li class="chat outgoing">
+                <p>Perez</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Escribame su seguro</p>
+            </li>
+            <li class="chat outgoing">
+                <p>XXXXXX</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Escribame su dirección de entrega</p>
+            </li>
+            <li class="chat outgoing">
+                <p> Av. Universitaria 1801</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Escribame el nombre del distrito</p>
+            </li>
+            <li class="chat outgoing">
+                <p> San Miguel</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Escribame su teléfono</p>
+            </li>
+            <li class="chat outgoing">
+                <p>987654321</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Escribame su DNI</p>
+            </li>
+            <li class="chat outgoing">
+                <p>71589427</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>El medicamento solicitado requiere receta médica. Escribame el nombre de su doctor</p>
+            </li>
+            <li class="chat outgoing">
+                <p>Pedro Galvez</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Adjuntame la imagen de la receta en físico. Use el ícono del clip que esta en la parte inferior del chat</p>
+            </li>
+            <li class="chat outgoing">
+                <p><a href="#" style="color: white;">receta_medica.png</a></p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Para finalizar, indicame la hora de entrega estimada para que recibas el producto</p>
+            </li>
+            <li class="chat outgoing">
+                <p>3 pm en adelante</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Revisa tu resumen de orden de compra <br><br> <button type="button" class="btn btn-secondary">Ver resumen</button></p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>¿Esta conforme con la información? Si esta conforme se generará la orden del pedido</p>
+            </li>
+            <li class="chat outgoing">
+                <p>Estoy conforme</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Tu orden se ha generado. Toda la información enviada será revisada por un farmacista profesional.</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Si desea ver el estado de su compra lo puedo hacer en la sección “Ver mis pedidos”</p>
+            </li>
+            <li class="chat incoming">
+                <img src="img/logo.png">
+                <p>Gracias por atenderte en pildopharm</p>
+            </li>
+        </ul>
 
-            if (totalPages <= maxLength) {
-                return range(1, totalPages);
-            }
+        <div class="chat-input">
+            <textarea placeholder="Enter a message..." spellcheck="false" required></textarea>
+            <span id="send-btn" class="material-symbols-rounded">send</span>
+        </div>
 
-            if (page <= maxLength - sideWidth - 1 - rightWidth) {
-                return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
-            }
+    </div>
 
-            if (page >= totalPages - sideWidth - 1 - rightWidth) {
-                return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
-            }
-            return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+    </div>
+    <div id="scroll-Top">
+        <div class="return-to-top">
+            <i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+        </div>
+
+    </div><!--/.scroll-Top-->
+
+</footer><!--/.footer-->
+<!--footer end-->
+
+<script th:src="@{/assets/paciente/js/modal.js}"></script>
+<!-- Script de paginacion-->
+<script type="text/javascript">
+    function getPageList(totalPages, page, maxLength) {
+        function range(start, end) {
+            return Array.from(Array(end - start + 1), (_, i) => i + start);
         }
 
-        $(function () {
-            var numberOfItems = $("#contenido").length;
-            var limitPerPage = 12; //How many card items visible per a page
-            var totalPages = Math.ceil(numberOfItems / limitPerPage);
-            var paginationSize = 6; //How many page elements visible in the pagination
-            var currentPage;
+        var sideWidth = maxLength < 9 ? 1 : 2;
+        var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+        var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
 
-            function showPage(whichPage) {
-                if (whichPage < 1 || whichPage > totalPages) return false;
+        if (totalPages <= maxLength) {
+            return range(1, totalPages);
+        }
 
-                currentPage = whichPage;
+        if (page <= maxLength - sideWidth - 1 - rightWidth) {
+            return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+        }
 
-                $("#contenido").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+        if (page >= totalPages - sideWidth - 1 - rightWidth) {
+            return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+        }
+        return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+    }
 
-                $(".pagination li").slice(1, -1).remove();
+    $(function () {
+        var numberOfItems = $("#contenido").length;
+        var limitPerPage = 12; //How many card items visible per a page
+        var totalPages = Math.ceil(numberOfItems / limitPerPage);
+        var paginationSize = 6; //How many page elements visible in the pagination
+        var currentPage;
 
-                getPageList(totalPages, currentPage, paginationSize).forEach(item => {
-                    $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
-                        .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
-                        .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
-                });
+        function showPage(whichPage) {
+            if (whichPage < 1 || whichPage > totalPages) return false;
 
-                $(".previous-page").toggleClass("disable", currentPage === 1);
-                $(".next-page").toggleClass("disable", currentPage === totalPages);
-                return true;
-            }
+            currentPage = whichPage;
 
-            $(".pagination").append(
-                $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
-                $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
-            );
+            $("#contenido").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
 
-            $("#contenido").show();
-            showPage(1);
+            $(".pagination li").slice(1, -1).remove();
 
-            $(document).on("click", ".pagination li.current-page:not(.active)", function () {
-                return showPage(+$(this).text());
+            getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+                    .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                    .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
             });
 
-            $(".next-page").on("click", function () {
-                return showPage(currentPage + 1);
-            });
+            $(".previous-page").toggleClass("disable", currentPage === 1);
+            $(".next-page").toggleClass("disable", currentPage === totalPages);
+            return true;
+        }
 
-            $(".previous-page").on("click", function () {
-                return showPage(currentPage - 1);
-            });
+        $(".pagination").append(
+            $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+            $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+        );
+
+        $("#contenido").show();
+        showPage(1);
+
+        $(document).on("click", ".pagination li.current-page:not(.active)", function () {
+            return showPage(+$(this).text());
         });
-    </script>
 
-    <!-- Include all js compiled plugins (below), or include individual files as needed -->
+        $(".next-page").on("click", function () {
+            return showPage(currentPage + 1);
+        });
 
-    <script src="/assets/paciente/js/jquery.js"></script>
+        $(".previous-page").on("click", function () {
+            return showPage(currentPage - 1);
+        });
+    });
+</script>
 
-    <!--modernizr.min.js-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<!-- Include all js compiled plugins (below), or include individual files as needed -->
 
-    <!--bootstrap.min.js-->
-    <script src="/assets/paciente/js/bootstrap.min.js"></script>
+<script src="/assets/paciente/js/jquery.js"></script>
 
-    <!-- bootsnav js -->
-    <script src="/assets/paciente/js/bootsnav.js"></script>
+<!--modernizr.min.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 
-    <!--owl.carousel.js-->
-    <script src="/assets/paciente/js/owl.carousel.min.js"></script>
+<!--bootstrap.min.js-->
+<script src="/assets/paciente/js/bootstrap.min.js"></script>
 
+<!-- bootsnav js -->
+<script src="/assets/paciente/js/bootsnav.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-
-
-    <!--Custom JS-->
-    <script src="/assets/paciente/js/custom.js"></script>
+<!--owl.carousel.js-->
+<script src="/assets/paciente/js/owl.carousel.min.js"></script>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+
+<!--Custom JS-->
+<script src="/assets/paciente/js/custom.js"></script>
+
+<script th:src="@{/assets/paciente/js/script.js}" defer></script>
 </body>
 </html>

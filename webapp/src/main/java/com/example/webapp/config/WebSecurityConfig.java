@@ -66,7 +66,7 @@ public class WebSecurityConfig {
                             response.sendRedirect("/superadmin/");
                         }
                         if (rol.equals("Farmacista")) {
-                            response.sendRedirect("/farmacista/nuevopedido");
+                            response.sendRedirect("/farmacista/medicamentos");
                         }
                         if (rol.equals("Admin")) {
                             response.sendRedirect("/admin/paginainicio");

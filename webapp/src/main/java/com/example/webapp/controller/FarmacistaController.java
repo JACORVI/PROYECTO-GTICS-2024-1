@@ -1,96 +1,150 @@
 package com.example.webapp.controller;
 import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
-
-import java.sql.Time;
-import java.time.LocalTime;
-import java.util.List;
-
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
 @Controller
-@RequestMapping("/farmacista")
 public class FarmacistaController {
-    private static final int USUARIO_ID_USUARIO = 11;
-    @Autowired
-    private PedidosPacienteRepository1 pedidoPacienteRepository1;
-    @Autowired
-    private PedidosPacienteRepository pedidoRepository;
-    @GetMapping("/nuevopedido")
-    public String Pedidos(Model model) {
 
-        model.addAttribute("pedido", new PedidosPaciente());
-        return "farmacista/nuevo_pedido";
+    /*Variables Final de los repository*/
+    final
+    MedicamentosRepository medicamentosRepository;
+    UsuarioRepository usuarioRepository;
+    SedeRepository sedeRepository;
+    PedidosPacienteRepository pedidosPacienteRepository;
+    CarritoRepository carritoRepository;
+    PedidosPacienteRecojoRepository pedidosPacienteRecojoRepository;
+    MedicamentosRecojoRepository medicamentosRecojoRepository;
+    MedicamentosDelPedidoRepository medicamentosDelPedidoRepository;
+    SeguroRepository seguroRepository;
+    DistritoRepository distritoRepository;
+
+    public FarmacistaController(MedicamentosRepository medicamentosRepository,
+                              UsuarioRepository usuarioRepository,
+                              SedeRepository sedeRepository,
+                              PedidosPacienteRepository pedidosPacienteRepository,
+                              CarritoRepository carritoRepository,
+                              PedidosPacienteRecojoRepository pedidosPacienteRecojoRepository,
+                              MedicamentosRecojoRepository medicamentosRecojoRepository,
+                              MedicamentosDelPedidoRepository medicamentosDelPedidoRepository,
+                              SeguroRepository seguroRepository,
+                              DistritoRepository distritoRepository) {
+
+        this.medicamentosRepository = medicamentosRepository;
+        this.sedeRepository = sedeRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.pedidosPacienteRepository = pedidosPacienteRepository;
+        this.carritoRepository = carritoRepository;
+        this.pedidosPacienteRecojoRepository = pedidosPacienteRecojoRepository;
+        this.medicamentosRecojoRepository = medicamentosRecojoRepository;
+        this.medicamentosDelPedidoRepository = medicamentosDelPedidoRepository;
+        this.seguroRepository = seguroRepository;
+        this.distritoRepository = distritoRepository;
     }
+    public static int numeroAleatorioEnRango(int minimo, int maximo) {
+        return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
+    }
+    /*---------------------------------------*/
 
-    @PostMapping("/pedidoconreceta/guardar")
-    public String GuardarPedidoConReceta(Model model,
-                                         @RequestParam(name = "hora_de_entrega")
-                                         @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime horaDeEntrega,
-                                         PedidosPaciente obj, RedirectAttributes attributes) {
-        try {
+    @GetMapping("/farmacista/medicamentos")
+    public String listarMedicamentos(Model model, Authentication authentication){
 
-            // Crear un objeto Usuario y establecer su ID
-            Usuario usuario = new Usuario();
-            usuario.setId(USUARIO_ID_USUARIO);
+        Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
+        int usuid = usuario.getId();
 
-            // Establecer el usuario asociado con el pedido
-            obj.setUsuario(usuario);
-            obj.setTipo_de_pedido("CON RECETA");
-            obj.setHora_de_entrega(horaDeEntrega.toString()); // ver esta parte
-            obj = pedidoPacienteRepository1.save(obj);
-
-            if (obj.getId() > 0) {
-                attributes.addFlashAttribute("success", "Pedido con receta registrado!");
-                return "redirect:/farmacista/nuevopedido";
-            }
-
-            model.addAttribute("error", "No se pudo guardar pedido");
-        } catch (Exception ex) {
-            model.addAttribute("error", ex.getMessage());
+        Integer idpedido = carritoRepository.idPedidoRegistrando(usuid);
+        if(idpedido != null){
+            carritoRepository.borrarMedicamentosAlCancelar(usuid, idpedido);
+            carritoRepository.cancelarPedidoDely(usuid);
         }
-        model.addAttribute("pedido", obj);
-        return "farmacista/nuevo_pedido";
-    }
 
-    @PostMapping("/pedidosinreceta/guardar")
-    public String GuardarPedidoSinReceta(Model model,
-                                         PedidosPaciente obj, RedirectAttributes attributes) {
-        try {
-            // Crear un objeto Usuario y establecer su ID
-            Usuario usuario = new Usuario();
-            usuario.setId(USUARIO_ID_USUARIO);
+        carritoRepository.cancelarPedidoReco(usuid);
+        String banco = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        String numpedido = "";
 
-            // Establecer el usuario asociado con el pedido
-            obj.setUsuario(usuario);
-            obj.setTipo_de_pedido("SIN RECETA");
-            obj = pedidoPacienteRepository1.save(obj);
+        List<Medicamentos> lista = medicamentosRepository.buscarMedicamentoGeneral(0);
+        List<String> listafotos = new ArrayList<>();
 
-            if (obj.getId() > 0) {
-                attributes.addFlashAttribute("success", "Pedido sin receta registrado!");
-                return "redirect:/farmacista/nuevopedido";
-            }
-
-            model.addAttribute("error", "No se pudo guardar pedido");
-        } catch (Exception ex) {
-            model.addAttribute("error", ex.getMessage());
+        for (int i = 0; i < lista.size(); i++) {
+            byte[] fotoBytes = lista.get(i).getFoto();
+            String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+            listafotos.add(fotoBase64);
         }
-        model.addAttribute("pedido", obj);
-        return "farmacista/nuevo_pedido";
-    }
-    //Listar pedidos hechos/venta
-    @GetMapping("/pedidos")
-    public String listarPedidos(Model model) {
-        List<PedidosPaciente> listaPedidos = pedidoRepository.findAll();
-        model.addAttribute("listaPedidos", listaPedidos);
-        return "farmacista/lista_pedido"; // Reemplaza "nombre_de_tu_plantilla" con el nombre de tu plantilla HTML/Thymeleaf
+
+        model.addAttribute("listaMedicamentos",lista);
+        model.addAttribute("listaFotos", listafotos);
+        model.addAttribute("cantidadMedicamentos",lista.size());
+
+
+        //generador de numero de pedidos
+        List<String> estadosdecompraporId = carritoRepository.estadosDeCompraPorUsuarioId(usuid);
+        boolean soloEstadosRegistrados = true;
+        for (String palabra : estadosdecompraporId) {
+            if (palabra!=null && palabra.equals("Comprando")) {
+                soloEstadosRegistrados = false;
+                break;
+            }
+        }
+        if(estadosdecompraporId.isEmpty() || soloEstadosRegistrados){
+            boolean i = true;
+            List<String> lista1 = pedidosPacienteRepository.numerosDePedidosDely();
+            List<String> lista2 = pedidosPacienteRecojoRepository.numerosDePedidosReco();
+            List<String> lista3 = carritoRepository.numerosDePedidosCarrito();
+            int duplicado = 0;
+            while (i){
+                for (int x = 0; x < 12; x++) {
+                    if (x > 0 && x % 4 == 0) {
+                        String guion = "-";
+                        numpedido += guion;
+                    }
+                    int indiceAleatorio = numeroAleatorioEnRango(0, banco.length() - 1);
+                    char caracterAleatorio = banco.charAt(indiceAleatorio);
+                    numpedido += caracterAleatorio;
+                }
+                for (String palabra : lista1) {
+                    if (palabra.equals(numpedido)) {
+                        duplicado++;
+                    }
+                }
+                for (String palabra : lista2) {
+                    if (palabra.equals(numpedido)) {
+                        duplicado++;
+                    }
+                }
+                for (String palabra : lista3) {
+                    if (palabra.equals(numpedido)) {
+                        duplicado++;
+                    }
+                }
+                if(duplicado == 0){
+                    break;
+                }
+            }
+        }
+        model.addAttribute("numPedido",numpedido);
+        int principal = 1;
+        model.addAttribute("principal", principal);
+
+        List<String> listaCategorias = medicamentosRepository.listaCategorias();
+        Set<String> setCategorias = new HashSet<>(listaCategorias);
+        List<String> listaSinDuplicados = new ArrayList<>(setCategorias);
+        model.addAttribute("listaCategorias", listaSinDuplicados);
+
+        return "farmacista/medicamentos";
     }
 }

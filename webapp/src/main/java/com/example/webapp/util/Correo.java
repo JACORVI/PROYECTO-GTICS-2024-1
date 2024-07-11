@@ -82,7 +82,7 @@ public class Correo {
                 + "    <center>\n"
                 + "        <div style='width: 600px; text-align: left; color: #333; font-family: Arial, sans-serif; font-size: 16px;'>\n"
                 + "            <div style='background-color: #0f99ab; padding: 20px;'>\n"
-                + "                <img src='https://www.example.com/logo.png' alt='Logo' style='width: 100px; height: auto;' />\n"
+                + "                <img src='https://i.postimg.cc/xC1W4t9j/artwork.png' alt='Logo' style='width: 100px; height: auto;' />\n"
                 + "                <h1 style='color: #fff; font-size: 24px;'>REESTABLECER CONTRASEÑA: PildoPharm</h1>\n"
                 + "            </div>\n"
                 + "            <div style='padding: 20px; background-color: #f4f4f4;'>\n"
@@ -103,7 +103,7 @@ public class Correo {
 
         cuerpo = cuerpo.replaceAll("@@_URL_@@", url);
         cuerpo = cuerpo.replaceAll("@@_NOMBRES_COMPLETOS_@@", obj.getNombres() + " " + obj.getApellidos());
-        cuerpo = cuerpo.replaceAll("@@_MINUTES_RECUPERAR_@@", "10"); // 10 minutos
+        cuerpo = cuerpo.replaceAll("@@_MINUTES_RECUPERAR_@@", "2"); // 10 minutos
 
         return cuerpo;
     }
