@@ -700,16 +700,16 @@ public class LoginController {
                 }
                 // Si todas las condiciones se cumplen, no necesitamos seguir verificando
                 if (hasUpper && hasLower && hasDigit) {
-<<<<<<< HEAD
+
                     System.out.println("HOLAAAAA CONTRASEÑA VALIDA " + password);
                     password = encoder.encode(password);
                     System.out.println("HOLAAAAA CONTRASEÑA HASHEADA " + password);
                     result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
                     System.out.println("HOLAAAAA CONFIRMACION " + result);
-=======
+
                     password = encoder.encode(password);
                     result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
->>>>>>> 3d5ea3bb59bc1141d7d95ec4c076f2f4621fba04
+
                 }
             }
             if (result > 0) {
