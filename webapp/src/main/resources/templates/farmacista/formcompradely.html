@@ -32,29 +32,31 @@
     </header>
     <div class="row">
         <div class="container px-4 px-lg-5 mt-5">
-            <h1>Formulario Registro - Delivery</h1>
+            <h1>Formulario Registro del Pedido - Pago con efectivo</h1>
             <br>
-            <form method="post" style="font-size: large; font-weight: bold;" th:action="@{'/farmacista/guardarDely'}" th:object="${pedidosPaciente}" enctype="multipart/form-data">
+            <form method="post" style="font-size: large; font-weight: bold;" th:action="@{'/farmacista/guardarPagoEfectivo'}" th:object="${pedidosPacienteRecojo}">
                 <div class="mb-3">
                     <label class="form-label">Nombres del paciente</label>
-                    <input class="form-control" type="text" th:value="${nombres}" disabled>
+                    <input class="form-control" type="text" th:field="*{nombre_paciente}" style="margin-bottom: 0">
+                    <div th:if="${nombreError != null}" th:text="${nombreError}" style="color: red; font-size: small"></div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Apellidos del paciente</label>
-                    <input class="form-control" type="text" th:value="${apellidos}" disabled>
+                    <input class="form-control" type="text" th:field="*{apellido_paciente}" style="margin-bottom: 0">
+                    <div th:if="${apellidoError != null}" th:text="${apellidoError}" style="color: red; font-size: small"></div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Numero de DNI</label>
-                    <input class="form-control" type="text" th:value="${dni}" disabled>
+                    <label class="form-label">Edad</label>
+                    <input class="form-control" type="number" th:field="*{dni}" style="margin-bottom: 0">
+                    <div th:if="${edadError != null}" th:text="${edadError}" style="color: red; font-size: small"></div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Seguro</label>
-                    <input class="form-control" type="text" th:value="${seguro}" disabled>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Numero de celular</label>
-                    <input class="form-control" type="number" th:field="*{telefono}" style="margin-bottom: 0">
-                    <div th:if="${telefonoError != null}" th:text="${telefonoError}" style="color: red; font-size: small"></div>
+                    <label class="form-label">Seguro del Paciente</label>
+                    <select class="form-select" aria-label="Default select example" th:field="*{seguro}" style="margin-bottom: 0">
+                        <option value="">-- Seleccione una Opcion --</option>
+                        <option th:each="seguro : ${listaseguros}" th:value="${seguro.nombre}"  th:text="${seguro.nombre}"></option>
+                    </select>
+                    <div th:if="${seguroError != null}" th:text="${seguroError}" style="color: red; font-size: small"></div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Doctor que lo/la atendió</label>
@@ -65,41 +67,9 @@
                     </select>
                     <div th:if="${medicoError != null}" th:text="${medicoError}" style="color: red; font-size: small"></div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Foto de la receta en dado caso tenga una</label>
-                    <input class="form-control" type="file" id="formFile" name="foto1" style="margin-bottom: 0" accept="image/*">
-                    <div th:if="${fotoError != null}" th:text="${fotoError}" style="color: red; font-size: small"></div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Dirección de la entrega</label>
-                    <input class="form-control" type="text" th:field="*{direccion}" th:classappend="${#fields.hasErrors('direccion')?'is-invalid':''}" style="margin-bottom: 0">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Distrito de la entrega</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{distrito}" style="margin-bottom: 0">
-                        <option value="">-- Seleccione una opción --</option>
-                        <option th:each="distrito : ${listaDistritos}" th:value="${distrito.nombre}"  th:text="${distrito.nombre}"></option>
-                    </select>
-                    <div th:if="${distritoError != null}" th:text="${distritoError}" style="color: red; font-size: small"></div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Hora de Entrega</label>
-                    <input class="form-control" type="time" th:field="*{hora_de_entrega}" th:classappend="${#fields.hasErrors('hora_de_entrega')?'is-invalid':''}" style="margin-bottom: 0">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('hora_de_entrega')}" th:errors="*{hora_de_entrega}"></div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">¿Desea recibir un aviso entre 5 y 10 dias antes acerca del vencimiento de sus medicamentos?</label>
-                    <select class="form-select" aria-label="Default select example" th:field="*{aviso_vencimiento}" style="margin-bottom: 0">
-                        <option value="">-- Seleccione una opción --</option>
-                        <option th:value="${'No'}">No</option>
-                        <option th:value="${'Si'}">Si</option>
-                    </select>
-                    <div th:if="${avisoError != null}" th:text="${avisoError}" style="color: red; font-size: small"></div>
-                </div>
                 <br>
-                <button type="submit" class="btn btn-secondary" style="font-size: large; margin: 0">Finalizar la solicitud de compra</button>
-                <div class="back-to-shop"><a style="font-size: x-large; font-weight: bold" th:href="@{/farmacista/cancelarRegistroPedidoDely}">&leftarrow;<span class="text-muted"> Volver a la pagina</span></a></div>
+                <button type="submit" class="btn btn-secondary" style="font-size: large; margin: 0">Finalizar pedido</button>
+                <div class="back-to-shop"><a style="font-size: x-large; font-weight: bold" th:href="@{/farmacista/cancelarRegistroPedidoReco}">&leftarrow;<span class="text-muted"> Volver a la pagina</span></a></div>
             </form>
             <br><br>
         </div>

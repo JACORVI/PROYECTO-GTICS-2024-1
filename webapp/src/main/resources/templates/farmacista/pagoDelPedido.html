@@ -126,32 +126,18 @@
                     tipopedido : tipopedido
                 },
                 dataType: 'json',
-                url: "/paciente/validarPago",
+                url: "/farmacista/validarPago",
                 success: function (data) {
                     if (data.response === "OK") {
                         $("#pagarbutton").prop('disabled', true);
                         $("#pagarbutton").hide();
                         $("#volverbutton").show();
-                        if(tipopedido === "Web - Delivery"){
+                        if(tipopedido === "Presencial - Pago con tarjeta"){
                             Swal.fire('¡Éxito!', "Ha realizado su pago con exito.", 'success');
                             setTimeout(function () {
-                                window.location.href = "/paciente/mispedidos";
+                                window.location.href = "/farmacista/pedidosPresenciales";
                             }, 3000);
                         }
-                        if(tipopedido === "Web - Recojo en tienda"){
-                            Swal.fire('¡Éxito!', "Ha realizado su pago con exito.", 'success');
-                            setTimeout(function () {
-                                window.location.href = "/paciente/mispedidos#pedidosReco";
-                            }, 3000);
-                        }
-                        if(tipopedido === "Pre-orden"){
-                            Swal.fire('¡Éxito!', "Ha realizado su pago con exito.", 'success');
-                            setTimeout(function () {
-                                window.location.href = "/paciente/inicio#pre-orden";
-                            }, 3000);
-                        }
-
-
                     }
                     if (data.response === "NO ENCONTRADO") {
                         $("#pagarbutton").prop('disabled', false);

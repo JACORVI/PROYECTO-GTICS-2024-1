@@ -86,6 +86,12 @@ public interface CarritoRepository extends JpaRepository<Carrito, CarritoId> {
             "LIMIT 1", nativeQuery = true)
     List<Integer> idpedidoPorUsuIdRecoMedicamentos(int id);
 
+    @Query(value = "SELECT * FROM gticsbd.pedidos_paciente_recojo\n" +
+            "WHERE estado_del_pedido = 'Pagado' AND usuario_id_usuario = ?\n" +
+            "ORDER by idpedidos_paciente_recojo desc\n" +
+            "LIMIT 1", nativeQuery = true)
+    List<Integer> idpedidoPorUsuIdRecoMedicamentos2(int id);
+
     @Transactional
     @Modifying
     @Query(value = "SELECT gticsbd.carrito.cantidad * gticsbd.medicamentos.precio_unidad AS total\n" +
