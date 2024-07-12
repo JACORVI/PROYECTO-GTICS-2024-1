@@ -37,11 +37,9 @@
                 <br><br>
                 <h4 th:text="${'Número de tracking de su pedido: ' + numTracking}"></h4>
                 <br>
-                <h5>En las siguientes 24h posteriores al pago del pedido <br> uno de nuestros farmacistas verificará la información registrada por usted y le dará el visto bueno a su compra.<br>
-                    Esto podrá verlo en su estado del pedido identificandolo con su número de tracking. <br> ¡Asegurese de realizar el pago!</h5>
             </div>
-            <div th:if="${delivery != null}" class="back-to-shop"><a style="font-size: x-large; font-weight: bold" th:href="@{/farmacista/mispedidos}">&leftarrow;<span class="text-muted">Ir a mi estado del pedido</span></a></div>
-            <div th:if="${recojo != null}" class="back-to-shop"><a style="font-size: x-large; font-weight: bold" th:href="@{/farmacista/mispedidos#pedidosReco}">&leftarrow;<span class="text-muted">Ir a mi estado del pedido</span></a></div>
+            <div th:if="${dely != null}" class="back-to-shop"><a style="font-size: x-large; font-weight: bold" th:href="@{/farmacista/pedidosPresenciales}">&leftarrow;<span class="text-muted">Ir a ver el pedido</span></a></div>
+            <div th:if="${recojo != null}" class="back-to-shop"><a style="font-size: x-large; font-weight: bold" th:href="@{/farmacista/pedidosPresenciales}">&leftarrow;<span class="text-muted">Ir a pagar el pedido</span></a></div>
             <br><br>
         </div>
         <div class="container px-4 px-lg-5 mt-5" th:if="${preorden != null}">
@@ -52,8 +50,6 @@
                 <br><br>
                 <h4 th:text="${'Número de tracking de su pedido: ' + numTracking}"></h4>
                 <br>
-                <h5>En las siguientes 24h posteriores al pago del pedido <br> uno de nuestros farmacistas verificará la información registrada por usted y le dará el visto bueno a su compra.<br>
-                    Esto podrá verlo en su estado del pedido identificandolo con su número de tracking. <br> ¡Asegurese de realizar el pago!</h5>
             </div>
             <div class="back-to-shop"><a style="font-size: x-large; font-weight: bold" th:href="@{/farmacista/inicio#pre-ordenes}">&leftarrow;<span class="text-muted">Ir a mi estado del pedido</span></a></div>
             <br><br>

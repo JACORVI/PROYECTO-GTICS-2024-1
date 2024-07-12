@@ -33,43 +33,12 @@
     <body>
         <div th:replace="~{layout/PlantillaFarmacista :: navegacion}"></div>
         <!-- TRABAJAR AQUI -->
-
-        <!-- Modal -->
-        <div class="modal fade" id="pedidoModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel">Mapa del tracking</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="mapForm" method="post" th:action="@{/farmacista/pedidosValidados/agregarMapa}">
-                            <input type="hidden" class="form-control" id="pedidoIdInput" name="pedidoId">
-                            <input type="hidden" class="form-control" id="pedidoTipoInput" name="pedidoTipo">
-                            <div class="form-group">
-                                <label for="mapLink" style="margin-bottom: 10px">Ingrese el link del mapa:</label>
-                                <input type="text" class="form-control" id="mapLink" name="mapLink">
-                            </div>
-                            <button type="submit" class="btn btn-success" style="margin-top: 10px">
-                                <i class="bi bi-archive" style="vertical-align: middle; margin-right: 5px;"></i>
-                                <span style="vertical-align: middle;">Progresar Estado</span>
-                            </button>
-                        </form>
-                        <br>
-                        <label>Vista Previa del Mapa:</label>
-                        <iframe id="mapIframe" width="97%" height="350" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Vertically centered modal -->
 
         <div style="width: 100%;">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h2 class="mt-4" style="font-weight: bold">Lista de Pedidos Validados</h2>
+                    <h2 class="mt-4" style="font-weight: bold">Lista de Pedidos Presenciales</h2>
                 </div>
                 <div th:if="${msg != null}" class="alert alert-success alert-dismissible fade show" role="alert">
                     <p th:text="${msg}" style="color: black;"></p>
@@ -77,46 +46,33 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <h3 class="mt-4" th:if="${tamanodely == 0}">Pedidos con Delivery</h3>
-                        <table class="table table-bordered" th:if="${tamanodely != 0}">
+                        <table class="table table-bordered">
                             <thead>
-                            <h3 class="mt-4">Pedidos con Delivery</h3>
                             <tr>
                                 <th class="columna-imagen">#</th>
                                 <th class="columna-imagen">Paciente</th>
                                 <th class="columna-imagen">Numero de Pedido</th>
-                                <th class="columna-imagen">Fecha de Validacion</th>
-                                <th class="columna-imagen">Estado del Pedido</th>
+                                <th class="columna-imagen">Fecha del Pedido</th>
+                                <th class="columna-imagen">Precio Total</th>
                             </tr>
                             </thead>
                             <tbody id="tabla1">
                                 <tr th:each="pedido, index : ${listaPedidosDely}">
                                     <td><p style="font-size: 18px;" th:text="${index.count}"></p></td>
-                                    <td><p style="font-size: 18px;" th:text="${pedido.usuario.nombres + ' ' + pedido.usuario.apellidos}"></p></td>
+                                    <td><p style="font-size: 18px;" th:text="${pedido.nombre_paciente + ' ' + pedido.apellido_paciente}"></p></td>
                                     <td><p style="font-size: 18px;" th:text="${pedido.numero_tracking}"></p></td>
                                     <td><p style="font-size: 18px;" th:text="${pedido.fecha_solicitud}"></p></td>
-                                    <td><p style="font-size: 18px;" th:text="${pedido.estado_del_pedido}"></p></td>
-
+                                    <td><p style="font-size: 18px;" th:text="${'S/ ' + pedido.costo_total}"></p></td>
                                     <td>
                                         <div class="card-footer pt-1 br-3 border-top-0">
                                             <div class="text-center">
-                                                <a type="button" th:if="${pedido.estado_del_pedido != 'Empaquetando' and pedido.estado_del_pedido != 'Entregado'}" class="btn btn-success" th:href="@{'/farmacista/pedidosValidados/progresarEstado?id=' + ${pedido.id} + '&tipo=1'}">
-                                                    <i class="bi bi-archive" style="vertical-align: middle; margin-right: 5px;"></i>
-                                                    <span style="vertical-align: middle;">Progresar Estado</span>
+                                                <a type="button" class="btn btn-danger" th:if="${pedido.estado_del_pedido != 'Por cancelar'}">
+                                                    <i class="bi bi-download" style="vertical-align: middle; margin-right: 5px;"></i>
+                                                    <span style="vertical-align: middle;">Boleta de Pago</span>
                                                 </a>
-                                                <button type="button" th:if="${pedido.estado_del_pedido == 'Empaquetando'}" class="btn btn-success" th:data-id="${pedido.id}" data-tipo="1" data-bs-toggle="modal" data-bs-target="#pedidoModal">
-                                                    <i class="bi bi-geo-alt" style="vertical-align: middle; margin-right: 5px;"></i>
-                                                    <span style="vertical-align: middle;">Agregar Mapa de Tracking</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="card-footer pt-1 br-3 border-top-0">
-                                            <div class="text-center">
-                                                <a type="button" class="btn btn-warning" th:href="@{'/farmacista/pedidosValidados/pedidoInfo?id=' + ${pedido.id} + '&tipo=1'}">
-                                                    <i class="bi bi-eye-fill" style="vertical-align: middle; margin-right: 5px;"></i>
-                                                    <span style="vertical-align: middle;">Ver</span>
+                                                <a type="button" th:href="@{'/farmacista/pagoSeguro?id=' + ${pedido.id} + '&tipo=' + ${2}}" class="btn btn-warning" th:if="${pedido.estado_del_pedido == 'Por cancelar'}">
+                                                    <i class="bi bi-credit-card" style="vertical-align: middle; margin-right: 5px;"></i>
+                                                    <span style="vertical-align: middle;">Realizar el Pago</span>
                                                 </a>
                                             </div>
                                         </div>
@@ -124,122 +80,10 @@
                             </tbody>
                         </table>
                         <div th:if="${tamanodely == 0}">
-                            <p style="font-size: 18px;">No hay solicitudes de pedidos con delivery</p>
+                            <p style="font-size: 18px;">No hay solicitudes de pedidos presenciales</p>
                         </div>
                         <!-- Paginacion Dely-->
                         <div class="pagination  d-flex justify-content-center" id="paginacion1" th:if="${tamanodely > 5}" style="padding: 50px; font-size: xxx-large;">
-                        </div>
-                    </div>
-                    <br><br>
-                    <div class="table-responsive">
-                        <h3 class="mt-4" th:if="${tamanoreco == 0}">Pedidos para Recoger en una Sede</h3>
-                        <table class="table table-bordered" th:if="${tamanoreco != 0}">
-                            <thead>
-                            <h3 class="mt-4">Pedidos para Recoger en una Sede</h3>
-                            <tr>
-                                <th class="columna-imagen">N°</th>
-                                <th class="columna-imagen">Paciente</th>
-                                <th class="columna-imagen">Numero de Pedido</th>
-                                <th class="columna-imagen">Fecha de Validación</th>
-                                <th class="columna-imagen">Estado del Pedido</th>
-                            </tr>
-                            </thead>
-                            <tbody id="tabla2">
-                            <tr th:each="pedido, index : ${listaPedidosReco}">
-                                <td><p style="font-size: 18px;" th:text="${index.count}"></p></td>
-                                <td><p style="font-size: 18px;" th:text="${pedido.usuario.nombres + ' ' + pedido.usuario.apellidos}"></p></td>
-                                <td><p style="font-size: 18px;" th:text="${pedido.numero_tracking}"></p></td>
-                                <td><p style="font-size: 18px;" th:text="${pedido.fecha_solicitud}"></p></td>
-                                <td><p style="font-size: 18px;" th:text="${pedido.estado_del_pedido}"></p></td>
-
-                                <td>
-                                    <div class="card-footer pt-1 br-3 border-top-0">
-                                        <div class="text-center">
-                                            <a type="button" th:if="${pedido.estado_del_pedido != 'Empaquetando'}" class="btn btn-success" th:href="@{'/farmacista/pedidosValidados/progresarEstado?id=' + ${pedido.id} + '&tipo=1'}">
-                                                <i class="bi bi-archive" style="vertical-align: middle; margin-right: 5px;"></i>
-                                                <span style="vertical-align: middle;">Progresar Estado</span>
-                                            </a>
-                                            <button type="button" th:if="${pedido.estado_del_pedido == 'Empaquetando'}" class="btn btn-success" th:data-id="${pedido.id}" data-tipo="2" data-bs-toggle="modal" data-bs-target="#pedidoModal">
-                                                <i class="bi bi-geo-alt" style="vertical-align: middle; margin-right: 5px;"></i>
-                                                <span style="vertical-align: middle;">Agregar Mapa de Tracking</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="card-footer pt-1 br-3 border-top-0">
-                                        <div class="text-center">
-                                            <a type="button" class="btn btn-warning" th:href="@{'/farmacista/pedidosValidados/pedidoInfo?id=' + ${pedido.id} + '&tipo=2'}">
-                                                <i class="bi bi-eye-fill" style="vertical-align: middle; margin-right: 5px;"></i>
-                                                <span style="vertical-align: middle;">Ver</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tbody>
-                        </table>
-                        <div th:if="${tamanoreco == 0}">
-                            <p style="font-size: 18px;">No hay solicitudes de pedidos para recoger en una sede</p>
-                        </div>
-                        <!-- Paginacion Recojo-->
-                        <div class="pagination  d-flex justify-content-center" id="paginacion2" th:if="${tamanoreco > 5}" style="padding: 50px; font-size: xxx-large;">
-                        </div>
-                    </div>
-                    <br><br>
-                    <div class="table-responsive">
-                        <h3 class="mt-4" th:if="${tamanopreorden == 0}">Pedidos con Pre-Orden</h3>
-                        <table class="table table-bordered" th:if="${tamanopreorden != 0}">
-                            <thead>
-                            <h3 class="mt-4">Pedidos con Pre-Orden</h3>
-                            <tr>
-                                <th class="columna-imagen">N°</th>
-                                <th class="columna-imagen">Paciente</th>
-                                <th class="columna-imagen">Numero de Pedido</th>
-                                <th class="columna-imagen">Fecha de Validación</th>
-                                <th class="columna-imagen">Estado del Pedido</th>
-
-                            </tr>
-                            </thead>
-                            <tbody id="tabla3">
-                            <tr th:each="pedido, index : ${listaPedidosPreorden}">
-                                <td><p style="font-size: 18px;" th:text="${index.count}"></p></td>
-                                <td><p style="font-size: 18px;" th:text="${pedido.usuario.nombres + ' ' + pedido.usuario.apellidos}"></p></td>
-                                <td><p style="font-size: 18px;" th:text="${pedido.numero_tracking}"></p></td>
-                                <td><p style="font-size: 18px;" th:text="${pedido.fecha_solicitud}"></p></td>
-                                <td><p style="font-size: 18px;" th:text="${pedido.estado_del_pedido}"></p></td>
-
-                                <td>
-                                    <div class="card-footer pt-1 br-3 border-top-0">
-                                        <div class="text-center">
-                                            <a type="button" th:if="${pedido.estado_del_pedido != 'Empaquetando'}" class="btn btn-success" th:href="@{'/farmacista/pedidosValidados/progresarEstado?id=' + ${pedido.id} + '&tipo=1'}">
-                                                <i class="bi bi-archive" style="vertical-align: middle; margin-right: 5px;"></i>
-                                                <span style="vertical-align: middle;">Progresar Estado</span>
-                                            </a>
-                                            <button type="button" th:if="${pedido.estado_del_pedido == 'Empaquetando'}" class="btn btn-success" th:data-id="${pedido.id}" data-tipo="1" data-bs-toggle="modal" data-bs-target="#pedidoModal">
-                                                <i class="bi bi-geo-alt" style="vertical-align: middle; margin-right: 5px;"></i>
-                                                <span style="vertical-align: middle;">Agregar Mapa de Tracking</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="card-footer pt-1 br-3 border-top-0">
-                                        <div class="text-center">
-                                            <a type="button" class="btn btn-warning" th:href="@{'/farmacista/pedidosValidados/pedidoInfo?id=' + ${pedido.id} + '&tipo=1'}">
-                                                <i class="bi bi-eye-fill" style="vertical-align: middle; margin-right: 5px;"></i>
-                                                <span style="vertical-align: middle;">Ver</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-
-                            </tbody>
-                        </table>
-                        <div th:if="${tamanopreorden == 0}">
-                            <p style="font-size: 18px;">No hay solicitudes de pedidos con pre-orden</p>
-                        </div>
-                        <!-- Paginacion Preorden-->
-                        <div class="pagination  d-flex justify-content-center" id="paginacion3" th:if="${tamanopreorden > 5}" style="padding: 50px; font-size: xxx-large;">
                         </div>
                     </div>
                     <br><br><br>
@@ -257,16 +101,15 @@
         <script>
             $('#pedidoModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
+
                 var id = button.data('id');
                 var tipo = button.data('tipo');
+
+
                 var modal = $(this);
                 modal.find('#pedidoIdInput').val(id);
                 modal.find('#pedidoTipoInput').val(tipo);
-            });
 
-            $('#mapLink').on('input', function () {
-                var mapIframe = document.getElementById('mapIframe');
-                mapIframe.src = $(this).val();
             });
         </script>
 

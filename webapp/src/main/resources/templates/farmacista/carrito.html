@@ -30,7 +30,7 @@
         <div class="col-md-8 cart">
             <div class="title">
                 <div class="row">
-                    <div class="col"><h4><b style="font-size: x-large;">Mi carrito de compras</b></h4></div>
+                    <div class="col"><h4><b style="font-size: x-large;">Medicamentos del pedido</b></h4></div>
                 </div>
             </div>
             <div class="row border-top border-bottom" th:if="${car==1}">
@@ -67,29 +67,17 @@
             </div>
             <br>
             <form>
-                <p th:if="${delivery == 0}">TIPO DE ENTREGA: Recojo en tienda</p>
-                <p th:if="${delivery == 1}">TIPO DE ENTREGA: Delivery</p>
-                <a class="btn" th:if="${delivery == 0}" th:href="@{'/farmacista/carrito/delivery'}" style="margin-top: 0px; margin-bottom: 20px">Cambiar a Delivery</a>
-                <a class="btn" th:if="${delivery == 1}" th:href="@{'/farmacista/carrito'}" style="margin-top: 0px; margin-bottom: 20px">Cambiar a Recojo en Sede</a>
+                <p th:if="${delivery == 0}">TIPO DE PAGO: Efectivo</p>
+                <p th:if="${delivery == 1}">TIPO DE PAGO: Con tarjeta</p>
+                <a class="btn" th:if="${delivery == 0}" th:href="@{'/farmacista/carrito/pagoTarjeta'}" style="margin-top: 0px; margin-bottom: 20px">Cambiar a Pago con Tarjeta</a>
+                <a class="btn" th:if="${delivery == 1}" th:href="@{'/farmacista/carrito'}" style="margin-top: 0px; margin-bottom: 20px">Cambiar a Pago en efectivo</a>
             </form>
-            <div class="row" th:if="${delivery == 0}" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
                 <div class="col">PRECIO TOTAL A PAGAR</div>
                 <div class="col text-right" th:text="'S/ ' + ${precioTotal}"></div>
-            </div>
-            <div class="row" th:if="${delivery == 1}" style="padding: 0.5vh 0;">
-                <div class="col">Precio total</div>
-                <div class="col text-right" th:text="'S/ ' + ${precioTotal}"></div>
-            </div>
-            <div class="row" th:if="${delivery == 1}" style="padding: 0.5vh 0;">
-                <div class="col">Delivery</div>
-                <div class="col text-right" th:text="'S/ 10.00'"></div>
-            </div>
-            <div class="row" th:if="${delivery == 1}" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
-                <div class="col">PRECIO TOTAL A PAGAR</div>
-                <div class="col text-right" th:text="'S/ ' + ${precioTotalDely}"></div>
             </div>
             <a th:if="${car==0 and delivery == 0}" class="btn" th:href="@{'/farmacista/carrito/registrarPedido?costototal=' + ${precioTotal} + '&tipopedido=' + ${delivery} + '&numtrack=' + ${numpedido}}" >CONTINUAR</a>
-            <a th:if="${car==0 and delivery == 1}" class="btn" th:href="@{'/farmacista/carrito/registrarPedido?costototal=' + ${precioTotalDely}+ '&tipopedido=' + ${delivery} + '&numtrack=' + ${numpedido}}" >CONTINUAR</a>
+            <a th:if="${car==0 and delivery == 1}" class="btn" th:href="@{'/farmacista/carrito/registrarPedido?costototal=' + ${precioTotal}+ '&tipopedido=' + ${delivery} + '&numtrack=' + ${numpedido}}" >CONTINUAR</a>
             <a th:if="${car==1}" class="btn" disabled>CONTINUAR</a>
         </div>
     </div>
