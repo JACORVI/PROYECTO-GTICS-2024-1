@@ -154,13 +154,16 @@
 
                     }
                     if (data.response === "NO ENCONTRADO") {
-                        Swal.fire('¡Error!', "Tarjeta no encontrada", 'error');
+                        $("#pagarbutton").prop('disabled', false);
+                        Swal.fire('¡Error!', "Error con la tarjeta ingresada", 'error');
                     }
                     if (data.response === "FONDOS INSUFICIENTES") {
+                        $("#pagarbutton").prop('disabled', false);
                         Swal.fire('¡Error!', "El banco ha rechazado la transacción", 'error');
                     }
                 },
                 error: function (xhr, status, errorThrown) {
+                    $("#pagarbutton").prop('disabled', false);
                     Swal.fire('¡Error!', "Ocurrió un error inesperado, vuelva a intentarlo.", 'error');
                 }
             });

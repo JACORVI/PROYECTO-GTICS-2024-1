@@ -489,6 +489,30 @@ public class PacienteController {
         }
     }
 
+    @GetMapping("/paciente/pedido/comentario")
+    @ResponseBody
+    public String comentarioDelRechazo(@RequestParam("id") String strId,
+                                             @RequestParam("tipo") String tipo){
+        Integer id = Integer.parseInt(strId);
+        if(tipo.equals("1")){
+            Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(id);
+            if(optionalPedidosPaciente.isPresent()){
+                PedidosPaciente pedido = optionalPedidosPaciente.get();
+
+                return pedido.getComentario();
+            }
+        }
+        if(tipo.equals("2")){
+            Optional<PedidosPacienteRecojo> optionalPedidosPacienteRecojo = pedidosPacienteRecojoRepository.findById(id);
+            if(optionalPedidosPacienteRecojo.isPresent()){
+                PedidosPacienteRecojo pedido = optionalPedidosPacienteRecojo.get();
+
+                return pedido.getComentario();
+            }
+        }
+        return null;
+    }
+
     @GetMapping("/paciente/cancelarRegistroPedidoPreorden")
     public String cancelarRegistroDePedidoPreorden(Authentication authentication){
         Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());

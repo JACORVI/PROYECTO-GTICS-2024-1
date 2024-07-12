@@ -50,7 +50,8 @@
                                 <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
                                     <div class="w-100 text-center py-1 px-2" th:text="'FECHA DE VALIDACION: ' + ${pedido.fecha_validacion}"></div>
                                     <div class="w-100 text-center py-1 px-2" th:text="'FECHA DE RECOJO: ' + ${pedido.fecha_entrega}"></div>
-                                    <div class="w-100 text-center py-1 px-2" th:text="'ESTADO: ' + ${pedido.estado_del_pedido}"></div>
+                                    <div class="w-100 text-center py-1 px-2" th:if="${pedido.estado_del_pedido != 'En ruta'}" th:text="'ESTADO: ' + ${pedido.estado_del_pedido}"></div>
+                                    <div class="w-100 text-center py-1 px-2" th:if="${pedido.estado_del_pedido == 'En ruta'}">ESTADO: Listo para Recoger</div>
                                 </div>
                                 <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
                                     <div class="w-100 text-center py-1 px-2" th:text="'SEDE DE RECOJO: ' + ${pedido.sede_de_recojo}"></div>

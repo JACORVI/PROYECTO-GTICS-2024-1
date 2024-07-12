@@ -1037,5 +1037,678 @@ public class FarmacistaController {
     }
     /*---------------------------------------*/
 
+    /*vista y QRUD de SOLICITUDES DE PEDIDOS*/
+
+    @GetMapping("/farmacista/pedidos")
+    public String listarPedidos(Model model) {
+        List<PedidosPaciente> listaPedidos1 = pedidosPacienteRepository.findAll();
+        List<PedidosPacienteRecojo> listaPedidos2 = pedidosPacienteRecojoRepository.findAll();
+
+
+        List<PedidosPaciente> listadelivery = new ArrayList<>();
+        List<PedidosPacienteRecojo> listarecojo = new ArrayList<>();
+        List<PedidosPaciente> listapreordenes = new ArrayList<>();
+
+        for (PedidosPaciente pedido : listaPedidos1) {
+            if(pedido.getEstado_del_pedido().equals("Pendiente")){
+                if (pedido.getTipo_de_pedido().equals("Web - Delivery")) {
+                    listadelivery.add(pedido);
+                } else{
+                    listapreordenes.add(pedido);
+                }
+            }
+        }
+
+        for (PedidosPacienteRecojo pedido2 : listaPedidos2) {
+            if(pedido2.getEstado_del_pedido().equals("Pendiente")){
+                listarecojo.add(pedido2);
+            }
+        }
+
+        model.addAttribute("listaPedidosDely", listadelivery);
+        model.addAttribute("tamanodely", listadelivery.size());
+
+        model.addAttribute("listaPedidosReco", listarecojo);
+        model.addAttribute("tamanoreco", listarecojo.size());
+
+        model.addAttribute("listaPedidosPreorden", listapreordenes);
+        model.addAttribute("tamanopreorden", listapreordenes.size());
+
+        return "farmacista/lista_solicitudes";
+    }
+    @GetMapping("/farmacista/validarPedido")
+    public String validarPedidos(@RequestParam("id") String idStr,
+                                 @RequestParam("tipo") String tipo, RedirectAttributes redirectAttributes) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        if(tipo.equals("1")){
+            Integer id = Integer.parseInt(idStr);
+            Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(id);
+            if(optionalPedidosPaciente.isPresent()){
+                PedidosPaciente pedido = optionalPedidosPaciente.get();
+
+                if(!pedido.getEstado_del_pedido().equals("Pendiente")){
+                    return "redirect:/farmacista/pedidos";
+                }
+
+                if(pedido.getTipo_de_pedido().equals("Web - Delivery")) {
+                    List<MedicamentosDelPedido> listaMedicamentosDely = medicamentosDelPedidoRepository.listaMedicamentosDely(id);
+                    List<Integer> listaStocks = new ArrayList<>();
+
+                    for (int i = 0; i < listaMedicamentosDely.size(); i++) {
+                        Medicamentos medicamento = medicamentosRepository.medicamentoPorNombre(listaMedicamentosDely.get(i).getNombre_medicamento());
+                        Integer stock = medicamento.getInventario();
+                        if (stock <= 25) {
+                            redirectAttributes.addFlashAttribute("msg", "No se puede validar el pedido ya que el medicamento " + medicamento.getNombre() + " necesita un pedido de reposición por poco stock. ¡Debe generar una pre-orden a parte!");
+                            return "redirect:/farmacista/pedidos";
+                        }
+                    }
+                }
+
+                List<MedicamentosDelPedido> listaMedicamentosDely = medicamentosDelPedidoRepository.listaMedicamentosDely(id);
+                for (int i = 0; i < listaMedicamentosDely.size(); i++) {
+                    Medicamentos medicamento = medicamentosRepository.medicamentoPorNombre(listaMedicamentosDely.get(i).getNombre_medicamento());
+                    Integer stock = medicamento.getInventario();
+                    Integer cantidad = listaMedicamentosDely.get(i).getCantidad();
+                    Integer stocknuevo = stock - cantidad;
+                    if(stocknuevo > 0){
+                        medicamento.setInventario(stocknuevo);
+                        medicamentosRepository.save(medicamento);
+                    }
+                    else{
+                        redirectAttributes.addFlashAttribute("msg", "No se puede validar el pedido ya que el medicamento " + medicamento.getNombre() + " no cuenta con el stock. ¡Debe esperar a que se reponga o cambiar el medicamento!");
+                        return "redirect:/farmacista/pedidos";
+                    }
+                }
+
+                LocalDate fechaActual = LocalDate.now();
+                String fechaValidacion = fechaActual.format(formatter);
+                pedido.setFecha_validacion(fechaValidacion);
+
+                if(pedido.getTipo_de_pedido().equals("Web - Delivery")){
+                    LocalDate fechaFutura = fechaActual.plusDays(4);
+                    String fechaEntrega = fechaFutura.format(formatter);
+                    pedido.setFecha_entrega(fechaEntrega);
+                }
+                else{
+                    LocalDate fechaFutura = fechaActual.plusDays(7);
+                    String fechaEntrega = fechaFutura.format(formatter);
+                    pedido.setFecha_entrega(fechaEntrega);
+                }
+
+                pedido.setEstado_del_pedido("Recibido");
+                pedido.setValidacion_del_pedido("Validado");
+
+                pedidosPacienteRepository.save(pedido);
+
+                redirectAttributes.addFlashAttribute("msg", "Se ha aprobado correctamente el pedido con numero: " + pedido.getNumero_tracking());
+            }
+        }
+        if(tipo.equals("2")){
+            Integer id = Integer.parseInt(idStr);
+            Optional<PedidosPacienteRecojo> optionalPedidosPacienteRecojo = pedidosPacienteRecojoRepository.findById(id);
+            if(optionalPedidosPacienteRecojo.isPresent()){
+                PedidosPacienteRecojo pedido = optionalPedidosPacienteRecojo.get();
+
+                if(!pedido.getEstado_del_pedido().equals("Pendiente")){
+                    return "redirect:/farmacista/pedidos";
+                }
+
+                LocalDate fechaActual = LocalDate.now();
+                String fechaValidacion = fechaActual.format(formatter);
+                pedido.setFecha_validacion(fechaValidacion);
+
+                LocalDate fechaFutura = fechaActual.plusDays(4);
+                String fechaEntrega = fechaFutura.format(formatter);
+                pedido.setFecha_entrega(fechaEntrega);
+
+                pedido.setEstado_del_pedido("Recibido");
+                pedido.setValidacion_del_pedido("Validado");
+
+                pedidosPacienteRecojoRepository.save(pedido);
+
+                redirectAttributes.addFlashAttribute("msg", "Se ha aprobado correctamente el pedido con numero: " + pedido.getNumero_tracking());
+            }
+        }
+
+        return "redirect:/farmacista/pedidos";
+    }
+
+    @PostMapping("/farmacista/rechazarPedido")
+    public String rechazarPedidos(@RequestParam("pedidoId") String idStr,
+                                  @RequestParam("pedidoTipo") String tipo,
+                                  @RequestParam("comentario") String comentario ,RedirectAttributes redirectAttributes) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        if(comentario.length() < 5 || comentario.length() > 90){
+            redirectAttributes.addFlashAttribute("msg", "El comentario del rechazo no puede tener menos de 5 caracteres ni mas de 90");
+            return "redirect:/farmacista/pedidos";
+        }
+
+        if(tipo.equals("1")){
+            Integer id = Integer.parseInt(idStr);
+            Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(id);
+            if(optionalPedidosPaciente.isPresent()){
+                PedidosPaciente pedido = optionalPedidosPaciente.get();
+
+                if(!pedido.getEstado_del_pedido().equals("Pendiente")){
+                    return "redirect:/farmacista/pedidos";
+                }
+
+                LocalDate fechaActual = LocalDate.now();
+                String fechaValidacion = fechaActual.format(formatter);
+                pedido.setFecha_validacion(fechaValidacion);
+
+                pedido.setEstado_del_pedido("Rechazado");
+                pedido.setValidacion_del_pedido("Rechazado");
+                pedido.setComentario(comentario);
+
+                pedidosPacienteRepository.save(pedido);
+
+                redirectAttributes.addFlashAttribute("msg", "Se ha rechazado correctamente el pedido con numero: " + pedido.getNumero_tracking());
+            }
+        }
+        if(tipo.equals("2")){
+            Integer id = Integer.parseInt(idStr);
+            Optional<PedidosPacienteRecojo> optionalPedidosPacienteRecojo = pedidosPacienteRecojoRepository.findById(id);
+            if(optionalPedidosPacienteRecojo.isPresent()){
+                PedidosPacienteRecojo pedido = optionalPedidosPacienteRecojo.get();
+
+                if(!pedido.getEstado_del_pedido().equals("Pendiente")){
+                    return "redirect:/farmacista/pedidos";
+                }
+
+                LocalDate fechaActual = LocalDate.now();
+                String fechaValidacion = fechaActual.format(formatter);
+                pedido.setFecha_validacion(fechaValidacion);
+
+                pedido.setEstado_del_pedido("Rechazado");
+                pedido.setValidacion_del_pedido("Rechazado");
+                pedido.setComentario(comentario);
+
+                pedidosPacienteRecojoRepository.save(pedido);
+
+                redirectAttributes.addFlashAttribute("msg", "Se ha rechazado correctamente el pedido con numero: " + pedido.getNumero_tracking());
+            }
+        }
+
+        return "redirect:/farmacista/pedidos";
+    }
+
+    @GetMapping("/farmacista/pedidoInfo")
+    public String informacionPedidos(@RequestParam("id") String idStr,
+                                     @RequestParam("tipo") String tipo, Model model) {
+
+        if(tipo.equals("1")){
+            Integer id = Integer.parseInt(idStr);
+            if(id > 0){
+                Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(id);
+                if(optionalPedidosPaciente.isPresent()){
+                    PedidosPaciente pedido = optionalPedidosPaciente.get();
+
+                    if(pedido.getEstado_del_pedido().equals("Pendiente")){
+                        String fotoBase64 = "sin receta";
+                        if(pedido.getReceta_foto() != null){
+                            byte[] fotoBytes = pedido.getReceta_foto();
+                            fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+                        }
+                        List<MedicamentosDelPedido> listaMedicamentosDely = medicamentosDelPedidoRepository.listaMedicamentosDely(id);
+                        List<Integer> listaStocks = new ArrayList<>();
+
+                        for (int i = 0; i < listaMedicamentosDely.size(); i++) {
+                            Medicamentos medicamento = medicamentosRepository.medicamentoPorNombre(listaMedicamentosDely.get(i).getNombre_medicamento());
+                            Integer stock = medicamento.getInventario();
+                            listaStocks.add(stock);
+                        }
+
+                        model.addAttribute("pedido", pedido);
+                        model.addAttribute("fotoBase64", fotoBase64);
+                        model.addAttribute("listamedicamentodely", listaMedicamentosDely);
+                        model.addAttribute("listaStocks", listaStocks);
+                        model.addAttribute("dely", 1);
+                        model.addAttribute("reco", 0);
+                    }
+                    else{
+                        return "redirect:/farmacista/pedidos";
+                    }
+                }
+            }
+            else{
+                return "redirect:/farmacista/pedidos";
+            }
+        }
+        if(tipo.equals("2")){
+            Integer id = Integer.parseInt(idStr);
+            if(id > 0){
+                Optional<PedidosPacienteRecojo> optionalPedidosPacienteRecojo = pedidosPacienteRecojoRepository.findById(id);
+                if(optionalPedidosPacienteRecojo.isPresent()){
+                    PedidosPacienteRecojo pedido = optionalPedidosPacienteRecojo.get();
+
+                    if(pedido.getEstado_del_pedido().equals("Pendiente")){
+                        String fotoBase64 = "sin receta";
+                        if(pedido.getReceta_foto() != null){
+                            byte[] fotoBytes = pedido.getReceta_foto();
+                            fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+                        }
+                        List<MedicamentoRecojo> listaMedicamentosReco = medicamentosRecojoRepository.listaMedicamentosReco(id);
+                        List<Integer> listaStocks = new ArrayList<>();
+
+                        for (int i = 0; i < listaMedicamentosReco.size(); i++) {
+                            Medicamentos medicamento = medicamentosRepository.medicamentoPorNombre(listaMedicamentosReco.get(i).getNombre_medicamento());
+                            Integer stock = medicamento.getInventario();
+                            listaStocks.add(stock);
+                        }
+
+                        model.addAttribute("pedido", pedido);
+                        model.addAttribute("fotoBase64", fotoBase64);
+                        model.addAttribute("listamedicamentoreco", listaMedicamentosReco);
+                        model.addAttribute("listaStocks", listaStocks);
+                        model.addAttribute("reco", 1);
+                        model.addAttribute("dely", 0);
+                    }
+                    else{
+                        return "redirect:/farmacista/pedidos";
+                    }
+                }
+            }
+            else{
+                return "redirect:/farmacista/pedidos";
+            }
+        }
+        if(!tipo.equals("1") && !tipo.equals("2")){
+            return "redirect:/farmacista/pedidos";
+        }
+
+        return "farmacista/info_solicitud";
+    }
+
+    @GetMapping("/farmacista/pedidoInfo/generarPre-Orden")
+    public String generarPreordenDely(@RequestParam("pedidoId") String pedidoIdStr,
+                                      @RequestParam("medicamentoNombre") String medicamentoNombre,
+                                      @RequestParam("cantidad") String cantidadStr, RedirectAttributes redirectAttributes) {
+
+        Integer pedidoid = Integer.parseInt(pedidoIdStr);
+        Medicamentos medicamento = medicamentosRepository.medicamentoPorNombre(medicamentoNombre);
+        Integer cantidadMedicamento = Integer.parseInt(cantidadStr);
+
+        Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(pedidoid);
+
+        if(optionalPedidosPaciente.isPresent()){
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            PedidosPaciente pedidoActual = optionalPedidosPaciente.get();
+
+            Integer stock = medicamento.getInventario();
+            Integer stockActual = stock - cantidadMedicamento;
+
+            if(stockActual<0){
+                redirectAttributes.addFlashAttribute("msg", "No se puede validar el pedido ya que el medicamento " + medicamento.getNombre() + " no cuenta con el stock. ¡Debe esperar a que se reponga o cambiar el medicamento!");
+                return "redirect:/farmacista/pedidos";
+            }
+
+            PedidosPaciente pedidoPreorden = new PedidosPaciente();
+
+            pedidoPreorden.setUsuario(pedidoActual.getUsuario());
+            pedidoPreorden.setNombre_paciente(pedidoActual.getNombre_paciente());
+            pedidoPreorden.setApellido_paciente(pedidoActual.getApellido_paciente());
+            pedidoPreorden.setDni(pedidoActual.getDni());
+            pedidoPreorden.setMedico_que_atiende(pedidoActual.getMedico_que_atiende());
+            pedidoPreorden.setSeguro(pedidoActual.getSeguro());
+            pedidoPreorden.setDistrito(pedidoActual.getDistrito());
+            pedidoPreorden.setCosto_total(medicamento.getPrecio_unidad() * cantidadMedicamento);
+            pedidoPreorden.setTipo_de_pedido("Pre-orden");
+
+            LocalDate fechaActual = LocalDate.now();
+            String fechaValidacion = fechaActual.format(formatter);
+            pedidoPreorden.setFecha_solicitud(fechaValidacion);
+            pedidoPreorden.setFecha_validacion(fechaValidacion);
+
+            LocalDate fechaFutura = fechaActual.plusDays(7);
+            String fechaEntrega = fechaFutura.format(formatter);
+            pedidoPreorden.setFecha_entrega(fechaEntrega);
+
+            pedidoPreorden.setValidacion_del_pedido("Validado");
+            pedidoPreorden.setEstado_del_pedido("Recibido");
+
+            //generador de numero de pedidos
+            boolean i = true;
+            String numpedido = "";
+            String banco = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            List<String> lista1 = pedidosPacienteRepository.numerosDePedidosDely();
+            List<String> lista2 = pedidosPacienteRecojoRepository.numerosDePedidosReco();
+            List<String> lista3 = carritoRepository.numerosDePedidosCarrito();
+            int duplicado = 0;
+            while (i){
+                for (int x = 0; x < 12; x++) {
+                    if (x > 0 && x % 4 == 0) {
+                        String guion = "-";
+                        numpedido += guion;
+                    }
+                    int indiceAleatorio = numeroAleatorioEnRango(0, banco.length() - 1);
+                    char caracterAleatorio = banco.charAt(indiceAleatorio);
+                    numpedido += caracterAleatorio;
+                }
+                for (String palabra : lista1) {
+                    if (palabra.equals(numpedido)) {
+                        duplicado++;
+                    }
+                }
+                for (String palabra : lista2) {
+                    if (palabra.equals(numpedido)) {
+                        duplicado++;
+                    }
+                }
+                for (String palabra : lista3) {
+                    if (palabra.equals(numpedido)) {
+                        duplicado++;
+                    }
+                }
+                if(duplicado == 0){
+                    break;
+                }
+            }
+            pedidoPreorden.setNumero_tracking(numpedido);
+
+            pedidoPreorden.setAviso_vencimiento("Si");
+            pedidoPreorden.setDireccion(pedidoActual.getDireccion());
+            pedidoPreorden.setTelefono(pedidoActual.getTelefono());
+            pedidoPreorden.setHora_de_entrega(pedidoActual.getHora_de_entrega());
+
+            pedidosPacienteRepository.save(pedidoPreorden);
+
+            MedicamentosDelPedido medicamentosDelPedidoNuevo = new MedicamentosDelPedido();
+
+            medicamentosDelPedidoNuevo.setId(medicamento.getId());
+            medicamentosDelPedidoNuevo.setNombre_medicamento(medicamento.getNombre());
+
+            String costomedi = Double.toString(medicamento.getPrecio_unidad());
+            medicamentosDelPedidoNuevo.setCosto_medicamento(costomedi);
+
+            medicamentosDelPedidoNuevo.setCantidad(cantidadMedicamento);
+            medicamentosDelPedidoNuevo.setPedidosPaciente(pedidoPreorden);
+            medicamentosDelPedidoNuevo.setUsuario(pedidoActual.getUsuario());
+
+            medicamentosDelPedidoRepository.save(medicamentosDelPedidoNuevo);
+
+            medicamentosDelPedidoRepository.borrarMedicamentoPocoStock(medicamento.getNombre(), pedidoid, pedidoActual.getUsuario().getId());
+
+            if(cantidadMedicamento == 1){
+                redirectAttributes.addFlashAttribute("msg", "Se ha generado una pre-orden de compra para " + cantidadStr + " unidad de " + medicamento.getNombre());
+            }
+            else{
+                redirectAttributes.addFlashAttribute("msg", "Se ha generado una pre-orden de compra para " + cantidadStr + " unidades de " + medicamento.getNombre());
+            }
+        }
+
+        return "redirect:/farmacista/pedidoInfo?id=" + pedidoid + "&tipo=1";
+    }
+    /*-----------------------*/
+
+    /*vista y QRUD de PEDIDOS*/
+
+    @GetMapping("/farmacista/pedidosValidados")
+    public String listarPedidosValidados(Model model) {
+        List<PedidosPaciente> listaPedidos1 = pedidosPacienteRepository.findAll();
+        List<PedidosPacienteRecojo> listaPedidos2 = pedidosPacienteRecojoRepository.findAll();
+
+
+        List<PedidosPaciente> listadelivery = new ArrayList<>();
+        List<PedidosPacienteRecojo> listarecojo = new ArrayList<>();
+        List<PedidosPaciente> listapreordenes = new ArrayList<>();
+
+        for (PedidosPaciente pedido : listaPedidos1) {
+            if(!pedido.getEstado_del_pedido().equals("Pendiente") && pedido.getValidacion_del_pedido().equals("Validado")){
+                if (pedido.getTipo_de_pedido().equals("Web - Delivery")) {
+                    listadelivery.add(pedido);
+                } else{
+                    listapreordenes.add(pedido);
+                }
+            }
+        }
+
+        for (PedidosPacienteRecojo pedido2 : listaPedidos2) {
+            if(!pedido2.getEstado_del_pedido().equals("Pendiente") && pedido2.getValidacion_del_pedido().equals("Validado")){
+                listarecojo.add(pedido2);
+            }
+        }
+
+        model.addAttribute("listaPedidosDely", listadelivery);
+        model.addAttribute("tamanodely", listadelivery.size());
+
+        model.addAttribute("listaPedidosReco", listarecojo);
+        model.addAttribute("tamanoreco", listarecojo.size());
+
+        model.addAttribute("listaPedidosPreorden", listapreordenes);
+        model.addAttribute("tamanopreorden", listapreordenes.size());
+
+        return "farmacista/lista_pedidos";
+    }
+
+    @GetMapping("/farmacista/pedidosValidados/pedidoInfo")
+    public String estadoTrack(@RequestParam("id") String idStr,
+                              @RequestParam("tipo") String tipo , Model model){
+
+        if(tipo.equals("1")){
+            Integer id = Integer.parseInt(idStr);
+            if(id > 0){
+                Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(id);
+                if(optionalPedidosPaciente.isPresent()){
+
+                    PedidosPaciente pedidosPaciente = optionalPedidosPaciente.get();
+
+                    if(pedidosPaciente.getValidacion_del_pedido().equals("Validado")){
+
+                        List<MedicamentosDelPedido> listaMedicamentosDely = medicamentosDelPedidoRepository.listaMedicamentosDely(id);
+                        List<String> listafotos = new ArrayList<>();
+
+                        for (int i = 0; i < listaMedicamentosDely.size(); i++) {
+                            Medicamentos medicamento = medicamentosRepository.medicamentoPorNombre(listaMedicamentosDely.get(i).getNombre_medicamento());
+                            byte[] fotoBytes = medicamento.getFoto();
+                            String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+                            listafotos.add(fotoBase64);
+                        }
+
+                        String fotoBase64 = "sin receta";
+                        if(pedidosPaciente.getReceta_foto() != null){
+                            byte[] fotoBytes = pedidosPaciente.getReceta_foto();
+                            fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+                        }
+
+                        model.addAttribute("pedido", pedidosPaciente);
+                        model.addAttribute("listaFotos", listafotos);
+                        model.addAttribute("fotoBase64", fotoBase64);
+                        model.addAttribute("listamedicamentos", listaMedicamentosDely);
+                        model.addAttribute("dely", 1);
+                        model.addAttribute("reco", 0);
+                    }
+                    else{
+                        return "redirect:/farmacista/pedidosValidados";
+                    }
+                }
+            }
+            else{
+                return "redirect:/farmacista/pedidosValidados";
+            }
+        }
+        if(tipo.equals("2")){
+            Integer id = Integer.parseInt(idStr);
+            if(id > 0){
+                Optional<PedidosPacienteRecojo> optionalPedidosPacienteRecojo = pedidosPacienteRecojoRepository.findById(id);
+                if(optionalPedidosPacienteRecojo.isPresent()){
+                    PedidosPacienteRecojo pedido = optionalPedidosPacienteRecojo.get();
+
+                    if(pedido.getValidacion_del_pedido().equals("Validado")){
+
+                        List<MedicamentoRecojo> listaMedicamentosReco = medicamentosRecojoRepository.listaMedicamentosReco(id);
+                        List<String> listafotos = new ArrayList<>();
+
+                        for (int i = 0; i < listaMedicamentosReco.size(); i++) {
+                            Medicamentos medicamento = medicamentosRepository.medicamentoPorNombre(listaMedicamentosReco.get(i).getNombre_medicamento());
+                            byte[] fotoBytes = medicamento.getFoto();
+                            String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+                            listafotos.add(fotoBase64);
+                        }
+
+                        String fotoBase64 = "sin receta";
+                        if(pedido.getReceta_foto() != null){
+                            byte[] fotoBytes = pedido.getReceta_foto();
+                            fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+                        }
+
+                        model.addAttribute("pedido", pedido);
+                        model.addAttribute("listafotos", listafotos);
+                        model.addAttribute("fotoBase64", fotoBase64);
+                        model.addAttribute("listamedicamentos", listaMedicamentosReco);
+                        model.addAttribute("reco", 1);
+                        model.addAttribute("dely", 0);
+                    }
+                    else{
+                        return "redirect:/farmacista/pedidosValidados";
+                    }
+                }
+            }
+            else{
+                return "redirect:/farmacista/pedidosValidados";
+            }
+        }
+        if(!tipo.equals("1") && !tipo.equals("2")){
+            return "redirect:/farmacista/pedidosValidados";
+        }
+
+        return "farmacista/info_pedido";
+
+    }
+
+    @GetMapping("/farmacista/pedidosValidados/progresarEstado")
+    public String progresarTracking(@RequestParam("id") String idStr,
+                                    @RequestParam("tipo") String tipo , RedirectAttributes redirectAttrs){
+        if(tipo.equals("1")){
+            Integer id = Integer.parseInt(idStr);
+            if(id > 0){
+                Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(id);
+                if(optionalPedidosPaciente.isPresent()){
+
+                    PedidosPaciente pedido = optionalPedidosPaciente.get();
+
+                    if(pedido.getValidacion_del_pedido().equals("Validado")){
+                        if(pedido.getEstado_del_pedido().equals("Recibido")){
+                            pedido.setEstado_del_pedido("En proceso");
+                            pedidosPacienteRepository.save(pedido);
+                            redirectAttrs.addFlashAttribute("msg", "El pedido " + pedido.getNumero_tracking() + " avanzo al estado " + pedido.getEstado_del_pedido());
+                        }
+                        else{
+                            if(pedido.getEstado_del_pedido().equals("En proceso")){
+                                pedido.setEstado_del_pedido("Empaquetando");
+                                pedidosPacienteRepository.save(pedido);
+                                redirectAttrs.addFlashAttribute("msg", "El pedido " + pedido.getNumero_tracking() + " avanzo al estado " + pedido.getEstado_del_pedido());
+                            }
+                            if(pedido.getEstado_del_pedido().equals("En ruta")){
+                                pedido.setEstado_del_pedido("Entregado");
+                                pedidosPacienteRepository.save(pedido);
+                                redirectAttrs.addFlashAttribute("msg", "El pedido " + pedido.getNumero_tracking() + " avanzo al estado " + pedido.getEstado_del_pedido());
+                            }
+                        }
+                    }
+                    else{
+                        return "redirect:/farmacista/pedidosValidados";
+                    }
+                }
+            }
+            else{
+                return "redirect:/farmacista/pedidosValidados";
+            }
+        }
+        if(tipo.equals("2")){
+            Integer id = Integer.parseInt(idStr);
+            if(id > 0){
+                Optional<PedidosPacienteRecojo> optionalPedidosPacienteRecojo = pedidosPacienteRecojoRepository.findById(id);
+                if(optionalPedidosPacienteRecojo.isPresent()){
+                    PedidosPacienteRecojo pedido = optionalPedidosPacienteRecojo.get();
+
+                    if(pedido.getValidacion_del_pedido().equals("Validado")){
+                        if(pedido.getEstado_del_pedido().equals("Recibido")){
+                            pedido.setEstado_del_pedido("En proceso");
+                            pedidosPacienteRecojoRepository.save(pedido);
+                            redirectAttrs.addFlashAttribute("msg", "El pedido " + pedido.getNumero_tracking() + " avanzo al estado " + pedido.getEstado_del_pedido());
+                        }
+                        else{
+                            if(pedido.getEstado_del_pedido().equals("En proceso")){
+                                pedido.setEstado_del_pedido("Empaquetando");
+                                pedidosPacienteRecojoRepository.save(pedido);
+                                redirectAttrs.addFlashAttribute("msg", "El pedido " + pedido.getNumero_tracking() + " avanzo al estado " + pedido.getEstado_del_pedido());
+                            }
+                            if(pedido.getEstado_del_pedido().equals("En ruta")){
+                                pedido.setEstado_del_pedido("Entregado");
+                                pedidosPacienteRecojoRepository.save(pedido);
+                                redirectAttrs.addFlashAttribute("msg", "El pedido " + pedido.getNumero_tracking() + " avanzo al estado " + pedido.getEstado_del_pedido());
+                            }
+                        }
+                    }
+                    else{
+                        return "redirect:/farmacista/pedidosValidados";
+                    }
+                }
+            }
+            else{
+                return "redirect:/farmacista/pedidosValidados";
+            }
+        }
+        if(!tipo.equals("1") && !tipo.equals("2")){
+            return "redirect:/farmacista/pedidosValidados";
+        }
+        return "redirect:/farmacista/pedidosValidados";
+    }
+
+    @PostMapping("/farmacista/pedidosValidados/agregarMapa")
+    public String agregarMapaAPedidos(@RequestParam("pedidoId") String idStr,
+                                      @RequestParam("pedidoTipo") String tipo,
+                                      @RequestParam("mapLink") String mapLink ,RedirectAttributes redirectAttributes) {
+
+        if(mapLink.isEmpty()){
+            redirectAttributes.addFlashAttribute("msg", "El link del mapa no puede queda vacio");
+            return "redirect:/farmacista/pedidosValidados";
+        }
+
+        if(!mapLink.contains("https://www.google.com/maps/embed?pb=")){
+            redirectAttributes.addFlashAttribute("msg", "El link del mapa ingresado no es valido");
+            return "redirect:/farmacista/pedidosValidados";
+        }
+
+        if(tipo.equals("1")){
+            Integer id = Integer.parseInt(idStr);
+            Optional<PedidosPaciente> optionalPedidosPaciente = pedidosPacienteRepository.findById(id);
+            if(optionalPedidosPaciente.isPresent()){
+                PedidosPaciente pedido = optionalPedidosPaciente.get();
+
+                pedido.setMapa_tracking(mapLink);
+                pedido.setEstado_del_pedido("En ruta");
+
+                pedidosPacienteRepository.save(pedido);
+
+                redirectAttributes.addFlashAttribute("msg", "Se ha agregó correctamente el mapa y se avanzó el estado del pedido: " + pedido.getNumero_tracking());
+            }
+        }
+        if(tipo.equals("2")){
+            Integer id = Integer.parseInt(idStr);
+            Optional<PedidosPacienteRecojo> optionalPedidosPacienteRecojo = pedidosPacienteRecojoRepository.findById(id);
+            if(optionalPedidosPacienteRecojo.isPresent()){
+                PedidosPacienteRecojo pedido = optionalPedidosPacienteRecojo.get();
+
+                pedido.setMapa_tracking(mapLink);
+                pedido.setEstado_del_pedido("En ruta");
+
+                pedidosPacienteRecojoRepository.save(pedido);
+
+                redirectAttributes.addFlashAttribute("msg", "Se ha agregó correctamente el mapa y se avanzó el estado del pedido: " + pedido.getNumero_tracking());
+            }
+        }
+
+        return "redirect:/farmacista/pedidosValidados";
+    }
+
+    /*-----------------------*/
 
 }
