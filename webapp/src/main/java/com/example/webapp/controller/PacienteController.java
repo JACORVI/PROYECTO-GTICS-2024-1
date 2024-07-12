@@ -1834,5 +1834,10 @@ public class PacienteController {
     }
     /*---------------------------------------*/
 
+    @GetMapping("/paciente/mensaje")
+    public String mostrarMensajeria(Model model) {
+        // Agrega aquí cualquier atributo necesario al modelo
+        return "paciente/mensajeriap";
+    }
 
 }
