@@ -1036,6 +1036,10 @@ public class FarmacistaController {
         return "redirect:/farmacista/medicamentos";
     }
     /*---------------------------------------*/
-
+    @GetMapping("/farmacista/mensaje")
+    public String mostrarMensajeria(Model model) {
+        // Agrega aquí cualquier atributo necesario al modelo
+        return "farmacista/mensajeriaf";
+    }
 
 }
