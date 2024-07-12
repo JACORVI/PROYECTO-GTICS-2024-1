@@ -26,9 +26,8 @@
 
                                     </a>
                                     <div style="display: flex; flex-direction: column; color: white;">
-                                        <h5 style="margin: 0%;" th:text="${session.usuario.nombres + ' ' + session.usuario.apellidos}" >Nombre Apellido</h5> 
-                                        <h7 
-                                            th:text="${session.usuario.rol}">Rol</h7>
+                                        <h5 style="margin: 0%;" th:text="${session.usuario.nombres + ' ' + session.usuario.apellidos}" >Nombre Apellido</h5>
+                                        <h7 th:text="${session.usuario.getRol().getNombre()}">Rol</h7>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" th:href="@{/perfil}">Perfil</a></li>
@@ -70,7 +69,15 @@
                                     <li><a class="dropdown-item" href="/farmacista/nuevopedido">Sin Pre.Orden</a></li>
                                 </ul>
                             </li>
+
                         </ul>
+                    </div>
+                    <!--carrito-->
+                    <div class="m-auto">
+                        <a class="btn btn-outline-light" th:href="@{/farmacista/carrito}" >
+                            <i class="bi-cart-fill me-1"></i>
+
+                        </a>
                     </div>
                 </div>
             </nav>

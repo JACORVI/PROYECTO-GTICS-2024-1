@@ -90,7 +90,7 @@ public class LoginController {
             return "redirect:/superadmin/";
         }
         if (rol.equalsIgnoreCase("Farmacista")) {
-            return "redirect:/farmacista/nuevopedido";
+            return "redirect:/farmacista/medicamentos";
         }
         if (rol.equalsIgnoreCase("Admin")) {
             return "redirect:/admin/medicamentos";
@@ -237,7 +237,7 @@ public class LoginController {
                 return "redirect:/superadmin/";
             }
             if (rol.equals("Farmacista")) {
-                return "redirect:/farmacista/nuevopedido";
+                return "redirect:/farmacista/medicamentos";
             }
             if (rol.equals("Admin")) {
                 return "redirect:/admin/medicamentos";
