@@ -935,13 +935,13 @@ public class FarmacistaController {
         return "redirect:/farmacista/medicamentos";
     }
     /*---------------------------------------*/
-<<<<<<< HEAD
+
     @GetMapping("/farmacista/mensaje")
     public String mostrarMensajeria(Model model) {
-        // Agrega aquí cualquier atributo necesario al modelo
+        // solo redirige a la vista
         return "farmacista/mensajeriaf";
     }
-=======
+
 
     /*vista y QRUD de SOLICITUDES DE PEDIDOS*/
 
@@ -1767,6 +1767,5 @@ public class FarmacistaController {
     }
 
     /*-----------------------*/
->>>>>>> 1352ba4616a9dbf7558f45ecceb2890eaaeed3bb
 
 }
