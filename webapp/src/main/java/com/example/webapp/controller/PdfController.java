@@ -2,9 +2,6 @@ package com.example.webapp.controller;
 
 import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
-
-import com.example.webapp.entity.PedidosPacienteRecojo;
-
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -12,27 +9,30 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.UnitValue;
 import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.UnitValue;
+import com.lowagie.text.DocumentException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+import org.xhtmlrenderer.pdf.ITextRenderer;
+import org.thymeleaf.context.Context;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 @RestController
 public class PdfController {
@@ -45,19 +45,21 @@ public class PdfController {
 
     final PedidosPacienteRecojoRepository pedidosPacienteRecojoRepository;
     final MedicamentosRecojoRepository medicamentosRecojoRepository;
-
+    final SpringTemplateEngine templateEngine;
     public PdfController(MedicamentosRepository medicamentosRepository,
                          UsuarioRepository usuarioRepository,
                          UsuarioHasSedeRepository usuarioHasSedeRepository,
                          SedeHasMedicamentosRepository sedeHasMedicamentosRepository,
                          PedidosPacienteRecojoRepository pedidosPacienteRecojoRepository,
-                         MedicamentosRecojoRepository medicamentosRecojoRepository  ) {
+                         MedicamentosRecojoRepository medicamentosRecojoRepository,
+                         SpringTemplateEngine templateEngine) {
         this.medicamentosRepository = medicamentosRepository;
         this.usuarioRepository = usuarioRepository;
         this.usuarioHasSedeRepository = usuarioHasSedeRepository;
         this.sedeHasMedicamentosRepository = sedeHasMedicamentosRepository;
         this.pedidosPacienteRecojoRepository = pedidosPacienteRecojoRepository;
         this.medicamentosRecojoRepository = medicamentosRecojoRepository;
+        this.templateEngine = templateEngine;
     }
 
     @PostMapping("/filtrarSede")
@@ -623,98 +625,47 @@ public class PdfController {
 
 
 
+
     @GetMapping("/boleta_pdf")
     public ResponseEntity<InputStreamResource> generarBoletaPdf(Model model, @RequestParam("id") int id) {
-        // Optional logging
         logger.debug("Iniciando generación de boleta PDF para el pedido con ID: {}", id);
 
         Optional<PedidosPacienteRecojo> optionalPedido = pedidosPacienteRecojoRepository.findById(id);
 
         if (optionalPedido.isPresent()) {
             PedidosPacienteRecojo pedido = optionalPedido.get();
-            // Optional logging
-          logger.debug("Pedido encontrado: {}", pedido);
-
-            // Obtener los medicamentos asociados al pedido recojo
             List<MedicamentoRecojo> medicamentos = medicamentosRecojoRepository.listaMedicamentosReco(id);
-            // Optional logging
-         logger.debug("Medicamentos encontrados para el pedido con ID {}: {}", id, medicamentos);
 
-            try {
-                // Crear el documento PDF
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                PdfWriter writer = new PdfWriter(byteArrayOutputStream);
-                PdfDocument pdfDocument = new PdfDocument(writer);
-                Document document = new Document(pdfDocument);
+            List<Map<String, Object>> medicamentosData = new ArrayList<>();
+            double totalCost = 0.0;
 
-                // Título del documento
-                Paragraph title = new Paragraph("Boleta de Pedido")
-                        .setFontSize(20)
-                        .setBold()
-                        .setTextAlignment(TextAlignment.CENTER);
-                document.add(title);
+            for (MedicamentoRecojo medicamento : medicamentos) {
+                Map<String, Object> medData = new HashMap<>();
+                medData.put("nombre", medicamento.getNombre_medicamento());
+                medData.put("cantidad", medicamento.getCantidad());
 
-                // Espacio después del título
-                document.add(new Paragraph("\n"));
-
-                // Crear tabla con encabezados
-                float[] columnWidths = {3, 3, 3, 3}; // Ajuste de anchos de columna para cuatro columnas
-                Table table = new Table(UnitValue.createPercentArray(columnWidths));
-                table.setWidth(UnitValue.createPercentValue(100));
-
-                // Encabezados
-                table.addHeaderCell(new Cell().add(new Paragraph("Medicamento")).setBackgroundColor(ColorConstants.LIGHT_GRAY));
-                table.addHeaderCell(new Cell().add(new Paragraph("Cantidad")).setBackgroundColor(ColorConstants.LIGHT_GRAY));
-                table.addHeaderCell(new Cell().add(new Paragraph("Precio Unitario")).setBackgroundColor(ColorConstants.LIGHT_GRAY));
-                table.addHeaderCell(new Cell().add(new Paragraph("Subtotal")).setBackgroundColor(ColorConstants.LIGHT_GRAY));
-
-                // Calcular y agregar datos a la tabla
-                double totalCost = 0.0;
-                for (MedicamentoRecojo medicamento : medicamentos) {
-                    table.addCell(new Cell().add(new Paragraph(medicamento.getNombre_medicamento())));
-                    table.addCell(new Cell().add(new Paragraph(String.valueOf(medicamento.getCantidad()))));
-
-                    // Puedes obtener el precio unitario y calcular el subtotal
-                    // Aquí asumo que el costo_medicamento es un String, puedes ajustarlo según tu modelo
-                    double precioUnitario = Double.parseDouble(medicamento.getCosto_medicamento());
-                    table.addCell(new Cell().add(new Paragraph(String.valueOf(precioUnitario))));
-
-                    double subtotal = medicamento.getCantidad() * precioUnitario;
-                    totalCost += subtotal;
-
-                    table.addCell(new Cell().add(new Paragraph(String.valueOf(subtotal))));
+                double costo = 0.0;
+                try {
+                    costo = Double.parseDouble(medicamento.getCosto_medicamento());
+                } catch (NumberFormatException e) {
+                    logger.warn("Error al parsear costo de medicamento: {}", medicamento.getCosto_medicamento());
                 }
 
-                document.add(table);
+                double subtotal = medicamento.getCantidad() * costo;
+                medData.put("costo", String.format("%.2f", costo));
+                medData.put("subtotal", String.format("%.2f", subtotal));
 
-                // Espacio antes del total
-                document.add(new Paragraph("\n"));
+                medicamentosData.add(medData);
+                totalCost += subtotal;
+            }
 
-                // Total
-                Paragraph total = new Paragraph("Total: $" + totalCost)
-                        .setFontSize(14)
-                        .setBold()
-                        .setTextAlignment(TextAlignment.RIGHT);
-                document.add(total);
+            model.addAttribute("medicamentos", medicamentosData);
+            model.addAttribute("totalCost", String.format("%.2f", totalCost));
+            model.addAttribute("fecha", LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
-                // Espacio antes de la fecha
-                document.add(new Paragraph("\n"));
-
-                // Añadir fecha
-                LocalDate today = LocalDate.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                String formattedDate = today.format(formatter);
-
-                Paragraph date = new Paragraph("Fecha: " + formattedDate)
-                        .setFontSize(12)
-                        .setTextAlignment(TextAlignment.RIGHT);
-                document.add(date);
-
-                document.close();
-
-                // Convertir a bytes y enviar como respuesta
-                byte[] pdfBytes = byteArrayOutputStream.toByteArray();
-                InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(pdfBytes));
+            try {
+                String renderedHtml = renderThymeleafTemplate("boleta-template", model);
+                ByteArrayInputStream pdfStream = generatePdfFromHtml(renderedHtml);
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Boleta_Pedido.pdf");
@@ -722,17 +673,29 @@ public class PdfController {
                 return ResponseEntity.ok()
                         .headers(headers)
                         .contentType(MediaType.APPLICATION_PDF)
-                        .body(resource);
+                        .body(new InputStreamResource(pdfStream));
             } catch (Exception e) {
-                // Optional logging
                 logger.error("Error al generar boleta PDF para el pedido con ID {}: {}", id, e.getMessage());
                 return ResponseEntity.badRequest().build();
             }
         } else {
-            // Optional logging
-           logger.warn("No se encontró pedido con ID: {}", id);
+            logger.warn("No se encontró pedido con ID: {}", id);
             return ResponseEntity.notFound().build();
         }
+    }
+    private String renderThymeleafTemplate(String templateName, Model model) {
+        Context context = new Context();
+        model.asMap().forEach(context::setVariable);
+        return templateEngine.process(templateName, context);
+    }
+
+    private ByteArrayInputStream generatePdfFromHtml(String html) throws Exception {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ITextRenderer renderer = new ITextRenderer();
+        renderer.setDocumentFromString(html);
+        renderer.layout();
+        renderer.createPDF(outputStream);
+        return new ByteArrayInputStream(outputStream.toByteArray());
     }
 }
 
