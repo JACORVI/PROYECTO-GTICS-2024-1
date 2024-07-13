@@ -1,5 +1,7 @@
 package com.example.webapp.controller;
 
+import com.example.webapp.dao.DaoDoctorAdministrador;
+import com.example.webapp.dao.DaoFarmacista;
 import com.example.webapp.dao.DataDao;
 import com.example.webapp.entity.CodigoColegio;
 import com.example.webapp.entity.Data;
@@ -43,13 +45,19 @@ public class LoginController {
     CodigoColegioRepository codigoColegioRepository;
     UsuarioHasSedeRepository usuarioHasSedeRepository;
 
+    DaoDoctorAdministrador daoDoctorAdministrador;
+    DaoFarmacista daoFarmacista;
+
     public LoginController(DataDao dataDao, SeguroRepository seguroRepository, DistritoRepository distritoRepository,
-                           CodigoColegioRepository codigoColegioRepository, UsuarioHasSedeRepository usuarioHasSedeRepository) {
+                           CodigoColegioRepository codigoColegioRepository, UsuarioHasSedeRepository usuarioHasSedeRepository,
+                           DaoDoctorAdministrador daoDoctorAdministrador, DaoFarmacista daoFarmacista) {
         this.dataDao = dataDao;
         this.seguroRepository = seguroRepository;
         this.distritoRepository = distritoRepository;
         this.codigoColegioRepository = codigoColegioRepository;
         this.usuarioHasSedeRepository = usuarioHasSedeRepository;
+        this.daoDoctorAdministrador = daoDoctorAdministrador;
+        this.daoFarmacista = daoFarmacista;
     }
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -338,7 +346,7 @@ public class LoginController {
         System.out.println("Este es el rol enviado ###########################################");
         System.out.println(rol);
         try {
-            Data data = dataDao.buscarPorDni(dni);
+            Data data = daoDoctorAdministrador.buscarPorDni(dni);
             Integer dniInt = Integer.valueOf(dni);
             List<Integer> listaDNI = usuarioRepository.listaDniExistentes();
             boolean encontrado = false;
@@ -530,7 +538,7 @@ public class LoginController {
 
                 String dni = usuario.getDni();
                 String dniString = String.valueOf(dni);
-                Data data = dataDao.buscarPorDni(dniString);
+                Data data = daoDoctorAdministrador.buscarPorDni(dniString);
 
                 //NOMBRES -> Nombres
                 String nombreCompleto = data.getNombres();
@@ -591,7 +599,7 @@ public class LoginController {
                 }
                 String dni = usuario.getDni();
                 String dniString = String.valueOf(dni);
-                Data data = dataDao.buscarPorDni(dniString);
+                Data data = daoDoctorAdministrador.buscarPorDni(dniString);
 
                 //NOMBRES -> Nombres
                 String nombreCompleto = data.getNombres();
@@ -672,7 +680,7 @@ public class LoginController {
 
                 String dni = usuario.getDni();
                 String dniString = String.valueOf(dni);
-                Data data = dataDao.buscarPorDni(dniString);
+                Data data = daoFarmacista.buscarPorDni(dniString);
 
                 //NOMBRES -> Nombres
                 String nombreCompleto = data.getNombres();
