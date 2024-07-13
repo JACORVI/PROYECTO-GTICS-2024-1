@@ -83,7 +83,7 @@
                             <td class=<%=color%><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}"></p></td>
                             <td class=<%=color%><p style="font-size: 18px;" th:text="${Usuarios.getDni()}"></p></td>
                             <td class=<%=color%><p style="font-size: 18px;" th:text="${Usuarios.getDistrito().getNombre()}"></p></td>
-                            <td class=<%=color%><p style="font-size: 18px;" th:text="${Usuarios.getCodigo_colegiatura()}"></p></td>
+                            <td class=<%=color%><p style="font-size: 18px;" th:text="${Usuarios.getCodigo_colegio().getNombre()}"></p></td>
 
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado_solicitud() == 'Pendiente'}">
@@ -101,7 +101,7 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form th:id="'formEliminar' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/Aceptar_Administrador'}">
+                                                    <form th:id="'formEliminar' + ${Usuarios.getId()}" method="post" th:action="@{'/Aceptar_Administrador'}">
                                                         <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
                                                     </form>
                                                 </div>

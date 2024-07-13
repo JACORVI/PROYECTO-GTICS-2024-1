@@ -44,9 +44,10 @@ public class LoginController {
     DistritoRepository distritoRepository;
     CodigoColegioRepository codigoColegioRepository;
     UsuarioHasSedeRepository usuarioHasSedeRepository;
-
     DaoDoctorAdministrador daoDoctorAdministrador;
     DaoFarmacista daoFarmacista;
+
+
 
     public LoginController(DataDao dataDao, SeguroRepository seguroRepository, DistritoRepository distritoRepository,
                            CodigoColegioRepository codigoColegioRepository, UsuarioHasSedeRepository usuarioHasSedeRepository,
@@ -733,6 +734,32 @@ public class LoginController {
         }
         return "redirect:/login";
     }
+
+    @PostMapping("/Aceptar_Administrador")
+    public String Aceptar_Administrador(@RequestParam("id_usuario") int id) {
+        usuarioRepository.aceptarAdministrador("Aceptado", id);
+        Optional<Usuario> optUsuario = usuarioRepository.findById(id);
+        Usuario usuario = optUsuario.get();
+
+        try {
+            usuario.setToken_recuperacion(util.GenerarToken()); // Token de ACTIVACION
+            usuario.setCuenta_activada(0);
+            usuarioRepository.save(usuario);
+
+            String cuerpo = this.correo.construirCuerpoActivarCuenta(usuario);
+            boolean envio = this.correo.EnviarCorreo("Activar cuenta", cuerpo, usuario);
+
+            //redirectAttributes.addFlashAttribute("success", "Registro exitoso. Se te ha enviado un correo de notificación sobre el estado de tu registro para su activación.");
+        } catch (Exception e) {
+            logger.error("Error al registrar el usuario", e);
+            //redirectAttributes.addFlashAttribute("usuario", usuario);
+            //redirectAttributes.addFlashAttribute("error", "Hubo un problema al registrar el usuario. Por favor, Intentelo de nuevo.");
+        }
+
+        return "redirect:/superadmin/Estado_Solicitudes_Farmacistas";
+    }
+
+
 
     @GetMapping("/reestablecer/activar")
     public String VistaActivarCuentaPassword(@RequestParam(name = "token", required = false) String token,

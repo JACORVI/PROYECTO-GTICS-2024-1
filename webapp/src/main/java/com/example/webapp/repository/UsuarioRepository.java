@@ -21,7 +21,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value = "SELECT correo FROM gticsbd.usuario;", nativeQuery = true)
     List<String> listaCorreosExistentes();
 
-    @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 and estado_solicitud = ?3 order by fecha_creacion", nativeQuery = true)
+    @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 and estado_solicitud = ?3 and cuenta_activada = 1 order by fecha_creacion", nativeQuery = true)
     List<Usuario> buscarFarmacistaAceptado(int rol,int borrado_logico,String estado_solicitud);
 
     @Query(value = "select * from usuario where id_roles = ?1 and borrado_logico = ?2 order by fecha_creacion", nativeQuery = true)
@@ -56,7 +56,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true,value = "update usuario set estado_solicitud = ?1 , estado = 1, cuenta_activada = 1, borrado_logico = 0 where id_usuario = ?2")
+    @Query(nativeQuery = true,value = "update usuario set estado_solicitud = ?1 , estado = 1, borrado_logico = 0 where id_usuario = ?2")
     void aceptarAdministrador(String valor, int id);
 
     @Transactional

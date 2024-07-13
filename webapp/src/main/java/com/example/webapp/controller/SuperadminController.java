@@ -1680,12 +1680,12 @@ public class SuperadminController {
         }
     }
 
-    @PostMapping("/Aceptar_Administrador")
+    /*@PostMapping("/Aceptar_Administrador")
     public String Aceptar_Administrador(@RequestParam("id_usuario") int id) {
         usuarioRepository.aceptarAdministrador("Aceptado",id);
 
         return "redirect:/superadmin/Estado_Solicitudes_Farmacistas";
-    }
+    }*/
     @PostMapping("/Rechazar_Administrador")
     public String Rechazar_Administrador(@RequestParam("id_usuario") int id,@RequestParam("textoRechazoNuevo") String textoRechazo) {
         System.out.println(id);
