@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -140,10 +139,10 @@ public class AdminSedeController {
         model.addAttribute("listaFarmacista",farmacistaxsedeList);
         return "admin/farmacistas";
     }
-    /*---------------------------------------*/
+    /*---------------------------------------
 
-    /*Vista para crear nuevo farmacista*/
-    @GetMapping(value="/admin/registrar_farmacista")
+    /*Vista para crear nuevo farmacista
+    @GetMapping(value="/admin/actualizar_farmacista")
     public String adminsedeFarmacistas(Model model, HttpSession session, RedirectAttributes attr, @ModelAttribute("usuario") Usuario usuario){
 
         Usuario admin = (Usuario) session.getAttribute("usuario");
@@ -161,19 +160,44 @@ public class AdminSedeController {
             model.addAttribute("listaColegio",listaCodigo);
             return "admin/nuevo_farmacista";
         }
+    }*/
+
+
+    /*Vista para crear nuevo farmacista*/
+    @GetMapping("/admin/Farmacista")
+    public String RegistroFarmacista(HttpSession session, RedirectAttributes attr) {
+
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        int idSede = usuarioHasSedeRepository.buscarSedeDeUsuario(admin.getId());
+
+        List<Usuario> farmacistaxsedeList = usuarioRepository.buscarFarmacistaporSede(idSede);
+        if(farmacistaxsedeList.size()>2){
+            attr.addFlashAttribute("msg1", "Solo se puede registrar un máximo de 3 farmacistas");
+            return "redirect:/admin/farmacistas";
+        }
+        else {
+            return "admin/indexFarmacista";
+        }
     }
     /*---------------------------------------*/
 
     /*Guarda registro de farmacista*/
     @PostMapping("/admin/guardar_farmacista")
-    public String guardarFarmacista(HttpSession session, RedirectAttributes attr,
-                                    @ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult) {
+    public String guardarFarmacista(Model model, HttpSession session, RedirectAttributes attr,
+                                    Usuario usuario, BindingResult bindingResult) {
 
+        System.out.println(usuario.getId());
+        System.out.println(usuario.getCodigo_colegio().getId());
+        System.out.println(usuario.getDistrito().getNombre());
         Usuario admin = (Usuario) session.getAttribute("usuario");
         int idSede = usuarioHasSedeRepository.buscarSedeDeUsuario(admin.getId());
 
         if (bindingResult.hasErrors()) { //si no hay errores, se realiza el flujo normal
-            return "admin/nuevo_farmacista";
+            List<Distrito> listaDistrito = distritoRepository.findAll();
+            model.addAttribute("listaDistritos",listaDistrito);
+            List<CodigoColegio> listaCodigo = codigoColegioRepository.findAll();
+            model.addAttribute("listaColegio",listaCodigo);
+            return "admin/editar_farmacista";
         }
         else{
             if (usuario.getId() == 0) {
@@ -186,7 +210,8 @@ public class AdminSedeController {
                 usuarioHasSedeRepository.AsignarSede(usuario.getId(), idSede);
 
             } else {
-                usuarioRepository.save(usuario);
+
+                usuarioRepository.actualizarFarmacista(usuario.getDistrito().getId(), usuario.getId());
                 attr.addFlashAttribute("msg", "Farmacista actualizado exitosamente");
             }
 
@@ -211,7 +236,7 @@ public class AdminSedeController {
             model.addAttribute("listaDistritos",listaDistrito);
             List<CodigoColegio> listaCodigo = codigoColegioRepository.findAll();
             model.addAttribute("listaColegio",listaCodigo);
-            return "admin/nuevo_farmacista";
+            return "admin/editar_farmacista";
         } else {
             return "redirect:/admin/farmacistas";
         }

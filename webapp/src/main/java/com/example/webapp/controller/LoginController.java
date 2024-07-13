@@ -5,10 +5,7 @@ import com.example.webapp.entity.CodigoColegio;
 import com.example.webapp.entity.Data;
 import com.example.webapp.entity.Roles;
 import com.example.webapp.entity.Usuario;
-import com.example.webapp.repository.CodigoColegioRepository;
-import com.example.webapp.repository.DistritoRepository;
-import com.example.webapp.repository.SeguroRepository;
-import com.example.webapp.repository.UsuarioRepository;
+import com.example.webapp.repository.*;
 import com.example.webapp.util.Correo;
 import com.example.webapp.util.Utileria;
 import com.example.webapp.util.Utils;
@@ -43,15 +40,16 @@ public class LoginController {
     DataDao dataDao;
     SeguroRepository seguroRepository;
     DistritoRepository distritoRepository;
-
     CodigoColegioRepository codigoColegioRepository;
+    UsuarioHasSedeRepository usuarioHasSedeRepository;
 
     public LoginController(DataDao dataDao, SeguroRepository seguroRepository, DistritoRepository distritoRepository,
-                           CodigoColegioRepository codigoColegioRepository) {
+                           CodigoColegioRepository codigoColegioRepository, UsuarioHasSedeRepository usuarioHasSedeRepository) {
         this.dataDao = dataDao;
         this.seguroRepository = seguroRepository;
         this.distritoRepository = distritoRepository;
         this.codigoColegioRepository = codigoColegioRepository;
+        this.usuarioHasSedeRepository = usuarioHasSedeRepository;
     }
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -392,6 +390,14 @@ public class LoginController {
                         //model.addAttribute("listaSeguros", seguroRepository.findAll());
                         //model.addAttribute("listaDistritos", distritoRepository.findAll());
                         return "superadmin/FormRegistroAdministrador";
+                    }else if(rol == 3) {
+                        model.addAttribute("nombresValidados", nombreFormateado.toString());
+                        model.addAttribute("apellidosValidados", apellidoFormateado.toString());
+                        model.addAttribute("dniValidado", data.getDni());
+                        model.addAttribute("listaCodigosColegio", codigoColegioRepository.findAll());
+                        //model.addAttribute("listaSeguros", seguroRepository.findAll());
+                        //model.addAttribute("listaDistritos", distritoRepository.findAll());
+                        return "admin/FormRegistroFarmacista";
                     }
                 }
                 catch (Exception e) {
@@ -401,6 +407,8 @@ public class LoginController {
                         return "superadmin/IndexDoctor";
                     }else if(rol == 2){
                         return "superadmin/IndexAdministrador";
+                    }else if(rol == 3){
+                        return "admin/indexFarmacista";
                     }
                 }
             }
@@ -410,6 +418,8 @@ public class LoginController {
                     return "superadmin/IndexDoctor";
                 }else if(rol == 2){
                     return "superadmin/IndexAdministrador";
+                }else if(rol == 3){
+                    return "admin/indexFarmacista";
                 }
             }
         }
@@ -419,6 +429,8 @@ public class LoginController {
                 return "superadmin/IndexDoctor";
             }else if(rol == 2){
                 return "superadmin/IndexAdministrador";
+            }else if(rol == 3){
+                return "admin/indexFarmacista";
             }
         }
         return "redirect:/login";
@@ -639,6 +651,77 @@ public class LoginController {
 
                 return "redirect:/superadmin/Vista_Principal";
             }
+        }else if(rolNuevo == 3){
+            Usuario admin = (Usuario) session.getAttribute("usuario");
+            int idSede = usuarioHasSedeRepository.buscarSedeDeUsuario(admin.getId());
+
+            System.out.println("Codigo de Colegiatura////////////////////////////////////////////////////");
+            if (bindingResult.hasErrors() ||  usuario.getCodigo_colegio() == null || encontrado || encontrado1) {
+                if (usuario.getCodigo_colegio() == null){
+                    model.addAttribute("codigoError1", "Debe seleccionar un codigo de colegiatura");
+                }
+                if (encontrado1){
+                    model.addAttribute("codigoError", "El codigo de colegiatura ya ha sido registrado en el sistema");
+                }
+
+                if (encontrado) {
+                    model.addAttribute("correoExistenteError", "El correo ingresado ya ha sido registrado.");
+                }
+
+
+
+                String dni = usuario.getDni();
+                String dniString = String.valueOf(dni);
+                Data data = dataDao.buscarPorDni(dniString);
+
+                //NOMBRES -> Nombres
+                String nombreCompleto = data.getNombres();
+                String[] palabras1 = nombreCompleto.split(" ");
+                StringBuilder nombreFormateado = new StringBuilder();
+                for (String palabra : palabras1) {
+                    if (!nombreFormateado.toString().isEmpty()) {
+                        nombreFormateado.append(" ");
+                    }
+                    nombreFormateado.append(palabra.substring(0, 1).toUpperCase())
+                            .append(palabra.substring(1).toLowerCase());
+                }
+
+                //APELLIDOS -> Apellidos
+                String apellidoCompleto = data.getApellido_paterno() + " " + data.getApellido_materno();
+                String[] palabras2 = apellidoCompleto.split(" ");
+                StringBuilder apellidoFormateado = new StringBuilder();
+                for (String palabra : palabras2) {
+                    if (!apellidoFormateado.toString().isEmpty()) {
+                        apellidoFormateado.append(" ");
+                    }
+                    apellidoFormateado.append(palabra.substring(0, 1).toUpperCase())
+                            .append(palabra.substring(1).toLowerCase());
+                }
+
+                model.addAttribute("nombresValidados", nombreFormateado.toString());
+                model.addAttribute("apellidosValidados", apellidoFormateado.toString());
+                model.addAttribute("dniValidado", data.getDni());
+                model.addAttribute("listaCodigosColegio", codigoColegioRepository.findAll());
+                //model.addAttribute("listaSeguros", seguroRepository.findAll());
+                //model.addAttribute("listaDistritos", distritoRepository.findAll());
+                return "admin/FormRegistroFarmacista";
+            }else{
+                Roles rol = new Roles();
+                rol.setId(3); // ROL Farmacista
+
+                usuario.setFecha_creacion(new Date());
+                usuario.setCodigo_colegiatura("Sin-Codigo");
+                usuario.setRol(rol);
+                usuario.setContrasena("");
+                usuario.setCuenta_activada(0);
+                usuario.setEstado(1);
+                redirectAttributes.addFlashAttribute("msg", "Farmacista creado exitosamente");
+                usuarioRepository.save(usuario);
+                usuarioHasSedeRepository.AsignarSede(usuario.getId(), idSede);
+
+                return "redirect:/admin/farmacistas";
+            }
+
         }
         return "redirect:/login";
     }

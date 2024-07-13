@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="header (title)">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,69 +25,76 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg fondo" style=" background-color: #0b636fc9;" th:fragment="navar1">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" th:href="@{/admin/paginainicio}" style="color: white; font-size: x-large; margin-bottom: 3px;"><img th:src="@{/assets/admin/img/logo.png}" alt="Logo" width="50vw" height="50vh"> PildoPharm</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav m-auto">
-                <div class="input-group ml-40">
-                    <!--ocultar buscador
-                    <input class="form-control" type="text" style="font-size: large;" placeholder="Buscar por Nombre..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
-                    <button class="btn btn-outline-light" type="submit"><i class="bi-search me-1"></i></button>
-                --></div>
-            </ul>
-            <form class="d-flex">
-                <!--boton registrar-->
-                <div class="dropdown" style="margin-top: 5px;">
-                    <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px; display: flex;" >
-                        <a class="text-decoration-none" style="margin-right: 10px;" href="#">
-                            <img th:if="${session['avatar'] != null}" th:src="'/assets/paciente/img/'+ ${session['avatar']}" width="50vw" height="50vh" alt="Avatar" class="avatar"
-                                 onerror="this.onerror=null; this.src='/superadmin/img/usuario.png';">
+<div th:fragment="navegacion">
+    <nav class="navbar navbar-expand-lg fondo" style=" background-color: #0b636fc9;" th:fragment="navar1">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" th:href="@{/admin/paginainicio}" style="color: white; font-size: x-large; margin-bottom: 3px;"><img th:src="@{/assets/admin/img/logo.png}" alt="Logo" width="50vw" height="50vh"> PildoPharm</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav m-auto">
+                    <div class="input-group ml-40">
+                        <!--ocultar buscador
+                        <input class="form-control" type="text" style="font-size: large;" placeholder="Buscar por Nombre..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
+                        <button class="btn btn-outline-light" type="submit"><i class="bi-search me-1"></i></button>
+                    --></div>
+                </ul>
+                <form class="d-flex">
+                    <!--boton registrar-->
+                    <div class="dropdown" style="margin-top: 5px;">
+                        <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px; display: flex;" >
+                            <a class="text-decoration-none" style="margin-right: 10px;" href="#">
+                                <img th:if="${session['avatar'] != null}" th:src="'/assets/paciente/img/'+ ${session['avatar']}" width="50vw" height="50vh" alt="Avatar" class="avatar"
+                                     onerror="this.onerror=null; this.src='/superadmin/img/usuario.png';">
 
-                            <img th:unless="${session['avatar'] != null}" th:src="@{/assets/superadmin/img/usuario.png}" width="50vw" height="50vh" alt="Avatar" class="avatar">
+                                <img th:unless="${session['avatar'] != null}" th:src="@{/assets/superadmin/img/usuario.png}" width="50vw" height="50vh" alt="Avatar" class="avatar">
 
-                        </a>
-                        <div style="display: flex; flex-direction: column; color: white;">
-                            <h5 style="margin: 0%;" th:text="${session.usuario.nombres + ' ' + session.usuario.apellidos}" >Nombre Apellido</h5>
-                            <h7
-                                    th:text="${session.usuario.rol.nombre}">Rol</h7>
-                        </div>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/perfil">Perfil</a></li>
-                        <li style="color: darkred!important;">
-                            <a class="dropdown-item"
-                               th:href="@{/logout}" style="color: red!important;">
-                                <b>Cerrar Sesión</b>
                             </a>
-                        </li>
-                    </ul>
-                </div>
-            </form>
+                            <div sec:authorize="isAuthenticated()" style="display: flex; flex-direction: column; color: white;">
+                                <h5 style="margin: 0%;" th:text="${session.usuario.nombres} + ' ' + ${session.usuario.apellidos}"></h5>
+                                <h7 th:text="${session.usuario.getRol().getNombre()}">Rol</h7>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/perfil">Perfil</a></li>
+                                    <li style="color: darkred!important;">
+                                        <form th:action="@{/logout}" method="post">
+                                            <input class="btn btn-link" type="submit" value="Cerrar Sesión">
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/perfil">Perfil</a></li>
+                            <li style="color: darkred!important;">
+                                <form th:action="@{/logout}" method="post">
+                                    <input class="dropdown-item" type="submit" value="Cerrar Sesión">
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-</nav>
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #72b2bbc9!important;" th:fragment="navar2">
-    <div class="container px-4 px-lg-5">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: large;">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{/admin/paginainicio}">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{/admin/medicamentos}">Medicamentos</a></li>
-                <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{/admin/doctores}">Doctores</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Farmacistas</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" th:href="@{/admin/farmacistas}">Lista de Farmacistas</a></li>
-                        <li><a class="dropdown-item" th:href="@{/admin/estado_solicitud_farmacistas}">Lista de solicitudes</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{/admin/pedidos_reposicion}">Pedidos de Reposición</a></li>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #72b2bbc9!important;" th:fragment="navar2">
+        <div class="container px-4 px-lg-5">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: large;">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{/admin/paginainicio}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{/admin/medicamentos}">Medicamentos</a></li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{/admin/doctores}">Doctores</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Farmacistas</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" th:href="@{/admin/farmacistas}">Lista de Farmacistas</a></li>
+                            <li><a class="dropdown-item" th:href="@{/admin/estado_solicitud_farmacistas}">Lista de solicitudes</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{/admin/pedidos_reposicion}">Pedidos de Reposición</a></li>
 
-            </ul>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
-
+    </nav>
+</div>
 </body>
 </html>

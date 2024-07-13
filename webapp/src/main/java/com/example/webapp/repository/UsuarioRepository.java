@@ -99,4 +99,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
             + " token_recuperacion = null, fecha_recuperacion=null , cuenta_activada=1, estado=1  "
             + "  WHERE id_usuario = ?3", nativeQuery = true)
     int actualizarPasswordyEstado(String contrasena, String contrasena1, int idUsuario);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value = "update usuario set id_distrito = ?1 where id_usuario = ?2")
+    void actualizarFarmacista(int id_distrito, int id_usuario);
 }
