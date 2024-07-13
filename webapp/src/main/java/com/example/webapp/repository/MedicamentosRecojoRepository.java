@@ -13,4 +13,6 @@ public interface MedicamentosRecojoRepository extends JpaRepository<MedicamentoR
             "FROM gticsbd.medicamentos_recojo \n" +
             "WHERE pedidos_paciente_recojo_idpedidos_paciente_recojo = ?1", nativeQuery = true)
     List<MedicamentoRecojo> listaMedicamentosReco(int idpedido);
+
+
 }

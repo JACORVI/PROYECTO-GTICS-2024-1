@@ -66,14 +66,18 @@
                                     <td>
                                         <div class="card-footer pt-1 br-3 border-top-0">
                                             <div class="text-center">
-                                                <a type="button" class="btn btn-danger" th:if="${pedido.estado_del_pedido != 'Por cancelar'}">
+                                                <a type="button" class="btn btn-danger"
+                                                   th:href="@{'/boleta_pdf?id=' + ${pedido.id}}"
+                                                   >
                                                     <i class="bi bi-download" style="vertical-align: middle; margin-right: 5px;"></i>
                                                     <span style="vertical-align: middle;">Boleta de Pago</span>
                                                 </a>
+
+                                                </a>  <!--
                                                 <a type="button" th:href="@{'/farmacista/pagoSeguro?id=' + ${pedido.id} + '&tipo=' + ${2}}" class="btn btn-warning" th:if="${pedido.estado_del_pedido == 'Por cancelar'}">
                                                     <i class="bi bi-credit-card" style="vertical-align: middle; margin-right: 5px;"></i>
                                                     <span style="vertical-align: middle;">Realizar el Pago</span>
-                                                </a>
+                                                </a>    -->
                                             </div>
                                         </div>
                                     </td>
@@ -91,8 +95,8 @@
             </div>
             <!-- ************ -->
         </div>
-        <!-- ************* -->
-        <footer th:replace="layout/PlantillaFarmacista :: footer"></footer>
+        <!-- *************
+        <footer th:replace="layout/PlantillaFarmacista :: footer"></footer>-->
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>

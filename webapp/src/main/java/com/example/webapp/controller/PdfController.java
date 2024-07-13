@@ -1,10 +1,10 @@
 package com.example.webapp.controller;
 
 import com.example.webapp.entity.*;
-import com.example.webapp.repository.MedicamentosRepository;
-import com.example.webapp.repository.SedeHasMedicamentosRepository;
-import com.example.webapp.repository.UsuarioHasSedeRepository;
-import com.example.webapp.repository.UsuarioRepository;
+import com.example.webapp.repository.*;
+
+import com.example.webapp.entity.PedidosPacienteRecojo;
+
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -30,23 +30,34 @@ import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @RestController
 public class PdfController {
-
+    private static final Logger logger = LoggerFactory.getLogger(PdfController.class);
     final MedicamentosRepository medicamentosRepository;
     final UsuarioRepository usuarioRepository;
     final UsuarioHasSedeRepository usuarioHasSedeRepository;
     final SedeHasMedicamentosRepository sedeHasMedicamentosRepository;
 
+
+    final PedidosPacienteRecojoRepository pedidosPacienteRecojoRepository;
+    final MedicamentosRecojoRepository medicamentosRecojoRepository;
+
     public PdfController(MedicamentosRepository medicamentosRepository,
                          UsuarioRepository usuarioRepository,
                          UsuarioHasSedeRepository usuarioHasSedeRepository,
-                         SedeHasMedicamentosRepository sedeHasMedicamentosRepository) {
+                         SedeHasMedicamentosRepository sedeHasMedicamentosRepository,
+                         PedidosPacienteRecojoRepository pedidosPacienteRecojoRepository,
+                         MedicamentosRecojoRepository medicamentosRecojoRepository  ) {
         this.medicamentosRepository = medicamentosRepository;
         this.usuarioRepository = usuarioRepository;
         this.usuarioHasSedeRepository = usuarioHasSedeRepository;
         this.sedeHasMedicamentosRepository = sedeHasMedicamentosRepository;
+        this.pedidosPacienteRecojoRepository = pedidosPacienteRecojoRepository;
+        this.medicamentosRecojoRepository = medicamentosRecojoRepository;
     }
 
     @PostMapping("/filtrarSede")
@@ -610,4 +621,119 @@ public class PdfController {
                 .body(resource);
     }
 
+
+
+    @GetMapping("/boleta_pdf")
+    public ResponseEntity<InputStreamResource> generarBoletaPdf(Model model, @RequestParam("id") int id) {
+        // Optional logging
+        logger.debug("Iniciando generación de boleta PDF para el pedido con ID: {}", id);
+
+        Optional<PedidosPacienteRecojo> optionalPedido = pedidosPacienteRecojoRepository.findById(id);
+
+        if (optionalPedido.isPresent()) {
+            PedidosPacienteRecojo pedido = optionalPedido.get();
+            // Optional logging
+          logger.debug("Pedido encontrado: {}", pedido);
+
+            // Obtener los medicamentos asociados al pedido recojo
+            List<MedicamentoRecojo> medicamentos = medicamentosRecojoRepository.listaMedicamentosReco(id);
+            // Optional logging
+         logger.debug("Medicamentos encontrados para el pedido con ID {}: {}", id, medicamentos);
+
+            try {
+                // Crear el documento PDF
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                PdfWriter writer = new PdfWriter(byteArrayOutputStream);
+                PdfDocument pdfDocument = new PdfDocument(writer);
+                Document document = new Document(pdfDocument);
+
+                // Título del documento
+                Paragraph title = new Paragraph("Boleta de Pedido")
+                        .setFontSize(20)
+                        .setBold()
+                        .setTextAlignment(TextAlignment.CENTER);
+                document.add(title);
+
+                // Espacio después del título
+                document.add(new Paragraph("\n"));
+
+                // Crear tabla con encabezados
+                float[] columnWidths = {3, 3, 3, 3}; // Ajuste de anchos de columna para cuatro columnas
+                Table table = new Table(UnitValue.createPercentArray(columnWidths));
+                table.setWidth(UnitValue.createPercentValue(100));
+
+                // Encabezados
+                table.addHeaderCell(new Cell().add(new Paragraph("Medicamento")).setBackgroundColor(ColorConstants.LIGHT_GRAY));
+                table.addHeaderCell(new Cell().add(new Paragraph("Cantidad")).setBackgroundColor(ColorConstants.LIGHT_GRAY));
+                table.addHeaderCell(new Cell().add(new Paragraph("Precio Unitario")).setBackgroundColor(ColorConstants.LIGHT_GRAY));
+                table.addHeaderCell(new Cell().add(new Paragraph("Subtotal")).setBackgroundColor(ColorConstants.LIGHT_GRAY));
+
+                // Calcular y agregar datos a la tabla
+                double totalCost = 0.0;
+                for (MedicamentoRecojo medicamento : medicamentos) {
+                    table.addCell(new Cell().add(new Paragraph(medicamento.getNombre_medicamento())));
+                    table.addCell(new Cell().add(new Paragraph(String.valueOf(medicamento.getCantidad()))));
+
+                    // Puedes obtener el precio unitario y calcular el subtotal
+                    // Aquí asumo que el costo_medicamento es un String, puedes ajustarlo según tu modelo
+                    double precioUnitario = Double.parseDouble(medicamento.getCosto_medicamento());
+                    table.addCell(new Cell().add(new Paragraph(String.valueOf(precioUnitario))));
+
+                    double subtotal = medicamento.getCantidad() * precioUnitario;
+                    totalCost += subtotal;
+
+                    table.addCell(new Cell().add(new Paragraph(String.valueOf(subtotal))));
+                }
+
+                document.add(table);
+
+                // Espacio antes del total
+                document.add(new Paragraph("\n"));
+
+                // Total
+                Paragraph total = new Paragraph("Total: $" + totalCost)
+                        .setFontSize(14)
+                        .setBold()
+                        .setTextAlignment(TextAlignment.RIGHT);
+                document.add(total);
+
+                // Espacio antes de la fecha
+                document.add(new Paragraph("\n"));
+
+                // Añadir fecha
+                LocalDate today = LocalDate.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String formattedDate = today.format(formatter);
+
+                Paragraph date = new Paragraph("Fecha: " + formattedDate)
+                        .setFontSize(12)
+                        .setTextAlignment(TextAlignment.RIGHT);
+                document.add(date);
+
+                document.close();
+
+                // Convertir a bytes y enviar como respuesta
+                byte[] pdfBytes = byteArrayOutputStream.toByteArray();
+                InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(pdfBytes));
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Boleta_Pedido.pdf");
+
+                return ResponseEntity.ok()
+                        .headers(headers)
+                        .contentType(MediaType.APPLICATION_PDF)
+                        .body(resource);
+            } catch (Exception e) {
+                // Optional logging
+                logger.error("Error al generar boleta PDF para el pedido con ID {}: {}", id, e.getMessage());
+                return ResponseEntity.badRequest().build();
+            }
+        } else {
+            // Optional logging
+           logger.warn("No se encontró pedido con ID: {}", id);
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
+
+
