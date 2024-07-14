@@ -75,6 +75,14 @@
       </div>
       <div th:if="${correoExistenteError != null}" th:text="${correoExistenteError}" style="color: red"></div>
       <div class="input-field-select">
+        <i class="fas fa-user-shield"></i>
+        <select class="form-select" name="sedeId" aria-label="Default select example">
+          <option value="">↓↓↓ Seleccione una sede a asignar ↓↓↓</option>
+          <option th:each="sede : ${listaSedes}" th:value="${sede.getId()}" th:text="${sede.getNombre()}"></option>
+        </select>
+      </div>
+      <div th:if="${codigoError1 != null}" th:text="${codigoError1}" style="color: red"></div>
+      <div class="input-field-select">
         <i class="fas fa-street-view"></i>
         <input type="text" placeholder="Ingresa tu dirección..."  th:field="*{direccion}" th:classappend="${#fields.hasErrors('direccion')?'is-invalid':''}">
         <div class="error" id="direccion-registro-error"></div>

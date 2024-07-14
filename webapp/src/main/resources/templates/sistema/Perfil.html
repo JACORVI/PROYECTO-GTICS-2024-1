@@ -288,8 +288,11 @@
                                                 <input type="text" class="form-control"th:field="*{direccion}" value="">
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="direccion_distrito" class="form-label">Distrito</label>
-                                                <input type="text" class="form-control" th:field="*{distrito}" value="">
+                                                <label class="form-label">Distrito de residencia</label>
+                                                <select class="form-select" aria-label="Default select example" th:field="*{distrito}" style="margin-bottom: 0; font-size: large">
+                                                    <option value="">-- Seleccione una opción --</option>
+                                                    <option th:each="distrito : ${listaDistritos}" th:value="${distrito.id}"  th:text="${distrito.nombre}"></option>
+                                                </select>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="direccion_referencia" class="form-label">Referencia(opcional)</label>

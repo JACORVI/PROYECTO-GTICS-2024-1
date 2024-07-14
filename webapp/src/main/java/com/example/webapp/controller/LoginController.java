@@ -3,10 +3,7 @@ package com.example.webapp.controller;
 import com.example.webapp.dao.DaoDoctorAdministrador;
 import com.example.webapp.dao.DaoFarmacista;
 import com.example.webapp.dao.DataDao;
-import com.example.webapp.entity.CodigoColegio;
-import com.example.webapp.entity.Data;
-import com.example.webapp.entity.Roles;
-import com.example.webapp.entity.Usuario;
+import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
 import com.example.webapp.util.Correo;
 import com.example.webapp.util.Utileria;
@@ -46,12 +43,13 @@ public class LoginController {
     UsuarioHasSedeRepository usuarioHasSedeRepository;
     DaoDoctorAdministrador daoDoctorAdministrador;
     DaoFarmacista daoFarmacista;
+    SedeRepository sedeRepository;
 
 
 
     public LoginController(DataDao dataDao, SeguroRepository seguroRepository, DistritoRepository distritoRepository,
                            CodigoColegioRepository codigoColegioRepository, UsuarioHasSedeRepository usuarioHasSedeRepository,
-                           DaoDoctorAdministrador daoDoctorAdministrador, DaoFarmacista daoFarmacista) {
+                           DaoDoctorAdministrador daoDoctorAdministrador, DaoFarmacista daoFarmacista, SedeRepository sedeRepository) {
         this.dataDao = dataDao;
         this.seguroRepository = seguroRepository;
         this.distritoRepository = distritoRepository;
@@ -59,6 +57,7 @@ public class LoginController {
         this.usuarioHasSedeRepository = usuarioHasSedeRepository;
         this.daoDoctorAdministrador = daoDoctorAdministrador;
         this.daoFarmacista = daoFarmacista;
+        this.sedeRepository = sedeRepository;
     }
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -396,6 +395,31 @@ public class LoginController {
                         model.addAttribute("nombresValidados", nombreFormateado.toString());
                         model.addAttribute("apellidosValidados", apellidoFormateado.toString());
                         model.addAttribute("dniValidado", data.getDni());
+
+                        List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
+                        List<Sede> list1 = sedeRepository.findAll();
+
+                        List<Sede> listaSedes = new ArrayList<>();
+
+                        int i=2;
+
+                        for (Sede sede : list1) {
+                            for (UsuarioHasSede usuarioHasSede : list) {
+                                if (usuarioHasSede.getUsuario_id_usario().getRol().getId() == 2) {
+                                    i = 0;
+                                    if (usuarioHasSede.getSede_id_sede().getId() == sede.getId()) {
+                                        i = 1;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (i == 0) {
+                                listaSedes.add(sede);
+                            }
+                        }
+
+
+                        model.addAttribute("listaSedes", listaSedes);
                         //model.addAttribute("listaSeguros", seguroRepository.findAll());
                         //model.addAttribute("listaDistritos", distritoRepository.findAll());
                         return "superadmin/FormRegistroAdministrador";
@@ -446,11 +470,13 @@ public class LoginController {
     }
 
     @PostMapping("/registro/usuario")
-    public String registrarUsuario(@ModelAttribute("nuevoRol") String nuevoRol,@ModelAttribute("usuario") @Valid Usuario usuario,
+    public String registrarUsuario(@RequestParam(value = "sedeId", required = false) Integer sedeId,@ModelAttribute("nuevoRol") String nuevoRol,@ModelAttribute("usuario") @Valid Usuario usuario,
                                    BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         int rolNuevo = Integer.parseInt(nuevoRol);
         System.out.println("Este es el rol enviado desde el formulario ###########################################");
         System.out.println(rolNuevo);
+        System.out.println("Esta es la sede ###########################################");
+        System.out.println(sedeId);
 
         boolean encontrado = false;
 
@@ -591,12 +617,15 @@ public class LoginController {
         }else if(rolNuevo == 2) {
             System.out.println("Codigo de Colegiatura////////////////////////////////////////////////////");
             System.out.println(usuario.getCodigo_colegio().getId());
-            if (bindingResult.hasErrors() || encontrado) {
+            if (bindingResult.hasErrors() || encontrado || sedeId == null) {
                 if (usuario.getCodigo_colegio() == null) {
                     model.addAttribute("codigoError", "Debe seleccionar un codigo de colegiatura");
                 }
                 if (encontrado) {
                     model.addAttribute("correoExistenteError", "El correo ingresado ya ha sido registrado.");
+                }
+                if (sedeId == null){
+                    model.addAttribute("codigoError1", "Debe seleccionar una de las sedes disponibles");
                 }
                 String dni = usuario.getDni();
                 String dniString = String.valueOf(dni);
@@ -626,6 +655,29 @@ public class LoginController {
                             .append(palabra.substring(1).toLowerCase());
                 }
 
+                List<UsuarioHasSede> list = usuarioHasSedeRepository.findAll();
+                List<Sede> list1 = sedeRepository.findAll();
+
+                List<Sede> listaSedes = new ArrayList<>();
+
+                int i=2;
+
+                for (Sede sede : list1) {
+                    for (UsuarioHasSede usuarioHasSede : list) {
+                        if (usuarioHasSede.getUsuario_id_usario().getRol().getId() == 2) {
+                            i = 0;
+                            if (usuarioHasSede.getSede_id_sede().getId() == sede.getId()) {
+                                i = 1;
+                                break;
+                            }
+                        }
+                    }
+                    if (i == 0) {
+                        listaSedes.add(sede);
+                    }
+                }
+
+                model.addAttribute("listaSedes", listaSedes);
                 model.addAttribute("nombresValidados", nombreFormateado.toString());
                 model.addAttribute("apellidosValidados", apellidoFormateado.toString());
                 model.addAttribute("dniValidado", data.getDni());
@@ -636,7 +688,6 @@ public class LoginController {
             } else {
                 Roles rol = new Roles();
                 rol.setId(2); // ROL DOCTOR
-
                 usuario.setFecha_creacion(new Date());
                 usuario.setCodigo_colegiatura("Sin-Codigo");
                 usuario.setRol(rol);
@@ -647,6 +698,8 @@ public class LoginController {
                     usuario.setToken_recuperacion(util.GenerarToken()); // Token de ACTIVACION
                     usuario.setCuenta_activada(0);
                     usuarioRepository.save(usuario);
+                    int idUsuario = usuarioRepository.buscarUltimo();
+                    usuarioHasSedeRepository.AsignarSede(idUsuario,sedeId);
 
                     String cuerpo = this.correo.construirCuerpoActivarCuenta(usuario);
                     boolean envio = this.correo.EnviarCorreo("Activar cuenta", cuerpo, usuario);
@@ -854,10 +907,11 @@ public class LoginController {
         String username = utils.obtenerUsername(auth);
         List<Usuario> listUsu = usuarioRepository.buscarPorCorreo(username);
         Usuario obj = listUsu.get(0);
-
+        List<Distrito> listaDistritos = distritoRepository.findAll();
         if (obj == null) {
             return "redirect:/login";
         }
+        model.addAttribute("listaDistritos", listaDistritos);
         model.addAttribute("usuario", obj);
         return "sistema/Perfil";
     }
@@ -889,7 +943,7 @@ public class LoginController {
 
             if (accion.equalsIgnoreCase("direccion")) {
                 data.setReferencia(obj.getReferencia().trim());
-                //data.setDistrito(obj.getDistrito().trim());
+                data.setDistrito(obj.getDistrito());
                 data.setDireccion(obj.getDireccion().trim());
             }
 
@@ -905,7 +959,8 @@ public class LoginController {
             model.addAttribute("error", ex.getMessage());
             ex.printStackTrace();
         }
-
+        List<Distrito> listaDistritos = distritoRepository.findAll();
+        model.addAttribute("listaDistritos", listaDistritos);
         model.addAttribute("usuario", data);
         return "sistema/Perfil";
     }
